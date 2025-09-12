@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "homepage": "https://paulalindo.github.io/maroon_traceability/",
+"homepage": "https://paulalindo.github.io/maroon_traceability_demo/",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
