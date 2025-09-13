@@ -1,5 +1,4 @@
-import * as React from 'react';
-import { Package, MapPin, Calendar, CheckCircle, Users, Truck, Store, Leaf, Shield, DollarSign } from 'lucide-react';
+import { Package, MapPin, Calendar, CheckCircle, Users, Store, Leaf, Shield, DollarSign } from 'lucide-react';
 import { useState } from 'react';
 
   // Define the type for your newProduct state
@@ -32,7 +31,7 @@ interface BlockchainRecord {
   const BlockchainTraceabilityMVP = () => {
   const [currentView, setCurrentView] = useState('dashboard');
   const [userRole, setUserRole] = useState('farmer');
-  const [products, setProducts] = useState([]);
+  // const [products, setProducts] = useState([]);
   const [selectedProduct, setSelectedProduct] = useState<BlockchainRecord | null>(null);
 
   // Simulated blockchain data
