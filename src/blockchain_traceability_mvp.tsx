@@ -1,7 +1,7 @@
 import { Package, MapPin, Calendar, CheckCircle, Users, Store, Leaf, Shield, DollarSign } from 'lucide-react';
 import { useState } from 'react';
 
-  // Define the type for your newProduct state
+// Define the type for your newProduct state
 interface NewProduct {
   productName: string;
   location: string;
