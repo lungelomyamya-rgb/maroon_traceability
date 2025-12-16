@@ -1,0 +1,32 @@
+// ============================================
+// FILE: src/contexts/UserContext.tsx
+// ============================================
+'use client';
+
+import React, { createContext, useContext, useState, ReactNode } from 'react';
+import { UserRole } from '@/types/user';
+
+interface UserContextType {
+  userRole: UserRole;
+  setUserRole: (role: UserRole) => void;
+}
+
+const UserContext = createContext<UserContextType | undefined>(undefined);
+
+export function UserProvider({ children }: { children: ReactNode }) {
+  const [userRole, setUserRole] = useState<UserRole>('farmer');
+
+  return (
+    <UserContext.Provider value={{ userRole, setUserRole }}>
+      {children}
+    </UserContext.Provider>
+  );
+}
+
+export function useUser() {
+  const context = useContext(UserContext);
+  if (context === undefined) {
+    throw new Error('useUser must be used within a UserProvider');
+  }
+  return context;
+}
