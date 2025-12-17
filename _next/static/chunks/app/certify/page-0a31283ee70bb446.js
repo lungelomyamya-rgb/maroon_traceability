@@ -1,4 +1,4 @@
-(self.webpackChunk_N_E=self.webpackChunk_N_E||[]).push([[495],{7585:function(e,r,t){Promise.resolve().then(t.bind(t,4460))},8727:function(e,r,t){"use strict";t.d(r,{Z:function(){return a}});/**
+(this.webpackJsonp=this.webpackJsonp||[]).push([[495],{7585:function(e,r,t){Promise.resolve().then(t.bind(t,4460))},8727:function(e,r,t){"use strict";t.d(r,{Z:function(){return a}});/**
  * @license lucide-react v0.294.0 - ISC
  *
  * This source code is licensed under the ISC license.
