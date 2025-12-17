@@ -47,17 +47,7 @@ export const DocumentUpload = ({
     setIsDragging(false);
   }, []);
 
-  const handleDrop = useCallback((e: React.DragEvent<HTMLDivElement>) => {
-    e.preventDefault();
-    e.stopPropagation();
-    setIsDragging(false);
-    
-    if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
-      handleFiles(Array.from(e.dataTransfer.files));
-    }
-  }, []);
-
-  const handleFiles = (files: File[]) => {
+  const handleFiles = useCallback((files: File[]) => {
     const newDocuments = files.map(file => ({
       id: Math.random().toString(36).substr(2, 9),
       file,
@@ -69,8 +59,28 @@ export const DocumentUpload = ({
     }));
 
     setDocuments(prev => [...prev, ...newDocuments]);
-    simulateUpload(newDocuments);
-  };
+    // Simulate file upload
+    setTimeout(() => {
+      setDocuments(prev => 
+        prev.map(doc => 
+          newDocuments.some(d => d.id === doc.id) 
+            ? { ...doc, status: 'uploaded' as const } 
+            : doc
+        )
+      );
+      onUpload(newDocuments);
+    }, 1500);
+  }, [onUpload]);
+
+  const handleDrop = useCallback((e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragging(false);
+    
+    if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+      handleFiles(Array.from(e.dataTransfer.files));
+    }
+  }, [handleFiles]);
 
   const simulateUpload = (docs: Document[]) => {
     docs.forEach(doc => {

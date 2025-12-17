@@ -1,0 +1,7 @@
+{
+  "rewrites": [
+    { "source": "/maroon_traceability/_next/static/(.*)", "destination": "/_next/static/$1" },
+    { "source": "/maroon_traceability/_next/data/(.*)", "destination": "/_next/data/$1" },
+    { "source": "/maroon_traceability/(.*)", "destination": "/maroon_traceability/index.html" }
+  ]
+}

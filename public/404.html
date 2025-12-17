@@ -2,25 +2,52 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>Redirecting...</title>
+  <title>Loading...</title>
   <script>
-    // Get the current path and redirect to the base path
-    const basePath = '/maroon_traceability';
-    const currentPath = window.location.pathname;
-    
-    // Remove any existing base path to avoid duplication
-    const cleanPath = currentPath.startsWith(basePath) 
-      ? currentPath.substring(basePath.length) 
-      : currentPath;
-    
-    // Redirect to the base path with the current path
-    window.location.href = basePath + cleanPath + window.location.search + window.location.hash;
+    // Single Page Apps for GitHub Pages with relative paths
+    (function() {
+      const basePath = '/maroon_traceability';
+      const currentPath = window.location.pathname;
+      
+      // Redirect to include base path if needed
+      if (!currentPath.startsWith(basePath + '/') && currentPath !== basePath) {
+        const newPath = basePath + (currentPath === '/' ? '' : currentPath) + window.location.search + window.location.hash;
+        window.history.replaceState({}, '', newPath);
+      }
+      
+      // Load the main script with relative path
+      const script = document.createElement('script');
+      script.src = (currentPath.endsWith('/') ? '.' : '') + './_next/static/chunks/main.js';
+      script.onerror = function() {
+        // If main.js fails to load, try with absolute path
+        const fallbackScript = document.createElement('script');
+        fallbackScript.src = basePath + '/_next/static/chunks/main.js';
+        document.head.appendChild(fallbackScript);
+      };
+      document.head.appendChild(script);
+      
+      // Load the main CSS with relative path
+      const link = document.createElement('link');
+      link.rel = 'stylesheet';
+      link.href = (currentPath.endsWith('/') ? '.' : '') + './_next/static/css/main.css';
+      document.head.appendChild(link);
+    })();
   </script>
-  <noscript>
-    <meta http-equiv="refresh" content="0; url=/maroon_traceability">
-  </noscript>
 </head>
 <body>
-  <p>Redirecting to <a href="/maroon_traceability">/maroon_traceability</a>...</p>
+  <div id="__next">
+    <div style="padding: 20px; text-align: center;">
+      <h1>Loading...</h1>
+      <p>If you're not automatically redirected, please <a href="/maroon_traceability">click here</a>.</p>
+    </div>
+  </div>
+  <script>
+    // Fallback in case the main script fails
+    setTimeout(function() {
+      if (!window.__NEXT_DATA__) {
+        window.location.href = '/maroon_traceability';
+      }
+    }, 3000);
+  </script>
 </body>
 </html>

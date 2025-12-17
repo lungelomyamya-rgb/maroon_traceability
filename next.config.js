@@ -1,33 +1,20 @@
 // next.config.js
 /** @type {import('next').NextConfig} */
 const isProd = process.env.NODE_ENV === 'production';
-const repository = 'maroon_traceability';
+const repo = 'maroon_traceability';
+const basePath = isProd ? `/${repo}` : '';
 
-const nextConfig = {
+module.exports = {
   output: 'export',
-  basePath: isProd ? `/${repository}` : '',
-  assetPrefix: isProd ? `/${repository}/` : '',
+  basePath: basePath,
+  assetPrefix: isProd ? `./` : '',
   images: {
     unoptimized: true,
   },
   reactStrictMode: true,
-  compiler: {
-    styledComponents: true,
-  },
-  // Ensure the export includes all static assets
   trailingSlash: true,
-  // Disable the static optimization for now to ensure all pages are generated
-  experimental: {
-    appDir: true,
+  webpack: (config) => {
+    config.output.publicPath = './';
+    return config;
   },
-  // Ensure the export includes all static assets
-  generateBuildId: async () => 'build',
 };
-
-// For GitHub Pages
-if (isProd) {
-  nextConfig.assetPrefix = `/${repository}/`;
-  nextConfig.basePath = `/${repository}`;
-}
-
-module.exports = nextConfig;
