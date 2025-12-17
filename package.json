@@ -5,15 +5,12 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "node server.js",
+    "start": "next start",
     "lint": "next lint",
-    "export": "next build && next export",
     "test": "jest",
     "test:watch": "jest --watch",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build",
-    "predeploy": "npm run build && next export -o out && copy public\\.nojekyll out\\.nojekyll",
-    "deploy": "gh-pages -d out -b gh-pages"
+    "build-storybook": "storybook build"
   },
   "dependencies": {
     "@radix-ui/react-dialog": "^1.0.5",
