@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Redirecting...</title>
+  <script>
+    // Get the current path and redirect to the base path
+    const basePath = '/maroon_traceability';
+    const currentPath = window.location.pathname;
+    
+    // Remove any existing base path to avoid duplication
+    const cleanPath = currentPath.startsWith(basePath) 
+      ? currentPath.substring(basePath.length) 
+      : currentPath;
+    
+    // Redirect to the base path with the current path
+    window.location.href = basePath + cleanPath + window.location.search + window.location.hash;
+  </script>
+  <noscript>
+    <meta http-equiv="refresh" content="0; url=/maroon_traceability">
+  </noscript>
+</head>
+<body>
+  <p>Redirecting to <a href="/maroon_traceability">/maroon_traceability</a>...</p>
+</body>
+</html>

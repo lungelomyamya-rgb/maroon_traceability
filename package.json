@@ -11,8 +11,8 @@
     "test:watch": "jest --watch",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
-    "deploy": "gh-pages -d out",
-    "predeploy": "npm run build"
+    "predeploy": "npm run build",
+    "deploy": "cross-env NODE_ENV=production next build && gh-pages -d out -b gh-pages"
   },
   "dependencies": {
     "@radix-ui/react-dialog": "^1.0.5",
@@ -54,6 +54,7 @@
     "@typescript-eslint/eslint-plugin": "^6.21.0",
     "@typescript-eslint/parser": "^6.21.0",
     "autoprefixer": "^10.4.23",
+    "cross-env": "^10.1.0",
     "eslint": "^8.56.0",
     "eslint-config-next": "14.1.0",
     "gh-pages": "^6.3.0",

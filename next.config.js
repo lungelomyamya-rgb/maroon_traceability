@@ -14,6 +14,20 @@ const nextConfig = {
   compiler: {
     styledComponents: true,
   },
+  // Ensure the export includes all static assets
+  trailingSlash: true,
+  // Disable the static optimization for now to ensure all pages are generated
+  experimental: {
+    appDir: true,
+  },
+  // Ensure the export includes all static assets
+  generateBuildId: async () => 'build',
 };
+
+// For GitHub Pages
+if (isProd) {
+  nextConfig.assetPrefix = `/${repository}/`;
+  nextConfig.basePath = `/${repository}`;
+}
 
 module.exports = nextConfig;
