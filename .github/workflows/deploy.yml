@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
   pages: write
   id-token: write
 
@@ -34,12 +34,18 @@ jobs:
       - name: Build
         run: npm run build
 
+      - name: Static HTML export with Next.js
+        run: |
+          mkdir -p ./out
+          cp -r .next/standalone/. ./out/
+          cp -r .next/static ./out/.next/
+          cp -r public ./out/
+          touch ./out/.nojekyll
+
       - name: Upload artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-pages-artifact@v3
         with:
-          name: nextjs-site
-          path: ./
-          retention-days: 1
+          path: './out'
 
   deploy:
     environment:

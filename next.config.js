@@ -10,26 +10,21 @@ const nextConfig = {
   assetPrefix: isProd ? `/${repo}/` : '',
   images: {
     unoptimized: true,
+    domains: [],
   },
   reactStrictMode: true,
   trailingSlash: true,
   
+  // Don't use distDir when using output: 'export'
+  // distDir: 'out',
+  
   // Fix for static export
   webpack: (config) => {
     if (isProd) {
-      config.output.publicPath = `/_next/`;
+      config.output.publicPath = `/${repo}/_next/`;
     }
     return config;
   },
-  
-  // Generate a static export with the correct paths
-  generateBuildId: async () => 'build',
-  
-  // Don't use distDir when using output: 'export'
-  distDir: 'out',
-  
-  // Fix for static files in subdirectories
-  skipTrailingSlashRedirect: true,
 };
 
 module.exports = nextConfig;
