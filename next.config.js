@@ -1,13 +1,16 @@
 // next.config.js
 /** @type {import('next').NextConfig} */
+const isProd = process.env.NODE_ENV === 'production';
+const repository = 'maroon_traceability';
+
 const nextConfig = {
   output: 'export',
-  basePath: process.env.NODE_ENV === 'production' ? '/maroon_traceability' : '',
-  assetPrefix: process.env.NODE_ENV === 'production' ? '/maroon_traceability/' : '',
-  reactStrictMode: true,
+  basePath: isProd ? `/${repository}` : '',
+  assetPrefix: isProd ? `/${repository}/` : '',
   images: {
-    domains: ['images.unsplash.com'],
+    unoptimized: true,
   },
+  reactStrictMode: true,
   compiler: {
     styledComponents: true,
   },
