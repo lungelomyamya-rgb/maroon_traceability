@@ -12,6 +12,8 @@ import { Calendar as CalendarIcon, X, File as FileIcon } from 'lucide-react';
 import { DocumentVerification } from '@/components/products/document-verification';
 import { type DocumentType } from '@/components/ui/document-upload';
 import { format } from 'date-fns';
+import { productCategories, type ProductCategory } from '@/lib/productCategories';
+import { productCertificationDocs } from '@/lib/documentTypes';
 
 // Create simple inline components to replace the missing shadcn ones
 const Popover = ({ children, open, onOpenChange }: { 
@@ -52,28 +54,6 @@ const PopoverContent = ({
   );
 };
 
-// Product categories
-export const productCategories = [
-  'Fruits',
-  'Vegetables',
-  'Grains',
-  'Dairy',
-  'Meat',
-  'Poultry',
-  'Seafood',
-  'Nuts',
-  'Spices',
-  'Herbs',
-  'Other'
-];
-
-// Define document types specific to product certification
-export const productCertificationDocs: { value: DocumentType; label: string }[] = [
-  { value: 'certification', label: 'Production Records' },
-  { value: 'certification', label: 'Quality Certificate' },
-  { value: 'certification', label: 'Safety Inspection Report' },
-  { value: 'certification', label: 'Proof of Origin' },
-];
 
 interface UploadedFile extends File {
   preview: string;

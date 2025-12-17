@@ -96,7 +96,7 @@ export function ProductModal() {
               </div>
               <div className="flex flex-wrap gap-2">
                 {selectedProduct.certifications.map((cert, idx) => (
-                  <Badge key={idx} variant="info" className="text-sm">
+                  <Badge key={idx} variant="secondary" className="text-sm">
                     {cert}
                   </Badge>
                 ))}

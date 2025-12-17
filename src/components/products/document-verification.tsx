@@ -3,6 +3,7 @@
 
 import { useState, useEffect } from 'react';
 import { DocumentUpload, type DocumentType } from '@/components/ui/document-upload';
+import { type ProductCategory, productCategories } from '@/lib/productCategories';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { File as FileIcon, X } from 'lucide-react';
@@ -85,15 +86,20 @@ export function DocumentVerification({
   };
 
   return (
-    <div className="space-y-4">
-      <DocumentUpload
+    <Card className="p-6 space-y-4">
+      <div>
+        <h3 className="text-lg font-semibold">Document Verification</h3>
+        <p className="text-sm text-muted-foreground">
+          {required 
+            ? 'Please upload the required documents to verify this product.'
+            : 'Additional supporting documents (optional)'}
+        </p>
+      </div>
+
+      <DocumentUpload 
+        documentTypes={documentTypes}
         onUpload={handleDocumentUpload}
         multiple
-        documentTypes={documentTypes.map(dt => ({
-          value: dt.value,
-          label: dt.label,
-          required: true
-        }))}
       />
       
       {files.length > 0 && (
@@ -142,29 +148,6 @@ export function DocumentVerification({
               </li>
             ))}
           </ul>
-        </div>
-      )}
-    </div>
-  );
-  return (
-    <Card className="p-6 space-y-4">
-      <div>
-        <h3 className="text-lg font-semibold">Document Verification</h3>
-        <p className="text-sm text-muted-foreground">
-          {required 
-            ? 'Please upload the required documents to verify this product.'
-            : 'Additional supporting documents (optional)'}
-        </p>
-      </div>
-
-      <DocumentUpload 
-        documentTypes={documentTypes}
-        onUpload={handleDocumentUpload}
-      />
-      
-      {required && (
-        <div className="text-sm text-muted-foreground">
-          <p>Required documents must be uploaded before submission.</p>
         </div>
       )}
     </Card>

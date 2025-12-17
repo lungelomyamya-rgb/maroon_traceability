@@ -1,5 +1,5 @@
 // src/app/unauthorized/page.tsx
-'client';
+'use client';
 
 import { Button } from '@/components/ui/button';
 import { useRouter } from 'next/navigation';
@@ -29,8 +29,8 @@ export default function UnauthorizedPage() {
         <h1 className="mt-4 text-3xl font-bold tracking-tight text-foreground">
           Access Denied
         </h1>
-        <p className="mt-3 text-muted-foreground">
-          You don't have permission to access this page. This section is only available to farmers.
+        <p className="mt-4 text-lg text-muted-foreground">
+          You don&apos;t have permission to view this page. This section is only available to farmers.
         </p>
         <div className="mt-6">
           <Button

@@ -26,9 +26,12 @@ export default function VerificationPendingPage() {
           <div className="flex items-start space-x-3">
             <CheckCircle className="h-5 w-5 text-success mt-0.5 flex-shrink-0" />
             <div>
-              <h3 className="font-medium">What's Next?</h3>
-              <p className="text-sm text-muted-foreground">
-                Our verification team will review your documents within 2-3 business days. You'll receive a notification once your account has been verified.
+              <h3 className="font-medium">What&apos;s Next?</h3>
+              <p className="mt-4 text-lg text-muted-foreground">
+                Your account is currently being reviewed by our team. This process usually takes 1-2 business days.
+              </p>
+              <p className="mt-2 text-muted-foreground">
+                You&apos;ll receive an email notification once your account has been verified.
               </p>
             </div>
           </div>
@@ -38,7 +41,7 @@ export default function VerificationPendingPage() {
             <div>
               <h3 className="font-medium">Check Your Email</h3>
               <p className="text-sm text-muted-foreground">
-                We've sent a confirmation email with details about the verification process. Please check your inbox (and spam folder).
+                We&apos;ve sent a confirmation email with details about the verification process. Please check your inbox (and spam folder).
               </p>
             </div>
           </div>

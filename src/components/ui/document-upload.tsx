@@ -24,13 +24,13 @@ interface DocumentUploadProps {
   className?: string;
 }
 
-export function DocumentUpload({ 
+export const DocumentUpload = ({ 
   onUpload, 
   documentTypes, 
   multiple = false, 
   maxSizeMB = 10, 
   className = '' 
-}: DocumentUploadProps) {
+}: DocumentUploadProps) => {
   const [documents, setDocuments] = useState<Document[]>([]);
   const [isDragging, setIsDragging] = useState(false);
   const [uploadProgress, setUploadProgress] = useState<Record<string, number>>({});
@@ -57,12 +57,6 @@ export function DocumentUpload({
     }
   }, []);
 
-  const handleFileInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files.length > 0) {
-      handleFiles(Array.from(e.target.files));
-    }
-  };
-
   const handleFiles = (files: File[]) => {
     const newDocuments = files.map(file => ({
       id: Math.random().toString(36).substr(2, 9),
@@ -71,7 +65,7 @@ export function DocumentUpload({
       name: file.name,
       size: file.size,
       uploadedAt: new Date(),
-      status: 'uploading' as const,
+      status: 'uploading' as const
     }));
 
     setDocuments(prev => [...prev, ...newDocuments]);
@@ -98,6 +92,7 @@ export function DocumentUpload({
             delete newProgress[doc.id];
             return newProgress;
           });
+          onUpload(docs);
         } else {
           setUploadProgress(prev => ({
             ...prev,
@@ -120,18 +115,22 @@ export function DocumentUpload({
     return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
   };
 
+  // Helper function to handle file input changes
+  const handleFileInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files.length > 0) {
+      handleFiles(Array.from(e.target.files));
+    }
+  };
+
   return (
     <div className={`space-y-4 ${className}`}>
       <div
         onDragOver={handleDragOver}
         onDragLeave={handleDragLeave}
         onDrop={handleDrop}
-        className={cn(
-          'border-2 border-dashed rounded-lg p-8 text-center transition-colors',
-          isDragging ? 'border-primary bg-primary/10' : 'border-muted-foreground/30',
-          'hover:border-primary/50 hover:bg-primary/5',
-          'dark:border-muted-foreground/20 dark:hover:border-primary/30'
-        )}
+        className={`border-2 border-dashed rounded-lg p-8 text-center transition-colors ${
+          isDragging ? 'border-primary bg-primary/10' : 'border-muted-foreground/30'
+        } hover:border-primary/50 hover:bg-primary/5 dark:border-muted-foreground/20 dark:hover:border-primary/30`}
       >
         <div className="flex flex-col items-center justify-center space-y-2">
           <Upload className="h-10 w-10 text-muted-foreground" />
@@ -146,7 +145,7 @@ export function DocumentUpload({
                 name="document-upload"
                 type="file"
                 className="sr-only"
-                multiple
+                multiple={multiple}
                 onChange={handleFileInput}
                 accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"
               />
@@ -233,7 +232,6 @@ export function DocumentUpload({
                     variant="outline"
                     size="sm"
                     onClick={() => {
-                      // Trigger file input for this document type
                       const input = document.createElement('input');
                       input.type = 'file';
                       input.accept = '.pdf,.doc,.docx,.jpg,.jpeg,.png';
@@ -266,8 +264,6 @@ export function DocumentUpload({
       </div>
     </div>
   );
-}
+};
 
-function cn(...classes: (string | undefined)[]) {
-  return classes.filter(Boolean).join(' ');
-}
+export default DocumentUpload;

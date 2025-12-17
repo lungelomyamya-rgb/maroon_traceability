@@ -12,14 +12,15 @@ export interface InputProps
 }
 
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
-  ({ className, type, label, error, icon, id, ...props }, ref) => {
-    const inputId = id || React.useId();
+  ({ className, type, label, error, icon, id: idProp, ...props }, ref) => {
+    const generatedId = React.useId();
+    const id = idProp || `input-${generatedId}`;
 
     return (
       <div className="w-full space-y-1.5">
         {label && (
           <label
-            htmlFor={inputId}
+            htmlFor={id}
             className="block text-sm font-medium text-foreground"
           >
             {label}
@@ -33,7 +34,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
           )}
           <input
             type={type}
-            id={inputId}
+            id={id}
             className={cn(
               'flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background',
               'placeholder:text-muted-foreground/60',
@@ -49,7 +50,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
           />
         </div>
         {error && (
-          <p className="text-sm text-destructive" id={`${inputId}-error`}>
+          <p className="text-sm text-destructive" id={`${id}-error`}>
             {error}
           </p>
         )}
