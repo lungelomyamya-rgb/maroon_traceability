@@ -37,15 +37,10 @@ jobs:
           git commit -m 'Update package-lock.json' || echo 'No changes to package-lock.json'
 
       - name: Build
-        run: npm run build
-
-      - name: Static HTML export with Next.js
         run: |
-          mkdir -p ./out
-          cp -r .next/standalone/. ./out/
-          cp -r .next/static ./out/.next/
-          cp -r public ./out/
-          touch ./out/.nojekyll
+          npm run build
+          # Ensure .nojekyll exists in the output directory
+          touch out/.nojekyll
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
