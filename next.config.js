@@ -9,21 +9,33 @@ const assetPrefix = isProd ? `/${repo}/` : '';
 const nextConfig = {
   basePath: process.env.NEXT_PUBLIC_BASE_PATH || '',
   assetPrefix: process.env.NEXT_PUBLIC_BASE_PATH || '',
+  legacy: true,
+  experimental: {
+    serverExternalPackages: ['lucide-react']
+  },
   images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: '**'
+      }
+    ],
+    domains: ['images.unsplash.com', 'avatars.githubusercontent.com'],
     unoptimized: true,
   },
   reactStrictMode: true,
   trailingSlash: true,
-  // Disable Turbopack and use Webpack
-  experimental: {
-    // Add any experimental features here if needed
-  },
-  // Explicitly use Webpack
   webpack: (config, { isServer }) => {
-    if (isProd && !isServer) {
-      config.output.publicPath = `${assetPrefix}_next/`;
+    // Custom webpack config
+    return {
+      ...config,
+      resolve: {
+        alias: {
+          '@': './src',
+        },
+      },
+      output: isProd && !isServer ? { publicPath: `${assetPrefix}_next/` } : config.output,
     }
-    return config;
   },
   // Suppress console warnings
   onDemandEntries: {
