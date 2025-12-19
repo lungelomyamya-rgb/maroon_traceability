@@ -242,6 +242,7 @@ export const DocumentUpload = ({
                     variant="outline"
                     size="sm"
                     onClick={() => {
+                      if (typeof document === 'undefined') return;
                       const input = document.createElement('input');
                       input.type = 'file';
                       input.accept = '.pdf,.doc,.docx,.jpg,.jpeg,.png';

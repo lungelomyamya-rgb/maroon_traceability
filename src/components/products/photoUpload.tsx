@@ -56,7 +56,11 @@ export function PhotoUpload({ photos, onPhotosChange, maxPhotos = 5 }: PhotoUplo
           return reject(new Error('Failed to read file'));
         }
         
-        const img = new window.Image() as HTMLImageElement;
+        if (typeof window === 'undefined') {
+          return reject(new Error('Image processing not available during server-side rendering'));
+        }
+        
+        const img = new window.Image();
         img.onload = () => {
           const canvas = document.createElement('canvas');
           const ctx = canvas.getContext('2d');

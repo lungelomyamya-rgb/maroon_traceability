@@ -72,30 +72,36 @@ export default function LoginPage() {
 
   // Get role from URL query parameter
   useEffect(() => {
-    const urlParams = new URLSearchParams(window.location.search);
-    const roleParam = urlParams.get('role') as UserRole;
-    if (roleParam && roleParam !== 'viewer') {
-      setSelectedRole(roleParam);
+    if (typeof window !== 'undefined') {
+      const urlParams = new URLSearchParams(window.location.search);
+      const roleParam = urlParams.get('role') as UserRole;
+      if (roleParam && roleParam !== 'viewer') {
+        setSelectedRole(roleParam);
+      }
     }
   }, []);
 
   // Clear user context when on login page to hide navigation
   useEffect(() => {
-    const urlParams = new URLSearchParams(window.location.search);
-    const fromNavigation = urlParams.has('role');
-    
-    if (fromNavigation) {
-      setUser(null);
+    if (typeof window !== 'undefined') {
+      const urlParams = new URLSearchParams(window.location.search);
+      const fromNavigation = urlParams.has('role');
+      
+      if (fromNavigation) {
+        setUser(null);
+      }
     }
   }, [setUser]);
 
   // Redirect if already logged in and not coming from navigation
   useEffect(() => {
-    const urlParams = new URLSearchParams(window.location.search);
-    const fromNavigation = urlParams.has('role');
-    
-    if (user && !fromNavigation) {
-      router.push(`/${user.role}`);
+    if (typeof window !== 'undefined') {
+      const urlParams = new URLSearchParams(window.location.search);
+      const fromNavigation = urlParams.has('role');
+      
+      if (user && !fromNavigation) {
+        router.push(`/${user.role}`);
+      }
     }
   }, [user, router]);
 
