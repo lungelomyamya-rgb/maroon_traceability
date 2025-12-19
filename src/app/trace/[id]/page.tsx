@@ -1,13 +1,23 @@
 // src/app/trace/[id]/page.tsx
-'use client';
 
 import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
 import { Shield, MapPin, Calendar, User, CheckCircle, Package, ArrowRight } from 'lucide-react';
 import { BlockchainRecord } from '@/types/blockchain';
 import { ProductEvent, EVENT_CONFIG } from '@/types/events';
-import { CATEGORY_COLORS } from '@/lib/constants';
+import { CATEGORY_COLORS, getCategoryIcon } from '@/lib/constants';
 import { formatDateTime } from '@/lib/utils';
+
+// Generate static params for static export
+export async function generateStaticParams() {
+  // For static export, we can pre-generate some common product IDs
+  // In production, this could fetch from your API/database
+  return [
+    { id: 'sample-001' },
+    { id: 'sample-002' },
+    { id: 'sample-003' },
+  ];
+}
 
 export default function PublicTracePage() {
   const params = useParams();
@@ -157,7 +167,9 @@ export default function PublicTracePage() {
         <div className="bg-white rounded-2xl shadow-xl overflow-hidden mb-8">
           <div className={`${categoryColor.bg} p-6 border-b`}>
             <div className="flex items-center gap-4 mb-4">
-              <div className="text-6xl"><span>{categoryColor.icon({})}</span></div>
+              <div className="text-6xl">
+                <span>{getCategoryIcon(product.category)({ className: 'h-16 w-16' })}</span>
+              </div>
               <div className="flex-1">
                 <h2 className="text-3xl font-bold text-gray-800 mb-2">{product.productName}</h2>
                 <div className="flex items-center gap-2 flex-wrap">

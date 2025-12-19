@@ -14,7 +14,7 @@ const nextConfig = {
     domains: ['images.unsplash.com', 'avatars.githubusercontent.com'],
   },
   basePath: '/maroon_traceability',
-  assetPrefix: '/maroon_traceability',
+  assetPrefix: '/maroon_traceability/',
 }
 
 module.exports = nextConfig
