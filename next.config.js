@@ -7,9 +7,6 @@ const assetPrefix = isProd ? `/${repo}/` : '';
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  basePath: process.env.NEXT_PUBLIC_BASE_PATH || '',
-  assetPrefix: process.env.NEXT_PUBLIC_BASE_PATH || '',
-  legacy: true,
   experimental: {
     serverExternalPackages: ['lucide-react']
   },
@@ -21,10 +18,7 @@ const nextConfig = {
       }
     ],
     domains: ['images.unsplash.com', 'avatars.githubusercontent.com'],
-    unoptimized: true,
   },
-  reactStrictMode: true,
-  trailingSlash: true,
   webpack: (config, { isServer }) => {
     // Custom webpack config
     return {
