@@ -31,9 +31,6 @@ jobs:
       
     - name: Deploy to GitHub Pages
       uses: actions/configure-pages@v4
-      with:
-        # Automatically configure GitHub Pages
-        path: ./out
         
     - name: Upload to GitHub Pages
       uses: actions/upload-pages-artifact@v3
