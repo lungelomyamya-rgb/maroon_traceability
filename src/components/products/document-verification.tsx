@@ -142,7 +142,7 @@ export function DocumentVerification({
             {documentTypes.map((doc, index) => (
               <li key={index} className="flex items-center">
                 <span className={`inline-block w-2 h-2 rounded-full mr-2 ${
-                  uploadedDocs[doc.label] ? 'bg-green-500' : 'bg-gray-300'
+                  uploadedDocs[doc.label] ? 'bg-emerald-500' : 'bg-muted-foreground/30'
                 }`}></span>
                 {doc.label}
               </li>

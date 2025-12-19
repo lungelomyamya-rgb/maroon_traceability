@@ -2,10 +2,10 @@
 module.exports = {
   darkMode: ["class"],
   content: [
-    './pages/**/*.{ts,tsx}',
-    './components/**/*.{ts,tsx}',
-    './app/**/*.{ts,tsx}',
-    './src/**/*.{ts,tsx}',
+    './pages/**/*.{js,ts,jsx,tsx,mdx}',
+    './components/**/*.{js,ts,jsx,tsx,mdx}',
+    './app/**/*.{js,ts,jsx,tsx,mdx}',
+    './src/**/*.{js,ts,jsx,tsx,mdx}',
   ],
   theme: {
     container: {
@@ -16,7 +16,69 @@ module.exports = {
       },
     },
     extend: {
+      keyframes: {
+        pulse: {
+          '0%, 100%': { opacity: 1 },
+          '50%': { opacity: 0.5 },
+        }
+      },
+      animation: {
+        pulse: 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+      },
       colors: {
+        // Base colors
+        neutral: 'hsl(var(--neutral) / <alpha-value>)',
+        'neutral-light': 'hsl(var(--neutral-light) / <alpha-value>)',
+        'neutral-dark': 'hsl(var(--neutral-dark) / <alpha-value>)',
+        'neutral-foreground': 'hsl(var(--neutral-foreground) / <alpha-value>)',
+        
+        // Action colors
+        green: {
+          DEFAULT: 'hsl(var(--green) / <alpha-value>)',
+          light: 'hsl(var(--green-light) / <alpha-value>)',
+          foreground: 'hsl(var(--green-foreground) / <alpha-value>)',
+          hover: 'hsl(var(--green-hover) / <alpha-value>)',
+        },
+        blue: {
+          DEFAULT: 'hsl(var(--blue) / <alpha-value>)',
+          light: 'hsl(var(--blue-light) / <alpha-value>)',
+          foreground: 'hsl(var(--blue-foreground) / <alpha-value>)',
+          hover: 'hsl(var(--blue-hover) / <alpha-value>)',
+        },
+        purple: {
+          DEFAULT: 'hsl(var(--purple) / <alpha-value>)',
+          light: 'hsl(var(--purple-light) / <alpha-value>)',
+          foreground: 'hsl(var(--purple-foreground) / <alpha-value>)',
+          hover: 'hsl(var(--purple-hover) / <alpha-value>)',
+        },
+        orange: {
+          DEFAULT: 'hsl(var(--orange) / <alpha-value>)',
+          light: 'hsl(var(--orange-light) / <alpha-value>)',
+          foreground: 'hsl(var(--orange-foreground) / <alpha-value>)',
+          hover: 'hsl(var(--orange-hover) / <alpha-value>)',
+        },
+        
+        // Card colors
+        'card-green': 'hsl(var(--card-green) / <alpha-value>)',
+        'card-green-light': 'hsl(var(--card-green-light) / <alpha-value>)',
+        'card-blue': 'hsl(var(--card-blue) / <alpha-value>)',
+        'card-blue-light': 'hsl(var(--card-blue-light) / <alpha-value>)',
+        'card-purple': 'hsl(var(--card-purple) / <alpha-value>)',
+        'card-purple-light': 'hsl(var(--card-purple-light) / <alpha-value>)',
+        'card-orange': 'hsl(var(--card-orange) / <alpha-value>)',
+        'card-orange-light': 'hsl(var(--card-orange-light) / <alpha-value>)',
+        'card-neutral': 'hsl(var(--card-neutral) / <alpha-value>)',
+        'card-neutral-light': 'hsl(var(--card-neutral-light) / <alpha-value>)',
+        
+        // Status colors
+        success: 'hsl(var(--success) / <alpha-value>)',
+        warning: 'hsl(var(--warning) / <alpha-value>)',
+        error: 'hsl(var(--error) / <alpha-value>)',
+        info: 'hsl(var(--info) / <alpha-value>)',
+        'in-transit': 'hsl(var(--in-transit) / <alpha-value>)',
+        'in-transit-light': 'hsl(var(--in-transit-light) / <alpha-value>)',
+        
+        // ShadCN/ui colors
         border: 'hsl(var(--border))',
         input: 'hsl(var(--input))',
         ring: 'hsl(var(--ring))',

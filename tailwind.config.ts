@@ -9,103 +9,146 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        // Base colors (Dark theme by default)
-        background: 'hsl(45 28% 6%)',
-        foreground: 'hsl(45 30% 95%)',
+        // Base colors
+        background: 'hsl(var(--background))',
+        foreground: 'hsl(var(--foreground))',
         
         // Card colors
-        card: 'hsl(45 25% 10%)',
-        'card-foreground': 'hsl(45 30% 95%)',
+        card: 'hsl(var(--card))',
+        'card-foreground': 'hsl(var(--card-foreground))',
         
         // Popover
-        popover: 'hsl(45 25% 10%)',
-        'popover-foreground': 'hsl(45 30% 95%)',
+        popover: 'hsl(var(--popover))',
+        'popover-foreground': 'hsl(var(--popover-foreground))',
         
         // Input
-        input: 'hsl(42 25% 25%)',
-        'input-foreground': 'hsl(45 30% 95%)',
-        'input-border': 'hsl(42 30% 25%)',
-        
-        // Buttons
-        primary: {
-          DEFAULT: 'hsl(42 80% 50%)',  // Gold
-          foreground: 'hsl(45 28% 6%)',
-          hover: 'hsl(42 80% 45%)'
-        },
-        secondary: {
-          DEFAULT: 'hsl(42 40% 30%)',  // Darker gold
-          foreground: 'hsl(45 30% 95%)',
-          hover: 'hsl(42 40% 25%)'
+        input: 'hsl(var(--input))',
+        'input-foreground': 'hsl(var(--input-foreground))',
+        'input-border': 'hsl(var(--input-border))',
+
+        // Neutral colors
+        neutral: {
+          DEFAULT: 'hsl(var(--neutral))',
+          light: 'hsl(var(--neutral-light))',
+          dark: 'hsl(var(--neutral-dark))',
+          foreground: 'hsl(var(--neutral-foreground))'
         },
         
-        // Muted colors
-        muted: 'hsl(45 20% 15%)',
-        'muted-foreground': 'hsl(45 25% 70%)',
+        // Action Colors
+        green: {
+          DEFAULT: 'hsl(var(--green))',
+          light: 'hsl(var(--green-light))',
+          foreground: 'hsl(var(--green-foreground))'
+        },
+        blue: {
+          DEFAULT: 'hsl(var(--blue))',
+          light: 'hsl(var(--blue-light))',
+          foreground: 'hsl(var(--blue-foreground))'
+        },
+        purple: {
+          DEFAULT: 'hsl(var(--purple))',
+          foreground: 'hsl(var(--purple-foreground))',
+          hover: 'hsl(var(--purple-hover))',
+          light: 'hsl(var(--purple-light))'
+        },
+        orange: {
+          DEFAULT: 'hsl(var(--orange))',
+          foreground: 'hsl(var(--orange-foreground))',
+          hover: 'hsl(var(--orange-hover))',
+          light: 'hsl(var(--orange-light))'
+        },
         
-        // Accent colors
-        accent: 'hsl(42 50% 25%)',
-        'accent-foreground': 'hsl(45 30% 95%)',
+        // Card Colors for dashboard metrics
+        'card-green': {
+          DEFAULT: 'hsl(var(--card-green))',
+          light: 'hsl(var(--card-green-light))'
+        },
+        'card-blue': {
+          DEFAULT: 'hsl(var(--card-blue))',
+          light: 'hsl(var(--card-blue-light))'
+        },
+        'card-purple': {
+          DEFAULT: 'hsl(var(--card-purple))',
+          light: 'hsl(var(--card-purple-light))'
+        },
+        'card-orange': {
+          DEFAULT: 'hsl(var(--card-orange))',
+          light: 'hsl(var(--card-orange-light))'
+        },
+        'card-neutral': {
+          DEFAULT: 'hsl(var(--card-neutral))',
+          light: 'hsl(var(--card-neutral-light))'
+        },
         
-        // Destructive colors
-        destructive: 'hsl(0 84% 60%)',
-        'destructive-foreground': 'hsl(0 0% 100%)',
+        // Status Colors
+        success: {
+          DEFAULT: 'hsl(var(--success))',
+          foreground: 'hsl(var(--success-foreground))',
+          light: 'hsl(var(--success-light))'
+        },
+        warning: {
+          DEFAULT: 'hsl(var(--warning))',
+          foreground: 'hsl(var(--warning-foreground))',
+          light: 'hsl(var(--warning-light))'
+        },
+        error: {
+          DEFAULT: 'hsl(var(--error))',
+          foreground: 'hsl(var(--error-foreground))',
+          light: 'hsl(var(--error-light))'
+        },
+        
+        // Neutral Colors
+        muted: 'hsl(var(--muted))',
+        'muted-foreground': 'hsl(var(--muted-foreground))',
         
         // Border colors
-        border: 'hsl(42 30% 25%)',
-        'border-light': 'hsl(42 30% 35%)',
+        border: 'hsl(var(--border))',
+        'border-light': 'hsl(var(--border-light))',
         
         // Ring colors
-        ring: 'hsl(42 80% 60%)',
-        
-        // Status colors
-        success: 'hsl(42 90% 45%)',
-        'success-foreground': 'hsl(45 30% 95%)',
-        warning: 'hsl(38 90% 55%)',
-        'warning-foreground': 'hsl(45 30% 95%)',
-        error: 'hsl(0 84% 60%)',
-        'error-foreground': 'hsl(0 0% 100%)',
+        ring: 'hsl(var(--ring))',
         
         // Category colors (for product categories)
         category: {
           fruit: {
-            bg: 'hsl(42 90% 60%)',
-            text: 'hsl(45 28% 6%)',
-            border: 'hsl(42 90% 45%)'
+            bg: 'hsl(var(--fruit-bg))',
+            text: 'hsl(var(--fruit-text))',
+            border: 'hsl(var(--fruit-border))'
           },
           veg: {
-            bg: 'hsl(38 90% 55%)',
-            text: 'hsl(45 30% 95%)',
-            border: 'hsl(38 90% 40%)'
+            bg: 'hsl(var(--veg-bg))',
+            text: 'hsl(var(--veg-text))',
+            border: 'hsl(var(--veg-border))'
           },
           beef: {
-            bg: 'hsl(35 90% 50%)',
-            text: 'hsl(45 30% 95%)',
-            border: 'hsl(35 90% 35%)'
+            bg: 'hsl(var(--beef-bg))',
+            text: 'hsl(var(--beef-text))',
+            border: 'hsl(var(--beef-border))'
           },
           poultry: {
-            bg: 'hsl(45 90% 65%)',
-            text: 'hsl(45 28% 6%)',
-            border: 'hsl(45 90% 50%)'
+            bg: 'hsl(var(--poultry-bg))',
+            text: 'hsl(var(--poultry-text))',
+            border: 'hsl(var(--poultry-border))'
           },
           pork: {
-            bg: 'hsl(40 90% 55%)',
-            text: 'hsl(45 28% 6%)',
-            border: 'hsl(40 90% 40%)'
+            bg: 'hsl(var(--pork-bg))',
+            text: 'hsl(var(--pork-text))',
+            border: 'hsl(var(--pork-border))'
           },
           lamb: {
-            bg: 'hsl(50 90% 60%)',
-            text: 'hsl(45 28% 6%)',
-            border: 'hsl(50 90% 45%)'
+            bg: 'hsl(var(--lamb-bg))',
+            text: 'hsl(var(--lamb-text))',
+            border: 'hsl(var(--lamb-border))'
           },
           goat: {
-            bg: 'hsl(42 85% 55%)',
-            text: 'hsl(45 30% 95%)',
-            border: 'hsl(42 85% 40%)'
+            bg: 'hsl(var(--goat-bg))',
+            text: 'hsl(var(--goat-text))',
+            border: 'hsl(var(--goat-border))'
           },
           fish: {
-            bg: 'hsl(48 90% 58%)',
-            text: 'hsl(45 28% 6%)',
-            border: 'hsl(48 90% 43%)'
+            bg: 'hsl(var(--fish-bg))',
+            text: 'hsl(var(--fish-text))',
+            border: 'hsl(var(--fish-border))'
           },
         },
       },
