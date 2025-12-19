@@ -22,6 +22,6 @@ export function formatDate(date: string): string {
   return new Date(date).toLocaleDateString();
 }
 
-export function formatDateTime(date: string): string {
+export function formatDateTime(date: string | number): string {
   return new Date(date).toLocaleString();
 }

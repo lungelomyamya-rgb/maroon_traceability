@@ -1,4 +1,3 @@
-// src/components/dashboard/CategoryStats.tsx
 'use client';
 
 import { useProducts } from '@/contexts/productContext';
@@ -13,20 +12,20 @@ export function CategoryStats() {
   const totalProducts = blockchainRecords.length;
 
   return (
-    <Card variant="bordered">
+    <Card variant="outline">
       <div className="flex items-center gap-2 mb-4">
         <TrendingUp className="h-5 w-5 text-primary" />
         <CardTitle>Products by Category</CardTitle>
       </div>
       
-      <div className="space-y-3">
+      <div className="space-y-4">
         {PRODUCT_CATEGORIES.map((category) => {
           const count = categoryStats[category];
           const percentage = totalProducts > 0 ? (count / totalProducts) * 100 : 0;
           const colors = CATEGORY_COLORS[category];
 
           return (
-            <div key={category} className="space-y-2">
+            <div key={category} className="space-y-3 p-3 bg-muted/20 rounded-lg border border-border/50">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   {(() => {

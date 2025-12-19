@@ -1,4 +1,3 @@
-// src/components/dashboard/RecentActivity.tsx
 'use client';
 
 import { Package } from 'lucide-react';
@@ -11,7 +10,7 @@ export function RecentActivity() {
   const { blockchainRecords } = useProducts();
 
   return (
-    <Card variant="bordered">
+    <Card variant="outline">
       <h3 className="text-xl font-bold mb-4 text-foreground">Recent Blockchain Activity</h3>
       <div className="space-y-3">
         {blockchainRecords.slice(0, 3).map((record) => (
@@ -26,7 +25,7 @@ export function RecentActivity() {
               </div>
             </div>
             <div className="text-right">
-              <p className="text-sm text-muted-foreground">{formatDate(record.timestamp)}</p>
+              <p className="text-sm text-muted-foreground">{formatDate(record.timestamp.toString())}</p>
               <Badge variant={record.status === 'Certified' ? 'success' : 'warning'}>
                 {record.status}
               </Badge>

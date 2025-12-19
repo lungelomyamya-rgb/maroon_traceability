@@ -1,6 +1,7 @@
 // src/components/dashboard/MetricsCard.tsx
 'use client';
 
+import React from 'react';
 import { LucideIcon } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { MetricLabel, MetricValue } from '@/components/ui/typography';
@@ -27,22 +28,22 @@ const variantStyles = {
     text: 'text-secondary-foreground',
   },
   success: {
-    bg: 'bg-success/10',
-    border: 'border-success/20',
-    icon: 'text-success',
-    text: 'text-success',
+    bg: 'bg-green-500/10',
+    border: 'border-green-500/20',
+    icon: 'text-green-500',
+    text: 'text-green-500',
   },
   warning: {
-    bg: 'bg-warning/10',
-    border: 'border-warning/20',
-    icon: 'text-warning',
-    text: 'text-warning',
+    bg: 'bg-yellow-500/10',
+    border: 'border-yellow-500/20',
+    icon: 'text-yellow-500',
+    text: 'text-yellow-500',
   },
   error: {
-    bg: 'bg-destructive/10',
-    border: 'border-destructive/20',
-    icon: 'text-destructive',
-    text: 'text-destructive',
+    bg: 'bg-red-500/10',
+    border: 'border-red-500/20',
+    icon: 'text-red-500',
+    text: 'text-red-500',
   },
 };
 
@@ -71,7 +72,7 @@ export function MetricsCard({
             <Icon className={cn('h-4 w-4', styles.icon)} />
           </div>
           <div className="flex-1 min-w-0">
-            <div className="text-xs font-medium text-muted-foreground">{label}</div>
+            <MetricLabel className={cn(styles.text)}>{label}</MetricLabel>
             <div className={cn('text-xl font-bold', styles.text)}>{value}</div>
           </div>
         </div>
@@ -94,7 +95,7 @@ export function MetricsCard({
           <Icon className={cn('h-6 w-6', styles.icon)} />
         </div>
         <div>
-          <div className="text-sm font-medium text-muted-foreground">{label}</div>
+          <MetricLabel>{label}</MetricLabel>
           <div className={cn('text-2xl font-bold', styles.text)}>{value}</div>
         </div>
       </div>

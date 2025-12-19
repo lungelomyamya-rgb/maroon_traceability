@@ -1,63 +1,42 @@
 // src/components/ui/input.tsx
-'use client';
-
-import * as React from 'react';
-import { cn } from '@/lib/utils';
+import * as React from "react"
+import { cn } from "@/lib/utils"
+import { radius } from "@/lib/colors"
 
 export interface InputProps
   extends React.InputHTMLAttributes<HTMLInputElement> {
-  label?: string;
-  error?: string;
-  icon?: React.ReactNode;
+  error?: boolean
+  icon?: React.ReactNode
 }
 
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
-  ({ className, type, label, error, icon, id: idProp, ...props }, ref) => {
-    const generatedId = React.useId();
-    const id = idProp || `input-${generatedId}`;
-
+  ({ className, type, error, icon, ...props }, ref) => {
     return (
-      <div className="w-full space-y-1.5">
-        {label && (
-          <label
-            htmlFor={id}
-            className="block text-sm font-medium text-foreground"
-          >
-            {label}
-          </label>
+      <div className="relative">
+        {icon && (
+          <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+            {icon}
+          </div>
         )}
-        <div className="relative">
-          {icon && (
-            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-muted-foreground">
-              {icon}
-            </div>
+        <input
+          type={type}
+          className={cn(
+            "flex h-10 w-full bg-background px-3 py-2 text-sm ring-offset-background",
+            "border border-input focus-visible:outline-none focus-visible:ring-2",
+            "focus-visible:ring-ring focus-visible:ring-offset-2",
+            "disabled:cursor-not-allowed disabled:opacity-50",
+            radius.sm,
+            icon ? "pl-10" : "pl-3",
+            error ? "border-error focus-visible:ring-error/20" : "border-input",
+            className
           )}
-          <input
-            type={type}
-            id={id}
-            className={cn(
-              'flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background',
-              'placeholder:text-muted-foreground/60',
-              'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
-              'disabled:cursor-not-allowed disabled:opacity-50',
-              'transition-colors',
-              icon && 'pl-10',
-              error && 'border-destructive focus-visible:ring-destructive/50',
-              className
-            )}
-            ref={ref}
-            {...props}
-          />
-        </div>
-        {error && (
-          <p className="text-sm text-destructive" id={`${id}-error`}>
-            {error}
-          </p>
-        )}
+          ref={ref}
+          {...props}
+        />
       </div>
-    );
+    )
   }
-);
-Input.displayName = 'Input';
+)
+Input.displayName = "Input"
 
-export { Input };
+export { Input }

@@ -1,4 +1,5 @@
 import { cn } from '@/lib/utils';
+import { statusColors } from '@/lib/colors';
 
 interface StatusBadgeProps {
   status: 'Certified' | 'In Transit' | 'Delivered';
@@ -6,11 +7,8 @@ interface StatusBadgeProps {
 }
 
 export function StatusBadge({ status, className }: StatusBadgeProps) {
-  const statusStyles = {
-    Certified: 'bg-success/10 text-success border-success/20',
-    'In Transit': 'bg-warning/10 text-warning border-warning/20',
-    Delivered: 'bg-primary/10 text-primary border-primary/20',
-  };
+  const statusKey = status.toLowerCase().replace(' ', '') as keyof typeof statusColors;
+  const colors = statusColors[statusKey] || statusColors.pending;
 
   const statusIcons = {
     Certified: (
@@ -38,11 +36,13 @@ export function StatusBadge({ status, className }: StatusBadgeProps) {
     <div
       className={cn(
         'inline-flex items-center px-3 py-1 rounded-full text-xs font-medium border',
-        statusStyles[status],
+        colors.bg,
+        colors.text,
+        colors.border,
         className
       )}
     >
-      {statusIcons[status]}
+      {statusIcons[statusKey as keyof typeof statusIcons]}
       {status}
     </div>
   );

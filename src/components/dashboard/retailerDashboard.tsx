@@ -1,4 +1,3 @@
-// src/components/dashboard/RetailerDashboard.tsx
 'use client';
 
 import { Package, ShoppingCart, CheckCircle, TrendingUp, Search, Zap, History } from 'lucide-react';
@@ -89,7 +88,7 @@ export function RetailerDashboard() {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Top Categories */}
         <div className="lg:col-span-2">
-          <Card variant="bordered" className="shadow-lg">
+          <Card variant="outline" className="shadow-lg">
             <CardTitle className="mb-6">Top Product Categories</CardTitle>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
               {topCategories.map(([category, count]) => {
@@ -137,7 +136,7 @@ export function RetailerDashboard() {
 
       {/* Verification Info */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <Card variant="bordered" className="shadow-lg bg-success/5">
+        <Card variant="outline" className="shadow-lg bg-success/5">
           <div className="flex items-start gap-4">
             <div className="bg-success/10 p-3 rounded-lg">
               <CheckCircle className="h-8 w-8 text-success" />
@@ -145,13 +144,13 @@ export function RetailerDashboard() {
             <div className="flex-1">
               <CardTitle className="mb-2">Blockchain Verified</CardTitle>
               <InfoText>
-                All products on this platform are certified on the blockchain, ensuring complete supply chain transparency and authenticity.
+                All products on this platform are certified on blockchain, ensuring complete supply chain transparency and authenticity.
               </InfoText>
             </div>
           </div>
         </Card>
 
-        <Card variant="bordered" className="shadow-lg bg-primary/5">
+        <Card variant="outline" className="shadow-lg bg-primary/5">
           <div className="flex items-start gap-4">
             <div className="bg-primary/10 p-3 rounded-lg">
               <TrendingUp className="h-8 w-8 text-primary" />
@@ -167,7 +166,7 @@ export function RetailerDashboard() {
       </div>
 
       {/* Quick Actions */}
-      <Card variant="bordered" className="bg-background overflow-hidden shadow-sm">
+      <Card variant="outline" className="bg-background overflow-hidden shadow-sm">
         <div className="p-5">
           <div className="flex items-center justify-between mb-5">
             <CardTitle className="text-base font-semibold text-foreground flex items-center">

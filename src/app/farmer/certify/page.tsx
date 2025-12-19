@@ -7,7 +7,7 @@ import { useUser } from '@/contexts/userContext';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/labels';
+import { Label } from '@/components/ui/label';
 import { Calendar as CalendarIcon, X, File as FileIcon } from 'lucide-react';
 import { DocumentVerification } from '@/components/products/document-verification';
 import { type DocumentType } from '@/components/ui/document-upload';
@@ -63,7 +63,8 @@ interface UploadedFile extends File {
 
 export default function CertifyProductPage() {
   const router = useRouter();
-  const { userRole } = useUser();
+  const { user } = useUser();
+const userRole = user?.role;
   const [formData, setFormData] = useState({
     productName: '',
     category: '',

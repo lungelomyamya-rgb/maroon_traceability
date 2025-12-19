@@ -1,4 +1,3 @@
-// src/components/dashboard/QuickActions.tsx
 'use client';
 
 import { useRouter } from 'next/navigation';
@@ -9,31 +8,31 @@ import { H4, Text } from '@/components/ui/typography';
 
 export function QuickActions() {
   const router = useRouter();
-  const { setUserRole } = useUser();
+  const { updateUserRole } = useUser();
 
   const handleFarmerCertify = () => {
-    setUserRole('farmer');
+    updateUserRole('farmer');
     router.push('/certify');
   };
 
   const handleFarmerView = () => {
-    setUserRole('farmer');
+    updateUserRole('farmer');
     router.push('/blockchain');
   };
 
   const handleRetailerVerify = () => {
-    setUserRole('retailer');
+    updateUserRole('retailer');
     router.push('/blockchain');
   };
 
   const handleRetailerBrowse = () => {
-    setUserRole('retailer');
+    updateUserRole('retailer');
     router.push('/blockchain');
   };
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-      <Card variant="bordered">
+      <Card variant="outline">
         <H4 className="mb-4">For Farmers</H4>
         <Text className="mb-4">
           Certify your products on the blockchain and build trust with retailers.
@@ -56,7 +55,7 @@ export function QuickActions() {
         </div>
       </Card>
 
-      <Card variant="bordered">
+      <Card variant="outline">
         <H4 className="mb-4">For Retailers</H4>
         <Text className="mb-4">
           Verify product origins and build customer confidence.

@@ -1,0 +1,208 @@
+'use client';
+
+import { Package, ShoppingCart, CheckCircle, TrendingUp, Search, Zap, History } from 'lucide-react';
+import { getCategoryIcon } from '@/lib/constants';
+import { ProductCategory } from '@/types/product';
+import { useRouter } from 'next/navigation';
+import { useProducts } from '@/contexts/productContext';
+import { Card } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { MetricsCard } from './metricsCard';
+import { CategoryStats } from './categoryStats';
+import { PageTitle, PageSubtitle, CardTitle, InfoText } from '@/components/ui/typography';
+import { CATEGORY_COLORS } from '@/lib/constants';
+
+export function RetailerDashboard() {
+  const router = useRouter();
+  const { blockchainRecords, categoryStats } = useProducts();
+
+  // Calculate retailer-specific metrics
+  const totalProducts = blockchainRecords.length;
+  const certifiedProducts = blockchainRecords.filter(p => p.status === 'Certified').length;
+  const totalVerifications = blockchainRecords.reduce((sum, p) => sum + p.verifications, 0);
+  const uniqueFarmers = new Set(blockchainRecords.map(p => p.farmer)).size;
+
+  // Get top categories
+  const topCategories = Object.entries(categoryStats)
+    .sort(([, a], [, b]) => b - a)
+    .slice(0, 4);
+
+  return (
+    <div className="space-y-8">
+      {/* Hero Section */}
+      <div className="relative overflow-hidden bg-gradient-to-br from-primary/90 to-primary/70 rounded-2xl shadow-2xl max-w-4xl mx-auto w-full">
+        <div className="absolute inset-0 bg-foreground/5"></div>
+        <div className="relative z-10 text-center p-8">
+          <div className="inline-flex items-center mb-4 px-4 py-1.5 bg-background/20 backdrop-blur-sm rounded-full border border-white/10">
+            <ShoppingCart className="h-3.5 w-3.5 mr-1.5 text-white" />
+            <span className="text-xs font-medium text-white">Retailer Dashboard</span>
+          </div>
+          <PageTitle className="mb-2 text-white text-2xl sm:text-3xl font-bold">
+            Welcome back, {typeof window !== 'undefined' ? (localStorage.getItem('userName') || 'Retailer') : 'Retailer'}!
+          </PageTitle>
+          <PageSubtitle className="text-white/90 text-sm max-w-md mx-auto">
+            Explore certified products and verify supply chain authenticity with blockchain technology
+          </PageSubtitle>
+          <Button 
+            onClick={() => router.push('/blockchain')}
+            className="mt-4 bg-white text-primary hover:bg-white/90 shadow-md px-6 py-2 text-sm font-medium"
+          >
+            Browse Products
+          </Button>
+        </div>
+      </div>
+
+      {/* Metrics Grid */}
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
+        <MetricsCard
+          icon={Package}
+          label="Available"
+          value={totalProducts}
+          variant="primary"
+          compact
+        />
+        <MetricsCard
+          icon={CheckCircle}
+          label="Certified"
+          value={certifiedProducts}
+          variant="success"
+          compact
+        />
+        <MetricsCard
+          icon={TrendingUp}
+          label="Verifications"
+          value={totalVerifications}
+          variant="primary"
+          compact
+        />
+        <MetricsCard
+          icon={ShoppingCart}
+          label="Farms"
+          value={uniqueFarmers}
+          variant="warning"
+          compact
+        />
+      </div>
+
+      {/* Two Column Layout */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        {/* Top Categories */}
+        <div className="lg:col-span-2">
+          <Card variant="bordered" className="shadow-lg">
+            <CardTitle className="mb-6">Top Product Categories</CardTitle>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+              {topCategories.map(([category, count]) => {
+                const colors = CATEGORY_COLORS[category as keyof typeof CATEGORY_COLORS];
+                return (
+                  <div 
+                    key={category}
+                    className={`${colors.bg} p-4 rounded-xl border border-border/30 hover:border-primary/50 transition-all cursor-pointer shadow-sm hover:shadow-md`}
+                    onClick={() => router.push('/blockchain')}
+                  >
+                    <div className="flex items-center justify-between mb-2">
+                      <div className={`p-2 rounded-lg ${colors.border} border border-border/30`}>
+                        {(() => {
+                          const Icon = getCategoryIcon(category as ProductCategory);
+                          return <Icon className={`h-6 w-6 ${colors.text}`} />;
+                        })()}
+                      </div>
+                      <span className={`text-2xl font-bold ${colors.text}`}>{count}</span>
+                    </div>
+                    <h3 className={`text-base font-semibold ${colors.text}`}>{category}</h3>
+                    <InfoText className="text-xs mt-0.5">
+                      {count} product{count !== 1 ? 's' : ''} available
+                    </InfoText>
+                  </div>
+                );
+              })}
+            </div>
+
+            {/* All Categories Button */}
+            <Button 
+              onClick={() => router.push('/blockchain')}
+              variant="secondary"
+              className="w-full mt-6"
+            >
+              View All Products
+            </Button>
+          </Card>
+        </div>
+
+        {/* Category Stats */}
+        <div>
+          <CategoryStats />
+        </div>
+      </div>
+
+      {/* Verification Info */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <Card variant="bordered" className="shadow-lg bg-success/5">
+          <div className="flex items-start gap-4">
+            <div className="bg-success/10 p-3 rounded-lg">
+              <CheckCircle className="h-8 w-8 text-success" />
+            </div>
+            <div className="flex-1">
+              <CardTitle className="mb-2">Blockchain Verified</CardTitle>
+              <InfoText>
+                All products on this platform are certified on blockchain, ensuring complete supply chain transparency and authenticity.
+              </InfoText>
+            </div>
+          </div>
+        </Card>
+
+        <Card variant="bordered" className="shadow-lg bg-primary/5">
+          <div className="flex items-start gap-4">
+            <div className="bg-primary/10 p-3 rounded-lg">
+              <TrendingUp className="h-8 w-8 text-primary" />
+            </div>
+            <div className="flex-1">
+              <CardTitle className="mb-2">Quality Assurance</CardTitle>
+              <InfoText>
+                Every verification adds trust to the supply chain. Partner with certified farmers for guaranteed quality and traceability.
+              </InfoText>
+            </div>
+          </div>
+        </Card>
+      </div>
+
+      {/* Quick Actions */}
+      <Card variant="bordered" className="bg-background overflow-hidden shadow-sm">
+        <div className="p-5">
+          <div className="flex items-center justify-between mb-5">
+            <CardTitle className="text-base font-semibold text-foreground flex items-center">
+              <Zap className="h-4 w-4 text-warning mr-2" />
+              Quick Actions
+            </CardTitle>
+            <div className="h-px flex-1 bg-gradient-to-r from-transparent via-border to-transparent ml-4"></div>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+            <Button 
+              onClick={() => router.push('/blockchain')}
+              variant="primary"
+              className="w-full bg-primary hover:bg-primary/90 text-primary-foreground shadow-sm hover:shadow-md transition-all duration-200"
+            >
+              <Search className="h-4 w-4 mr-2 text-white" />
+              <span className="font-medium text-sm">Browse Products</span>
+            </Button>
+            <Button 
+              onClick={() => router.push('/blockchain')}
+              variant="secondary"
+              className="w-full bg-background border hover:bg-muted/50 text-foreground shadow-sm hover:shadow-sm transition-all duration-200"
+            >
+              <CheckCircle className="h-4 w-4 mr-2 text-success" />
+              <span className="font-medium text-sm">Verify Products</span>
+            </Button>
+            <Button 
+              onClick={() => router.push('/blockchain')}
+              variant="secondary"
+              className="w-full bg-background border hover:bg-muted/50 text-foreground shadow-sm hover:shadow-sm transition-all duration-200"
+            >
+              <History className="h-4 w-4 mr-2 text-primary" />
+              <span className="font-medium text-sm">View History</span>
+            </Button>
+          </div>
+        </div>
+      </Card>
+    </div>
+  );
+}

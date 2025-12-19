@@ -7,6 +7,7 @@ import { NewProduct, ProductCategory } from '@/types/product';
 import { BusinessMetrics } from '@/types/metrics';
 import { createBlockchainRecord, incrementVerification } from '@/lib/blockchain';
 import { INITIAL_METRICS } from '@/lib/constants';
+import { Product } from '@/types/product';
 
 interface ProductContextType {
   blockchainRecords: BlockchainRecord[];
@@ -16,11 +17,12 @@ interface ProductContextType {
   searchQuery: string;
   addProduct: (product: NewProduct, farmerName?: string) => void;
   verifyProduct: (productId: string) => void;
-  setSelectedProduct: (product: BlockchainRecord | null) => void;
+  setSelectedProduct: (product: any | null) => void;
   setSelectedCategory: (category: ProductCategory | 'All') => void;
   setSearchQuery: (query: string) => void;
   filteredRecords: BlockchainRecord[];
   categoryStats: Record<ProductCategory, number>;
+  products: any[]
 }
 
 const ProductContext = createContext<ProductContextType | undefined>(undefined);
@@ -37,8 +39,10 @@ const INITIAL_RECORDS: BlockchainRecord[] = [
     certifications: ['Organic', 'Fair Trade'],
     batchSize: '500kg',
     blockHash: '0x4f3c2a1b8e7d6c5a9b8e7f6d5c4a3b2c1d0e9f8a',
-    timestamp: '2025-09-10T08:30:00Z',
+    timestamp: new Date('2025-09-10T08:30:00Z').getTime(),
     status: 'Certified',
+    txHash: '0x4f3c2a1b8e7d6c5a9b8e7f6d5c4a3b2c1d0e9f8a',
+    verified: true,
     transactionFee: 0.002,
     verifications: 3,
   },
@@ -53,8 +57,10 @@ const INITIAL_RECORDS: BlockchainRecord[] = [
     certifications: ['Free-Range', 'Animal Welfare Approved'],
     batchSize: '1200 eggs',
     blockHash: '0x7e6d5c4b3a2f1e0d9c8b7a6f5e4d3c2b1a0f9e8d',
-    timestamp: '2025-09-11T06:15:00Z',
+    timestamp: new Date('2025-09-11T06:15:00Z').getTime(),
     status: 'In Transit',
+    txHash: '0x7e6d5c4b3a2f1e0d9c8b7a6f5e4d3c2b1a0f9e8d',
+    verified: true,
     transactionFee: 0.0015,
     verifications: 1,
   },
@@ -69,8 +75,10 @@ const INITIAL_RECORDS: BlockchainRecord[] = [
     certifications: ['Organic', 'Animal Welfare Approved', 'Sustainable'],
     batchSize: '250kg',
     blockHash: '0x8f7e6d5c4b3a2f1e0d9c8b7a6f5e4d3c2b1a0f9e',
-    timestamp: '2025-09-12T10:20:00Z',
+    timestamp: new Date('2025-09-12T10:20:00Z').getTime(),
     status: 'Certified',
+    txHash: '0x8f7e6d5c4b3a2f1e0d9c8b7a6f5e4d3c2b1a0f9e',
+    verified: true,
     transactionFee: 0.0025,
     verifications: 5,
   },
@@ -85,8 +93,10 @@ const INITIAL_RECORDS: BlockchainRecord[] = [
     certifications: ['Organic', 'Local'],
     batchSize: '150kg',
     blockHash: '0x2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c',
-    timestamp: '2025-09-13T07:30:00Z',
+    timestamp: new Date('2025-09-13T07:30:00Z').getTime(),
     status: 'Certified',
+    txHash: '0x2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c',
+    verified: true,
     transactionFee: 0.0012,
     verifications: 2,
   },
@@ -98,6 +108,7 @@ export function ProductProvider({ children }: { children: ReactNode }) {
   const [selectedProduct, setSelectedProduct] = useState<BlockchainRecord | null>(null);
   const [selectedCategory, setSelectedCategory] = useState<ProductCategory | 'All'>('All');
   const [searchQuery, setSearchQuery] = useState('');
+  const [products, setProducts] = useState<Product[]>([]);
 
   // Filter records based on category and search
   const filteredRecords = useMemo(() => {
@@ -123,22 +134,21 @@ export function ProductProvider({ children }: { children: ReactNode }) {
   }, [blockchainRecords, selectedCategory, searchQuery]);
 
   // Calculate category statistics
-  const categoryStats = useMemo(() => {
-    const stats: Record<ProductCategory, number> = {
-      Fruit: 0,
-      Veg: 0,
-      Beef: 0,
-      Poultry: 0,
-      Pork: 0,
-      Lamb: 0,
-      Goat: 0,
-      Fish: 0,
-    };
-
-    blockchainRecords.forEach(record => {
-      stats[record.category]++;
+  const categoryStats = useMemo<Record<ProductCategory, number>>(() => {
+    const stats = {} as Record<ProductCategory, number>;
+    // Initialize all categories with 0
+    const allCategories: ProductCategory[] = ['Fruit', 'Veg', 'Beef', 'Poultry', 'Pork', 'Lamb', 'Goat', 'Fish'];
+    allCategories.forEach(cat => {
+      stats[cat] = 0;
     });
-
+    
+    // Count records per category
+    blockchainRecords.forEach(record => {
+      if (record.category in stats) {
+        stats[record.category as ProductCategory]++;
+      }
+    });
+    
     return stats;
   }, [blockchainRecords]);
 
@@ -203,6 +213,7 @@ export function ProductProvider({ children }: { children: ReactNode }) {
         selectedProduct,
         selectedCategory,
         searchQuery,
+        products,
         addProduct,
         verifyProduct,
         setSelectedProduct,

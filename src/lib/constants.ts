@@ -14,6 +14,7 @@ export const CERTIFICATION_OPTIONS = [
   'Halal',
   'Kosher',
 ] as const;
+
 export const PRODUCT_CATEGORIES: ProductCategory[] = [
   'Fruit',
   'Veg',
@@ -24,51 +25,73 @@ export const PRODUCT_CATEGORIES: ProductCategory[] = [
   'Goat',
   'Fish',
 ] as const;
+
+export const eventTypes = [
+  'harvest',
+  'inspection',
+  'processing',
+  'packaging',
+  'shipping',
+  'delivery',
+  'sale',
+  'recall'
+] as const;
+export type EventType = typeof eventTypes[number];
+
 // Using theme colors from tailwind.config.ts
 export const CATEGORY_COLORS: Record<ProductCategory, { 
   bg: string; 
   text: string; 
-  border: string 
+  border: string;
+  icon: LucideIcon;
 }> = {
   Fruit: { 
     bg: 'bg-category-fruit', 
-    text: 'text-foreground', 
-    border: 'border-category-fruit'
+    text: 'text-green', 
+    border: 'border-category-fruit',
+    icon: require('lucide-react').Apple
   },
   Veg: { 
     bg: 'bg-category-veg', 
-    text: 'text-foreground',
-    border: 'border-category-veg'
+    text: 'text-orange',
+    border: 'border-category-veg',
+    icon: require('lucide-react').Carrot
   },
   Beef: { 
     bg: 'bg-category-beef', 
-    text: 'text-foreground',
-    border: 'border-category-beef'
+    text: 'text-red-600',
+    border: 'border-category-beef',
+    icon: require('lucide-react').Beef
   },
   Poultry: { 
     bg: 'bg-category-poultry', 
-    text: 'text-foreground',
-    border: 'border-category-poultry'
+    text: 'text-yellow-600',
+    border: 'border-category-poultry',
+    icon: require('lucide-react').Drumstick
   },
   Pork: { 
     bg: 'bg-category-pork', 
-    text: 'text-foreground',
-    border: 'border-category-pork'
+    text: 'text-orange-600',
+    border: 'border-category-pork',
+    icon: require('lucide-react').PiggyBank
   },
   Lamb: { 
     bg: 'bg-category-lamb', 
-    text: 'text-foreground',
-    border: 'border-category-lamb'
+    text: 'text-purple-600',
+    border: 'border-category-lamb',
+    icon: require('lucide-react').Heart
   },
   Goat: { 
     bg: 'bg-category-goat', 
-    text: 'text-foreground',
-    border: 'border-category-goat'
+    text: 'text-blue-600',
+    border: 'border-category-goat',
+    icon: require('lucide-react').Circle
   },
   Fish: { 
     bg: 'bg-category-fish', 
-    text: 'text-foreground',
-    border: 'border-category-fish'
+    text: 'text-cyan-600',
+    border: 'border-category-fish',
+    icon: require('lucide-react').Fish
   }
 };
 export const STATUS_COLORS = {

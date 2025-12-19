@@ -79,7 +79,7 @@ export function FarmerDashboard() {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Recent Products */}
         <div className="lg:col-span-2">
-          <Card variant="bordered" className="shadow-lg">
+          <Card variant="outline" className="shadow-lg">
             <div className="flex items-center justify-between mb-6">
               <CardTitle>Recent Products</CardTitle>
               <Button 
@@ -114,7 +114,7 @@ export function FarmerDashboard() {
                             {product.status}
                           </Badge>
                         </div>
-                        <InfoText className="text-xs">{product.location} • {formatDate(product.timestamp)}</InfoText>
+                        <InfoText className="text-xs">{product.location} • {formatDate(product.timestamp.toString())}</InfoText>
                       </div>
                     </div>
                     <div className="text-right">
@@ -135,7 +135,7 @@ export function FarmerDashboard() {
       </div>
 
       {/* Quick Actions */}
-      <Card variant="bordered" className="shadow-lg bg-background overflow-hidden">
+      <Card variant="outline" className="shadow-lg bg-background overflow-hidden">
         <div className="p-6">
           <div className="flex items-center justify-between mb-6">
             <CardTitle className="text-lg font-semibold text-foreground">Quick Actions</CardTitle>
