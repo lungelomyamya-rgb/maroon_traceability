@@ -7,7 +7,7 @@ on:
     branches: [ main ]
 
 jobs:
-  deploy:
+  build:
     runs-on: ubuntu-latest
     permissions:
       pages: write
@@ -30,6 +30,7 @@ jobs:
       run: |
         npm run build
         # Ensure .nojekyll exists in the output directory
+        mkdir -p out
         touch out/.nojekyll
       
     - name: Run tests
@@ -42,3 +43,16 @@ jobs:
       uses: actions/upload-pages-artifact@v3
       with:
         path: ./out
+        
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    
+    runs-on: ubuntu-latest
+    needs: build
+    
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

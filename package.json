@@ -3,8 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "set TURBOPACK=0 && next dev",
-    "build": "set TURBOPACK=0 && next build",
+    "dev": "cross-env TURBOPACK=0 next dev",
+    "build": "cross-env TURBOPACK=0 next build",
     "start": "next start",
     "lint": "next lint",
     "test": "jest",

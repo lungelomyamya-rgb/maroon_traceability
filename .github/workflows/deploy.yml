@@ -40,6 +40,7 @@ jobs:
         run: |
           npm run build
           # Ensure .nojekyll exists in the output directory
+          mkdir -p out
           touch out/.nojekyll
 
       - name: Upload artifact
