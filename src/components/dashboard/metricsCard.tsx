@@ -5,47 +5,15 @@ import React from 'react';
 import { LucideIcon } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { MetricLabel, MetricValue } from '@/components/ui/typography';
+import { getColorScheme, cardColors } from '@/lib/theme/colors';
 
 interface MetricsCardProps {
   icon: LucideIcon;
   label: string;
   value: string | number;
-  variant?: 'primary' | 'secondary' | 'success' | 'warning' | 'error';
+  variant?: 'primary' | 'secondary' | 'success' | 'warning' | 'error' | 'total-transactions' | 'monthly-revenue' | 'active-farms' | 'retailers' | 'avg-fee';
   compact?: boolean;
 }
-
-const variantStyles = {
-  primary: {
-    bg: 'bg-primary/10',
-    border: 'border-primary/20',
-    icon: 'text-primary',
-    text: 'text-primary',
-  },
-  secondary: {
-    bg: 'bg-secondary/10',
-    border: 'border-secondary/20',
-    icon: 'text-secondary-foreground',
-    text: 'text-secondary-foreground',
-  },
-  success: {
-    bg: 'bg-green-500/10',
-    border: 'border-green-500/20',
-    icon: 'text-green-500',
-    text: 'text-green-500',
-  },
-  warning: {
-    bg: 'bg-yellow-500/10',
-    border: 'border-yellow-500/20',
-    icon: 'text-yellow-500',
-    text: 'text-yellow-500',
-  },
-  error: {
-    bg: 'bg-red-500/10',
-    border: 'border-red-500/20',
-    icon: 'text-red-500',
-    text: 'text-red-500',
-  },
-};
 
 export function MetricsCard({ 
   icon: Icon, 
@@ -54,7 +22,8 @@ export function MetricsCard({
   variant = 'primary',
   compact = false 
 }: MetricsCardProps) {
-  const styles = variantStyles[variant] || variantStyles.primary;
+  // Use centralized color scheme
+  const styles = cardColors[variant as keyof typeof cardColors] || getColorScheme(variant as keyof typeof getColorScheme);
 
   if (compact) {
     return (

@@ -12,13 +12,14 @@ export function CategoryStats() {
   const totalProducts = blockchainRecords.length;
 
   return (
-    <Card variant="outline">
-      <div className="flex items-center gap-2 mb-4">
-        <TrendingUp className="h-5 w-5 text-primary" />
-        <CardTitle>Products by Category</CardTitle>
-      </div>
-      
-      <div className="space-y-4">
+    <Card variant="outline" className="shadow-lg">
+      <div className="p-6">
+        <div className="flex items-center gap-2 mb-6">
+          <TrendingUp className="h-5 w-5 text-primary" />
+          <CardTitle>Products by Category</CardTitle>
+        </div>
+        
+        <div className="space-y-4">
         {PRODUCT_CATEGORIES.map((category) => {
           const count = categoryStats[category];
           const percentage = totalProducts > 0 ? (count / totalProducts) * 100 : 0;
@@ -56,6 +57,7 @@ export function CategoryStats() {
             </div>
           );
         })}
+        </div>
       </div>
     </Card>
   );

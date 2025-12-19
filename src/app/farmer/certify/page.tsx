@@ -177,7 +177,7 @@ const userRole = user?.role;
                   <select
                     value={formData.category}
                     onChange={(e) => setFormData({...formData, category: e.target.value})}
-                    className="flex h-9 w-full appearance-none rounded-md border border-gray-300 bg-white pl-2.5 pr-7 py-1.5 text-sm text-gray-900 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 disabled:cursor-not-allowed disabled:opacity-50"
+                    className="flex h-9 w-full appearance-none rounded-md border border-gray-300 bg-white pl-2.5 pr-7 py-1.5 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 disabled:cursor-not-allowed disabled:opacity-50"
                     required
                   >
                     <option value="">Select a category</option>
@@ -272,7 +272,7 @@ const userRole = user?.role;
                   <select
                     value={formData.unit}
                     onChange={(e) => setFormData({...formData, unit: e.target.value})}
-                    className="flex h-9 w-full appearance-none rounded-md border border-gray-300 bg-white pl-2.5 pr-7 py-1.5 text-sm text-gray-900 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 disabled:cursor-not-allowed disabled:opacity-50"
+                    className="flex h-9 w-full appearance-none rounded-md border border-gray-300 bg-white pl-2.5 pr-7 py-1.5 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 disabled:cursor-not-allowed disabled:opacity-50"
                     required
                   >
                     <option value="kg">Kilograms (kg)</option>
@@ -353,7 +353,7 @@ const userRole = user?.role;
               <Button 
                 type="submit" 
                 disabled={isSubmitting || !documentsVerified}
-                className="min-w-[120px]"
+                className="min-w-[120px] bg-green-600 text-white py-3 px-4 rounded-lg hover:bg-green-700 transition duration-200 font-medium"
               >
                 {isSubmitting ? 'Certifying...' : 'Certify Product'}
               </Button>

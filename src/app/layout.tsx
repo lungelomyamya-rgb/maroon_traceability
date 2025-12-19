@@ -23,7 +23,7 @@ function ClientLayout({ children }: { children: React.ReactNode }) {
         <ErrorBoundary>
           <UserProvider>
             <ProductProvider>
-              <div className="min-h-screen flex flex-col">
+              <div className="min-h-screen flex flex-col bg-gray-50">
                 <Suspense fallback={<div>Loading navigation...</div>}>
                   <Navigation />
                 </Suspense>

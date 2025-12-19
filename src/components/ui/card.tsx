@@ -12,9 +12,9 @@ export function Card({
   ...props 
 }: CardProps) {
   const variants = {
-    default: 'bg-card text-card-foreground border border-border',
-    elevated: 'bg-card text-card-foreground shadow-sm',
-    outline: 'border border-border bg-transparent',
+    default: 'bg-white text-gray-800 border border-gray-200 shadow-sm',
+    elevated: 'bg-white text-gray-800 shadow-lg border border-gray-200',
+    outline: 'border border-gray-200 bg-white shadow-sm',
   }
 
   return (

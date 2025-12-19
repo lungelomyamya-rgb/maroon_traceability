@@ -24,7 +24,7 @@ export default function BlockchainPage() {
   return (
     <div className="animate-fade-in">
       {/* Header */}
-      <div className="mb-8 text-center">
+      <div className="mb-6 text-center">
         <div className="inline-flex items-center gap-3 mb-4 px-6 py-3 bg-gradient-to-r from-green-50 to-emerald-50 rounded-full border border-green-200">
           <Layers className="h-6 w-6 text-green-600" />
           <span className="text-sm font-semibold text-green-700">

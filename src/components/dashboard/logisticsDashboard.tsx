@@ -11,6 +11,7 @@ import { CategoryStats } from './categoryStats';
 import { PageTitle, PageSubtitle, CardTitle, InfoText } from '@/components/ui/typography';
 import { Badge } from '@/components/ui/badge';
 import { formatDate } from '@/lib/utils';
+import { getBannerGradient, getButtonStyles, getRoleColors } from '@/lib/theme/colors';
 
 export function LogisticsDashboard() {
   const router = useRouter();
@@ -24,11 +25,11 @@ export function LogisticsDashboard() {
   const recentProducts = blockchainRecords.slice(0, 3);
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-8 px-4 sm:px-6 lg:px-8 pt-8 pb-12">
       {/* Hero Section */}
-      <div className="relative overflow-hidden bg-gradient-to-br from-green-600/90 to-green-700/70 rounded-2xl shadow-2xl max-w-4xl mx-auto w-full">
+      <div className={`relative overflow-hidden bg-gradient-to-br ${getRoleColors('logistics').hero} rounded-2xl shadow-2xl max-w-4xl mx-auto w-full`}>
         <div className="absolute inset-0 bg-foreground/5"></div>
-        <div className="relative z-10 text-center p-8">
+        <div className="relative z-10 text-center p-8 px-4 sm:px-8">
           <div className="inline-block mb-4 px-4 py-1.5 bg-background/20 backdrop-blur-sm rounded-full border border-white/10">
             <span className="text-xs font-medium text-white">Logistics Dashboard</span>
           </div>
@@ -38,22 +39,16 @@ export function LogisticsDashboard() {
           <PageSubtitle className="text-white/90 text-sm max-w-md mx-auto">
             Manage shipments and track product movement through the supply chain
           </PageSubtitle>
-          <Button 
-            onClick={() => router.push('/shipments')}
-            className="mt-4 bg-white text-green-600 hover:bg-white/90 shadow-md px-6 py-2 text-sm font-medium"
-          >
-            Track Shipments
-          </Button>
         </div>
       </div>
 
       {/* Metrics Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 px-2 sm:px-0">
         <MetricsCard
           icon={Truck}
           label="Active Shipments"
           value={activeShipments}
-          variant="primary"
+          variant="total-transactions"
         />
         <MetricsCard
           icon={Package}
@@ -71,59 +66,61 @@ export function LogisticsDashboard() {
           icon={Route}
           label="Total Deliveries"
           value={totalDeliveries}
-          variant="primary"
+          variant="monthly-revenue"
         />
       </div>
 
       {/* Two Column Layout */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 px-2 sm:px-0">
         {/* Recent Products */}
         <div className="lg:col-span-2">
           <Card variant="outline" className="shadow-lg">
-            <div className="flex items-center justify-between mb-6">
-              <CardTitle>Active Shipments</CardTitle>
-              <Button 
-                onClick={() => router.push('/shipments')}
-                variant="secondary"
-                size="sm"
-              >
-                View All
-              </Button>
-            </div>
-            <div className="space-y-4">
-              {recentProducts.length === 0 ? (
-                <div className="text-center py-8">
-                  <Truck className="h-12 w-12 text-gray-300 mx-auto mb-3" />
-                  <InfoText>No active shipments. Check your transport schedule!</InfoText>
-                </div>
-              ) : (
-                recentProducts.map((product) => (
-                  <div 
-                    key={product.id} 
-                    className="flex items-center justify-between p-4 bg-muted/30 hover:bg-muted/50 rounded-lg hover:shadow-md transition-all cursor-pointer"
-                    onClick={() => router.push('/shipments')}
-                  >
-                    <div className="flex items-center gap-4 flex-1">
-                      <div className="bg-background p-3 rounded-lg shadow-sm">
-                        <Truck className="h-6 w-6 text-green-600" />
-                      </div>
-                      <div className="flex-1">
-                        <div className="flex items-center gap-2 mb-1">
-                          <h4 className="font-semibold text-foreground">{product.productName}</h4>
-                          <Badge variant={product.status === 'Delivered' ? 'success' : product.status === 'In Transit' ? 'info' : 'warning'}>
-                            {product.status}
-                          </Badge>
-                        </div>
-                        <InfoText className="text-xs">{product.location} • {formatDate(product.timestamp.toString())}</InfoText>
-                      </div>
-                    </div>
-                    <div className="text-right">
-                      <div className="text-sm font-semibold text-foreground">{product.verifications} deliveries</div>
-                      <InfoText className="text-xs">{product.category}</InfoText>
-                    </div>
+            <div className="p-6">
+              <div className="flex items-center justify-between mb-6">
+                <CardTitle>Active Shipments</CardTitle>
+                <Button 
+                  onClick={() => router.push('/shipments')}
+                  variant="secondary"
+                  size="sm"
+                >
+                  View All
+                </Button>
+              </div>
+              <div className="space-y-4">
+                {recentProducts.length === 0 ? (
+                  <div className="text-center py-8">
+                    <Truck className="h-12 w-12 text-gray-300 mx-auto mb-3" />
+                    <InfoText>No active shipments. Check your transport schedule!</InfoText>
                   </div>
-                ))
-              )}
+                ) : (
+                  recentProducts.map((product) => (
+                    <div 
+                      key={product.id} 
+                      className="flex items-center justify-between p-4 bg-muted/30 hover:bg-muted/50 rounded-lg hover:shadow-md transition-all cursor-pointer"
+                      onClick={() => router.push('/shipments')}
+                    >
+                      <div className="flex items-center gap-4 flex-1">
+                        <div className="bg-background p-3 rounded-lg shadow-sm">
+                          <Truck className="h-6 w-6 text-green-600" />
+                        </div>
+                        <div className="flex-1">
+                          <div className="flex items-center gap-2 mb-1">
+                            <h4 className="font-semibold text-foreground">{product.productName}</h4>
+                            <Badge variant={product.status === 'Delivered' ? 'success' : product.status === 'In Transit' ? 'info' : 'warning'}>
+                              {product.status}
+                            </Badge>
+                          </div>
+                          <InfoText className="text-xs">{product.location} • {formatDate(product.timestamp.toString())}</InfoText>
+                        </div>
+                      </div>
+                      <div className="text-right">
+                        <div className="text-sm font-semibold text-foreground">{product.verifications} deliveries</div>
+                        <InfoText className="text-xs">{product.category}</InfoText>
+                      </div>
+                    </div>
+                  ))
+                )}
+              </div>
             </div>
           </Card>
         </div>
@@ -133,39 +130,6 @@ export function LogisticsDashboard() {
           <CategoryStats />
         </div>
       </div>
-
-      {/* Quick Actions */}
-      <Card variant="outline" className="shadow-lg bg-background overflow-hidden">
-        <div className="p-6">
-          <div className="flex items-center justify-between mb-6">
-            <CardTitle className="text-lg font-semibold text-foreground">Quick Actions</CardTitle>
-            <div className="h-1 flex-1 bg-gradient-to-r from-green-600 to-green-700/70 rounded-full ml-4 opacity-20"></div>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <Button 
-              onClick={() => router.push('/shipments')}
-              className="w-full bg-gradient-to-r from-green-600 to-green-700/80 hover:from-green-600/90 hover:to-green-700/70 text-white shadow-md hover:shadow-lg transition-all duration-200 transform hover:-translate-y-0.5"
-            >
-              <Truck className="h-4 w-4 mr-2" />
-              <span className="font-medium">Track Shipments</span>
-            </Button>
-            <Button 
-              onClick={() => router.push('/routes')}
-              className="w-full bg-gradient-to-r from-secondary to-secondary/80 hover:from-secondary/90 hover:to-secondary/70 text-secondary-foreground shadow-md hover:shadow-lg transition-all duration-200 transform hover:-translate-y-0.5"
-            >
-              <Navigation className="h-4 w-4 mr-2" />
-              <span className="font-medium">View Routes</span>
-            </Button>
-            <Button 
-              onClick={() => router.push('/schedule')}
-              className="w-full bg-gradient-to-r from-accent to-accent/80 hover:from-accent/90 hover:to-accent/70 text-accent-foreground shadow-md hover:shadow-lg transition-all duration-200 transform hover:-translate-y-0.5"
-            >
-              <Clock className="h-4 w-4 mr-2" />
-              <span className="font-medium">Delivery Schedule</span>
-            </Button>
-          </div>
-        </div>
-      </Card>
     </div>
   );
 }

@@ -166,8 +166,7 @@ export function ProductCard({ record }: ProductCardProps) {
           )}
           <Button
             onClick={() => setSelectedProduct(record)}
-            variant="secondary"
-            className="w-full lg:w-auto"
+            className="w-full lg:w-auto bg-gray-600 hover:bg-gray-700 text-white"
           >
             View Details
           </Button>

@@ -1,6 +1,6 @@
 'use client';
 
-import { Package, ShoppingCart, CheckCircle, TrendingUp, Search, Zap, History } from 'lucide-react';
+import { Package, DollarSign, CheckCircle, Store, ShoppingCart, TrendingUp, Plus, Zap } from 'lucide-react';
 import { getCategoryIcon } from '@/lib/constants';
 import { ProductCategory } from '@/types/product';
 import { useRouter } from 'next/navigation';
@@ -11,6 +11,7 @@ import { MetricsCard } from './metricsCard';
 import { CategoryStats } from './categoryStats';
 import { PageTitle, PageSubtitle, CardTitle, InfoText } from '@/components/ui/typography';
 import { CATEGORY_COLORS } from '@/lib/constants';
+import { getBannerGradient, getButtonStyles, getRoleColors } from '@/lib/theme/colors';
 
 export function RetailerDashboard() {
   const router = useRouter();
@@ -28,11 +29,11 @@ export function RetailerDashboard() {
     .slice(0, 4);
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-8 px-4 sm:px-6 lg:px-8 pt-8 pb-12">
       {/* Hero Section */}
-      <div className="relative overflow-hidden bg-gradient-to-br from-primary/90 to-primary/70 rounded-2xl shadow-2xl max-w-4xl mx-auto w-full">
+      <div className={`relative overflow-hidden bg-gradient-to-br ${getRoleColors('retailer').hero} rounded-2xl shadow-2xl max-w-4xl mx-auto w-full`}>
         <div className="absolute inset-0 bg-foreground/5"></div>
-        <div className="relative z-10 text-center p-8">
+        <div className="relative z-10 text-center p-8 px-4 sm:px-8">
           <div className="inline-flex items-center mb-4 px-4 py-1.5 bg-background/20 backdrop-blur-sm rounded-full border border-white/10">
             <ShoppingCart className="h-3.5 w-3.5 mr-1.5 text-white" />
             <span className="text-xs font-medium text-white">Retailer Dashboard</span>
@@ -47,50 +48,62 @@ export function RetailerDashboard() {
             onClick={() => router.push('/blockchain')}
             className="mt-4 bg-white text-primary hover:bg-white/90 shadow-md px-6 py-2 text-sm font-medium"
           >
-            Browse Products
+            Explore Products
           </Button>
         </div>
       </div>
 
       {/* Metrics Grid */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4 px-2 sm:px-0">
         <MetricsCard
           icon={Package}
-          label="Available"
+          label="Total Transactions"
           value={totalProducts}
-          variant="primary"
-          compact
+          variant="total-transactions"
+        />
+        <MetricsCard
+          icon={DollarSign}
+          label="Monthly Revenue"
+          value={`R${totalProducts * 50}`}
+          variant="monthly-revenue"
         />
         <MetricsCard
           icon={CheckCircle}
           label="Certified"
           value={certifiedProducts}
           variant="success"
-          compact
+        />
+        <MetricsCard
+          icon={Store}
+          label="Suppliers"
+          value={uniqueFarmers}
+          variant="retailers"
         />
         <MetricsCard
           icon={TrendingUp}
-          label="Verifications"
-          value={totalVerifications}
-          variant="primary"
-          compact
-        />
-        <MetricsCard
-          icon={ShoppingCart}
-          label="Farms"
-          value={uniqueFarmers}
-          variant="warning"
-          compact
+          label="Avg. Fee (R)"
+          value={10}
+          variant="avg-fee"
         />
       </div>
 
       {/* Two Column Layout */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 px-2 sm:px-0">
         {/* Top Categories */}
         <div className="lg:col-span-2">
           <Card variant="outline" className="shadow-lg">
-            <CardTitle className="mb-6">Top Product Categories</CardTitle>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+            <div className="p-6">
+              <div className="flex items-center justify-between mb-6">
+                <CardTitle>Top Product Categories</CardTitle>
+                <Button 
+                  onClick={() => router.push('/blockchain')}
+                  variant="secondary"
+                  size="sm"
+                >
+                  View All
+                </Button>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
               {topCategories.map(([category, count]) => {
                 const colors = CATEGORY_COLORS[category as keyof typeof CATEGORY_COLORS];
                 return (
@@ -115,16 +128,17 @@ export function RetailerDashboard() {
                   </div>
                 );
               })}
+              </div>
+              
+              {/* All Categories Button */}
+              <Button 
+                onClick={() => router.push('/blockchain')}
+                variant="secondary"
+                className="w-full mt-6"
+              >
+                View All Products
+              </Button>
             </div>
-
-            {/* All Categories Button */}
-            <Button 
-              onClick={() => router.push('/blockchain')}
-              variant="secondary"
-              className="w-full mt-6"
-            >
-              View All Products
-            </Button>
           </Card>
         </div>
 
@@ -175,31 +189,44 @@ export function RetailerDashboard() {
             </CardTitle>
             <div className="h-px flex-1 bg-gradient-to-r from-transparent via-border to-transparent ml-4"></div>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-            <Button 
-              onClick={() => router.push('/blockchain')}
-              variant="primary"
-              className="w-full bg-primary hover:bg-primary/90 text-primary-foreground shadow-sm hover:shadow-md transition-all duration-200"
-            >
-              <Search className="h-4 w-4 mr-2 text-white" />
-              <span className="font-medium text-sm">Browse Products</span>
-            </Button>
-            <Button 
-              onClick={() => router.push('/blockchain')}
-              variant="secondary"
-              className="w-full bg-background border hover:bg-muted/50 text-foreground shadow-sm hover:shadow-sm transition-all duration-200"
-            >
-              <CheckCircle className="h-4 w-4 mr-2 text-success" />
-              <span className="font-medium text-sm">Verify Products</span>
-            </Button>
-            <Button 
-              onClick={() => router.push('/blockchain')}
-              variant="secondary"
-              className="w-full bg-background border hover:bg-muted/50 text-foreground shadow-sm hover:shadow-sm transition-all duration-200"
-            >
-              <History className="h-4 w-4 mr-2 text-primary" />
-              <span className="font-medium text-sm">View History</span>
-            </Button>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="bg-white p-6 rounded-lg shadow-lg border">
+              <h3 className="text-xl font-bold mb-4 text-gray-800">For Retailers</h3>
+              <p className="text-gray-600 mb-4">Verify product origins and build customer confidence.</p>
+              <div className="space-y-2">
+                <Button 
+                  onClick={() => router.push('/blockchain')}
+                  className={`w-full ${getButtonStyles('purple')}`}
+                >
+                  Verify Products
+                </Button>
+                <Button 
+                  onClick={() => router.push('/blockchain')}
+                  className={`w-full ${getButtonStyles('orange')}`}
+                >
+                  Browse Certified Products
+                </Button>
+              </div>
+            </div>
+
+            <div className="bg-white p-6 rounded-lg shadow-lg border">
+              <h3 className="text-xl font-bold mb-4 text-gray-800">Supply Chain</h3>
+              <p className="text-gray-600 mb-4">Track products from farm to store with blockchain transparency.</p>
+              <div className="space-y-2">
+                <Button 
+                  onClick={() => router.push('/blockchain')}
+                  className={`w-full ${getButtonStyles('blue')}`}
+                >
+                  View All Products
+                </Button>
+                <Button 
+                  onClick={() => router.push('/reports')}
+                  className={`w-full ${getButtonStyles('green')}`}
+                >
+                  View Reports
+                </Button>
+              </div>
+            </div>
           </div>
         </div>
       </Card>
