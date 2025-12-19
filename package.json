@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "cross-env TURBOPACK=0 next dev",
     "build": "cross-env TURBOPACK=0 next build",
+    "export": "next export",
     "start": "next start",
     "lint": "next lint",
     "test": "jest",
