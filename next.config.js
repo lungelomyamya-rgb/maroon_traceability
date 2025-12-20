@@ -8,10 +8,17 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: '**'
+        hostname: '**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'images.unsplash.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'avatars.githubusercontent.com',
       }
-    ],
-    domains: ['images.unsplash.com', 'avatars.githubusercontent.com'],
+    ]
   },
   basePath: '/maroon_traceability',
   assetPrefix: '/maroon_traceability/',
