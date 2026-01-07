@@ -4,6 +4,8 @@ const nextConfig = {
   output: 'export',
   trailingSlash: true,
   distDir: 'out',
+  basePath: '/maroon_traceability',
+  assetPrefix: '/maroon_traceability',
   images: {
     unoptimized: true,
     remotePatterns: [
@@ -21,6 +23,8 @@ const nextConfig = {
       }
     ]
   },
+  // Fix manifest and icon paths for GitHub Pages
+  generateBuildId: () => 'build',
 }
 
 module.exports = nextConfig
