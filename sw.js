@@ -73,7 +73,7 @@ self.addEventListener('fetch', (event) => {
         // Open cache and store response
         caches.open(CACHE_NAME).then((cache) => {
           cache.put(request, response.clone()).catch((error) => {
-            console.warn('Cache put failed:', error);
+            console.warn('Cache put failed:', error, 'URL:', request.url);
           });
         });
       }
