@@ -12,7 +12,7 @@ export const metadata: Metadata = {
   description: 'Blockchain-based product traceability system',
   manifest: process.env.NODE_ENV === 'production' 
     ? '/maroon_traceability/manifest.json?v=' + Date.now()
-    : '/manifest.json?v=' + Date.now(),
+    : '/manifest-dev.json?v=' + Date.now(),
   icons: {
     icon: process.env.NODE_ENV === 'production' 
       ? '/maroon_traceability/icon-192.svg'
