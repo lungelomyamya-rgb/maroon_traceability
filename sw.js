@@ -1,27 +1,25 @@
 // public/sw.js - Minimal Service Worker for GitHub Pages
-const CACHE_NAME = 'maroon-blockchain-v3';
+const CACHE_NAME = 'maroon-blockchain-v4';
 const OFFLINE_QUEUE = 'offline-queue';
 
 // Base path for GitHub Pages
 const BASE_PATH = '/maroon_traceability';
 
-// Cache busting version - increment when updated
-const CACHE_VERSION = '1.0.0';
+// Cache busting version - force update on every change
+const CACHE_VERSION = Date.now().toString();
 
-// Install event - minimal setup with cache busting
+// Install event - minimal setup with aggressive cache busting
 self.addEventListener('install', (event) => {
   console.log('Service Worker installing...');
   
-  // Force cache cleanup and update
+  // Force delete all caches to ensure fresh start
   event.waitUntil(
     caches.keys().then((cacheNames) => {
       return Promise.all(
-        cacheNames
-          .filter((name) => name !== CACHE_NAME && name !== OFFLINE_QUEUE)
-          .map((name) => {
-            console.log('Deleting old cache:', name);
-            return caches.delete(name);
-          })
+        cacheNames.map((name) => {
+          console.log('Deleting old cache:', name);
+          return caches.delete(name);
+        })
       );
     })
   );
