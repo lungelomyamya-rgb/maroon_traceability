@@ -145,8 +145,8 @@ export function Navigation() {
           </div>
 
           <div className="flex items-center space-x-6">
-            {/* Main Navigation */}
-            <div className="flex sm:flex sm:space-x-4">
+            {/* Main Navigation - Desktop */}
+            <div className="hidden sm:flex sm:space-x-4">
               {navigation.map((item: any) => (
                 <Link
                   key={item.name}
@@ -164,68 +164,66 @@ export function Navigation() {
               ))}
             </div>
 
-            {/* Role Dropdown - Show on all pages except login */}
-            {pathname !== '/login' && (
-              <div className="relative">
-                <Button 
-                  variant="ghost" 
-                  className="flex items-center space-x-2"
-                  onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                >
-                  <span>{currentUser?.role === 'farmer' ? 'Farmer' : currentUser?.role === 'logistics' ? 'Logistics' : currentUser?.role === 'inspector' ? 'Inspector' : currentUser?.role === 'packaging' ? 'Packaging' : currentUser?.role === 'viewer' ? 'Viewer' : 'Select Role'}</span>
-                  <ChevronDown className="h-4 w-4" />
-                </Button>
-                
-                {isDropdownOpen && (
-                  <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg z-50 border border-gray-200">
-                    <div className="py-1">
-                      {roles.map((role) => (
-                        <button
-                          key={role.name}
-                          onClick={() => {
-                            if (role.name === 'Viewer') {
-                              // Update user context first, then navigate
-                              const viewerUser = DEMO_USERS.find((u: any) => u.role === 'viewer');
-                              if (viewerUser) {
-                                switchUser(viewerUser.id);
-                                // Small delay to ensure context updates before navigation
-                                setTimeout(() => {
-                                  window.location.href = '/viewer';
-                                }, 100);
-                              } else {
-                                // Fallback if viewer user not found
+            {/* Mobile Navigation - Hamburger Menu */}
+            <div className="sm:hidden">
+              <Button 
+                variant="ghost" 
+                className="flex items-center space-x-2"
+                onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+              >
+                <span>{currentUser?.role === 'farmer' ? 'Farmer' : currentUser?.role === 'logistics' ? 'Logistics' : currentUser?.role === 'inspector' ? 'Inspector' : currentUser?.role === 'packaging' ? 'Packaging' : currentUser?.role === 'viewer' ? 'Viewer' : 'Select Role'}</span>
+                <ChevronDown className="h-4 w-4" />
+              </Button>
+              
+              {isDropdownOpen && (
+                <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg z-50 border border-gray-200">
+                  <div className="py-1">
+                    {roles.map((role) => (
+                      <button
+                        key={role.name}
+                        onClick={() => {
+                          if (role.name === 'Viewer') {
+                            // Update user context first, then navigate
+                            const viewerUser = DEMO_USERS.find((u: any) => u.role === 'viewer');
+                            if (viewerUser) {
+                              switchUser(viewerUser.id);
+                              // Small delay to ensure context updates before navigation
+                              setTimeout(() => {
                                 window.location.href = '/viewer';
-                              }
+                              }, 100);
                             } else {
-                              // For other roles, go to login first
-                              router.push('/login');
+                              // Fallback if viewer user not found
+                              window.location.href = '/viewer';
                             }
-                            setIsDropdownOpen(false);
-                          }}
-                          className={`w-full text-left px-4 py-2 text-sm hover:bg-gray-100 flex items-center space-x-2 ${
-                            (currentUser?.role === 'farmer' && role.name === 'Farmer') || 
-                            (currentUser?.role === 'viewer' && role.name === 'Viewer') ||
-                            (currentUser?.role === 'logistics' && role.name === 'Logistics') ||
-                            (currentUser?.role === 'inspector' && role.name === 'Inspector') ||
-                            (currentUser?.role === 'packaging' && role.name === 'Packaging')
-                              ? 'bg-gray-100' : ''
-                          }`}
-                        >
-                          <span className="capitalize">{role.name}</span>
-                          {((currentUser?.role === 'farmer' && role.name === 'Farmer') || 
-                            (currentUser?.role === 'viewer' && role.name === 'Viewer') ||
-                            (currentUser?.role === 'logistics' && role.name === 'Logistics') ||
-                            (currentUser?.role === 'inspector' && role.name === 'Inspector') ||
-                            (currentUser?.role === 'packaging' && role.name === 'Packaging')) && (
-                            <span className="text-xs text-gray-500">(Current)</span>
-                          )}
-                        </button>
-                      ))}
-                    </div>
+                          } else {
+                            // For other roles, go to login first
+                            router.push('/login');
+                          }
+                          setIsDropdownOpen(false);
+                        }}
+                        className={`w-full text-left px-4 py-2 text-sm hover:bg-gray-100 flex items-center space-x-2 ${
+                          (currentUser?.role === 'farmer' && role.name === 'Farmer') || 
+                          (currentUser?.role === 'viewer' && role.name === 'Viewer') ||
+                          (currentUser?.role === 'logistics' && role.name === 'Logistics') ||
+                          (currentUser?.role === 'inspector' && role.name === 'Inspector') ||
+                          (currentUser?.role === 'packaging' && role.name === 'Packaging')
+                            ? 'bg-gray-100' : ''
+                        }`}
+                      >
+                        <span className="capitalize">{role.name}</span>
+                        {((currentUser?.role === 'farmer' && role.name === 'Farmer') || 
+                          (currentUser?.role === 'viewer' && role.name === 'Viewer') ||
+                          (currentUser?.role === 'logistics' && role.name === 'Logistics') ||
+                          (currentUser?.role === 'inspector' && role.name === 'Inspector') ||
+                          (currentUser?.role === 'packaging' && role.name === 'Packaging')) && (
+                          <span className="text-xs text-gray-500">(Current)</span>
+                        )}
+                      </button>
+                    ))}
                   </div>
-                )}
-              </div>
-            )}
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </div>
