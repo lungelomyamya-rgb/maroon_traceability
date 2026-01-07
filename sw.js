@@ -2,11 +2,16 @@
 const CACHE_NAME = 'maroon-blockchain-v1';
 const OFFLINE_QUEUE = 'offline-queue';
 
+// Base path for GitHub Pages
+const BASE_PATH = '/maroon_traceability';
+
 // Assets to cache immediately
 const STATIC_ASSETS = [
-  '/',
-  '/blockchain',
-  '/manifest.json',
+  BASE_PATH + '/',
+  BASE_PATH + '/blockchain',
+  BASE_PATH + '/manifest.json',
+  BASE_PATH + '/icon-192.svg',
+  BASE_PATH + '/icon-512.svg',
 ];
 
 // Install event - cache static assets
