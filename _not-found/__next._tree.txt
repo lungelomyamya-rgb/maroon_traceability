@@ -1,2 +1,2 @@
-:HL["/maroon_traceability/_next/static/chunks/fd63d98e4e8b32a0.css","style"]
+:HL["/maroon_traceability/_next/static/chunks/ba488f1e632b89c4.css","style"]
 0:{"buildId":"build","tree":{"name":"","paramType":null,"paramKey":"","hasRuntimePrefetch":false,"slots":{"children":{"name":"/_not-found","paramType":null,"paramKey":"/_not-found","hasRuntimePrefetch":false,"slots":{"children":{"name":"__PAGE__","paramType":null,"paramKey":"__PAGE__","hasRuntimePrefetch":false,"slots":null,"isRootLayout":false}},"isRootLayout":false}},"isRootLayout":true},"staleTime":300}
