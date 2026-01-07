@@ -1,6 +1,0 @@
-{
-  "version": 3,
-  "sources": [],
-  "sections": [
-    {"offset": {"line": 4, "column": 0}, "map": {"version":3,"sources":["file:///C:/dev/maroon_traceability_demo/app/loading.tsx"],"sourcesContent":["// src/app/loading.tsx\r\nexport default function Loading() {\r\n  return (\r\n    <div className=\"min-h-screen flex items-center justify-center\">\r\n      <div className=\"animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary\"></div>\r\n    </div>\r\n  );\r\n}"],"names":[],"mappings":"AAAA,sBAAsB;;;;;;;AACP,SAAS;IACtB,qBACE,8OAAC;QAAI,WAAU;kBACb,cAAA,8OAAC;YAAI,WAAU;;;;;;;;;;;AAGrB"}}]
-}
