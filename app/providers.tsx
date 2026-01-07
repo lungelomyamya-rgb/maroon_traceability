@@ -16,6 +16,7 @@ function ThemeProvider({ children }: { children: React.ReactNode }) {
       defaultTheme="light"
       enableSystem
       disableTransitionOnChange
+      storageKey="maroon-theme"
     >
       {children}
     </NextThemesProvider>

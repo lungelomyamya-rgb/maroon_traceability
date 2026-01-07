@@ -40,8 +40,10 @@ class ErrorBoundary extends Component<Props, State> {
         stack: error.stack,
       },
       componentStack: errorInfo.componentStack,
-      url: typeof window !== 'undefined' ? window.location.href : 'N/A',
-      userAgent: typeof navigator !== 'undefined' ? navigator.userAgent : 'N/A',
+      context: {
+        url: typeof window !== 'undefined' ? window.location.href : 'N/A',
+        userAgent: typeof navigator !== 'undefined' ? navigator.userAgent : 'N/A',
+      },
     };
 
     // Log to console in development
@@ -60,21 +62,23 @@ class ErrorBoundary extends Component<Props, State> {
 
   private logError = (errorData: any) => {
     try {
-      // Store error in localStorage for debugging
-      const existingErrors = JSON.parse(localStorage.getItem('errorLog') || '[]');
-      existingErrors.push(errorData);
-      
-      // Keep only last 50 errors
-      if (existingErrors.length > 50) {
-        existingErrors.splice(0, existingErrors.length - 50);
-      }
-      
-      localStorage.setItem('errorLog', JSON.stringify(existingErrors));
-      
-      // In production, you would send this to an error reporting service
-      // like Sentry, LogRocket, or a custom endpoint
-      if (process.env.NODE_ENV === 'production') {
-        // Example: sendToErrorReporting(errorData);
+      // Store error in localStorage for debugging (only on client)
+      if (typeof window !== 'undefined') {
+        const existingErrors = JSON.parse(localStorage.getItem('errorLog') || '[]');
+        existingErrors.push(errorData);
+        
+        // Keep only last 50 errors
+        if (existingErrors.length > 50) {
+          existingErrors.splice(0, existingErrors.length - 50);
+        }
+        
+        localStorage.setItem('errorLog', JSON.stringify(existingErrors));
+        
+        // In production, you would send this to an error reporting service
+        // like Sentry, LogRocket, or a custom endpoint
+        if (process.env.NODE_ENV === 'production') {
+          // Example: sendToErrorReporting(errorData);
+        }
       }
     } catch (loggingError) {
       console.error('Failed to log error:', loggingError);
