@@ -5,6 +5,8 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { ProductCategory } from '@/types/product';
 
+export { Card };
+
 interface ProductCardProps {
   variant?: 'default' | 'outline';
   data: {

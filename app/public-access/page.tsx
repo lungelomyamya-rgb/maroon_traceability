@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button';
 import { QrCode, Search, Shield, Users, Globe, Smartphone, Share2, Printer } from 'lucide-react';
 import { DashboardLayout } from '@/components/dashboard/DashboardLayout';
 import { ErrorBoundary } from '@/components/errorBoundary';
+import { getAssetPath } from '@/lib/utils/assetPath';
 
 export default function PublicAccessPage() {
   const router = useRouter();
@@ -95,7 +96,7 @@ export default function PublicAccessPage() {
 
             <div className="text-center p-6">
               <div className="inline-flex items-center justify-center w-12 h-12 bg-green-100 rounded-full mb-4">
-                <img src="/images/Maroon (4).png" alt="MAROON" className="h-6 w-6" />
+                <img src={getAssetPath("/images/Maroon (4).png")} alt="MAROON" className="h-6 w-6" />
               </div>
               <h3 className="text-lg font-semibold text-gray-900 mb-2">Complete Timeline</h3>
               <p className="text-gray-600">View the entire product journey from farm to retail with verified events</p>

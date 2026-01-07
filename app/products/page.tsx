@@ -1,17 +1,20 @@
 // src/app/products/page.tsx
 'use client';
 
-import { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { ProductCard } from '@/components/cards';
-import { SectionTitle, InfoText } from '@/components/ui/typography';
+import { useState } from 'react';
+import { Button } from '@/components/ui/button';
+import { Card } from '@/components/cards';
+import { Plus, Search, Filter } from 'lucide-react';
+import { getAssetPath } from '@/lib/utils/assetPath';
 import { Package, Layers, Shield } from 'lucide-react';
 import { textColors, commonColors } from '@/lib/theme/colors';
-import { Button } from '@/components/ui/button';
 import { DashboardLayout } from '@/components/dashboard/DashboardLayout';
 import { ErrorBoundary } from '@/components/errorBoundary';
 import { ProductCategory } from '@/types/product';
 import { CATEGORY_COLORS } from '@/lib/constants';
+import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
+import { InfoText, SectionTitle } from '@/components/ui/typography';
 
 // Mock public products data
 const mockPublicProducts = [
@@ -137,7 +140,7 @@ function ProductsContent() {
           </span>
         </div>
         
-        <InfoText className={`${textColors.primary} mb-6`}>
+        <InfoText className="text-primary mb-6">
           Explore our selection of blockchain-verified products from trusted local farmers
         </InfoText>
 
