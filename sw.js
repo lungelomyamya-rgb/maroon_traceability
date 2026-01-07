@@ -8,23 +8,11 @@ const BASE_PATH = '/maroon_traceability';
 // Cache busting version - force update on every change
 const CACHE_VERSION = Date.now().toString();
 
-// Install event - minimal setup with aggressive cache busting
+// Install event - minimal setup
 self.addEventListener('install', (event) => {
   console.log('Service Worker installing...');
   
-  // Force delete all caches to ensure fresh start
-  event.waitUntil(
-    caches.keys().then((cacheNames) => {
-      return Promise.all(
-        cacheNames.map((name) => {
-          console.log('Deleting old cache:', name);
-          return caches.delete(name);
-        })
-      );
-    })
-  );
-  
-  // Force skip waiting to ensure immediate activation
+  // Skip waiting to ensure immediate activation
   self.skipWaiting();
 });
 
@@ -35,7 +23,7 @@ self.addEventListener('activate', (event) => {
     caches.keys().then((cacheNames) => {
       return Promise.all(
         cacheNames
-          .filter((name) => name !== CACHE_NAME && name !== OFFLINE_QUEUE)
+          .filter((name) => name !== CACHE_NAME)
           .map((name) => {
             console.log('Deleting old cache:', name);
             return caches.delete(name);
