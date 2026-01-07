@@ -9,6 +9,7 @@ import { getRoleColors, textColors } from '@/lib/theme/colors';
 import { useState } from 'react';
 import { useUser } from '@/contexts/userContext';
 import { DEMO_USERS } from '@/constants/users';
+import { getAssetPath } from '@/lib/utils/assetPath';
 import { rolePermissionsService } from '@/services/rolePermissionsService';
 
 export function Navigation() {
@@ -119,7 +120,7 @@ export function Navigation() {
         <div className="flex justify-between h-16 items-center">
           <div className="flex">
             <div className="flex-shrink-0 flex items-center">
-              <img src="/images/Maroon (4).png" alt="MAROON" className="h-8 w-8 mr-3" />
+              <img src={getAssetPath("/images/Maroon (4).png")} alt="MAROON" className="h-8 w-8 mr-3" />
               <div>
                 <Link href="/viewer" className="text-xl font-bold text-gray-900">
                   Maroon Blockchain

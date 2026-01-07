@@ -9,6 +9,7 @@ import { DashboardLayout } from '@/components/dashboard/DashboardLayout';
 import { ErrorBoundary } from '@/components/errorBoundary';
 import { formatDateTime } from '@/lib/utils';
 import { commonColors } from '@/lib/theme/colors';
+import { getAssetPath } from '@/lib/utils/assetPath';
 
 interface PublicTraceEvent {
   id: string;
@@ -285,7 +286,7 @@ export default function PublicTraceClient() {
           <div className="bg-white rounded-2xl shadow-xl overflow-hidden mb-8">
             <div className="bg-green-100 p-4 border-b relative h-32">
               <div className="absolute right-4 top-4 flex items-center justify-center">
-                <img src="/images/Maroon (4).png" alt="MAROON" className="h-20 w-20 opacity-80" />
+                <img src={getAssetPath("/images/Maroon (4).png")} alt="MAROON" className="h-20 w-20 opacity-80" />
               </div>
               <div className="relative z-10 flex items-center gap-4">
                 <div className="text-4xl">{getProductIcon(product.category)}</div>
@@ -419,7 +420,7 @@ export default function PublicTraceClient() {
           {/* Blockchain Verification */}
           <div className="bg-gradient-to-br from-gray-900 to-gray-800 rounded-2xl p-6 text-white mb-8">
             <h3 className="text-xl font-bold mb-4 flex items-center gap-2">
-              <img src="/images/Maroon (4).png" alt="MAROON" className="h-6 w-6 text-green-400" />
+              <img src={getAssetPath("/images/Maroon (4).png")} alt="MAROON" className="h-6 w-6 text-green-400" />
               Blockchain Verification
             </h3>
             <div className="space-y-2 text-sm font-mono">
@@ -434,7 +435,7 @@ export default function PublicTraceClient() {
           {/* Public Access Info */}
           <div className="bg-green-50 border border-green-200 rounded-lg p-4 mb-8">
             <div className="flex items-center gap-2 mb-2">
-              <img src="/images/Maroon (4).png" alt="MAROON" className="h-5 w-5 text-green-600" />
+              <img src={getAssetPath("/images/Maroon (4).png")} alt="MAROON" className="h-5 w-5 text-green-600" />
               <h4 className="font-semibold text-green-900">Public Access Information</h4>
             </div>
             <p className="text-sm text-green-800 mb-3">
