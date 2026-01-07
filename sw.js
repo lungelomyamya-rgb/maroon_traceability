@@ -1,22 +1,24 @@
-// public/sw.js - Ultra-minimal Service Worker for GitHub Pages
-// This service worker only handles fetch events, no cache management during install/activate
+// public/sw.js - Network-only Service Worker for GitHub Pages
+// No cache operations during install/activate to prevent addAll errors
 
 // Base path for GitHub Pages
 const BASE_PATH = '/maroon_traceability';
 
-// Install event - do nothing
+// Install event - do absolutely nothing
 self.addEventListener('install', (event) => {
   console.log('Service Worker installing...');
+  // Don't do anything during install - no cache operations
   self.skipWaiting();
 });
 
-// Activate event - do nothing
+// Activate event - do absolutely nothing  
 self.addEventListener('activate', (event) => {
   console.log('Service Worker activating...');
+  // Don't do anything during activate - no cache operations
   self.clients.claim();
 });
 
-// Fetch event - network first with optional caching
+// Fetch event - simple network passthrough with minimal caching
 self.addEventListener('fetch', (event) => {
   const { request } = event;
   
@@ -30,58 +32,47 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
-  // For static assets, try network first, then cache
+  // Simple network-first strategy without complex cache operations
   event.respondWith(
-    fetch(request).then((response) => {
-      // Only cache successful responses
-      if (response.ok) {
-        // Cache successful responses for static assets only
-        if (request.url.includes(BASE_PATH) || 
-           request.url.includes('/_next/static/') ||
-           request.url.includes('/images/') ||
-           request.url.includes('.js') ||
-           request.url.includes('.css') ||
-           request.url.includes('.png') ||
-           request.url.includes('.svg') ||
-           request.url.includes('.jpg') ||
-           request.url.includes('.jpeg')) {
-          
-          // Open cache and store response clone
-          caches.open('maroon-cache').then((cache) => {
-            cache.put(request, response.clone()).catch((error) => {
-              console.warn('Cache put failed:', error, 'URL:', request.url);
+    fetch(request)
+      .then(response => {
+        // Only try to cache if network succeeds and it's a static asset
+        if (response.ok && isStaticAsset(request.url)) {
+          // Use setTimeout to avoid blocking the response
+          setTimeout(() => {
+            caches.open('maroon-cache-v1').then(cache => {
+              return cache.add(request).catch(err => {
+                // Silently fail - don't throw errors
+                console.debug('Cache add failed (non-critical):', err.message);
+              });
             });
+          }, 0);
+        }
+        return response;
+      })
+      .catch(() => {
+        // Only try cache if network completely fails
+        return caches.match(request).then(cached => {
+          return cached || new Response('Offline', { 
+            status: 503, 
+            statusText: 'Service Unavailable' 
           });
-        }
-      }
-      
-      return response;
-    }).catch((error) => {
-      console.log('Network request failed:', error, 'URL:', request.url);
-      
-      // If network fails, try cache as fallback
-      return caches.match(request).then((cached) => {
-        if (cached) {
-          console.log('Serving from cache:', request.url);
-          return cached;
-        }
-        
-        // Return appropriate offline response
-        if (request.url.includes(BASE_PATH) && (request.url.endsWith('/') || request.url.includes('.html'))) {
-          return new Response('Offline - Please check your connection', {
-            status: 503,
-            statusText: 'Service Unavailable'
-          });
-        }
-        
-        // For failed asset requests, return network error
-        return new Response('Network error', {
-          status: 503,
-          statusText: 'Service Unavailable'
         });
-      });
-    })
+      })
   );
 });
+
+// Helper function to check if URL is a static asset
+function isStaticAsset(url) {
+  return url.includes('/_next/static/') ||
+         url.includes('/images/') ||
+         url.includes('.js') ||
+         url.includes('.css') ||
+         url.includes('.png') ||
+         url.includes('.svg') ||
+         url.includes('.jpg') ||
+         url.includes('.jpeg') ||
+         url.includes('.ico');
+}
 
 console.log('Service Worker loaded successfully');

@@ -33,9 +33,7 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body className={inter.className}>
         <ClientLayout>{children}</ClientLayout>
-        <ClientOnly>
-          <ServiceWorkerRegistration />
-        </ClientOnly>
+        <ServiceWorkerRegistration />
       </body>
     </html>
   );
