@@ -1,0 +1,322 @@
+/* src/app/globals.css */
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+/* Modern CSS Reset */
+@layer base {
+  /* 1. Use a more-intuitive box-sizing model */
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  /* 2. Remove default margin and padding */
+  * {
+    margin: 0;
+    padding: 0;
+  }
+
+  /* 3. Allow percentage-based heights in application */
+  html,
+  body,
+  #__next {
+    height: 100%;
+  }
+
+  /* 4. Improve text rendering */
+  body {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* 5. Ensure navigation touches screen edges */
+  nav {
+    position: fixed !important;
+    left: 0 !important;
+    right: 0 !important;
+    top: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100vw !important;
+    box-sizing: border-box !important;
+    z-index: 50 !important;
+  }
+
+  /* 6. Improve media defaults */
+  img,
+  picture,
+  video,
+  canvas,
+  svg {
+    display: block;
+    max-width: 100%;
+  }
+
+  /* 6. Remove built-in form typography styles */
+  input,
+  button,
+  textarea,
+  select {
+    font: inherit;
+  }
+
+  /* 7. Avoid text overflows */
+  p,
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    overflow-wrap: break-word;
+  }
+
+  /* 8. Create a root stacking context */
+  #__next {
+    isolation: isolate;
+  }
+}
+
+@layer base {
+  :root {
+    /* Neutral colors */
+    --neutral: 0 0% 90%;
+    --neutral-light: 0 0% 96%;
+    --neutral-dark: 0 0% 20%;
+    --neutral-foreground: 0 0% 40%;
+
+    /* Action colors - Updated to match image colors */
+    --green: 142 70% 45%;
+    --green-light: 142 70% 96%;
+    --green-foreground: 0 0% 100%;
+    --green-hover: 142 70% 40%;
+    --blue: 217 89% 61%;
+    --blue-light: 217 89% 96%;
+    --blue-foreground: 0 0% 100%;
+    --blue-hover: 217 89% 56%;
+    --purple: 262 83% 58%;
+    --purple-light: 262 83% 96%;
+    --purple-foreground: 0 0% 100%;
+    --purple-hover: 262 83% 53%;
+    --orange: 27 90% 55%;
+    --orange-light: 27 90% 96%;
+    --orange-foreground: 0 0% 100%;
+    --orange-hover: 27 90% 50%;
+
+    /* New colors for dashboard cards from images */
+    --card-green: 142 70% 45%;
+    --card-green-light: 142 70% 96%;
+    --card-blue: 217 89% 61%;
+    --card-blue-light: 217 89% 96%;
+    --card-purple: 262 83% 58%;
+    --card-purple-light: 262 83% 96%;
+    --card-orange: 27 90% 55%;
+    --card-orange-light: 27 90% 96%;
+    --card-neutral: 0 0% 20%;
+    --card-neutral-light: 0 0% 98%;
+
+    /* Status colors - Updated for badges */
+    --success: 142 70% 45%;
+    --warning: 38 92% 50%;
+    --error: 0 84% 60%;
+    --info: 217 89% 61%;
+    --in-transit: 38 92% 50%;
+    --in-transit-light: 38 92% 96%;
+
+    /* Category colors */
+    --fruit-bg: 142 70% 96%;
+    --fruit-text: 142 70% 45%;
+    --fruit-border: 142 70% 85%;
+
+    --veg-bg: 38 92% 96%;
+    --veg-text: 38 92% 50%;
+    --veg-border: 38 92% 85%;
+
+    --beef-bg: 0 84% 96%;
+    --beef-text: 0 84% 60%;
+    --beef-border: 0 84% 85%;
+
+    --poultry-bg: 45 93% 96%;
+    --poultry-text: 45 93% 55%;
+    --poultry-border: 45 93% 85%;
+
+    --pork-bg: 27 90% 96%;
+    --pork-text: 27 90% 55%;
+    --pork-border: 27 90% 85%;
+
+    --lamb-bg: 262 83% 96%;
+    --lamb-text: 262 83% 58%;
+    --lamb-border: 262 83% 85%;
+
+    --goat-bg: 217 89% 96%;
+    --goat-text: 217 89% 61%;
+    --goat-border: 217 89% 85%;
+
+    --fish-bg: 199 89% 96%;
+    --fish-text: 199 89% 55%;
+    --fish-border: 199 89% 85%;
+
+    /* Status color light variants */
+    --success-light: 142 70% 96%;
+    --warning-light: 38 92% 96%;
+    --error-light: 0 84% 96%;
+    --info-light: 217 89% 96%;
+
+    /* Status color foregrounds */
+    --success-foreground: 0 0% 100%;
+    --warning-foreground: 0 0% 100%;
+    --error-foreground: 0 0% 100%;
+    --info-foreground: 0 0% 100%;
+
+    /* Theme colors */
+    --background: 0 0% 98%;
+    --foreground: 0 0% 13%;
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 13%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 13%;
+    --primary: 0 0% 9%;
+    --primary-foreground: 0 0% 98%;
+    --secondary: 0 0% 96.1%;
+    --secondary-foreground: 0 0% 9%;
+    --muted: 0 0% 96.1%;
+    --muted-foreground: 0 0% 45.1%;
+    --accent: 0 0% 96.1%;
+    --accent-foreground: 0 0% 9%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 0 0% 89.8%;
+    --input: 0 0% 89.8%;
+    --ring: 0 0% 3.9%;
+    --radius: 0.5rem;
+  }
+  .dark {
+    --background: 0 0% 3.9%;
+    --foreground: 0 0% 98%;
+    --card: 0 0% 3.9%;
+    --card-foreground: 0 0% 98%;
+    --popover: 0 0% 3.9%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 0 0% 98%;
+    --primary-foreground: 0 0% 9%;
+    --secondary: 0 0% 14.9%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 0 0% 14.9%;
+    --muted-foreground: 0 0% 63.9%;
+    --accent: 0 0% 14.9%;
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 0 0% 14.9%;
+    --input: 0 0% 14.9%;
+    --ring: 0 0% 83.1%;
+  }
+}
+
+/* Base styles */
+@layer base {
+  * {
+    border-color: hsl(var(--border));
+  }
+  body {
+    background-color: hsl(var(--background));
+    color: hsl(var(--foreground));
+  }
+}
+
+/* Custom utilities */
+.glass {
+  background-color: hsla(0, 0%, 100%, 0.8);
+  backdrop-filter: blur(12px);
+  border: 1px solid hsla(0, 0%, 89%, 0.2);
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background-color: hsl(var(--muted));
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: hsl(var(--border));
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: hsla(var(--border) / 0.7);
+}
+
+/* Animations */
+.animate-slide-up {
+  animation: slideUp 0.3s ease-out;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.5s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@layer utilities {
+  /* Backgrounds */
+  .bg-card {
+    background-color: hsl(var(--card));
+    color: hsl(var(--card-foreground));
+  }
+  
+  .bg-neutral {
+    background-color: hsl(var(--neutral));
+    color: hsl(var(--foreground));
+  }
+  
+  /* Buttons */
+  .btn-green { 
+    background-color: hsl(var(--green));
+    color: hsl(var(--green-foreground));
+  }
+  .btn-green:hover {
+    opacity: 0.9;
+  }
+  
+  .btn-blue {
+    background-color: hsl(var(--blue));
+    color: hsl(var(--blue-foreground));
+  }
+  .btn-blue:hover {
+    opacity: 0.9;
+  }
+  /* Add more button variants as needed */
+}
+
+/* Gradient text */
+.gradient-text {
+  background: linear-gradient(to right, #d97706, #92400e);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+}

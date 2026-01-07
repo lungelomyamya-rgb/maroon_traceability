@@ -1,0 +1,625 @@
+// src/app/viewer/page.tsx
+'use client';
+
+import { useRouter } from 'next/navigation';
+import { useProducts, ProductCategory } from '@/contexts/productContext';
+import { ErrorBoundary } from '@/components/errorBoundary';
+import { useTheme } from 'next-themes';
+import { eventLogger, EventType } from '@/services/eventLogger';
+import { analytics } from '@/services/analytics';
+import { realtime } from '@/services/realtime';
+import { useEffect, useState, useMemo } from 'react';
+import { DashboardLayout } from '@/components/dashboard/DashboardLayout';
+import { MetricsCard } from '@/components/dashboard/metricsCard';
+import { Button } from '@/components/ui/button';
+import { CHART_COLORS } from '@/components/dashboard/constants';
+import { getRoleColors, textColors, bgColors, borderColors, commonColors, chartColors, dashboardColors } from '@/lib/theme/colors';
+import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from 'recharts';
+import { Package, Check, AlertCircle, TrendingUp, Wifi, WifiOff } from 'lucide-react';
+import { QRScanner } from '@/components/qr';
+
+interface CategoryData {
+  name: string;
+  value: number;
+  percentage: number;
+}
+
+interface PieDataPoint {
+  name: string;
+  value: number;
+  percentage: number;
+}
+
+interface CustomPieLabelProps {
+  name: string;
+  value: number;
+  percent?: number;
+  cx: number;
+  cy: number;
+  midAngle: number;
+  innerRadius: number;
+  outerRadius: number;
+}
+
+// Category Overview Component
+const CategoryOverview = () => {
+  const { products } = useProducts();
+
+  console.log('CategoryOverview - products:', products);
+
+  try {
+    // Calculate category distribution
+    const categoryData = Object.values(ProductCategory).map(category => {
+      const count = products.filter(p => p.category === category).length;
+      const percentage = products.length > 0 ? (count / products.length) * 100 : 0;
+      return {
+        name: category,
+        value: count,
+        percentage: parseFloat(percentage.toFixed(1))
+      };
+    }).filter(item => item.value > 0);
+
+    console.log('CategoryOverview - categoryData:', categoryData);
+
+    // Sort by count (descending)
+    const sortedData = [...categoryData].sort((a, b) => b.value - a.value);
+
+    console.log('CategoryOverview - sortedData:', sortedData);
+
+    const renderCustomizedLabel = (props: any) => {
+      // Defensive checks to prevent runtime errors
+      if (!props || !props.cx || !props.cy || props.midAngle === undefined || !props.percent || !props.name) {
+        return null;
+      }
+      
+      const RADIAN = Math.PI / 180;
+      const innerRadius = props.innerRadius || 0;
+      const outerRadius = props.outerRadius || 0;
+      const radius = 25 + innerRadius + outerRadius;
+      const x = props.cx + radius * Math.cos(-props.midAngle * RADIAN);
+      const y = props.cy + radius * Math.sin(-props.midAngle * RADIAN);
+
+      return (
+        <text
+          x={x}
+          y={y}
+          fill={chartColors.gray}
+          textAnchor={x > props.cx ? 'start' : 'end'}
+          dominantBaseline="central"
+          className="text-xs"
+        >
+          {`${props.name} (${(props.percent * 100).toFixed(0)}%)`}
+        </text>
+      );
+    };
+
+    if (!sortedData || sortedData.length === 0) {
+      console.warn('CategoryOverview: No data available for charts');
+      return (
+        <ErrorBoundary>
+          <div className={`${commonColors.whiteBg} ${commonColors.roundedLg} ${commonColors.shadowLg} ${commonColors.borderGray200} p-6`}>
+            <div className="flex items-center gap-2 mb-4">
+              <TrendingUp className={`h-5 w-5 ${textColors.info}`} />
+              <h2 className={`text-lg font-semibold ${textColors.primary}`}>Product Categories</h2>
+            </div>
+            <div className="flex items-center justify-center h-64 ${commonColors.gray500}">
+              No category data available
+            </div>
+          </div>
+        </ErrorBoundary>
+      );
+    }
+
+    return (
+      <ErrorBoundary>
+        <div className={`${commonColors.whiteBg} ${commonColors.roundedLg} ${commonColors.shadowLg} ${commonColors.borderGray200} p-6`}>
+          <div className="flex items-center gap-2 mb-4">
+            <TrendingUp className="h-5 w-5 ${commonColors.blue500}" />
+            <h2 className="text-lg font-semibold ${commonColors.gray900}">Product Categories</h2>
+          </div>
+          
+          <ErrorBoundary>
+            {sortedData.length > 0 ? (
+              <div className="space-y-4">
+                {/* Pie Chart */}
+                <div className="min-h-[200px]">
+                  <div className="min-h-[200px] w-full" role="img" aria-label={`Pie chart showing product category distribution`}>
+                    <ResponsiveContainer width="100%" height={200} minWidth={0} minHeight={0}>
+                      <PieChart>
+                        <Pie
+                          data={sortedData}
+                          cx="50%"
+                          cy="50%"
+                          labelLine={false}
+                          outerRadius={60}
+                          fill={chartColors.pieDefault}
+                          dataKey="value"
+                          nameKey="name"
+                          label={renderCustomizedLabel}
+                        >
+                          {sortedData.map((_, index) => (
+                            <Cell key={`cell-${index}`} fill={CHART_COLORS[index % CHART_COLORS.length]} />
+                          ))}
+                        </Pie>
+                        <Tooltip 
+                          formatter={(value: any, name: any) => [
+                            `${value} products (${((value as number / products.length) * 100).toFixed(1)}%)`,
+                            name
+                          ]} 
+                        />
+                      </PieChart>
+                    </ResponsiveContainer>
+                  </div>
+                </div>
+
+                {/* Category List with Progress Bars */}
+                <div className="space-y-3">
+                  {sortedData.map((category, index) => {
+                    const colors = [
+                      { bg: chartColors.primary, border: chartColors.primaryDark },
+                      { bg: chartColors.success, border: chartColors.successDark },
+                      { bg: chartColors.warning, border: chartColors.warningDark },
+                      { bg: chartColors.error, border: chartColors.errorDark },
+                      { bg: chartColors.purple, border: chartColors.purpleDark },
+                    ];
+                    const color = colors[index % colors.length];
+                    
+                    return (
+                      <div key={category.name} className="space-y-2">
+                        <div className="flex items-center justify-between">
+                          <span className={`text-sm font-medium ${commonColors.gray900}`}>{category.name}</span>
+                          <div className="flex items-center gap-2">
+                            <span className={`text-sm font-bold ${commonColors.gray900}`}>{category.value}</span>
+                            <span className={`text-xs font-semibold ${commonColors.gray500}`}>({category.percentage.toFixed(0)}%)</span>
+                          </div>
+                        </div>
+                        <div className={`relative w-full h-2 rounded-full overflow-hidden ${commonColors.gray200}`}>
+                          <div 
+                            className="absolute inset-y-0 left-0 rounded-full transition-all duration-700 ease-out"
+                            style={{ 
+                              width: `${category.percentage}%`,
+                              background: `linear-gradient(90deg, ${color.bg}, ${color.border})`,
+                            }}
+                          />
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            ) : (
+              <div className="flex items-center justify-center h-64 ${commonColors.gray500}">
+                No category data available
+              </div>
+            )}
+          </ErrorBoundary>
+        </div>
+      </ErrorBoundary>
+    );
+  } catch (error) {
+    console.error('CategoryOverview error:', error);
+    return (
+      <ErrorBoundary>
+        <div className={`${commonColors.whiteBg} ${commonColors.roundedLg} ${commonColors.shadowLg} ${commonColors.borderGray200} p-6`}>
+          <div className="flex items-center gap-2 mb-4">
+            <TrendingUp className="h-5 w-5 ${commonColors.blue500}" />
+            <h2 className="text-lg font-semibold ${commonColors.gray900}">Product Categories</h2>
+          </div>
+          <div className="flex items-center justify-center h-64 ${commonColors.gray500}">
+            Error loading category data
+          </div>
+        </div>
+      </ErrorBoundary>
+    );
+  }
+};
+
+
+export default function ViewerPage() {
+  const router = useRouter();
+  const { theme } = useTheme();
+  const { products, isLoading } = useProducts();
+  const [isRealtimeConnected, setIsRealtimeConnected] = useState(false);
+  const [recentEvents, setRecentEvents] = useState<any[]>([]);
+
+  // Set up real-time subscriptions
+  useEffect(() => {
+    // Subscribe to product updates
+    const unsubscribeProduct = realtime.subscribe('product_update', (event) => {
+      console.log('Product update received:', event.data);
+      setRecentEvents(prev => [event, ...prev.slice(0, 4)]); // Keep last 5 events
+      
+      // Track real-time event
+      analytics.trackUserAction('realtime_product_update', {
+        productId: (event.data as any).productId,
+        status: (event.data as any).status
+      });
+    });
+
+    // Subscribe to verification updates
+    const unsubscribeVerification = realtime.subscribe('verification_update', (event) => {
+      console.log('Verification update received:', event.data);
+      setRecentEvents(prev => [event, ...prev.slice(0, 4)]);
+      
+      analytics.trackUserAction('realtime_verification_update', {
+        productId: (event.data as any).productId,
+        verificationCount: (event.data as any).verificationCount
+      });
+    });
+
+    // Subscribe to blockchain updates
+    const unsubscribeBlockchain = realtime.subscribe('blockchain_update', (event) => {
+      console.log('Blockchain update received:', event.data);
+      setRecentEvents(prev => [event, ...prev.slice(0, 4)]);
+      
+      analytics.trackUserAction('realtime_blockchain_update', {
+        blockNumber: (event.data as any).blockNumber,
+        transactionCount: (event.data as any).transactionCount
+      });
+    });
+
+    // Monitor connection status
+    const unsubscribeAll = realtime.subscribeToAll((event) => {
+      if (event && event.type === 'connection_established') {
+        setIsRealtimeConnected(true);
+        analytics.trackUserAction('realtime_connected', {
+          connectedClients: (event.data as any).connectedClients
+        });
+      }
+    });
+
+    // Check initial connection status
+    setIsRealtimeConnected(realtime.getConnectionStatus());
+
+    // Cleanup subscriptions
+    return () => {
+      unsubscribeProduct();
+      unsubscribeVerification();
+      unsubscribeBlockchain();
+      unsubscribeAll();
+    };
+  }, []);
+
+  // Log dashboard view (without user dependency)
+  useEffect(() => {
+    eventLogger.log('USER_ACTION' as any, 'View dashboard', {
+      userId: 'viewer-anonymous',
+      userRole: 'viewer',
+      action: 'VIEW_DASHBOARD',
+      details: {
+        dashboard: 'viewer',
+        anonymous: true,
+        productCount: products.length,
+        realtimeConnected: isRealtimeConnected
+      }
+    });
+
+    // Track analytics
+    analytics.trackUserAction('view_dashboard', {
+      dashboardType: 'viewer',
+      productCount: products.length,
+      isLoading,
+      realtimeConnected: isRealtimeConnected
+    });
+
+    // Track feature usage
+    analytics.trackFeatureUsage('dashboard_viewer', {
+      productCategories: Object.keys(ProductCategory).length,
+      hasProducts: products.length > 0,
+      realtimeEnabled: true
+    });
+  }, [products.length, isLoading, isRealtimeConnected]);
+
+  // Calculate metrics
+  const metrics = useMemo(() => ({
+    totalProducts: products.length,
+    verifiedProducts: products.filter(p => p.status === 'verified').length,
+    pendingVerification: products.filter(p => p.status === 'pending').length,
+    totalVerifications: products.reduce((sum, p) => sum + (p.verifications || 0), 0)
+  }), [products]);
+
+  // Debug logging
+  console.log('Products data:', products);
+  console.log('Viewer metrics updated:', metrics);
+  console.log('Metrics re-rendering with new values');
+
+  const displayProducts = products
+    .map(product => ({
+      id: product.id,
+      name: product.name,
+      category: product.category,
+      status: product.status,
+      verificationCount: product.verifications,
+      lastVerified: product.lastVerified
+    }))
+    .sort((a, b) => b.verificationCount - a.verificationCount)
+    .slice(0, 3); // Only show top 3 for cleaner layout
+
+  const handleProductClick = (productId: string) => {
+    // Track product click
+    analytics.trackUserAction('click_product', {
+      productId,
+      source: 'viewer_dashboard'
+    });
+
+    // Track conversion (product view)
+    analytics.trackConversion('product_view', {
+      productId,
+      dashboardType: 'viewer'
+    });
+
+    router.push(`/trace/${productId}`);
+  };
+
+  // Get viewer-specific colors
+  const viewerColors = getRoleColors('viewer');
+
+  return (
+    <ErrorBoundary>
+      <DashboardLayout
+        title="Viewer Dashboard"
+        description="View and verify product information on blockchain"
+      >
+        <div className="space-y-8">
+          {/* Hero Section */}
+          <div className={`relative overflow-hidden bg-gradient-to-br from-gray-600 to-gray-500 rounded-2xl shadow-2xl max-w-4xl mx-auto w-full`}>
+            <div className="absolute inset-0 bg-foreground/5"></div>
+            <div className="relative z-10 text-center p-8 px-4 sm:px-8">
+              <div className="inline-block mb-4 px-4 py-1.5 bg-background/20 backdrop-blur-sm rounded-full border border-white/10">
+                <span className="text-xs font-medium text-white">Viewer Dashboard</span>
+              </div>
+              <h1 className="mb-2 text-white text-2xl sm:text-3xl font-bold">
+                Welcome back, Viewer!
+              </h1>
+              <p className="text-white/90 text-sm max-w-md mx-auto">
+                View product information and track blockchain history (Read-only access)
+              </p>
+            </div>
+          </div>
+
+          {/* Metrics Grid - matching GitHub repo layout */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <MetricsCard
+              key="total-products"
+              icon={<Package className="h-6 w-6" aria-hidden="true" />}
+              label="Total Products"
+              value={metrics.totalProducts}
+              variant="total-transactions"
+            />
+            <MetricsCard
+              key="certified-products"
+              icon={<Check className="h-6 w-6" aria-hidden="true" />}
+              label="Certified"
+              value={metrics.verifiedProducts}
+              variant="success"
+            />
+            <MetricsCard
+              key="in-transit"
+              icon={<AlertCircle className="h-6 w-6" aria-hidden="true" />}
+              label="In Transit"
+              value={metrics.pendingVerification}
+              variant="warning"
+            />
+            <MetricsCard
+              key="total-verifications"
+              icon={<TrendingUp className="h-6 w-6" aria-hidden="true" />}
+              label="Total Verifications"
+              value={metrics.totalVerifications}
+              variant="monthly-revenue"
+            />
+          </div>
+
+          {/* Two Column Layout */}
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            {/* Recent Products */}
+            <div className="lg:col-span-2">
+              <div className={`${commonColors.whiteBg} ${commonColors.roundedLg} ${commonColors.shadowLg} ${commonColors.borderGray200}`}>
+                <div className="p-6">
+                  <div className="flex items-center justify-between mb-6">
+                    <h2 className="text-lg font-semibold ${commonColors.gray900}">Recent Products</h2>
+                    <Button 
+                      onClick={() => router.push('/blockchain')}
+                      className="bg-gradient-to-r from-gray-600 to-gray-500 hover:from-gray-700 hover:to-gray-600 text-white shadow-lg"
+                      size="sm"
+                    >
+                      View All
+                    </Button>
+                  </div>
+                  <div className="space-y-4">
+                    {isLoading ? (
+                      <div className="space-y-4">
+                        {[...Array(3)].map((_, i) => (
+                          <div key={i} className="animate-pulse">
+                            <div className="h-20 ${commonColors.gray200} rounded-lg"></div>
+                          </div>
+                        ))}
+                      </div>
+                    ) : displayProducts.length > 0 ? (
+                      displayProducts.map((product) => (
+                        <div 
+                          key={product.id} 
+                          className="flex items-center justify-between p-4 ${commonColors.gray50} ${commonColors.hoverGray100} rounded-lg cursor-pointer transition-colors"
+                          onClick={() => handleProductClick(product.id)}
+                        >
+                          <div className="flex items-center gap-4 flex-1">
+                            <div className="bg-white p-3 rounded-lg shadow-sm">
+                              <Package className={`h-6 w-6 ${textColors.muted}`} />
+                            </div>
+                            <div className="flex-1">
+                              <div className="flex items-center gap-2 mb-1">
+                                <h4 className={`font-semibold ${textColors.primary}`}>{product.name}</h4>
+                                <span className={`px-2 py-1 text-xs font-medium rounded-full ${
+                                  product.status === 'verified' ? 'bg-card-green-light text-card-green' :
+                                  product.status === 'pending' ? 'bg-card-orange-light text-card-orange' :
+                                  'bg-card-neutral-light text-card-neutral'
+                                }`}>
+                                  {product.status.charAt(0).toUpperCase() + product.status.slice(1)}
+                                </span>
+                              </div>
+                              <p className="text-xs ${commonColors.gray500}">{product.category}</p>
+                            </div>
+                          </div>
+                          <div className="text-right">
+                            <div className={`text-sm font-semibold ${textColors.primary}`}>{product.verificationCount || 0} verifications</div>
+                            {product.lastVerified && (
+                              <p className="text-xs ${commonColors.gray500}">
+                                {new Date(product.lastVerified).toLocaleDateString()}
+                              </p>
+                            )}
+                          </div>
+                        </div>
+                      ))
+                    ) : (
+                      <div className="text-center py-8">
+                        <Package className={`h-12 w-12 ${textColors.muted} mx-auto mb-3`} />
+                        <p className={`${textColors.muted}`}>No products available</p>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Category Overview with Pie Chart */}
+            <div>
+              <CategoryOverview />
+            </div>
+          </div>
+
+          {/* QR Scanner Section */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <QRScanner
+              onScanSuccess={(data) => {
+                console.log('QR Scanned:', data);
+                router.push(`/trace/${data}`);
+              }}
+              onScanError={(error) => {
+                console.error('QR Scan Error:', error);
+              }}
+              mockMode={true}
+            />
+            
+            <div className={`${commonColors.whiteBg} ${commonColors.roundedLg} ${commonColors.shadowLg} ${commonColors.borderGray200} p-6`}>
+              <h3 className="text-lg font-semibold ${commonColors.gray900} mb-4">Quick Actions</h3>
+              <div className="space-y-3">
+                <Button 
+                  onClick={() => router.push('/blockchain')}
+                  className="w-full bg-gray-600 hover:bg-gray-700"
+                >
+                  View All Products
+                </Button>
+                <Button 
+                  onClick={() => router.push('/farmer')}
+                  variant="outline"
+                  className="w-full"
+                >
+                  Farmer Portal
+                </Button>
+                <Button 
+                  onClick={() => window.open('/trace/PRD-2024-001', '_blank')}
+                  variant="outline"
+                  className="w-full"
+                >
+                  Demo Product Trace
+                </Button>
+              </div>
+            </div>
+          </div>
+
+          {/* Real-time Activity */}
+          <div className={`${commonColors.whiteBg} ${commonColors.roundedLg} ${commonColors.shadowLg} ${commonColors.borderGray200}`}>
+            <div className="p-6">
+              <div className="flex justify-between items-center mb-4">
+                <h2 className="text-lg font-semibold ${commonColors.gray900}">Real-time Activity</h2>
+                <div className="flex items-center gap-2">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => {
+                      if (isRealtimeConnected) {
+                        realtime.disableMockActivity();
+                      } else {
+                        realtime.enableMockActivity();
+                      }
+                    }}
+                  >
+                    {isRealtimeConnected ? 'Pause' : 'Resume'}
+                  </Button>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => realtime.generateTestEvent('product_update')}
+                  >
+                    Test Event
+                  </Button>
+                  {isRealtimeConnected ? (
+                    <span className="flex items-center gap-1 px-3 py-1 bg-card-green-light text-card-green rounded-full text-sm font-medium">
+                      <Wifi className="h-3 w-3" />
+                      Connected
+                    </span>
+                  ) : (
+                    <span className="flex items-center gap-1 px-3 py-1 bg-card-neutral-light text-card-neutral rounded-full text-sm font-medium">
+                      <WifiOff className="h-3 w-3" />
+                      Disconnected
+                    </span>
+                  )}
+                </div>
+              </div>
+              
+              <div className="space-y-3">
+                {recentEvents.length > 0 ? (
+                  <div className="space-y-3">
+                    {recentEvents.map((event, index) => (
+                      <div 
+                        key={`${event.id}-${index}`} 
+                        className="flex items-center justify-between p-3 ${commonColors.gray50} rounded-lg"
+                      >
+                        <div className="flex items-center gap-3">
+                          <div className="w-2 h-2 bg-card-green rounded-full animate-pulse"></div>
+                          <div>
+                            <p className={`font-medium text-sm ${textColors.primary} capitalize`}>
+                              {event.type.replace('_', ' ')}
+                            </p>
+                            <p className="text-xs ${commonColors.gray500}">
+                              {new Date(event.timestamp).toLocaleTimeString()}
+                            </p>
+                          </div>
+                        </div>
+                        <div className="text-right">
+                          <p className="text-sm ${commonColors.gray900}">
+                            {(event.data as any)?.productId || (event.data as any)?.productName || `Block ${(event.data as any)?.blockNumber}`}
+                          </p>
+                          <p className="text-xs ${commonColors.gray500} capitalize">
+                            {(event.data as any)?.status || 
+                             (event.data as any)?.verificationCount ? `${(event.data as any).verificationCount} verifications` :
+                             (event.data as any)?.quality ? `Quality: ${(event.data as any).quality}` :
+                             (event.data as any)?.location ? `${(event.data as any).location}` :
+                             (event.data as any)?.transactionCount ? `${(event.data as any).transactionCount} transactions` :
+                             'Updated'
+                            }
+                          </p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <div className="text-center py-8 ${commonColors.gray500}">
+                    <WifiOff className="h-8 w-8 mx-auto mb-2 opacity-50" />
+                    <p className="text-sm">
+                      {isRealtimeConnected ? 'Waiting for events...' : 'Click "Resume" to start mock activity'}
+                    </p>
+                    {!isRealtimeConnected && (
+                      <p className="text-xs mt-2">
+                        Mock events will appear every 3-7 seconds when active
+                      </p>
+                    )}
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+      </DashboardLayout>
+    </ErrorBoundary>
+  );
+}

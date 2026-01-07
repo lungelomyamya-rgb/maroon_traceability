@@ -1,7 +1,6 @@
 // next.config.js
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: 'export',
   trailingSlash: true,
   images: {
     unoptimized: true,
@@ -20,8 +19,6 @@ const nextConfig = {
       }
     ]
   },
-  basePath: '/maroon_traceability',
-  assetPrefix: '/maroon_traceability/',
 }
 
 module.exports = nextConfig

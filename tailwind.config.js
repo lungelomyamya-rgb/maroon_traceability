@@ -78,6 +78,45 @@ module.exports = {
         'in-transit': 'hsl(var(--in-transit) / <alpha-value>)',
         'in-transit-light': 'hsl(var(--in-transit-light) / <alpha-value>)',
         
+        // Status color light variants
+        'success-light': 'hsl(var(--success-light) / <alpha-value>)',
+        'warning-light': 'hsl(var(--warning-light) / <alpha-value>)',
+        'error-light': 'hsl(var(--error-light) / <alpha-value>)',
+        'info-light': 'hsl(var(--info-light) / <alpha-value>)',
+        
+        // Category colors
+        'category-fruit-bg': 'hsl(var(--fruit-bg) / <alpha-value>)',
+        'category-fruit-text': 'hsl(var(--fruit-text) / <alpha-value>)',
+        'category-fruit-border': 'hsl(var(--fruit-border) / <alpha-value>)',
+        
+        'category-veg-bg': 'hsl(var(--veg-bg) / <alpha-value>)',
+        'category-veg-text': 'hsl(var(--veg-text) / <alpha-value>)',
+        'category-veg-border': 'hsl(var(--veg-border) / <alpha-value>)',
+        
+        'category-beef-bg': 'hsl(var(--beef-bg) / <alpha-value>)',
+        'category-beef-text': 'hsl(var(--beef-text) / <alpha-value>)',
+        'category-beef-border': 'hsl(var(--beef-border) / <alpha-value>)',
+        
+        'category-poultry-bg': 'hsl(var(--poultry-bg) / <alpha-value>)',
+        'category-poultry-text': 'hsl(var(--poultry-text) / <alpha-value>)',
+        'category-poultry-border': 'hsl(var(--poultry-border) / <alpha-value>)',
+        
+        'category-pork-bg': 'hsl(var(--pork-bg) / <alpha-value>)',
+        'category-pork-text': 'hsl(var(--pork-text) / <alpha-value>)',
+        'category-pork-border': 'hsl(var(--pork-border) / <alpha-value>)',
+        
+        'category-lamb-bg': 'hsl(var(--lamb-bg) / <alpha-value>)',
+        'category-lamb-text': 'hsl(var(--lamb-text) / <alpha-value>)',
+        'category-lamb-border': 'hsl(var(--lamb-border) / <alpha-value>)',
+        
+        'category-goat-bg': 'hsl(var(--goat-bg) / <alpha-value>)',
+        'category-goat-text': 'hsl(var(--goat-text) / <alpha-value>)',
+        'category-goat-border': 'hsl(var(--goat-border) / <alpha-value>)',
+        
+        'category-fish-bg': 'hsl(var(--fish-bg) / <alpha-value>)',
+        'category-fish-text': 'hsl(var(--fish-text) / <alpha-value>)',
+        'category-fish-border': 'hsl(var(--fish-border) / <alpha-value>)',
+        
         // ShadCN/ui colors
         border: 'hsl(var(--border))',
         input: 'hsl(var(--input))',
