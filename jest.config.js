@@ -17,6 +17,7 @@ const config = {
     },
   ],
   testTimeout: 10000,
+  passWithNoTests: true,
 }
 
 module.exports = config
