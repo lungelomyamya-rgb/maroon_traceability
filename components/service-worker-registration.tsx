@@ -5,7 +5,8 @@ import React, { useEffect } from 'react';
 
 export function ServiceWorkerRegistration() {
   useEffect(() => {
-    if (typeof window !== 'undefined' && 'serviceWorker' in navigator) {
+    // Only register service worker in production
+    if (typeof window !== 'undefined' && 'serviceWorker' in navigator && process.env.NODE_ENV === 'production') {
       // Determine the correct service worker path based on environment
       const swPath = window.location.hostname.includes('github.io') 
         ? '/maroon_traceability/sw.js' 

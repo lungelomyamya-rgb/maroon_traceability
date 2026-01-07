@@ -5,29 +5,13 @@ const OFFLINE_QUEUE = 'offline-queue';
 // Base path for GitHub Pages
 const BASE_PATH = '/maroon_traceability';
 
-// Assets to cache immediately
-const STATIC_ASSETS = [
-  BASE_PATH + '/',
-  BASE_PATH + '/blockchain',
-];
-
-// Install event - cache static assets
+// Install event - minimal setup to avoid errors
 self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
-      // Try to cache each asset individually, don't fail if one is missing
-      return Promise.allSettled(
-        STATIC_ASSETS.map(asset => 
-          fetch(asset).then(response => {
-            if (response.ok) {
-              return cache.put(asset, response);
-            }
-            console.warn('Asset not found for caching:', asset);
-          }).catch(error => {
-            console.warn('Failed to cache asset:', asset, error);
-          })
-        )
-      );
+      console.log('Service Worker installed');
+      // Skip caching for now to avoid errors
+      return Promise.resolve();
     })
   );
   self.skipWaiting();
@@ -47,53 +31,39 @@ self.addEventListener('activate', (event) => {
   self.clients.claim();
 });
 
-// Fetch event - serve from cache, fallback to network
+// Fetch event - basic network first strategy
 self.addEventListener('fetch', (event) => {
   const { request } = event;
-  const url = new URL(request.url);
-
+  
   // Skip non-GET requests
   if (request.method !== 'GET') {
     return;
   }
 
-  // API requests - network first, queue if offline
-  if (url.pathname.startsWith('/api/')) {
-    event.respondWith(
-      fetch(request)
-        .then((response) => {
-          return response;
-        })
-        .catch(() => {
-          // Queue for later sync
-          return queueOfflineRequest(request);
-        })
-    );
-    return;
-  }
-
-  // Static assets - cache first, network fallback
+  // Basic network first with optional caching
   event.respondWith(
-    caches.match(request).then((cached) => {
-      if (cached) {
-        return cached;
+    fetch(request).then((response) => {
+      // Cache successful responses for static assets
+      if (response.ok && request.url.includes(BASE_PATH)) {
+        const responseClone = response.clone();
+        caches.open(CACHE_NAME).then((cache) => {
+          cache.put(request, responseClone);
+        });
       }
-
-      return fetch(request).then((response) => {
-        // Cache successful responses
-        if (response.ok) {
-          const responseClone = response.clone();
-          caches.open(CACHE_NAME).then((cache) => {
-            cache.put(request, responseClone);
-          });
+      return response;
+    }).catch(() => {
+      // Try cache as fallback
+      return caches.match(request).then((cached) => {
+        if (cached) {
+          return cached;
         }
-        return response;
+        return new Response('Offline', { status: 503 });
       });
     })
   );
 });
 
-// Queue offline requests
+// Queue offline requests (simplified)
 async function queueOfflineRequest(request) {
   const cache = await caches.open(OFFLINE_QUEUE);
   const requestData = {
@@ -120,52 +90,3 @@ async function queueOfflineRequest(request) {
     }
   );
 }
-
-// Background sync - process queued requests
-self.addEventListener('sync', (event) => {
-  if (event.tag === 'sync-offline-queue') {
-    event.waitUntil(processOfflineQueue());
-  }
-});
-
-async function processOfflineQueue() {
-  const cache = await caches.open(OFFLINE_QUEUE);
-  const requests = await cache.keys();
-
-  for (const request of requests) {
-    try {
-      const response = await cache.match(request);
-      const data = await response.json();
-
-      // Retry the original request
-      await fetch(data.url, {
-        method: data.method,
-        headers: data.headers,
-        body: data.body,
-      });
-
-      // Remove from queue on success
-      await cache.delete(request);
-    } catch (error) {
-      console.error('Failed to sync request:', error);
-      // Keep in queue for next sync
-    }
-  }
-}
-
-// Push notifications (for future use)
-self.addEventListener('push', (event) => {
-  const data = event.data ? event.data.json() : {};
-  
-  const options = {
-    body: data.body || 'New update available',
-    icon: '/icon-192.svg',
-    badge: '/icon-192.svg',
-    vibrate: [200, 100, 200],
-    data: data,
-  };
-
-  event.waitUntil(
-    self.registration.showNotification(data.title || 'Maroon Blockchain', options)
-  );
-});
