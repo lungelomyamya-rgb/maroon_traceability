@@ -63,24 +63,32 @@ self.addEventListener('fetch', (event) => {
   // For static assets, try network first, then cache
   event.respondWith(
     fetch(request).then((response) => {
-      // Cache successful responses for static assets only
-      if (response.ok && 
-          (request.url.includes(BASE_PATH) || 
+      // Only cache successful responses
+      if (response.ok) {
+        // Cache successful responses for static assets only
+        if (request.url.includes(BASE_PATH) || 
            request.url.includes('/_next/static/') ||
            request.url.includes('/images/') ||
            request.url.includes('.js') ||
-           request.url.includes('.css'))) {
-        
-        // Open cache and store response
-        caches.open(CACHE_NAME).then((cache) => {
-          cache.put(request, response.clone()).catch((error) => {
-            console.warn('Cache put failed:', error, 'URL:', request.url);
+           request.url.includes('.css') ||
+           request.url.includes('.png') ||
+           request.url.includes('.svg') ||
+           request.url.includes('.jpg') ||
+           request.url.includes('.jpeg')) {
+          
+          // Open cache and store response clone
+          caches.open(CACHE_NAME).then((cache) => {
+            cache.put(request, response.clone()).catch((error) => {
+              console.warn('Cache put failed:', error, 'URL:', request.url);
+            });
           });
-        });
+        }
       }
       
       return response;
     }).catch((error) => {
+      console.log('Network request failed:', error, 'URL:', request.url);
+      
       // If network fails, try cache as fallback
       return caches.match(request).then((cached) => {
         if (cached) {
@@ -88,14 +96,15 @@ self.addEventListener('fetch', (event) => {
           return cached;
         }
         
-        // Return offline response for HTML pages
-        if (request.url.includes(BASE_PATH) && request.url.endsWith('/') || request.url.includes('.html')) {
+        // Return appropriate offline response
+        if (request.url.includes(BASE_PATH) && (request.url.endsWith('/') || request.url.includes('.html'))) {
           return new Response('Offline - Please check your connection', {
             status: 503,
             statusText: 'Service Unavailable'
           });
         }
         
+        // For failed asset requests, return network error
         return new Response('Network error', {
           status: 503,
           statusText: 'Service Unavailable'
