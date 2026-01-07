@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clear Service Worker Cache</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        button {
+            background-color: #3b82f6;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background-color: #2563eb;
+        }
+        .status {
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 4px;
+        }
+        .success {
+            color: #10b981;
+            font-weight: bold;
+        }
+        .error {
+            color: #ef4444;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Service Worker Cache Clear</h1>
+        <p>This page will clear the old service worker cache and force the browser to load the new version.</p>
+        
+        <div class="status">
+            <p>Click the button below to clear the service worker cache:</p>
+            <button onclick="clearServiceWorkerCache()">Clear Service Worker Cache</button>
+        </div>
+        
+        <div id="result"></div>
+    </div>
+
+    <script>
+        // Load the unregistration script
+        const script = document.createElement('script');
+        script.src = '/maroon_traceability/unregister-sw.js';
+        script.onload = function() {
+            console.log('Unregistration script loaded');
+        };
+        document.head.appendChild(script);
+        
+        function clearServiceWorkerCache() {
+            const result = document.getElementById('result');
+            
+            if ('serviceWorker' in navigator) {
+                result.innerHTML = '<p class="success">Clearing service worker cache...</p>';
+                
+                navigator.serviceWorker.getRegistrations().then(function(registrations) {
+                    for (let registration of registrations) {
+                        registration.unregister();
+                        console.log('Unregistered service worker:', registration.scope);
+                    }
+                    
+                    return caches.keys().then(function(cacheNames) {
+                        return Promise.all(
+                            cacheNames.map(function(cacheName) {
+                                console.log('Deleting cache:', cacheName);
+                                return caches.delete(cacheName);
+                            })
+                        );
+                    }).then(function() {
+                        console.log('All caches cleared');
+                        
+                        // Force reload after clearing
+                        setTimeout(function() {
+                            window.location.reload();
+                        }, 1000);
+                    });
+                });
+            } else {
+                result.innerHTML = '<p class="error">Service Workers are not supported in this browser.</p>';
+            }
+        }
+    </script>
+</body>
+</html>
