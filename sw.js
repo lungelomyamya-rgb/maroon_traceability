@@ -1,5 +1,5 @@
 // public/sw.js - Minimal Service Worker for GitHub Pages
-const CACHE_NAME = 'maroon-blockchain-v4';
+const CACHE_NAME = 'maroon-blockchain-v5';
 const OFFLINE_QUEUE = 'offline-queue';
 
 // Base path for GitHub Pages
@@ -24,6 +24,7 @@ self.addEventListener('install', (event) => {
     })
   );
   
+  // Force skip waiting to ensure immediate activation
   self.skipWaiting();
 });
 
