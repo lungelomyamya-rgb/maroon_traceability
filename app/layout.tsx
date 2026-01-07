@@ -10,10 +10,10 @@ const inter = Inter({ subsets: ['latin'] });
 export const metadata: Metadata = {
   title: 'Maroon Traceability System',
   description: 'Blockchain-based product traceability system',
-  manifest: '/manifest.json',
+  manifest: '/maroon_traceability/manifest.json',
   icons: {
-    icon: '/icon-192.svg',
-    apple: '/icon-512.svg',
+    icon: '/maroon_traceability/icon-192.svg',
+    apple: '/maroon_traceability/icon-512.svg',
   },
 };
 

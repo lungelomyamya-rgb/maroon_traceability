@@ -9,16 +9,25 @@ const BASE_PATH = '/maroon_traceability';
 const STATIC_ASSETS = [
   BASE_PATH + '/',
   BASE_PATH + '/blockchain',
-  BASE_PATH + '/manifest.json',
-  BASE_PATH + '/icon-192.svg',
-  BASE_PATH + '/icon-512.svg',
 ];
 
 // Install event - cache static assets
 self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
-      return cache.addAll(STATIC_ASSETS);
+      // Try to cache each asset individually, don't fail if one is missing
+      return Promise.allSettled(
+        STATIC_ASSETS.map(asset => 
+          fetch(asset).then(response => {
+            if (response.ok) {
+              return cache.put(asset, response);
+            }
+            console.warn('Asset not found for caching:', asset);
+          }).catch(error => {
+            console.warn('Failed to cache asset:', asset, error);
+          })
+        )
+      );
     })
   );
   self.skipWaiting();
