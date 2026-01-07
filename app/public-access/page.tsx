@@ -171,7 +171,7 @@ export default function PublicAccessPage() {
               <div key={product.id} className="bg-white border rounded-lg p-4 hover:shadow-lg transition-shadow">
                 <div className="mb-4">
                   <div className="w-full h-32 bg-green-100 rounded-lg flex items-center justify-center overflow-hidden">
-                    <img src="/images/maroon-logo.png" alt="MAROON" className="h-full w-full object-contain" />
+                    <img src={getAssetPath("/images/maroon-logo.png")} alt="MAROON" className="h-full w-full object-contain" />
                   </div>
                 </div>
                 <h3 className="font-semibold text-gray-900 mb-2">{product.name}</h3>
@@ -193,7 +193,7 @@ export default function PublicAccessPage() {
       <footer className="bg-gray-900 text-white py-3 pt-3 px-4 pb-0">
         <div className="max-w-6xl mx-auto text-center">
           <div className="flex items-center justify-center gap-2 mb-1">
-            <img src="/images/maroon-logo.png" alt="MAROON" className="h-3 w-3" />
+            <img src={getAssetPath("/images/maroon-logo.png")} alt="MAROON" className="h-3 w-3" />
             <span className="text-xs font-semibold">Maroon Blockchain</span>
           </div>
           <p className="text-gray-400 text-xs">

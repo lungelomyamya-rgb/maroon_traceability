@@ -28,7 +28,7 @@ const mockPublicProducts = [
     certifications: ['Organic', 'Fair Trade'],
     status: 'verified',
     price: 45.99,
-    image: '/images/maroon-logo.png',
+    image: getAssetPath('/images/maroon-logo.png'),
     description: 'Fresh organic apples grown without pesticides'
   },
   {
@@ -41,7 +41,7 @@ const mockPublicProducts = [
     certifications: ['Free Range', 'Organic'],
     status: 'verified',
     price: 28.50,
-    image: '/images/maroon-logo.png',
+    image: getAssetPath('/images/maroon-logo.png'),
     description: 'Farm-fresh eggs from free-range chickens'
   },
   {
@@ -54,7 +54,7 @@ const mockPublicProducts = [
     certifications: ['Organic', 'Heirloom'],
     status: 'verified',
     price: 32.75,
-    image: '/images/maroon-logo.png',
+    image: getAssetPath('/images/maroon-logo.png'),
     description: 'Premium heirloom tomatoes with rich flavor'
   },
   {
@@ -67,7 +67,7 @@ const mockPublicProducts = [
     certifications: ['Artisan', 'Organic'],
     status: 'verified',
     price: 89.99,
-    image: '/images/maroon-logo.png',
+    image: getAssetPath('/images/maroon-logo.png'),
     description: 'Handcrafted artisan cheese from grass-fed cows'
   },
   {
@@ -80,7 +80,7 @@ const mockPublicProducts = [
     certifications: ['Wild', 'Organic'],
     status: 'verified',
     price: 65.00,
-    image: '/images/maroon-logo.png',
+    image: getAssetPath('/images/maroon-logo.png'),
     description: 'Pure wild honey from remote mountain regions'
   },
   {
@@ -93,7 +93,7 @@ const mockPublicProducts = [
     certifications: ['Organic', 'Non-GMO'],
     status: 'verified',
     price: 18.99,
-    image: '/images/maroon-logo.png',
+    image: getAssetPath('/images/maroon-logo.png'),
     description: 'Fresh organic spinach rich in nutrients'
   }
 ];
