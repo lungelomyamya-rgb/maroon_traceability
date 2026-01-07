@@ -1,36 +1,18 @@
-// public/sw.js - Minimal Service Worker for GitHub Pages
-const CACHE_NAME = 'maroon-blockchain-v5';
-const OFFLINE_QUEUE = 'offline-queue';
+// public/sw.js - Ultra-minimal Service Worker for GitHub Pages
+// This service worker only handles fetch events, no cache management during install/activate
 
 // Base path for GitHub Pages
 const BASE_PATH = '/maroon_traceability';
 
-// Cache busting version - force update on every change
-const CACHE_VERSION = Date.now().toString();
-
-// Install event - minimal setup
+// Install event - do nothing
 self.addEventListener('install', (event) => {
   console.log('Service Worker installing...');
-  
-  // Skip waiting to ensure immediate activation
   self.skipWaiting();
 });
 
-// Activate event - cleanup old caches
+// Activate event - do nothing
 self.addEventListener('activate', (event) => {
   console.log('Service Worker activating...');
-  event.waitUntil(
-    caches.keys().then((cacheNames) => {
-      return Promise.all(
-        cacheNames
-          .filter((name) => name !== CACHE_NAME)
-          .map((name) => {
-            console.log('Deleting old cache:', name);
-            return caches.delete(name);
-          })
-      );
-    })
-  );
   self.clients.claim();
 });
 
@@ -65,7 +47,7 @@ self.addEventListener('fetch', (event) => {
            request.url.includes('.jpeg')) {
           
           // Open cache and store response clone
-          caches.open(CACHE_NAME).then((cache) => {
+          caches.open('maroon-cache').then((cache) => {
             cache.put(request, response.clone()).catch((error) => {
               console.warn('Cache put failed:', error, 'URL:', request.url);
             });
