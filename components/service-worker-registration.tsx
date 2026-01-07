@@ -8,17 +8,25 @@ export function ServiceWorkerRegistration() {
     // Only register service worker in production
     if (typeof window !== 'undefined' && 'serviceWorker' in navigator && process.env.NODE_ENV === 'production') {
       // Determine the correct service worker path based on environment
-      const swPath = window.location.hostname.includes('github.io') 
-        ? '/maroon_traceability/sw.js' 
-        : '/sw.js';
+      const basePath = window.location.hostname.includes('github.io') 
+        ? '/maroon_traceability' 
+        : '';
       
-      navigator.serviceWorker.register(swPath)
-        .then((registration) => {
-          console.log('SW registered: ', registration);
-        })
-        .catch((registrationError) => {
-          console.log('SW registration failed: ', registrationError);
-        });
+      // Add cache busting timestamp to force update
+      const timestamp = Date.now();
+      const swPath = `${basePath}/sw.js?v=${timestamp}`;
+      
+      // Unregister any existing service workers first
+      navigator.serviceWorker.getRegistrations().then(registrations => {
+        return Promise.all(registrations.map(registration => registration.unregister()));
+      }).then(() => {
+        // Register the new service worker
+        return navigator.serviceWorker.register(swPath);
+      }).then((registration) => {
+        console.log('SW registered: ', registration);
+      }).catch((registrationError) => {
+        console.log('SW registration failed: ', registrationError);
+      });
     }
   }, []);
 

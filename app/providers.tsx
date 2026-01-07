@@ -9,7 +9,20 @@ import { ErrorBoundary } from '@/components/errorBoundary';
 import { EventLogsProvider } from '@/contexts/eventLogsContext';
 import { SearchProvider } from '@/contexts/search-context';
 
+import React from 'react';
+
 function ThemeProvider({ children }: { children: React.ReactNode }) {
+  const [mounted, setMounted] = React.useState(false);
+
+  React.useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  // Prevent hydration mismatch by not rendering until mounted
+  if (!mounted) {
+    return <>{children}</>;
+  }
+
   return (
     <NextThemesProvider
       attribute="class"
