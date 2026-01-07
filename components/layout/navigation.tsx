@@ -5,8 +5,14 @@ import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { Shield, ChevronDown, Calendar, Sprout, Droplets, Package, Shield as ShieldIcon, Truck, MapPin, Clock, FileText, Menu } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
 import { getRoleColors, textColors } from '@/lib/theme/colors';
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useUser } from '@/contexts/userContext';
 import { DEMO_USERS } from '@/constants/users';
 import { getAssetPath } from '@/lib/utils/assetPath';
@@ -17,6 +23,19 @@ export function Navigation() {
   const router = useRouter();
   const { currentUser, switchUser } = useUser();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [isMobileDropdownOpen, setIsMobileDropdownOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setIsDropdownOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
 
   // Hide navigation on login page
   if (pathname === '/login') {
@@ -164,17 +183,78 @@ export function Navigation() {
               ))}
             </div>
 
-            {/* Mobile Navigation - Hamburger Menu with Navigation Tabs */}
-            <div className="sm:hidden">
+            {/* Desktop Role Selector */}
+            <div className="hidden sm:block relative" ref={dropdownRef}>
               <Button 
                 variant="ghost" 
                 className="flex items-center space-x-2"
                 onClick={() => setIsDropdownOpen(!isDropdownOpen)}
               >
-                <Menu className="h-4 w-4" />
+                <span>{currentUser?.role ? `${currentUser.role.charAt(0).toUpperCase() + currentUser.role.slice(1)}` : 'Switch Role'}</span>
+                <ChevronDown className="h-4 w-4" />
               </Button>
               
               {isDropdownOpen && (
+                <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg z-50 border border-gray-200">
+                  <div className="py-1">
+                    {roles.map((role: any) => (
+                      <button
+                        key={role.name}
+                        onClick={() => {
+                          if (role.name === 'Viewer') {
+                            // Update user context first, then navigate
+                            const viewerUser = DEMO_USERS.find((u: any) => u.role === 'viewer');
+                            if (viewerUser) {
+                              switchUser(viewerUser.id);
+                              // Small delay to ensure context updates before navigation
+                              setTimeout(() => {
+                                window.location.href = '/viewer';
+                              }, 100);
+                            } else {
+                              // Fallback if viewer user not found
+                              window.location.href = '/viewer';
+                            }
+                          } else {
+                            // For other roles, go to login first
+                            router.push('/login');
+                          }
+                          setIsDropdownOpen(false);
+                        }}
+                        className={`w-full text-left px-4 py-2 text-sm hover:bg-gray-100 flex items-center space-x-2 ${
+                          (currentUser?.role === 'farmer' && role.name === 'Farmer') || 
+                          (currentUser?.role === 'viewer' && role.name === 'Viewer') ||
+                          (currentUser?.role === 'logistics' && role.name === 'Logistics') ||
+                          (currentUser?.role === 'inspector' && role.name === 'Inspector') ||
+                          (currentUser?.role === 'packaging' && role.name === 'Packaging')
+                            ? 'bg-gray-100' : ''
+                        }`}
+                      >
+                        <span className="capitalize">{role.name}</span>
+                        {((currentUser?.role === 'farmer' && role.name === 'Farmer') || 
+                          (currentUser?.role === 'viewer' && role.name === 'Viewer') ||
+                          (currentUser?.role === 'logistics' && role.name === 'Logistics') ||
+                          (currentUser?.role === 'inspector' && role.name === 'Inspector') ||
+                          (currentUser?.role === 'packaging' && role.name === 'Packaging')) && (
+                          <span className="text-xs text-gray-500 ml-2">(Current)</span>
+                        )}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* Mobile Navigation - Hamburger Menu with Navigation Tabs */}
+            <div className="sm:hidden">
+              <Button 
+                variant="ghost" 
+                className="flex items-center space-x-2"
+                onClick={() => setIsMobileDropdownOpen(!isMobileDropdownOpen)}
+              >
+                <Menu className="h-4 w-4" />
+              </Button>
+              
+              {isMobileDropdownOpen && (
                 <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg z-50 border border-gray-200">
                   <div className="py-1">
                     {/* Mobile Navigation Items - Same as Desktop */}
@@ -182,7 +262,7 @@ export function Navigation() {
                       <Link
                         key={item.name}
                         href={item.href}
-                        onClick={() => setIsDropdownOpen(false)}
+                        onClick={() => setIsMobileDropdownOpen(false)}
                         className={`w-full text-left px-4 py-2 text-sm hover:bg-gray-100 flex items-center space-x-2 ${
                           item.current
                             ? 'bg-gray-100'
@@ -219,6 +299,8 @@ export function Navigation() {
                               router.push('/login');
                             }
                             setIsDropdownOpen(false);
+                            setIsDropdownOpen(false);
+                            setIsMobileDropdownOpen(false);
                           }}
                           className={`w-full text-left px-4 py-2 text-sm hover:bg-gray-100 flex items-center space-x-2 ${
                             (currentUser?.role === 'farmer' && role.name === 'Farmer') || 
