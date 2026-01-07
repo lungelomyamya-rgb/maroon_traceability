@@ -3,7 +3,7 @@
 
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
-import { Shield, ChevronDown, Calendar, Sprout, Droplets, Package, Shield as ShieldIcon, Truck, MapPin, Clock, FileText } from 'lucide-react';
+import { Shield, ChevronDown, Calendar, Sprout, Droplets, Package, Shield as ShieldIcon, Truck, MapPin, Clock, FileText, Menu } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { getRoleColors, textColors } from '@/lib/theme/colors';
 import { useState } from 'react';
@@ -120,7 +120,7 @@ export function Navigation() {
         <div className="flex justify-between h-16 items-center">
           <div className="flex">
             <div className="flex-shrink-0 flex items-center">
-              <img src={getAssetPath("/images/Maroon (4).png")} alt="MAROON" className="h-8 w-8 mr-3" />
+              <img src={getAssetPath("/images/maroon-logo.png")} alt="MAROON" className="h-8 w-8 mr-3 nav-logo" />
               <div>
                 <Link href="/viewer" className="text-xl font-bold text-gray-900">
                   Maroon Blockchain
@@ -171,8 +171,7 @@ export function Navigation() {
                 className="flex items-center space-x-2"
                 onClick={() => setIsDropdownOpen(!isDropdownOpen)}
               >
-                <span>Menu</span>
-                <ChevronDown className="h-4 w-4" />
+                <Menu className="h-4 w-4" />
               </Button>
               
               {isDropdownOpen && (

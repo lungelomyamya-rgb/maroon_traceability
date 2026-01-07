@@ -1,11 +1,17 @@
 // next.config.js
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: 'export',
-  trailingSlash: true,
-  distDir: 'out',
-  basePath: '/maroon_traceability',
-  assetPrefix: '/maroon_traceability',
+  // Only use export mode in production
+  ...(process.env.NODE_ENV === 'production' ? {
+    output: 'export',
+    trailingSlash: true,
+    distDir: 'out',
+    basePath: '/maroon_traceability',
+    assetPrefix: '/maroon_traceability'
+  } : {
+    // Development mode
+    trailingSlash: true
+  }),
   images: {
     unoptimized: true,
     remotePatterns: [

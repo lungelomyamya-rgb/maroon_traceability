@@ -7,6 +7,7 @@ import { useUser } from '@/contexts/userContext';
 import { useProducts } from '@/contexts/productContext';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
 import { Plus, Package, AlertCircle } from 'lucide-react';
 import { DashboardLayout } from '@/components/dashboard/DashboardLayout';
 import { EventForm } from '@/components/events/eventForm';
@@ -73,75 +74,83 @@ export default function FarmerDashboard() {
   ];
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Hero Section */}
-      <div className={`relative overflow-hidden bg-gradient-to-br from-green to-green-light shadow-2xl`}>
-        <div className="absolute inset-0 bg-foreground/5"></div>
-        <div className="relative z-10 text-center p-8 px-4 sm:px-8">
-          <div className="inline-block mb-4 px-4 py-1.5 bg-background/20 backdrop-blur-sm rounded-full border border-white/10">
-            <span className="text-xs font-medium text-white">Farmer Dashboard</span>
-          </div>
-          <h1 className="mb-2 text-white text-2xl sm:text-3xl font-bold">
-            Welcome, {currentUser?.name || 'Farmer'}!
-          </h1>
-          <p className="text-white/90 text-sm max-w-md mx-auto mb-6">
-            Manage your farm operations and track products from seed to sale
-          </p>
-          <div className="flex justify-center gap-4">
-            <Button 
-              onClick={() => setShowEventForm(!showEventForm)}
-              className="bg-green hover:bg-green-hover text-white shadow-lg"
-              size="lg"
-            >
-              <Plus className="h-4 w-4 mr-2" />
-              Add Event
-            </Button>
-            <Button 
-              onClick={() => router.push('/farmer/seeds')}
-              className="bg-green hover:bg-green-hover text-white shadow-lg"
-              size="lg"
-            >
-              <Package className="h-4 w-4 mr-2" />
-              Manage Seeds
-            </Button>
-          </div>
+    <DashboardLayout
+      title={`Welcome, ${currentUser?.name || 'Farmer'}!`}
+      subtitle="Manage your farm operations and track products from seed to sale"
+      cards={metricsCards}
+      actions={
+        <div className="flex justify-center gap-4">
+          <Button 
+            onClick={() => setShowEventForm(!showEventForm)}
+            className="bg-green hover:bg-green-hover text-white shadow-lg"
+            size="lg"
+          >
+            <Plus className="h-4 w-4 mr-2" />
+            Add Event
+          </Button>
+          <Button 
+            onClick={() => router.push('/farmer/seeds')}
+            className="bg-blue hover:bg-blue-hover text-white shadow-lg"
+            size="lg"
+          >
+            <Package className="h-4 w-4 mr-2" />
+            Manage Seeds
+          </Button>
         </div>
-      </div>
+      }
+    >
+      <div className="space-y-6">
+        {/* Event Management Section */}
+        {showEventForm && (
+          <Card className="p-6 mb-6">
+            <div className="flex justify-between items-center mb-4">
+              <h3 className="text-lg font-medium">Create New Event</h3>
+              <Button 
+                variant="outline" 
+                onClick={() => setShowEventForm(false)}
+              >
+                Cancel
+              </Button>
+            </div>
+            <EventForm 
+              productId={selectedProduct || farmerProducts[0]?.id || ''}
+              onSubmit={async (data) => {
+                console.log('Event submitted:', data);
+                setShowEventForm(false);
+              }}
+            />
+          </Card>
+        )}
 
-      {/* Dashboard Content */}
-      <DashboardLayout
-        title=""
-        subtitle=""
-        cards={metricsCards}
-      >
+        {/* Product Events */}
         <div className="space-y-6">
-          {/* Event Management Section */}
-          <div>
-            {showEventForm && (
-              <Card className="p-6 mb-6">
-                <div className="flex justify-between items-center mb-4">
-                  <h3 className="text-lg font-medium">Create New Event</h3>
-                  <Button 
-                    variant="outline" 
-                    onClick={() => setShowEventForm(false)}
-                  >
-                    Cancel
-                  </Button>
+          <h3 className="text-lg font-medium text-gray-900 mb-4">Recent Product Events</h3>
+          {farmerProducts.length > 0 ? (
+            farmerProducts.slice(0, 3).map((product) => (
+              <Card key={product.id} className="p-6">
+                <div className="flex items-center justify-between mb-4">
+                  <h4 className="font-medium text-gray-900">{product.name}</h4>
+                  <Badge variant="outline">{product.category}</Badge>
                 </div>
-                <EventForm 
-                  productId={selectedProduct || farmerProducts[0]?.id || ''}
-                  onSubmit={async (data) => {
-                    console.log('Event submitted:', data);
-                    setShowEventForm(false);
-                  }}
-                />
+                <ProductEventList productId={product.id} />
               </Card>
-            )}
-
-            <ProductEventList productId={selectedProduct} />
-          </div>
+            ))
+          ) : (
+            <Card className="p-6 text-center">
+              <p className="text-gray-500">No products available. Add your first product to see events.</p>
+            </Card>
+          )}
         </div>
-      </DashboardLayout>
-    </div>
+
+        {/* Additional Components */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <GrowthStageMonitor products={farmerProducts} />
+          <FertiliserLog products={farmerProducts} />
+        </div>
+
+        <SeedVarietyTracker products={farmerProducts} />
+        <ComplianceStatus products={farmerProducts} />
+      </div>
+    </DashboardLayout>
   );
 }

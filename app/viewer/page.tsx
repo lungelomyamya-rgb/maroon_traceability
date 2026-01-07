@@ -414,15 +414,17 @@ export default function PublicAccessPage() {
             <div className="lg:col-span-2">
               <div className={`${commonColors.whiteBg} ${commonColors.roundedLg} ${commonColors.shadowLg} ${commonColors.borderGray200}`}>
                 <div className="p-6">
-                  <div className="relative mb-6">
-                    <div className= "text-center"><h2 className="text-lg font-semibold text-center ${commonColors.gray900} mb-4">Recent Products</h2></div>
-                    <div className= "absolute right-0 top-0"><Button 
-                      onClick={() => router.push('/products')}
-                      className="!bg-gradient-to-r !from-gray-600 !to-gray-500 hover:!from-gray-700 hover:!to-gray-600 !text-white shadow-lg"
-                      size="sm"
-                    >
-                      View All
-                    </Button></div>
+                  <div className="mb-6">
+                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                      <h2 className="text-lg font-semibold text-gray-900">Recent Products</h2>
+                      <Button 
+                        onClick={() => router.push('/products')}
+                        className="!bg-gradient-to-r !from-gray-600 !to-gray-500 hover:!from-gray-700 hover:!to-gray-600 !text-white shadow-lg"
+                        size="sm"
+                      >
+                        View All
+                      </Button>
+                    </div>
                   </div>
                   <div className="space-y-4">
                     {isLoading ? (
@@ -437,17 +439,17 @@ export default function PublicAccessPage() {
                       displayProducts.map((product) => (
                         <div 
                           key={product.id} 
-                          className="flex items-center justify-between p-4 ${commonColors.gray50} ${commonColors.hoverGray100} rounded-lg cursor-pointer transition-colors"
+                          className="flex flex-col sm:flex-row sm:items-center sm:justify-between p-4 gap-4 ${commonColors.gray50} ${commonColors.hoverGray100} rounded-lg cursor-pointer transition-colors"
                           onClick={() => handleProductClick(product.id)}
                         >
                           <div className="flex items-center gap-4 flex-1">
-                            <div className="bg-white p-3 rounded-lg shadow-sm">
+                            <div className="bg-white p-3 rounded-lg shadow-sm flex-shrink-0">
                               <Package className={`h-6 w-6 ${textColors.muted}`} />
                             </div>
-                            <div className="flex-1">
-                              <div className="flex items-center gap-2 mb-1">
-                                <h4 className={`font-semibold ${textColors.primary}`}>{product.name}</h4>
-                                <span className={`px-2 py-1 text-xs font-medium rounded-full ${
+                            <div className="flex-1 min-w-0">
+                              <div className="flex flex-col sm:flex-row sm:items-center gap-2 mb-1">
+                                <h4 className={`font-semibold ${textColors.primary} truncate`}>{product.name}</h4>
+                                <span className={`px-2 py-1 text-xs font-medium rounded-full flex-shrink-0 ${
                                   product.status === 'verified' ? 'bg-card-green-light text-card-green' :
                                   product.status === 'pending' ? 'bg-card-orange-light text-card-orange' :
                                   'bg-card-neutral-light text-card-neutral'
@@ -458,7 +460,7 @@ export default function PublicAccessPage() {
                               <p className="text-xs ${commonColors.gray500}">{product.category}</p>
                             </div>
                           </div>
-                          <div className="text-right">
+                          <div className="text-right sm:text-left">
                             <div className={`text-sm font-semibold ${textColors.primary}`}>{product.verificationCount || 0} verifications</div>
                             {product.lastVerified && (
                               <p className="text-xs ${commonColors.gray500}">
@@ -530,42 +532,44 @@ export default function PublicAccessPage() {
           {/* Real-time Activity */}
           <div className={`${commonColors.whiteBg} ${commonColors.roundedLg} ${commonColors.shadowLg} ${commonColors.borderGray200}`}>
             <div className="p-6">
-              <div className="text-center mb-4">
-                <h2 className="text-lg font-semibold text-center ${commonColors.gray900}">Real-time Activity</h2>
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() => {
-                        if (isRealtimeConnected) {
-                          realtime.disableMockActivity();
-                        } else {
-                          realtime.enableMockActivity();
-                        }
-                      }}
-                    >
-                      {isRealtimeConnected ? 'Pause' : 'Resume'}
-                    </Button>
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() => realtime.generateTestEvent('product_update')}
-                    >
-                      Test Event
-                    </Button>
+              <div className="mb-6">
+                <div className="flex flex-col gap-4">
+                  <h2 className="text-lg font-semibold text-center text-gray-900">Real-time Activity</h2>
+                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                    <div className="flex items-center gap-2 justify-center sm:justify-start">
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => {
+                          if (isRealtimeConnected) {
+                            realtime.disableMockActivity();
+                          } else {
+                            realtime.enableMockActivity();
+                          }
+                        }}
+                      >
+                        {isRealtimeConnected ? 'Pause' : 'Resume'}
+                      </Button>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => realtime.generateTestEvent('product_update')}
+                      >
+                        Test Event
+                      </Button>
+                    </div>
+                    {isRealtimeConnected ? (
+                      <span className="flex items-center gap-1 px-3 py-1 bg-card-green-light text-card-green rounded-full text-sm font-medium justify-center sm:justify-end">
+                        <Wifi className="h-3 w-3" />
+                        Connected
+                      </span>
+                    ) : (
+                      <span className="flex items-center gap-1 px-3 py-1 bg-card-neutral-light text-card-neutral rounded-full text-sm font-medium justify-center sm:justify-end">
+                        <WifiOff className="h-3 w-3" />
+                        Disconnected
+                      </span>
+                    )}
                   </div>
-                  {isRealtimeConnected ? (
-                    <span className="flex items-center gap-1 px-3 py-1 bg-card-green-light text-card-green rounded-full text-sm font-medium">
-                      <Wifi className="h-3 w-3" />
-                      Connected
-                    </span>
-                  ) : (
-                    <span className="flex items-center gap-1 px-3 py-1 bg-card-neutral-light text-card-neutral rounded-full text-sm font-medium">
-                      <WifiOff className="h-3 w-3" />
-                      Disconnected
-                    </span>
-                  )}
                 </div>
               </div>
               
@@ -575,12 +579,12 @@ export default function PublicAccessPage() {
                     {recentEvents.map((event, index) => (
                       <div 
                         key={`${event.id}-${index}`} 
-                        className="flex items-center justify-between p-3 ${commonColors.gray50} rounded-lg"
+                        className="flex flex-col sm:flex-row sm:items-center sm:justify-between p-3 gap-3 ${commonColors.gray50} rounded-lg"
                       >
                         <div className="flex items-center gap-3">
-                          <div className="w-2 h-2 bg-card-green rounded-full animate-pulse"></div>
-                          <div>
-                            <p className={`font-medium text-sm ${textColors.primary} capitalize`}>
+                          <div className="w-2 h-2 bg-card-green rounded-full animate-pulse flex-shrink-0"></div>
+                          <div className="min-w-0 flex-1">
+                            <p className={`font-medium text-sm ${textColors.primary} capitalize truncate`}>
                               {event.type.replace('_', ' ')}
                             </p>
                             <p className="text-xs ${commonColors.gray500}">
@@ -588,11 +592,11 @@ export default function PublicAccessPage() {
                             </p>
                           </div>
                         </div>
-                        <div className="text-right">
-                          <p className="text-sm ${commonColors.gray900}">
+                        <div className="text-right sm:text-left min-w-0">
+                          <p className="text-sm ${commonColors.gray900} truncate">
                             {(event.data as any)?.productId || (event.data as any)?.productName || `Block ${(event.data as any)?.blockNumber}`}
                           </p>
-                          <p className="text-xs ${commonColors.gray500} capitalize">
+                          <p className="text-xs ${commonColors.gray500} capitalize truncate">
                             {(event.data as any)?.status || 
                              (event.data as any)?.verificationCount ? `${(event.data as any).verificationCount} verifications` :
                              (event.data as any)?.quality ? `Quality: ${(event.data as any).quality}` :

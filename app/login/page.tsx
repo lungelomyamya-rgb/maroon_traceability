@@ -58,7 +58,7 @@ export default function LoginPage() {
       <div className="max-w-4xl mx-auto">
         <div className="text-center mb-12">
           <div className="flex justify-center items-center mb-6">
-            <img src="/images/Maroon (4).png" alt="MAROON" className="h-16 w-16 mr-4" />
+            <img src="/images/maroon-logo.png" alt="MAROON" className="h-16 w-16 mr-4" />
             <h1 className="text-4xl font-bold tracking-tight text-gray-900">
               Maroon Traceability
             </h1>

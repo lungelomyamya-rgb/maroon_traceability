@@ -158,7 +158,7 @@ export default function TraceClient({ id }: TraceClientProps) {
       <header className="bg-white shadow-sm border-b sticky top-0 z-50">
         <div className="max-w-4xl mx-auto px-4 py-4">
           <div className="flex items-center gap-3">
-            <img src="/images/Maroon (4).png" alt="MAROON" className="h-8 w-8 text-green-600" />
+            <img src="/images/maroon-logo.png" alt="MAROON" className="h-8 w-8 text-green-600" />
             <div>
               <h1 className="text-xl font-bold ${commonColors.gray800}">Maroon Blockchain</h1>
               <p className="text-xs ${commonColors.gray500}">Verified Supply Chain</p>
@@ -304,7 +304,7 @@ export default function TraceClient({ id }: TraceClientProps) {
         {/* Blockchain Verification */}
         <div className="mt-8 bg-gradient-to-br from-gray-900 to-gray-800 rounded-2xl p-6 text-white">
           <h3 className="text-xl font-bold mb-4 flex items-center gap-2">
-            <img src="/images/Maroon (4).png" alt="MAROON" className="h-6 w-6 text-green-400" />
+            <img src="/images/maroon-logo.png" alt="MAROON" className="h-6 w-6 text-green-400" />
             Blockchain Verification
           </h3>
           <div className="space-y-2 text-sm font-mono">

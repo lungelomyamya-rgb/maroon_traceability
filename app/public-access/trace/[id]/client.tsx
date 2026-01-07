@@ -286,7 +286,7 @@ export default function PublicTraceClient() {
           <div className="bg-white rounded-2xl shadow-xl overflow-hidden mb-8">
             <div className="bg-green-100 p-4 border-b relative h-32">
               <div className="absolute right-4 top-4 flex items-center justify-center">
-                <img src={getAssetPath("/images/Maroon (4).png")} alt="MAROON" className="h-20 w-20 opacity-80" />
+                <img src={getAssetPath("/images/maroon-logo.png")} alt="MAROON" className="h-20 w-20 opacity-80" />
               </div>
               <div className="relative z-10 flex items-center gap-4">
                 <div className="text-4xl">{getProductIcon(product.category)}</div>

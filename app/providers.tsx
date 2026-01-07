@@ -32,7 +32,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
             <ProductProvider>
               <EventLogsProvider>
                 <SearchProvider>
-                  <main className="container mx-auto px-4 py-8">
+                  <main className="container mx-auto px-4 pt-20 pb-8">
                     {children}
                   </main>
                 </SearchProvider>

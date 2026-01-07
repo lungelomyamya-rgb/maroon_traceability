@@ -37,7 +37,7 @@ export function DashboardLayout({ children, title, subtitle, actions, welcomeMes
   return (
     <div className="min-h-screen bg-gray-50">
       <Navigation />
-      <div className="pt-20 px-4 sm:px-6 lg:px-8">
+      <div className="px-4 sm:px-6 lg:px-8">
         {(title || subtitle || actions) && (
           <div className="text-center mb-8">
             {title && <h1 className="text-3xl font-bold text-gray-900 mb-4">{title}</h1>}
