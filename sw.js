@@ -1,24 +1,27 @@
-// public/sw.js - Network-only Service Worker for GitHub Pages
-// No cache operations during install/activate to prevent addAll errors
+// public/sw.js - Cache-free Service Worker for GitHub Pages
+// Completely avoids Cache API during installation to prevent addAll errors
 
 // Base path for GitHub Pages
 const BASE_PATH = '/maroon_traceability';
 
-// Install event - do absolutely nothing
+// Simple in-memory cache for runtime use only
+const memoryCache = new Map();
+
+// Install event - absolutely no cache operations
 self.addEventListener('install', (event) => {
   console.log('Service Worker installing...');
-  // Don't do anything during install - no cache operations
+  // Do nothing - no Cache API usage at all
   self.skipWaiting();
 });
 
-// Activate event - do absolutely nothing  
+// Activate event - absolutely no cache operations
 self.addEventListener('activate', (event) => {
   console.log('Service Worker activating...');
-  // Don't do anything during activate - no cache operations
+  // Do nothing - no Cache API usage at all
   self.clients.claim();
 });
 
-// Fetch event - simple network passthrough with minimal caching
+// Fetch event - network-only with optional memory cache
 self.addEventListener('fetch', (event) => {
   const { request } = event;
   
@@ -32,31 +35,41 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
-  // Simple network-first strategy without complex cache operations
+  // Network-first strategy with optional memory cache
   event.respondWith(
     fetch(request)
       .then(response => {
-        // Only try to cache if network succeeds and it's a static asset
+        // Store in memory cache for static assets only (no Cache API)
         if (response.ok && isStaticAsset(request.url)) {
-          // Use setTimeout to avoid blocking the response
-          setTimeout(() => {
-            caches.open('maroon-cache-v1').then(cache => {
-              return cache.add(request).catch(err => {
-                // Silently fail - don't throw errors
-                console.debug('Cache add failed (non-critical):', err.message);
-              });
+          const responseClone = response.clone();
+          responseClone.arrayBuffer().then(buffer => {
+            memoryCache.set(request.url, {
+              buffer: buffer,
+              headers: Object.fromEntries(responseClone.headers.entries()),
+              status: responseClone.status,
+              statusText: responseClone.statusText
             });
-          }, 0);
+          }).catch(() => {
+            // Silently ignore memory cache failures
+          });
         }
         return response;
       })
       .catch(() => {
-        // Only try cache if network completely fails
-        return caches.match(request).then(cached => {
-          return cached || new Response('Offline', { 
-            status: 503, 
-            statusText: 'Service Unavailable' 
+        // Try memory cache if network fails
+        const cached = memoryCache.get(request.url);
+        if (cached) {
+          return new Response(cached.buffer, {
+            status: cached.status,
+            statusText: cached.statusText,
+            headers: cached.headers
           });
+        }
+        
+        // Return offline response
+        return new Response('Offline', { 
+          status: 503, 
+          statusText: 'Service Unavailable' 
         });
       })
   );
