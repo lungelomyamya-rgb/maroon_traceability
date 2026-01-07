@@ -146,7 +146,7 @@ export function Navigation() {
 
           <div className="flex items-center space-x-6">
             {/* Main Navigation */}
-            <div className="hidden sm:flex sm:space-x-4">
+            <div className="flex sm:flex sm:space-x-4">
               {navigation.map((item: any) => (
                 <Link
                   key={item.name}
