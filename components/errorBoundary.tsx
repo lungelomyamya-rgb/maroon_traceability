@@ -108,9 +108,9 @@ URL: ${typeof window !== 'undefined' ? window.location.href : 'N/A'}
       `.trim();
 
       navigator.clipboard.writeText(errorDetails).then(() => {
-        alert('Error details copied to clipboard');
-      }).catch(() => {
-        console.error('Failed to copy error details');
+        console.log('Error details copied to clipboard');
+      }).catch((error) => {
+        console.error('Failed to copy error details:', error);
       });
     }
   };
