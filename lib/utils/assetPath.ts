@@ -22,3 +22,12 @@ export function getBaseUrl(): string {
   }
   return '';
 }
+
+/**
+ * Get the correct navigation path for GitHub Pages
+ * This ensures all navigation links are properly prefixed with the base path
+ */
+export function getNavigationPath(path: string): string {
+  const baseUrl = getBaseUrl();
+  return `${baseUrl}${path}`;
+}
