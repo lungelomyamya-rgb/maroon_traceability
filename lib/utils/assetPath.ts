@@ -26,8 +26,13 @@ export function getBaseUrl(): string {
 /**
  * Get the correct navigation path for GitHub Pages
  * This ensures all navigation links are properly prefixed with the base path
+ * Note: Next.js basePath is automatically applied, so we only need this for manual navigation
  */
 export function getNavigationPath(path: string): string {
-  const baseUrl = getBaseUrl();
-  return `${baseUrl}${path}`;
+  // Next.js automatically handles basePath in production for Link components
+  // Only use this for manual navigation like window.location.href
+  if (typeof window !== 'undefined' && window.location.hostname.includes('github.io')) {
+    return path; // Next.js will add basePath automatically
+  }
+  return path;
 }

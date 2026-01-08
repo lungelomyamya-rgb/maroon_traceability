@@ -15,7 +15,7 @@ import { getRoleColors, textColors } from '@/lib/theme/colors';
 import { useState, useEffect, useRef } from 'react';
 import { useUser } from '@/contexts/userContext';
 import { DEMO_USERS } from '@/constants/users';
-import { getAssetPath, getNavigationPath } from '@/lib/utils/assetPath';
+import { getAssetPath } from '@/lib/utils/assetPath';
 import { rolePermissionsService } from '@/services/rolePermissionsService';
 
 export function Navigation() {
@@ -55,12 +55,12 @@ export function Navigation() {
   // Logistics-specific navigation items
   const getLogisticsNavigationItems = () => {
     const logisticsTabs = [
-      { name: 'Overview', href: getNavigationPath('/logistics'), description: 'Logistics dashboard and metrics' },
-      { name: 'Vehicles', href: getNavigationPath('/logistics/vehicles'), description: 'Manage vehicle fleet and maintenance' },
-      { name: 'Drivers', href: getNavigationPath('/logistics/drivers'), description: 'Driver profiles and assignments' },
-      { name: 'Scheduling', href: getNavigationPath('/logistics/scheduling'), description: 'Transport scheduling and routes' },
-      { name: 'Documentation', href: getNavigationPath('/logistics/documentation'), description: 'Bills of lading and delivery docs' },
-      { name: 'Events', href: getNavigationPath('/logistics/events'), description: 'Logistics events and activities' }
+      { name: 'Overview', href: '/logistics', description: 'Logistics dashboard and metrics' },
+      { name: 'Vehicles', href: '/logistics/vehicles', description: 'Manage vehicle fleet and maintenance' },
+      { name: 'Drivers', href: '/logistics/drivers', description: 'Driver profiles and assignments' },
+      { name: 'Scheduling', href: '/logistics/scheduling', description: 'Transport scheduling and routes' },
+      { name: 'Documentation', href: '/logistics/documentation', description: 'Bills of lading and delivery docs' },
+      { name: 'Events', href: '/logistics/events', description: 'Logistics events and activities' }
     ];
 
     return logisticsTabs.map(tab => ({
@@ -70,11 +70,11 @@ export function Navigation() {
   };
   const getFarmerNavigationItems = () => {
     const farmerTabs = [
-      { name: 'Event Management', href: getNavigationPath('/farmer/dashboard'), description: 'Add planting, growth, harvest events' },
-      { name: 'Growth Monitoring', href: getNavigationPath('/farmer/growth'), description: 'Track plant development stages' },
-      { name: 'Fertiliser Logs', href: getNavigationPath('/farmer/fertiliser'), description: 'Record nutrient applications' },
-      { name: 'Seed Varieties', href: getNavigationPath('/farmer/seeds'), description: 'Manage seed certifications' },
-      { name: 'Compliance', href: getNavigationPath('/farmer/compliance'), description: 'Food safety and export compliance' }
+      { name: 'Event Management', href: '/farmer/dashboard', description: 'Add planting, growth, harvest events' },
+      { name: 'Growth Monitoring', href: '/farmer/growth', description: 'Track plant development stages' },
+      { name: 'Fertiliser Logs', href: '/farmer/fertiliser', description: 'Record nutrient applications' },
+      { name: 'Seed Varieties', href: '/farmer/seeds', description: 'Manage seed certifications' },
+      { name: 'Compliance', href: '/farmer/compliance', description: 'Food safety and export compliance' }
     ];
 
     return farmerTabs.map(tab => ({
@@ -86,10 +86,10 @@ export function Navigation() {
   // Inspector-specific navigation items
   const getInspectorNavigationItems = () => {
     const inspectorTabs = [
-      { name: 'Overview', href: getNavigationPath('/inspector'), description: 'Inspector dashboard and metrics' },
-      { name: 'Inspections', href: getNavigationPath('/inspector/inspections'), description: 'Quality inspections and assessments' },
-      { name: 'Verification', href: getNavigationPath('/inspector/verification'), description: 'Third-party verification requests' },
-      { name: 'Reports', href: getNavigationPath('/inspector/reports'), description: 'Inspection reports and analytics' }
+      { name: 'Overview', href: '/inspector', description: 'Inspector dashboard and metrics' },
+      { name: 'Inspections', href: '/inspector/inspections', description: 'Quality inspections and assessments' },
+      { name: 'Verification', href: '/inspector/verification', description: 'Third-party verification requests' },
+      { name: 'Reports', href: '/inspector/reports', description: 'Inspection reports and analytics' }
     ];
 
     return inspectorTabs.map(tab => ({
@@ -108,9 +108,9 @@ export function Navigation() {
     // Only show dashboard for viewer role
     if (currentUser?.role === 'viewer') {
       return [
-        { name: 'Dashboard', href: getNavigationPath('/viewer'), current: isViewerPage },
-        { name: 'Products', href: getNavigationPath('/products'), current: cleanPathname === '/products' },
-        { name: 'Public Access', href: getNavigationPath('/public-access'), current: isPublicAccessPage },
+        { name: 'Dashboard', href: '/viewer', current: isViewerPage },
+        { name: 'Products', href: '/products', current: cleanPathname === '/products' },
+        { name: 'Public Access', href: '/public-access', current: isPublicAccessPage },
       ];
     }
     return [];
@@ -126,11 +126,11 @@ export function Navigation() {
     : getDefaultNavigationItems();
 
   const roles = [
-    { name: 'Viewer', href: getNavigationPath('/viewer') },
-    { name: 'Farmer', href: getNavigationPath('/farmer') },
-    { name: 'Logistics', href: getNavigationPath('/logistics') },
-    { name: 'Packaging', href: getNavigationPath('/packaging') },
-    { name: 'Inspector', href: getNavigationPath('/inspector') },
+    { name: 'Viewer', href: '/viewer' },
+    { name: 'Farmer', href: '/farmer' },
+    { name: 'Logistics', href: '/logistics' },
+    { name: 'Packaging', href: '/packaging' },
+    { name: 'Inspector', href: '/inspector' },
   ];
 
   return (
@@ -141,7 +141,7 @@ export function Navigation() {
             <div className="flex-shrink-0 flex items-center">
               <img src={getAssetPath("/images/maroon-logo.png")} alt="MAROON" className="h-8 w-8 mr-3 nav-logo" />
               <div>
-                <Link href={getNavigationPath("/viewer")} className="text-xl font-bold text-gray-900">
+                <Link href="/viewer" className="text-xl font-bold text-gray-900">
                   Maroon Blockchain
                 </Link>
                 {currentUser?.role === 'farmer' && (
@@ -208,15 +208,15 @@ export function Navigation() {
                               switchUser(viewerUser.id);
                               // Small delay to ensure context updates before navigation
                               setTimeout(() => {
-                                window.location.href = getNavigationPath('/viewer');
+                                window.location.href = '/viewer';
                               }, 100);
                             } else {
                               // Fallback if viewer user not found
-                              window.location.href = getNavigationPath('/viewer');
+                              window.location.href = '/viewer';
                             }
                           } else {
                             // For other roles, go to login first
-                            router.push(getNavigationPath('/login'));
+                            router.push('/login');
                           }
                           setIsDropdownOpen(false);
                         }}
@@ -288,15 +288,15 @@ export function Navigation() {
                                 switchUser(viewerUser.id);
                                 // Small delay to ensure context updates before navigation
                                 setTimeout(() => {
-                                  window.location.href = getNavigationPath('/viewer');
+                                  window.location.href = '/viewer';
                                 }, 100);
                               } else {
                                 // Fallback if viewer user not found
-                                window.location.href = getNavigationPath('/viewer');
+                                window.location.href = '/viewer';
                               }
                             } else {
                               // For other roles, go to login first
-                              router.push(getNavigationPath('/login'));
+                              router.push('/login');
                             }
                             setIsDropdownOpen(false);
                             setIsDropdownOpen(false);

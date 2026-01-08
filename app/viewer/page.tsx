@@ -14,7 +14,6 @@ import { MetricsCard } from '@/components/dashboard/metricsCard';
 import { Button } from '@/components/ui/button';
 import { CHART_COLORS } from '@/components/dashboard/constants';
 import { getRoleColors, textColors, bgColors, borderColors, commonColors, chartColors, dashboardColors } from '@/lib/theme/colors';
-import { getNavigationPath } from '@/lib/utils/assetPath';
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from 'recharts';
 import { Package, Check, AlertCircle, TrendingUp, Wifi, WifiOff } from 'lucide-react';
 import { QRScanner } from '@/components/qr';
@@ -349,7 +348,7 @@ export default function PublicAccessPage() {
       dashboardType: 'public-access'
     });
 
-    router.push(getNavigationPath(`/public-access/trace/${productId}`));
+    router.push(`/public-access/trace/${productId}`);
   };
 
   // Get public-access specific colors
@@ -419,7 +418,7 @@ export default function PublicAccessPage() {
                     <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                       <h2 className="text-lg font-semibold text-gray-900">Recent Products</h2>
                       <Button 
-                        onClick={() => router.push(getNavigationPath('/products'))}
+                        onClick={() => router.push('/products')}
                         className="!bg-gradient-to-r !from-gray-600 !to-gray-500 hover:!from-gray-700 hover:!to-gray-600 !text-white shadow-lg"
                         size="sm"
                       >
@@ -493,7 +492,7 @@ export default function PublicAccessPage() {
             <QRScanner
               onScanSuccess={(data) => {
                 console.log('QR Scanned:', data);
-                router.push(getNavigationPath(`/public-access/trace/${data}`));
+                router.push(`/public-access/trace/${data}`);
               }}
               onScanError={(error) => {
                 console.error('QR Scan Error:', error);
@@ -505,13 +504,13 @@ export default function PublicAccessPage() {
               <h3 className="text-lg font-semibold text-center ${commonColors.gray900} mb-4">Quick Actions</h3>
               <div className="space-y-3">
                 <Button 
-                  onClick={() => router.push(getNavigationPath('/public-access'))}
+                  onClick={() => router.push('/public-access')}
                   className="w-full !bg-gradient-to-r !from-gray-600 !to-gray-500 hover:!from-gray-700 hover:!to-gray-600 !text-white shadow-lg rounded-full"
                 >
                   Public Access
                 </Button>
                 <Button 
-                  onClick={() => window.open(getNavigationPath('/qr-demo'), '_blank')}
+                  onClick={() => window.open('/qr-demo', '_blank')}
                   className="w-full !bg-gradient-to-r !from-gray-600 !to-gray-500 hover:!from-gray-700 hover:!to-gray-600 !text-white shadow-lg rounded-full"
                 >
                   QR Page
