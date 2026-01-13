@@ -21,6 +21,15 @@ export default function IntroPage() {
               They represent your savings, your family's future, and your legacy.
               Maroon is here to help you safeguard them and market them with confidence.
             </p>
+            
+            {/* Hero Image */}
+            <div className="mb-8 flex justify-center">
+              <img 
+                src="/images/Hero Image.png" 
+                alt="Maroon - Agricultural Asset Protection" 
+                className="w-full max-w-4xl h-auto object-cover rounded-lg shadow-lg"
+              />
+            </div>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button 
                 size="lg" 
@@ -148,8 +157,12 @@ export default function IntroPage() {
 
           <div className="grid md:grid-cols-3 gap-8">
             <div className="text-center">
-              <div className="bg-orange-100 rounded-2xl p-8 mb-6">
-                <QrCode className="h-16 w-16 text-orange-600 mx-auto mb-4" />
+              <div className="mb-6 flex justify-center">
+                <img 
+                  src="/images/HowItWorks1.png" 
+                  alt="Step 1: Tag Your Animal" 
+                  className="w-full max-w-xs h-64 object-contain rounded-lg shadow-md"
+                />
               </div>
               <h3 className="text-2xl font-bold text-gray-900 mb-4">Step 1: Tag Your Animal</h3>
               <p className="text-lg text-gray-600">
@@ -158,8 +171,12 @@ export default function IntroPage() {
             </div>
 
             <div className="text-center">
-              <div className="bg-orange-100 rounded-2xl p-8 mb-6">
-                <Smartphone className="h-16 w-16 text-orange-600 mx-auto mb-4" />
+              <div className="mb-6 flex justify-center">
+                <img 
+                  src="/images/HowItWorks2.png" 
+                  alt="Step 2: Record What Matters" 
+                  className="w-full max-w-xs h-64 object-contain rounded-lg shadow-md"
+                />
               </div>
               <h3 className="text-2xl font-bold text-gray-900 mb-4">Step 2: Record What Matters</h3>
               <p className="text-lg text-gray-600">
@@ -171,8 +188,12 @@ export default function IntroPage() {
             </div>
 
             <div className="text-center">
-              <div className="bg-orange-100 rounded-2xl p-8 mb-6">
-                <Shield className="h-16 w-16 text-orange-600 mx-auto mb-4" />
+              <div className="mb-6 flex justify-center">
+                <img 
+                  src="/images/HowItWorks3.png" 
+                  alt="Step 3: Show, Don't Tell" 
+                  className="w-full max-w-xs h-64 object-contain rounded-lg shadow-md"
+                />
               </div>
               <h3 className="text-2xl font-bold text-gray-900 mb-4">Step 3: Show, Don't Tell</h3>
               <p className="text-lg text-gray-600">
@@ -356,7 +377,7 @@ export default function IntroPage() {
           <BookOpen className="h-16 w-16 text-white mx-auto mb-6" />
           
           <h2 className="text-3xl md:text-4xl font-bold text-white mb-8">
-            Every cow in your Agri-Asset Book has a story to tell.
+            Every Agricultural Asset in your Agri-Asset Book has a story to tell.
           </h2>
           
           <div className="text-xl text-orange-100 mb-12 max-w-4xl mx-auto space-y-4">
