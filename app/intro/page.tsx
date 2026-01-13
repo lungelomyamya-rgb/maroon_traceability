@@ -25,7 +25,7 @@ export default function IntroPage() {
             {/* Hero Image */}
             <div className="mb-8 flex justify-center">
               <img 
-                src="/images/Hero Image.png" 
+                src={process.env.NODE_ENV === 'production' ? "/maroon_traceability/images/Hero Image.png" : "/images/Hero Image.png"} 
                 alt="Maroon - Agricultural Asset Protection" 
                 className="w-full max-w-4xl h-auto object-cover rounded-lg shadow-lg"
               />
@@ -159,7 +159,7 @@ export default function IntroPage() {
             <div className="text-center">
               <div className="mb-6 flex justify-center">
                 <img 
-                  src="/images/HowItWorks1.png" 
+                  src={process.env.NODE_ENV === 'production' ? "/maroon_traceability/images/HowItWorks1.png" : "/images/HowItWorks1.png"} 
                   alt="Step 1: Tag Your Animal" 
                   className="w-full max-w-xs h-64 object-contain rounded-lg shadow-md"
                 />
@@ -173,9 +173,9 @@ export default function IntroPage() {
             <div className="text-center">
               <div className="mb-6 flex justify-center">
                 <img 
-                  src="/images/HowItWorks2.png" 
+                  src={process.env.NODE_ENV === 'production' ? "/maroon_traceability/images/HowItWorks2.png" : "/images/HowItWorks2.png"} 
                   alt="Step 2: Record What Matters" 
-                  className="w-full max-w-xs h-64 object-contain rounded-lg shadow-md"
+                  className="w-full max-w-xs h-64 object-contain"
                 />
               </div>
               <h3 className="text-2xl font-bold text-gray-900 mb-4">Step 2: Record What Matters</h3>
@@ -190,7 +190,7 @@ export default function IntroPage() {
             <div className="text-center">
               <div className="mb-6 flex justify-center">
                 <img 
-                  src="/images/HowItWorks3.png" 
+                  src={process.env.NODE_ENV === 'production' ? "/maroon_traceability/images/HowItWorks3.png" : "/images/HowItWorks3.png"} 
                   alt="Step 3: Show, Don't Tell" 
                   className="w-full max-w-xs h-64 object-contain rounded-lg shadow-md"
                 />
