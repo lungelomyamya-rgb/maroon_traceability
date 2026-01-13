@@ -17,7 +17,7 @@ export default function IntroPage() {
               Your Herd Is Your Legacy. Keep it Secured.
             </h1>
             <p className="text-xl md:text-2xl text-gray-600 mb-8 max-w-4xl mx-auto leading-relaxed">
-              Your agricultural assets are so much more than just animals.
+              Your agricultral asset are so much more than just animals.
               They represent your savings, your family's future, and your legacy.
               Maroon is here to help you safeguard them and market them with confidence.
             </p>
@@ -65,8 +65,7 @@ export default function IntroPage() {
                 <h4 className="text-2xl font-bold text-gray-900">Stock Theft</h4>
               </div>
               <p className="text-lg text-gray-700 leading-relaxed">
-                Just one stolen agricultural asset could erase years of hard work. 
-                And when it's gone, proving that it was yours can be nearly impossible.
+                Just one stolen agricultural asset could erase years of hard work. And when it's gone, proving that it was yours can be nearly impossible.
               </p>
             </div>
 
@@ -76,9 +75,7 @@ export default function IntroPage() {
                 <h4 className="text-2xl font-bold text-gray-900">Lower Prices</h4>
               </div>
               <p className="text-lg text-gray-700 leading-relaxed">
-                Even if your agricultural assets are top-notch, buyers tend to offer less 
-                when they can't see proof of ownership and farm records. It's not that your 
-                animals aren't good. It's that your story isn't documented.
+                Even if your agricultural assets are top-notch, buyers tend to offer less when they can't see proof of ownership and farm records. It's not that your animals aren't good. It's that your story isn't documented.
               </p>
             </div>
           </div>
@@ -179,7 +176,7 @@ export default function IntroPage() {
               </div>
               <h3 className="text-2xl font-bold text-gray-900 mb-4">Step 3: Show, Don't Tell</h3>
               <p className="text-lg text-gray-600">
-                A simple QR code provides buyers, banks, or authorities with a statement:
+                A simple QR code provides buyers, banks, or authorities with statement:
                 <br /><br />
                 <span className="font-semibold text-orange-600">
                   "This animal is authentic. This farmer is verified."
@@ -324,7 +321,7 @@ export default function IntroPage() {
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             <div className="text-center p-6 bg-gray-50 rounded-lg">
               <Shield className="h-12 w-12 text-orange-600 mx-auto mb-4" />
-              <h4 className="font-semibold text-gray-900 mb-2">Tailored for South African farming realities</h4>
+              <h4 className="font-semibold text-gray-900 mb-2">Tailored for South African farming realities against theft and fraud</h4>
               <p className="text-gray-600 text-sm">Built specifically for local challenges</p>
             </div>
             
