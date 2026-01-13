@@ -7,28 +7,29 @@ const nextConfig = {
     trailingSlash: true,
     distDir: 'out',
     basePath: '/maroon_traceability',
-    assetPrefix: '/maroon_traceability'
+    assetPrefix: '/maroon_traceability',
+    // Ensure images work correctly in production
+    images: {
+      unoptimized: true,
+      remotePatterns: [
+        {
+          protocol: 'https',
+          hostname: '**',
+        },
+        {
+          protocol: 'https',
+          hostname: 'images.unsplash.com',
+        },
+        {
+          protocol: 'https',
+          hostname: 'avatars.githubusercontent.com',
+        }
+      ]
+    }
   } : {
     // Development mode
     trailingSlash: true
   }),
-  images: {
-    unoptimized: true,
-    remotePatterns: [
-      {
-        protocol: 'https',
-        hostname: '**',
-      },
-      {
-        protocol: 'https',
-        hostname: 'images.unsplash.com',
-      },
-      {
-        protocol: 'https',
-        hostname: 'avatars.githubusercontent.com',
-      }
-    ]
-  },
   // Fix manifest and icon paths for GitHub Pages
   generateBuildId: () => 'build',
 }
