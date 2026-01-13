@@ -2,7 +2,7 @@
 
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
-import { ArrowRight, Shield, Smartphone, QrCode, TrendingUp } from 'lucide-react';
+import { ArrowRight, Shield, Smartphone, QrCode, Lock, TrendingUp, Users, Award, BookOpen } from 'lucide-react';
 
 export default function IntroPage() {
   const router = useRouter();
@@ -14,18 +14,20 @@ export default function IntroPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-16">
           <div className="text-center">
             <h1 className="text-5xl md:text-6xl font-bold text-gray-900 mb-6">
-              Maroon: From the Kraal to the Commercial Shelf
+              Your Herd Is Your Legacy. Keep it Secured.
             </h1>
-            <p className="text-xl md:text-2xl text-gray-600 mb-8 max-w-4xl mx-auto">
-              Stop selling at "average" prices. Start selling at your true value.
+            <p className="text-xl md:text-2xl text-gray-600 mb-8 max-w-4xl mx-auto leading-relaxed">
+              Your agricultural assets are so much more than just animals.
+              They represent your savings, your family's future, and your legacy.
+              Maroon is here to help you safeguard them and market them with confidence.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button 
                 size="lg" 
-                className="bg-orange-600 hover:bg-orange-700 text-white px-8 py-4 text-lg"
+                className="bg-orange-600 hover:bg-orange-700 text-white px-8 py-4 text-lg font-semibold"
                 onClick={() => router.push('/login')}
               >
-                Get Started
+                Start Your Digital Kraal! - Free
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Button>
               <Button 
@@ -34,193 +36,350 @@ export default function IntroPage() {
                 className="border-orange-600 text-orange-600 hover:bg-orange-50 px-8 py-4 text-lg"
                 onClick={() => router.push('/viewer')}
               >
-                View Demo
+                See How It Works
               </Button>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Problem Section */}
+      {/* Problem Awareness Section */}
       <div className="py-16 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="max-w-4xl mx-auto text-center">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-8">
-              You have done the hard work. Now get paid what you deserve.
+          <div className="text-center mb-12">
+            <h2 className="text-4xl font-bold text-gray-900 mb-4">
+              Your Herd Is Your Wealth
             </h2>
-            <p className="text-lg text-gray-600 mb-6">
-              You have improved your genetics, managed your grazing, and maintained your herd's health. 
-              But when it's time to sell, are you getting the price you deserve?
+            <h3 className="text-2xl text-orange-600 font-semibold mb-8">
+              But Right Now, It's Vulnerable.
+            </h3>
+            <p className="text-lg text-gray-600 mb-12 max-w-3xl mx-auto">
+              Every day, livestock owners end up losing money for two main reasons:
             </p>
-            <p className="text-lg text-gray-600">
-              Currently, premium buyers, retailers like Woolworths, Checkers, and export abattoirs demand 
-              traceability. Without a documented history, your produce is "invisible" to the formal economy. 
-              <span className="font-semibold text-orange-600"> Maroon is the bridge that makes your business visible.</span>
-            </p>
+          </div>
+          
+          <div className="grid md:grid-cols-2 gap-8 mb-12">
+            <div className="bg-red-50 border border-red-200 rounded-2xl p-8">
+              <div className="flex items-center mb-4">
+                <Lock className="h-10 w-10 text-red-600 mr-3" />
+                <h4 className="text-2xl font-bold text-gray-900">Stock Theft</h4>
+              </div>
+              <p className="text-lg text-gray-700 leading-relaxed">
+                Just one stolen agricultural asset could erase years of hard work. 
+                And when it's gone, proving that it was yours can be nearly impossible.
+              </p>
+            </div>
+
+            <div className="bg-blue-50 border border-blue-200 rounded-2xl p-8">
+              <div className="flex items-center mb-4">
+                <TrendingUp className="h-10 w-10 text-blue-600 mr-3" />
+                <h4 className="text-2xl font-bold text-gray-900">Lower Prices</h4>
+              </div>
+              <p className="text-lg text-gray-700 leading-relaxed">
+                Even if your agricultural assets are top-notch, buyers tend to offer less 
+                when they can't see proof of ownership and farm records. It's not that your 
+                animals aren't good. It's that your story isn't documented.
+              </p>
+            </div>
           </div>
         </div>
       </div>
 
-      {/* Solution Section */}
+      {/* Solution Introduction Section */}
       <div className="py-16 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-              The Commercial Edge: Your Professional Trade Passport
+            <h2 className="text-4xl font-bold text-gray-900 mb-8">
+              Maroon Helps Tell Your Story. Clearly and Simply
             </h2>
-            <p className="text-xl text-gray-600">Move from subsistence to supplier.</p>
-          </div>
-          
-          <div className="bg-white rounded-2xl shadow-xl p-8 mb-12">
-            <p className="text-lg text-gray-700 text-center mb-8">
-              The difference between an "average" price and an "A-Grade" price is verification. 
-              Maroon provides the digital infrastructure to prove your quality and compliance, 
-              giving you the same competitive edge as industrial-scale operations.
+            <p className="text-xl text-gray-700 mb-12 max-w-4xl mx-auto">
+              Maroon provides each animal with a digital identity that confirms:
             </p>
           </div>
 
-          <h3 className="text-2xl font-bold text-gray-900 mb-8 text-center">
-            How Maroon Scales Your Farm Business:
-          </h3>
-          
-          <div className="grid md:grid-cols-2 gap-8">
-            <div className="bg-white p-6 rounded-xl shadow-lg">
-              <div className="flex items-center mb-4">
-                <Shield className="h-8 w-8 text-orange-600 mr-3" />
-                <h4 className="text-xl font-semibold text-gray-900">Retail-Ready Compliance</h4>
+          <div className="grid md:grid-cols-3 gap-8 mb-12">
+            <div className="text-center">
+              <div className="bg-orange-100 rounded-full p-6 w-20 h-20 mx-auto mb-6 flex items-center justify-center">
+                <Users className="h-10 w-10 text-orange-600" />
               </div>
-              <p className="text-gray-600">
-                Meet the strict food safety and traceability standards required by South African 
-                and international retailers.
-              </p>
+              <h3 className="text-xl font-semibold text-gray-900 mb-3">Who owns it</h3>
+              <p className="text-gray-600">Clear, verifiable ownership records</p>
             </div>
 
-            <div className="bg-white p-6 rounded-xl shadow-lg">
-              <div className="flex items-center mb-4">
-                <TrendingUp className="h-8 w-8 text-orange-600 mr-3" />
-                <h4 className="text-xl font-semibold text-gray-900">A-Grade Pricing</h4>
+            <div className="text-center">
+              <div className="bg-orange-100 rounded-full p-6 w-20 h-20 mx-auto mb-6 flex items-center justify-center">
+                <Award className="h-10 w-10 text-orange-600" />
               </div>
-              <p className="text-gray-600">
-                Provide buyers with a full record of vaccinations, feed, and biosecurity. 
-                When they scan your QR code, they aren't just buying a cow—they are buying a verified asset.
-              </p>
+              <h3 className="text-xl font-semibold text-gray-900 mb-3">How it was raised</h3>
+              <p className="text-gray-600">Complete care and treatment history</p>
             </div>
 
-            <div className="bg-white p-6 rounded-xl shadow-lg">
-              <div className="flex items-center mb-4">
-                <QrCode className="h-8 w-8 text-orange-600 mr-3" />
-                <h4 className="text-xl font-semibold text-gray-900">Access to Finance</h4>
+            <div className="text-center">
+              <div className="bg-orange-100 rounded-full p-6 w-20 h-20 mx-auto mb-6 flex items-center justify-center">
+                <Shield className="h-10 w-10 text-orange-600" />
               </div>
-              <p className="text-gray-600">
-                Use your immutable production history to show banks and investors a "track record" 
-                of your farm's performance, making it easier to secure growth capital.
-              </p>
+              <h3 className="text-xl font-semibold text-gray-900 mb-3">Where it comes from</h3>
+              <p className="text-gray-600">Verified origin and location records</p>
             </div>
+          </div>
 
-            <div className="bg-white p-6 rounded-xl shadow-lg">
-              <div className="flex items-center mb-4">
-                <Smartphone className="h-8 w-8 text-orange-600 mr-3" />
-                <h4 className="text-xl font-semibold text-gray-900">Precision Management</h4>
+          <div className="bg-white rounded-2xl shadow-lg p-8">
+            <div className="grid md:grid-cols-3 gap-6 text-center">
+              <div>
+                <div className="text-green-600 text-2xl mb-2">✓</div>
+                <p className="font-semibold text-gray-900">No complex systems</p>
               </div>
-              <p className="text-gray-600">
-                Use your digital logs to track growth rates and herd health, helping you make 
-                smarter business decisions to increase your margins.
-              </p>
+              <div>
+                <div className="text-green-600 text-2xl mb-2">✓</div>
+                <p className="font-semibold text-gray-900">No paperwork headaches</p>
+              </div>
+              <div>
+                <div className="text-green-600 text-2xl mb-2">✓</div>
+                <p className="font-semibold text-gray-900">Just straightforward proof for everyone to see</p>
+              </div>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Technology Section */}
+      {/* How It Works Section */}
       <div className="py-16 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-              The Technology of Business
-            </h2>
-            <p className="text-xl text-orange-600 font-semibold">Smart. Secure. Farm-Hardened.</p>
+            <h2 className="text-4xl font-bold text-gray-900 mb-12">How It Works</h2>
           </div>
 
-          <div className="bg-gray-50 rounded-2xl p-8 mb-12">
-            <p className="text-lg text-gray-700 text-center mb-8">
-              We know you operate in environments where the signal is weak but the stakes are high. 
-              Maroon is built to be as tough as your farm.
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid md:grid-cols-3 gap-8">
             <div className="text-center">
-              <div className="bg-orange-100 rounded-full p-4 w-16 h-16 mx-auto mb-4 flex items-center justify-center">
-                <Shield className="h-8 w-8 text-orange-600" />
+              <div className="bg-orange-100 rounded-2xl p-8 mb-6">
+                <QrCode className="h-16 w-16 text-orange-600 mx-auto mb-4" />
               </div>
-              <h4 className="font-semibold text-gray-900 mb-2">Digital ID</h4>
-              <p className="text-gray-600 text-sm">
-                Every animal or batch is registered with a unique, tamper-proof identity.
+              <h3 className="text-2xl font-bold text-gray-900 mb-4">Step 1: Tag Your Animal</h3>
+              <p className="text-lg text-gray-600">
+                Every agricultural asset gets a unique digital ID that links back to you.
               </p>
             </div>
 
             <div className="text-center">
-              <div className="bg-orange-100 rounded-full p-4 w-16 h-16 mx-auto mb-4 flex items-center justify-center">
-                <Smartphone className="h-8 w-8 text-orange-600" />
+              <div className="bg-orange-100 rounded-2xl p-8 mb-6">
+                <Smartphone className="h-16 w-16 text-orange-600 mx-auto mb-4" />
               </div>
-              <h4 className="font-semibold text-gray-900 mb-2">Offline Capture</h4>
-              <p className="text-gray-600 text-sm">
-                Log your commercial data in the field—even without a signal. The app syncs automatically when you're back in range.
+              <h3 className="text-2xl font-bold text-gray-900 mb-4">Step 2: Record What Matters</h3>
+              <p className="text-lg text-gray-600">
+                You can use your phone to log:
+                <br />• Ownership
+                <br />• Vaccinations
+                <br />• Feeding and care (Even without internet access)
               </p>
             </div>
 
             <div className="text-center">
-              <div className="bg-orange-100 rounded-full p-4 w-16 h-16 mx-auto mb-4 flex items-center justify-center">
-                <QrCode className="h-8 w-8 text-orange-600" />
+              <div className="bg-orange-100 rounded-2xl p-8 mb-6">
+                <Shield className="h-16 w-16 text-orange-600 mx-auto mb-4" />
               </div>
-              <h4 className="font-semibold text-gray-900 mb-2">Blockchain Security</h4>
-              <p className="text-gray-600 text-sm">
-                Your records are stored on an immutable ledger. No one can question the integrity of your history.
-              </p>
-            </div>
-
-            <div className="text-center">
-              <div className="bg-orange-100 rounded-full p-4 w-16 h-16 mx-auto mb-4 flex items-center justify-center">
-                <TrendingUp className="h-8 w-8 text-orange-600" />
-              </div>
-              <h4 className="font-semibold text-gray-900 mb-2">The QR Passport</h4>
-              <p className="text-gray-600 text-sm">
-                Generate a professional report for buyers with one click. Your proof of quality and ticket to the formal market.
+              <h3 className="text-2xl font-bold text-gray-900 mb-4">Step 3: Show, Don't Tell</h3>
+              <p className="text-lg text-gray-600">
+                A simple QR code provides buyers, banks, or authorities with a statement:
+                <br /><br />
+                <span className="font-semibold text-orange-600">
+                  "This animal is authentic. This farmer is verified."
+                </span>
               </p>
             </div>
           </div>
         </div>
       </div>
 
-      {/* CTA Section */}
+      {/* Target Audience Section */}
+      <div className="py-16 bg-gray-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <h2 className="text-4xl font-bold text-gray-900 mb-8">Who Maroon Is For?</h2>
+            <p className="text-xl text-gray-600 mb-12">
+              Maroon is designed for Two Types of Farmers:
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-8">
+            <div className="bg-white rounded-2xl shadow-lg p-8">
+              <h3 className="text-2xl font-bold text-gray-900 mb-6">Communal & Rural Farmers</h3>
+              <div className="space-y-4">
+                <div className="flex items-center">
+                  <Shield className="h-6 w-6 text-orange-600 mr-3" />
+                  <span className="text-gray-700">Protect your family's wealth</span>
+                </div>
+                <div className="flex items-center">
+                  <BookOpen className="h-6 w-6 text-orange-600 mr-3" />
+                  <span className="text-gray-700">Digital proof of ownership</span>
+                </div>
+                <div className="flex items-center">
+                  <Lock className="h-6 w-6 text-orange-600 mr-3" />
+                  <span className="text-gray-700">Enhanced security against stock theft</span>
+                </div>
+                <div className="flex items-center">
+                  <Award className="h-6 w-6 text-orange-600 mr-3" />
+                  <span className="text-gray-700">Something to show to police, insurers, or banks</span>
+                </div>
+              </div>
+              <div className="mt-6 p-4 bg-orange-50 rounded-lg">
+                <p className="font-semibold text-orange-800">
+                  What this means is: Your wealth doesn't just vanish overnight.
+                </p>
+              </div>
+            </div>
+
+            <div className="bg-white rounded-2xl shadow-lg p-8">
+              <h3 className="text-2xl font-bold text-gray-900 mb-6">Emerging Commercial Farmers</h3>
+              <div className="space-y-4">
+                <div className="flex items-center">
+                  <TrendingUp className="h-6 w-6 text-orange-600 mr-3" />
+                  <span className="text-gray-700">Sell with confidence. Get better prices</span>
+                </div>
+                <div className="flex items-center">
+                  <Users className="h-6 w-6 text-orange-600 mr-3" />
+                  <span className="text-gray-700">Retail-ready traceability</span>
+                </div>
+                <div className="flex items-center">
+                  <Award className="h-6 w-6 text-orange-600 mr-3" />
+                  <span className="text-gray-700">Fulfill abattoir and retailer requirements</span>
+                </div>
+                <div className="flex items-center">
+                  <Shield className="h-6 w-6 text-orange-600 mr-3" />
+                  <span className="text-gray-700">Compete with larger commercial operations</span>
+                </div>
+              </div>
+              <div className="mt-6 p-4 bg-orange-50 rounded-lg">
+                <p className="font-semibold text-orange-800">
+                  What this means is: You don't walk in as a small farmer anymore. You walk in as a verified supplier.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Differentiation Section */}
+      <div className="py-16 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <h2 className="text-4xl font-bold text-gray-900 mb-6">This Is Not Just Software</h2>
+            <h3 className="text-2xl text-orange-600 font-semibold mb-8">This Is About Protection. Trust. Access.</h3>
+          </div>
+
+          <div className="bg-gradient-to-r from-orange-50 to-amber-50 rounded-2xl p-12 text-center">
+            <p className="text-2xl text-gray-800 mb-8 font-medium">
+              We don't offer subscriptions.
+            </p>
+            <p className="text-xl text-gray-700 leading-relaxed max-w-4xl mx-auto">
+              We turn the quiet wealth of your agricultural assets into an untouchable legacy, 
+              making sure what you've built is never lost, never stolen, and never undervalued.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      {/* Product Feature Section */}
+      <div className="py-16 bg-gray-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <h2 className="text-4xl font-bold text-gray-900 mb-8">The Maroon Digital Agri-Asset Book</h2>
+          </div>
+
+          <div className="bg-white rounded-2xl shadow-lg p-8">
+            <div className="text-center mb-8">
+              <BookOpen className="h-16 w-16 text-orange-600 mx-auto mb-4" />
+              <p className="text-xl text-gray-700 mb-6">Each animal gets a Digital Passport that verifies:</p>
+            </div>
+            
+            <div className="grid md:grid-cols-3 gap-6">
+              <div className="text-center p-6 bg-orange-50 rounded-lg">
+                <Shield className="h-10 w-10 text-orange-600 mx-auto mb-3" />
+                <h4 className="font-semibold text-gray-900 mb-2">Where it came from</h4>
+                <p className="text-gray-600">Verified origin and farm records</p>
+              </div>
+              
+              <div className="text-center p-6 bg-orange-50 rounded-lg">
+                <Award className="h-10 w-10 text-orange-600 mx-auto mb-3" />
+                <h4 className="font-semibold text-gray-900 mb-2">How it was raised</h4>
+                <p className="text-gray-600">Complete care and treatment history</p>
+              </div>
+              
+              <div className="text-center p-6 bg-orange-50 rounded-lg">
+                <Users className="h-10 w-10 text-orange-600 mx-auto mb-3" />
+                <h4 className="font-semibold text-gray-900 mb-2">Who owns it</h4>
+                <p className="text-gray-600">Clear, verifiable ownership</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Trust & Credibility Section */}
+      <div className="py-16 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <h2 className="text-4xl font-bold text-gray-900 mb-8">Why Farmers Choose Maroon</h2>
+          </div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className="text-center p-6 bg-gray-50 rounded-lg">
+              <Shield className="h-12 w-12 text-orange-600 mx-auto mb-4" />
+              <h4 className="font-semibold text-gray-900 mb-2">Tailored for South African farming realities</h4>
+              <p className="text-gray-600 text-sm">Built specifically for local challenges</p>
+            </div>
+            
+            <div className="text-center p-6 bg-gray-50 rounded-lg">
+              <Smartphone className="h-12 w-12 text-orange-600 mx-auto mb-4" />
+              <h4 className="font-semibold text-gray-900 mb-2">Functional offline</h4>
+              <p className="text-gray-600 text-sm">Works even without internet</p>
+            </div>
+            
+            <div className="text-center p-6 bg-gray-50 rounded-lg">
+              <Users className="h-12 w-12 text-orange-600 mx-auto mb-4" />
+              <h4 className="font-semibold text-gray-900 mb-2">User-friendly</h4>
+              <p className="text-gray-600 text-sm">Simple and intuitive to use</p>
+            </div>
+            
+            <div className="text-center p-6 bg-gray-50 rounded-lg">
+              <Lock className="h-12 w-12 text-orange-600 mx-auto mb-4" />
+              <h4 className="font-semibold text-gray-900 mb-2">Focused on safeguarding agricultural assets</h4>
+              <p className="text-gray-600 text-sm">Your protection is our priority</p>
+            </div>
+          </div>
+
+          <div className="text-center mt-12">
+            <h3 className="text-3xl font-bold text-orange-600">Your Herd Is Your Legacy!</h3>
+          </div>
+        </div>
+      </div>
+
+      {/* Final Call-to-Action */}
       <div className="py-20 bg-gradient-to-r from-orange-600 to-amber-600">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">
-            Don't Just Grow. Compete.
+          <BookOpen className="h-16 w-16 text-white mx-auto mb-6" />
+          
+          <h2 className="text-3xl md:text-4xl font-bold text-white mb-8">
+            Every cow in your Agri-Asset Book has a story to tell.
           </h2>
-          <p className="text-xl text-orange-100 mb-8 max-w-3xl mx-auto">
-            The future of South African agriculture belongs to the farmers who can prove their quality. 
-            Whether you are aiming for the local butchery or an export contract, Maroon ensures your 
-            hard work is finally visible and valued at its true worth.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button 
-              size="lg" 
-              className="bg-white text-orange-600 hover:bg-gray-100 px-8 py-4 text-lg"
-              onClick={() => router.push('/login')}
-            >
-              Start Your Journey
-              <ArrowRight className="ml-2 h-5 w-5" />
-            </Button>
-            <Button 
-              variant="outline" 
-              size="lg"
-              className="border-white text-white hover:bg-white hover:text-orange-600 px-8 py-4 text-lg"
-              onClick={() => router.push('/viewer')}
-            >
-              See How It Works
-            </Button>
+          
+          <div className="text-xl text-orange-100 mb-12 max-w-4xl mx-auto space-y-4">
+            <p>The grass it grazed on.</p>
+            <p>The care you provided.</p>
+            <p>The future you're creating for your legacy.</p>
+            
+            <p className="mt-8 font-semibold text-white text-2xl">
+              Maroon ensures that your story is always secure, never lost, never stolen, and never undervalued.
+            </p>
           </div>
+          
+          <Button 
+            size="lg" 
+            className="bg-white text-orange-600 hover:bg-gray-100 px-8 py-4 text-lg font-semibold"
+            onClick={() => router.push('/login')}
+          >
+            Start Your Digital Agri-Asset Book Today
+            <ArrowRight className="ml-2 h-5 w-5" />
+          </Button>
         </div>
       </div>
     </div>
