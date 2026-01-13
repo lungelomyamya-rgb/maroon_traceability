@@ -15,8 +15,8 @@ export default function HomePage() {
       return;
     }
     
-    // For viewer role or no user, go to viewer page (public access)
-    router.replace('/viewer');
+    // For viewer role or no user, go to intro page first
+    router.replace('/intro');
   }, [currentUser, router]);
 
   // Show loading while redirecting
