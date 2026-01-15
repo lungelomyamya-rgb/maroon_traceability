@@ -1,11 +1,19 @@
 'use client';
 
+import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import { useUser } from '@/contexts/userContext';
 import { Button } from '@/components/ui/button';
 import { ArrowRight, Shield, Smartphone, QrCode, Lock, TrendingUp, Users, Award, BookOpen } from 'lucide-react';
 
 export default function IntroPage() {
   const router = useRouter();
+  const { currentUser } = useUser();
+
+  useEffect(() => {
+    // Scroll to top when page loads
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, []);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-50">
