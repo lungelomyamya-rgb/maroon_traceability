@@ -11,11 +11,8 @@ export default function PublicPage() {
   const router = useRouter();
 
   useEffect(() => {
-    // Redirect if not logged in or not a public user
-    if (!currentUser || currentUser.role !== 'public') {
-      router.push('/intro');
-      return;
-    }
+    // Scroll to top when page loads
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }, [currentUser, router]);
 
   // Show loading while checking auth

@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useUser } from '@/contexts/userContext';
 import { textColors } from '@/lib/theme/colors';
@@ -21,6 +21,11 @@ export default function LoginPage() {
   const [selectedRole, setSelectedRole] = useState<UserRole | null>(null);
   const [error, setError] = useState<string | null>(null);
 
+  // Scroll to top when page loads
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, []);
+
   // Handle user selection and navigation
   const handleUserSelect = async (role: UserRole) => {
     if (isLoading) return;
@@ -28,27 +33,22 @@ export default function LoginPage() {
     try {
       setSelectedRole(role);
       setIsLoading(true);
-      setError(null);
       
-      // Find selected user
-      const selectedUser = DEMO_USERS.find(u => u.role === role);
-      if (!selectedUser) {
-        throw new Error('User role not found');
+      // Update user context first, then navigate
+      const user = DEMO_USERS.find((u: any) => u.role === role);
+      if (user) {
+        switchUser(user.id);
+        // Small delay to ensure context updates before navigation
+        setTimeout(() => {
+          window.location.href = '/public';
+        }, 100);
+      } else {
+        // Fallback if public user not found
+        window.location.href = '/public';
       }
-
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 500));
-      
-      // Set user in context
-      switchUser(selectedUser.id);
-      
-      // Redirect based on role
-      const redirectPath = PermissionService.getDefaultRoute(role);
-      router.push(redirectPath);
-      
     } catch (err) {
-      console.error('Login error:', err);
-      setError('Failed to log in. Please try again.');
+      setError('Failed to switch user. Please try again.');
+      console.error('User selection error:', err);
     } finally {
       setIsLoading(false);
     }

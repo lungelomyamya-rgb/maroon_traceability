@@ -24,6 +24,11 @@ export default function FarmerDashboard() {
   const [selectedProduct, setSelectedProduct] = useState<string>('');
   const [showEventForm, setShowEventForm] = useState(false);
 
+  // Scroll to top when page loads
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, []);
+
   useEffect(() => {
     if (!currentUser || currentUser.role !== 'farmer') {
       router.push('/unauthorized');
