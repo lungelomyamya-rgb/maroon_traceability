@@ -4,21 +4,7 @@
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useUser } from '@/contexts/userContext';
-import dynamic from 'next/dynamic';
-
-// Prevent static generation
-export const dynamicConfig = 'force-dynamic';
-export const runtime = 'nodejs';
-
-// Dynamically import the enhanced marketplace
-const Marketplace = dynamic(() => import('./marketplace'), {
-  loading: () => (
-    <div className="flex items-center justify-center min-h-screen">
-      <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-green-600"></div>
-    </div>
-  ),
-  ssr: false
-});
+import Marketplace from './marketplace';
 
 export default function PublicPage() {
   const { currentUser } = useUser();
