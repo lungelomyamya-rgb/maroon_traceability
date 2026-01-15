@@ -43,7 +43,7 @@ export default function IntroPage() {
                 variant="outline" 
                 size="lg"
                 className="border-blue-600 text-blue-600 hover:bg-blue-50 px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg"
-                onClick={() => router.push('/viewer')}
+                onClick={() => router.push('/marketplace')}
               >
                 See How It Works
               </Button>
@@ -341,7 +341,7 @@ export default function IntroPage() {
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             <div className="text-center p-6 bg-gray-50 rounded-lg">
-              <Shield className="h-12 w-12 text-blue-600 mx-auto mb-4" />
+              <Shield className="h-12 w-12 text-orange-600 mx-auto mb-4" />
               <h4 className="font-semibold text-gray-900 mb-2">Tailored for South African farming realities against theft and fraud</h4>
               <p className="text-gray-600 text-sm">Built specifically for local challenges</p>
             </div>
