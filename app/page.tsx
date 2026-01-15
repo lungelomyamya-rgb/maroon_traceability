@@ -10,12 +10,12 @@ export default function HomePage() {
 
   useEffect(() => {
     // If user is logged in and has a specific role, redirect to their dashboard
-    if (currentUser?.role && currentUser.role !== 'viewer') {
+    if (currentUser?.role && currentUser.role !== 'public') {
       router.replace(`/${currentUser.role}`);
       return;
     }
     
-    // For viewer role or no user, go to intro page first
+    // For public role or no user, go to intro page first
     router.replace('/intro');
   }, [currentUser, router]);
 

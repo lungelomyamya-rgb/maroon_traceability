@@ -2,14 +2,21 @@
 'use client';
 
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { QRScanner, QRGenerator } from '@/components/qr';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { QrCode, Scan, ArrowRight } from 'lucide-react';
+import { QrCode, Scan, ArrowRight, ArrowLeft } from 'lucide-react';
 
 export default function QRDemoPage() {
+  const router = useRouter();
   const [scanResult, setScanResult] = useState<string>('');
   const [generatedData, setGeneratedData] = useState<string>('');
+
+  const handleGoBack = () => {
+    // Use router.back() to navigate to the previous page
+    router.back();
+  };
 
   const handleScanSuccess = (data: string) => {
     setScanResult(data);
@@ -29,18 +36,33 @@ export default function QRDemoPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Header */}
-        <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-16 h-16 bg-blue-100 rounded-full mb-4">
-            <QrCode className="h-8 w-8 text-blue-600" />
+    <>
+      {/* Back Button - Separate from main content */}
+      <div className="fixed top-2 left-2 z-50">
+        <Button 
+          variant="outline" 
+          size="sm"
+          onClick={handleGoBack}
+          className="shadow-md"
+        >
+          <ArrowLeft className="h-4 w-4 mr-2" />
+          Back
+        </Button>
+      </div>
+
+      {/* Main Content */}
+      <div className="min-h-screen bg-gray-50 py-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          {/* Header */}
+          <div className="text-center mb-8">
+            <div className="inline-flex items-center justify-center w-16 h-16 bg-blue-100 rounded-full mb-4">
+              <QrCode className="h-8 w-8 text-blue-600" />
+            </div>
+            <h1 className="text-3xl font-bold text-gray-900 mb-2">QR Code Demo</h1>
+            <p className="text-lg text-gray-600">
+              Test QR code scanning and generation functionality
+            </p>
           </div>
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">QR Code Demo</h1>
-          <p className="text-lg text-gray-600">
-            Test QR code scanning and generation functionality
-          </p>
-        </div>
 
         {/* Results Display */}
         {(scanResult || generatedData) && (
@@ -132,7 +154,7 @@ export default function QRDemoPage() {
 
         {/* Workflow Demo */}
         <Card className="mt-8 p-6">
-          <h3 className="text-lg font-semibold text-gray-900 mb-4">Complete Workflow Demo</h3>
+          <h3 className="text-lg font-semibold text-gray-900 mb-4">Complete Workflow</h3>
           <div className="space-y-4">
             <div className="flex items-center gap-4">
               <div className="flex-shrink-0">
@@ -184,17 +206,18 @@ export default function QRDemoPage() {
               onClick={() => window.open('/trace/DEMO-001', '_blank')}
               className="bg-purple-600 hover:bg-purple-700"
             >
-              View Demo Trace
+              View Trace
             </Button>
             <Button
               variant="outline"
-              onClick={() => window.open('/viewer', '_blank')}
+              onClick={() => window.open('/public', '_blank')}
             >
-              Viewer Dashboard
+              Public Marketplace
             </Button>
           </div>
         </Card>
       </div>
     </div>
+    </>
   );
 }

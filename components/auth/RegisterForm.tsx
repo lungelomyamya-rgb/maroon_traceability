@@ -16,7 +16,7 @@ const registerSchema = z.object({
   email: z.string().email('Invalid email address'),
   password: z.string().min(6, 'Password must be at least 6 characters'),
   confirmPassword: z.string().min(6, 'Please confirm your password'),
-  role: z.enum(['farmer', 'inspector', 'logistics', 'packaging', 'retailer', 'viewer', 'government'] as const),
+  role: z.enum(['farmer', 'inspector', 'logistics', 'packaging', 'retailer', 'public', 'government', 'admin'] as const),
   address: z.string().optional(),
 }).refine((data) => data.password === data.confirmPassword, {
   message: "Passwords don't match",
@@ -36,8 +36,9 @@ const roleDescriptions = {
   logistics: 'Manage product transportation',
   packaging: 'Handle product packaging and labeling',
   retailer: 'Sell verified products to consumers',
-  viewer: 'View product information and traceability',
+  public: 'Browse marketplace and view product traceability',
   government: 'Oversee and audit the supply chain',
+  admin: 'System administration and oversight',
 };
 
 export function RegisterForm({ onSuccess, onLoginClick }: RegisterFormProps) {
@@ -175,8 +176,9 @@ export function RegisterForm({ onSuccess, onLoginClick }: RegisterFormProps) {
             <option value="logistics">Logistics</option>
             <option value="packaging">Packaging</option>
             <option value="retailer">Retailer</option>
-            <option value="viewer">Viewer</option>
+            <option value="public">Public</option>
             <option value="government">Government</option>
+            <option value="admin">Administrator</option>
           </select>
           {selectedRole && roleDescriptions[selectedRole as keyof typeof roleDescriptions] && (
             <p className="text-xs text-gray-500 mt-1">

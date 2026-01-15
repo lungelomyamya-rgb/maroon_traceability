@@ -32,6 +32,8 @@ const nextConfig = {
   }),
   // Fix manifest and icon paths for GitHub Pages
   generateBuildId: () => 'build',
+  // Handle dynamic routes for static export
+  skipTrailingSlashRedirect: true
 }
 
 module.exports = nextConfig

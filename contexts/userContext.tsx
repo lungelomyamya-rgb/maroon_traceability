@@ -65,10 +65,10 @@ export function UserProvider({ children }: { children: ReactNode }) {
       };
       setUser(userWithPermissions);
     } else {
-      // For demo purposes, set default viewer user if no user is logged in (public access)
-      const viewerUser = DEMO_USERS.find(u => u.role === 'viewer');
-      if (viewerUser) {
-        setUser(viewerUser);
+      // For demo purposes, set default public user if no user is logged in (public access)
+      const publicUser = DEMO_USERS.find(u => u.role === 'public');
+      if (publicUser) {
+        setUser(publicUser);
       }
     }
     setLoading(false);

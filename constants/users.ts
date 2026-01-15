@@ -55,9 +55,9 @@ export const DEMO_USERS: User[] = [
   },
   {
     id: 'user_6',
-    name: 'Dana Viewer',
-    email: 'dana@viewer.com',
-    role: 'viewer',
+    name: 'Dana Public',
+    email: 'dana@public.com',
+    role: 'public',
     permissions: {
       canCreate: false,
       canVerify: false

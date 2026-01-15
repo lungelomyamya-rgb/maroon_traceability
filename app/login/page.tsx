@@ -84,7 +84,8 @@ export default function LoginPage() {
             inspector: 'Inspect and verify product quality with detailed assessments',
             logistics: 'Track and manage product shipments and delivery logistics',
             packaging: 'Handle product packaging, processing, and batch management',
-            viewer: 'View product information and complete traceability history'
+            retailer: 'Sell products on marketplace and manage your e-commerce store',
+            public: 'Browse marketplace and view complete product traceability'
           }).map(([role, description]) => (
             <div 
               key={role} 
@@ -99,7 +100,8 @@ export default function LoginPage() {
                     {role === 'farmer' ? '👨‍🌾' : 
                      role === 'inspector' ? '🔍' : 
                      role === 'logistics' ? '🚚' : 
-                     role === 'packaging' ? '📦' : '👁️'}
+                     role === 'packaging' ? '📦' : 
+                     role === 'retailer' ? '🏪' : '👁️'}
                   </span>
                 </div>
                 <h3 className="text-lg font-semibold text-gray-900 capitalize mb-2 text-center">{role}</h3>

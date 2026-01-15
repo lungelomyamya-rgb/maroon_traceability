@@ -7,7 +7,7 @@ export const USER_ROLES = [
   'logistics',
   'packaging',
   'retailer',
-  'viewer',
+  'public',
   'government',
   'admin'
 ] as const;
@@ -128,14 +128,14 @@ export const ROLE_PERMISSIONS: Record<UserRole, {
     color: 'role-retailer',
     IconComponent: Briefcase,
   },
-  viewer: {
+  public: {
     canCreate: false,
     canVerify: false,
     canView: true,
-    allowedEvents: [],
-    displayName: 'Viewer',
+    allowedEvents: ['browse-marketplace', 'view-traceability', 'purchase'],
+    displayName: 'Public',
     icon: '👁️',
-    color: 'role-viewer',
+    color: 'role-public',
     IconComponent: Eye,
   },
 };

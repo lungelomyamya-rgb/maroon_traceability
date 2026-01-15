@@ -8,41 +8,41 @@ export default function IntroPage() {
   const router = useRouter();
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-amber-50 to-orange-50">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-50">
       {/* Hero Section */}
       <div className="relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-16">
-          <div className="text-center">
-            <h1 className="text-5xl md:text-6xl font-bold text-gray-900 mb-6">
+          <div className="text-center px-4 sm:px-6 lg:px-8">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-4 sm:mb-6">
               Your Herd Is Your Legacy. Keep it Secured.
             </h1>
-            <p className="text-xl md:text-2xl text-gray-600 mb-8 max-w-4xl mx-auto leading-relaxed">
+            <p className="text-lg sm:text-xl md:text-2xl text-gray-600 mb-6 sm:mb-8 max-w-4xl mx-auto leading-relaxed px-2">
               Your agricultral asset are so much more than just animals.
               They represent your savings, your family's future, and your legacy.
               Maroon is here to help you safeguard them and market them with confidence.
             </p>
             
             {/* Hero Image */}
-            <div className="mb-8 flex justify-center">
+            <div className="mb-6 sm:mb-8 flex justify-center px-2">
               <img 
                 src={process.env.NODE_ENV === 'production' ? "/maroon_traceability/images/Hero Image.png" : "/images/Hero Image.png"} 
                 alt="Maroon - Agricultural Asset Protection" 
-                className="w-full max-w-4xl h-auto object-cover rounded-lg shadow-lg"
+                className="w-full max-w-4xl sm:max-w-4xl md:max-w-5xl h-auto object-cover rounded-lg shadow-lg"
               />
             </div>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center px-2">
               <Button 
                 size="lg" 
-                className="bg-orange-600 hover:bg-orange-700 text-white px-8 py-4 text-lg font-semibold"
+                className="bg-blue-600 hover:bg-blue-700 text-white px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg font-semibold"
                 onClick={() => router.push('/login')}
               >
                 Start Your Digital Kraal! - Free
-                <ArrowRight className="ml-2 h-5 w-5" />
+                <ArrowRight className="ml-2 h-4 w-4 sm:h-5 sm:w-5" />
               </Button>
               <Button 
                 variant="outline" 
                 size="lg"
-                className="border-orange-600 text-orange-600 hover:bg-orange-50 px-8 py-4 text-lg"
+                className="border-blue-600 text-blue-600 hover:bg-blue-50 px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg"
                 onClick={() => router.push('/viewer')}
               >
                 See How It Works
@@ -59,7 +59,7 @@ export default function IntroPage() {
             <h2 className="text-4xl font-bold text-gray-900 mb-4">
               Your Herd Is Your Wealth
             </h2>
-            <h3 className="text-2xl text-orange-600 font-semibold mb-8">
+            <h3 className="text-2xl text-blue-600 font-semibold mb-8">
               But Right Now, It's Vulnerable.
             </h3>
             <p className="text-lg text-gray-600 mb-12 max-w-3xl mx-auto">
@@ -105,24 +105,24 @@ export default function IntroPage() {
 
           <div className="grid md:grid-cols-3 gap-8 mb-12">
             <div className="text-center">
-              <div className="bg-orange-100 rounded-full p-6 w-20 h-20 mx-auto mb-6 flex items-center justify-center">
-                <Users className="h-10 w-10 text-orange-600" />
+              <div className="bg-blue-100 rounded-full p-6 w-20 h-20 mx-auto mb-6 flex items-center justify-center">
+                <Users className="h-10 w-10 text-blue-600" />
               </div>
               <h3 className="text-xl font-semibold text-gray-900 mb-3">Who owns it</h3>
               <p className="text-gray-600">Clear, verifiable ownership records</p>
             </div>
 
             <div className="text-center">
-              <div className="bg-orange-100 rounded-full p-6 w-20 h-20 mx-auto mb-6 flex items-center justify-center">
-                <Award className="h-10 w-10 text-orange-600" />
+              <div className="bg-blue-100 rounded-full p-6 w-20 h-20 mx-auto mb-6 flex items-center justify-center">
+                <Award className="h-10 w-10 text-blue-600" />
               </div>
               <h3 className="text-xl font-semibold text-gray-900 mb-3">How it was raised</h3>
               <p className="text-gray-600">Complete care and treatment history</p>
             </div>
 
             <div className="text-center">
-              <div className="bg-orange-100 rounded-full p-6 w-20 h-20 mx-auto mb-6 flex items-center justify-center">
-                <Shield className="h-10 w-10 text-orange-600" />
+              <div className="bg-blue-100 rounded-full p-6 w-20 h-20 mx-auto mb-6 flex items-center justify-center">
+                <Shield className="h-10 w-10 text-blue-600" />
               </div>
               <h3 className="text-xl font-semibold text-gray-900 mb-3">Where it comes from</h3>
               <p className="text-gray-600">Verified origin and location records</p>
@@ -155,31 +155,31 @@ export default function IntroPage() {
             <h2 className="text-4xl font-bold text-gray-900 mb-12">How It Works</h2>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8 px-4 sm:px-6 lg:px-8">
             <div className="text-center">
-              <div className="mb-6 flex justify-center">
+              <div className="mb-4 sm:mb-6 flex justify-center">
                 <img 
                   src={process.env.NODE_ENV === 'production' ? "/maroon_traceability/images/HowItWorks1.png" : "/images/HowItWorks1.png"} 
                   alt="Step 1: Tag Your Animal" 
-                  className="w-full max-w-xs h-64 object-contain rounded-lg shadow-md"
+                  className="w-full max-w-40 sm:max-w-48 md:max-w-xs lg:max-w-sm h-32 sm:h-36 md:h-40 lg:h-48 object-contain rounded-lg shadow-md"
                 />
               </div>
-              <h3 className="text-2xl font-bold text-gray-900 mb-4">Step 1: Tag Your Animal</h3>
-              <p className="text-lg text-gray-600">
+              <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-gray-900 mb-2 sm:mb-4">Step 1: Tag Your Animal</h3>
+              <p className="text-sm sm:text-base md:text-lg text-gray-600">
                 Every agricultural asset gets a unique digital ID that links back to you.
               </p>
             </div>
 
             <div className="text-center">
-              <div className="mb-6 flex justify-center">
+              <div className="mb-4 sm:mb-6 flex justify-center">
                 <img 
                   src={process.env.NODE_ENV === 'production' ? "/maroon_traceability/images/HowItWorks2.png" : "/images/HowItWorks2.png"} 
                   alt="Step 2: Record What Matters" 
-                  className="w-full max-w-xs h-64 object-contain"
+                  className="w-full max-w-40 sm:max-w-48 md:max-w-xs lg:max-w-sm h-32 sm:h-36 md:h-40 lg:h-48 object-contain"
                 />
               </div>
-              <h3 className="text-2xl font-bold text-gray-900 mb-4">Step 2: Record What Matters</h3>
-              <p className="text-lg text-gray-600">
+              <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-gray-900 mb-2 sm:mb-4">Step 2: Record What Matters</h3>
+              <p className="text-sm sm:text-base md:text-lg text-gray-600">
                 You can use your phone to log:
                 <br />• Ownership
                 <br />• Vaccinations
@@ -188,18 +188,18 @@ export default function IntroPage() {
             </div>
 
             <div className="text-center">
-              <div className="mb-6 flex justify-center">
+              <div className="mb-4 sm:mb-6 flex justify-center">
                 <img 
                   src={process.env.NODE_ENV === 'production' ? "/maroon_traceability/images/HowItWorks3.png" : "/images/HowItWorks3.png"} 
                   alt="Step 3: Show, Don't Tell" 
-                  className="w-full max-w-xs h-64 object-contain rounded-lg shadow-md"
+                  className="w-full max-w-40 sm:max-w-48 md:max-w-xs lg:max-w-sm h-32 sm:h-36 md:h-40 lg:h-48 object-contain rounded-lg shadow-md"
                 />
               </div>
-              <h3 className="text-2xl font-bold text-gray-900 mb-4">Step 3: Show, Don't Tell</h3>
-              <p className="text-lg text-gray-600">
+              <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-gray-900 mb-2 sm:mb-4">Step 3: Show, Don't Tell</h3>
+              <p className="text-sm sm:text-base md:text-lg text-gray-600">
                 A simple QR code provides buyers, banks, or authorities with statement:
                 <br /><br />
-                <span className="font-semibold text-orange-600">
+                <span className="font-semibold text-blue-600">
                   "This animal is authentic. This farmer is verified."
                 </span>
               </p>
@@ -223,24 +223,24 @@ export default function IntroPage() {
               <h3 className="text-2xl font-bold text-gray-900 mb-6">Communal & Rural Farmers</h3>
               <div className="space-y-4">
                 <div className="flex items-center">
-                  <Shield className="h-6 w-6 text-orange-600 mr-3" />
+                  <Shield className="h-6 w-6 text-blue-600 mr-3" />
                   <span className="text-gray-700">Protect your family's wealth</span>
                 </div>
                 <div className="flex items-center">
-                  <BookOpen className="h-6 w-6 text-orange-600 mr-3" />
+                  <BookOpen className="h-6 w-6 text-blue-600 mr-3" />
                   <span className="text-gray-700">Digital proof of ownership</span>
                 </div>
                 <div className="flex items-center">
-                  <Lock className="h-6 w-6 text-orange-600 mr-3" />
+                  <Lock className="h-6 w-6 text-blue-600 mr-3" />
                   <span className="text-gray-700">Enhanced security against stock theft</span>
                 </div>
                 <div className="flex items-center">
-                  <Award className="h-6 w-6 text-orange-600 mr-3" />
+                  <Award className="h-6 w-6 text-blue-600 mr-3" />
                   <span className="text-gray-700">Something to show to police, insurers, or banks</span>
                 </div>
               </div>
-              <div className="mt-6 p-4 bg-orange-50 rounded-lg">
-                <p className="font-semibold text-orange-800">
+              <div className="mt-6 p-4 bg-blue-50 rounded-lg">
+                <p className="font-semibold text-blue-800">
                   What this means is: Your wealth doesn't just vanish overnight.
                 </p>
               </div>
@@ -250,24 +250,24 @@ export default function IntroPage() {
               <h3 className="text-2xl font-bold text-gray-900 mb-6">Emerging Commercial Farmers</h3>
               <div className="space-y-4">
                 <div className="flex items-center">
-                  <TrendingUp className="h-6 w-6 text-orange-600 mr-3" />
+                  <TrendingUp className="h-6 w-6 text-blue-600 mr-3" />
                   <span className="text-gray-700">Sell with confidence. Get better prices</span>
                 </div>
                 <div className="flex items-center">
-                  <Users className="h-6 w-6 text-orange-600 mr-3" />
+                  <Users className="h-6 w-6 text-blue-600 mr-3" />
                   <span className="text-gray-700">Retail-ready traceability</span>
                 </div>
                 <div className="flex items-center">
-                  <Award className="h-6 w-6 text-orange-600 mr-3" />
+                  <Award className="h-6 w-6 text-blue-600 mr-3" />
                   <span className="text-gray-700">Fulfill abattoir and retailer requirements</span>
                 </div>
                 <div className="flex items-center">
-                  <Shield className="h-6 w-6 text-orange-600 mr-3" />
+                  <Shield className="h-6 w-6 text-blue-600 mr-3" />
                   <span className="text-gray-700">Compete with larger commercial operations</span>
                 </div>
               </div>
-              <div className="mt-6 p-4 bg-orange-50 rounded-lg">
-                <p className="font-semibold text-orange-800">
+              <div className="mt-6 p-4 bg-blue-50 rounded-lg">
+                <p className="font-semibold text-blue-800">
                   What this means is: You don't walk in as a small farmer anymore. You walk in as a verified supplier.
                 </p>
               </div>
@@ -341,38 +341,38 @@ export default function IntroPage() {
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             <div className="text-center p-6 bg-gray-50 rounded-lg">
-              <Shield className="h-12 w-12 text-orange-600 mx-auto mb-4" />
+              <Shield className="h-12 w-12 text-blue-600 mx-auto mb-4" />
               <h4 className="font-semibold text-gray-900 mb-2">Tailored for South African farming realities against theft and fraud</h4>
               <p className="text-gray-600 text-sm">Built specifically for local challenges</p>
             </div>
             
             <div className="text-center p-6 bg-gray-50 rounded-lg">
-              <Smartphone className="h-12 w-12 text-orange-600 mx-auto mb-4" />
+              <Smartphone className="h-12 w-12 text-blue-600 mx-auto mb-4" />
               <h4 className="font-semibold text-gray-900 mb-2">Functional offline</h4>
               <p className="text-gray-600 text-sm">Works even without internet</p>
             </div>
             
             <div className="text-center p-6 bg-gray-50 rounded-lg">
-              <Users className="h-12 w-12 text-orange-600 mx-auto mb-4" />
+              <Users className="h-12 w-12 text-blue-600 mx-auto mb-4" />
               <h4 className="font-semibold text-gray-900 mb-2">User-friendly</h4>
               <p className="text-gray-600 text-sm">Simple and intuitive to use</p>
             </div>
             
             <div className="text-center p-6 bg-gray-50 rounded-lg">
-              <Lock className="h-12 w-12 text-orange-600 mx-auto mb-4" />
+              <Lock className="h-12 w-12 text-blue-600 mx-auto mb-4" />
               <h4 className="font-semibold text-gray-900 mb-2">Focused on safeguarding agricultural assets</h4>
               <p className="text-gray-600 text-sm">Your protection is our priority</p>
             </div>
           </div>
 
           <div className="text-center mt-12">
-            <h3 className="text-3xl font-bold text-orange-600">Your Herd Is Your Legacy!</h3>
+            <h3 className="text-3xl font-bold text-blue-600">Your Herd Is Your Legacy!</h3>
           </div>
         </div>
       </div>
 
       {/* Final Call-to-Action */}
-      <div className="py-20 bg-gradient-to-r from-orange-600 to-amber-600">
+      <div className="py-20 bg-gradient-to-r from-blue-600 to-indigo-600">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <BookOpen className="h-16 w-16 text-white mx-auto mb-6" />
           
@@ -380,7 +380,7 @@ export default function IntroPage() {
             Every Agricultural Asset in your Agri-Asset Book has a story to tell.
           </h2>
           
-          <div className="text-xl text-orange-100 mb-12 max-w-4xl mx-auto space-y-4">
+          <div className="text-xl text-blue-100 mb-12 max-w-4xl mx-auto space-y-4">
             <p>The grass it grazed on.</p>
             <p>The care you provided.</p>
             <p>The future you're creating for your legacy.</p>

@@ -224,6 +224,16 @@ export default function LogisticsPage() {
             </div>
           </button>
           <button
+            onClick={() => router.push('/logistics/order-tracking')}
+            className="bg-indigo-600 hover:bg-indigo-700 text-white flex items-center gap-2 h-auto p-4 rounded-md font-medium transition-colors"
+          >
+            <Route className="h-5 w-5" />
+            <div className="text-left">
+              <div className="font-medium">Order Tracking</div>
+              <div className="text-xs opacity-90">Track deliveries in real-time</div>
+            </div>
+          </button>
+          <button
             onClick={() => router.push('/logistics/events')}
             className="bg-sky-600 hover:bg-sky-700 text-white flex items-center gap-2 h-auto p-4 rounded-md font-medium transition-colors"
           >

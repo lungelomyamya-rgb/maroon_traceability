@@ -170,44 +170,74 @@ function ProductsContent() {
             const defaultColor = { bg: 'bg-gray-100', text: 'text-gray-800', icon: '📦' };
             const safeCategoryColor = categoryColor || defaultColor;
             
+            // Maroon category icons mapping
+            const categoryIcons: Record<string, string> = {
+              'Fruits': '🍎',
+              'Vegetables': '🥬',
+              'Dairy': '🥛',
+              'Other': '🍯',
+              'Meat': '🥩',
+              'Grains': '🌾'
+            };
+            
+            const categoryIcon = categoryIcons[product.category] || '📦';
+            
             return (
-              <div key={product.id} className="bg-white border rounded-lg p-4 hover:shadow-lg transition-shadow">
-                <div className="mb-4">
-                  <div className={`w-full h-32 ${safeCategoryColor.bg} rounded-lg flex items-center justify-center overflow-hidden`}>
-                    <img src={product.image} alt={product.name} className="h-full w-full object-contain" />
+              <div key={product.id} className="bg-white border rounded-2xl overflow-hidden hover:shadow-xl transition-shadow group">
+                {/* Image Section */}
+                <div className="relative">
+                  <div className="w-full h-32 bg-gradient-to-br from-green-100 to-green-200 flex items-center justify-center group-hover:scale-105 transition-transform duration-300 rounded-t-2xl">
+                    <div className="text-center">
+                      <div className="text-4xl mb-2">
+                        {categoryIcon}
+                      </div>
+                      <p className="text-sm text-green-700 font-medium">{product.category}</p>
+                    </div>
                   </div>
                 </div>
                 
-                <div className="flex items-center gap-2 mb-2">
-                  <span className="text-2xl">{safeCategoryColor.icon}</span>
-                  <span className={`px-2 py-1 rounded-full text-xs font-semibold ${safeCategoryColor.bg} ${safeCategoryColor.text} border-2 border-current`}>
-                    {product.category}
-                  </span>
-                  <span className="px-2 py-1 rounded-full text-xs font-semibold bg-green-100 text-green-800">
-                    ✓ Verified
-                  </span>
-                </div>
-
-                <h3 className="font-semibold text-gray-900 mb-2">{product.name}</h3>
-                <p className="text-sm text-gray-600 mb-2">by {product.farmer}</p>
-                <p className="text-sm text-gray-500 mb-3">{product.location}</p>
-                
-                <div className="flex items-center justify-between mb-4">
-                  <span className="text-lg font-bold text-green-600">R{product.price}</span>
-                  <div className="flex items-center gap-1">
-                    <Shield className="h-4 w-4 text-green-600" />
-                    <span className="text-xs text-green-600">Blockchain</span>
+                {/* Content Section */}
+                <div className="p-4">
+                  <h3 className="font-semibold text-gray-900 mb-2 line-clamp-2">{product.name}</h3>
+                  
+                  {/* Category and Verification Badges */}
+                  <div className="flex items-center gap-2 mb-2">
+                    <span className="text-2xl">{safeCategoryColor.icon}</span>
+                    <span className={`px-2 py-1 rounded-full text-xs font-semibold ${safeCategoryColor.bg} ${safeCategoryColor.text} border-2 border-current`}>
+                      {product.category}
+                    </span>
+                    <span className="px-2 py-1 rounded-full text-xs font-semibold bg-green-100 text-green-800">
+                      ✓ Verified
+                    </span>
                   </div>
-                </div>
+                  
+                  {/* Farmer Info */}
+                  <p className="text-sm text-gray-600 mb-2">by {product.farmer}</p>
+                  <p className="text-sm text-gray-500 mb-3">{product.location}</p>
+                  
+                  {/* Blockchain Verification */}
+                  <div className="flex items-center justify-end mb-4">
+                    <div className="flex items-center gap-1">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-shield h-4 w-4 text-green-600">
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10"></path>
+                      </svg>
+                      <span className="text-xs text-green-600">Blockchain</span>
+                    </div>
+                  </div>
 
-                <Button
-                  onClick={() => handleViewTrace(product.id)}
-                  variant="secondary"
-                  className="w-full bg-yellow-600 hover:bg-yellow-700 text-white shadow-lg rounded-full"
-                  size="sm"
-                >
-                  View Full Trace
-                </Button>
+                  {/* View Full Trace Button */}
+                  <Button
+                    onClick={() => handleViewTrace(product.id)}
+                    variant="outline"
+                    className="w-full"
+                    size="sm"
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-shield h-4 w-4 mr-2">
+                      <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10"></path>
+                    </svg>
+                    View Full Trace
+                  </Button>
+                </div>
               </div>
             );
           })}

@@ -124,8 +124,8 @@ class AccessControlManager {
         level: 2
       },
       {
-        id: 'viewer',
-        name: 'viewer' as UserRole,
+        id: 'public',
+        name: 'public' as UserRole,
         permissions: ['product.read', 'blockchain.read'],
         description: 'Read-only access to products and blockchain',
         level: 0

@@ -44,7 +44,7 @@ export function Navigation() {
 
   // Page type detection
   const cleanPathname = pathname?.replace(/\/+$/, '') || '';
-  const isViewerPage = cleanPathname === '/viewer';
+  const isPublicPage = cleanPathname === '/public';
   const isTracePage = cleanPathname.startsWith('/public-access/trace/');
   const isPublicAccessPage = cleanPathname === '/public-access';
   const isFarmerPage = cleanPathname.startsWith('/farmer');
@@ -105,10 +105,10 @@ export function Navigation() {
 
   // Default navigation for other roles
   const getDefaultNavigationItems = () => {
-    // Only show dashboard for viewer role
-    if (currentUser?.role === 'viewer') {
+    // Only show dashboard for public role
+    if (currentUser?.role === 'public') {
       return [
-        { name: 'Dashboard', href: '/viewer', current: isViewerPage },
+        { name: 'Marketplace', href: '/public', current: cleanPathname === '/public' },
         { name: 'Products', href: '/products', current: cleanPathname === '/products' },
         { name: 'Public Access', href: '/public-access', current: isPublicAccessPage },
       ];
@@ -121,12 +121,12 @@ export function Navigation() {
   const navigation = userRole 
     ? rolePermissionsService.getNavigationItems(userRole).map(item => ({
         ...item,
-        current: cleanPathname === item.href || (item.href === '/viewer' && isViewerPage)
+        current: cleanPathname === item.href || (item.href === '/public' && isPublicPage)
       }))
     : getDefaultNavigationItems();
 
   const roles = [
-    { name: 'Viewer', href: '/viewer' },
+    { name: 'Public', href: '/public' },
     { name: 'Farmer', href: '/farmer' },
     { name: 'Logistics', href: '/logistics' },
     { name: 'Packaging', href: '/packaging' },
@@ -141,13 +141,13 @@ export function Navigation() {
             <div className="flex-shrink-0 flex items-center">
               <img src={getAssetPath("/images/maroon-logo.png")} alt="MAROON" className="h-8 w-8 mr-3 nav-logo" />
               <div>
-                <Link href="/viewer" className="text-xl font-bold text-gray-900">
+                <Link href="/public" className="text-xl font-bold text-gray-900">
                   Maroon Blockchain
                 </Link>
                 {currentUser?.role === 'farmer' && (
                   <div className="text-sm text-green-600 font-medium">Farmer Portal</div>
                 )}
-                {currentUser?.role === 'viewer' && (
+                {currentUser?.role === 'public' && (
                   <div className="text-sm text-gray-600 font-medium">Public Portal</div>
                 )}
                 {currentUser?.role === 'logistics' && (
@@ -201,18 +201,18 @@ export function Navigation() {
                       <button
                         key={role.name}
                         onClick={() => {
-                          if (role.name === 'Viewer') {
+                          if (role.name === 'Public') {
                             // Update user context first, then navigate
-                            const viewerUser = DEMO_USERS.find((u: any) => u.role === 'viewer');
-                            if (viewerUser) {
-                              switchUser(viewerUser.id);
+                            const publicUser = DEMO_USERS.find((u: any) => u.role === 'public');
+                            if (publicUser) {
+                              switchUser(publicUser.id);
                               // Small delay to ensure context updates before navigation
                               setTimeout(() => {
-                                window.location.href = '/viewer';
+                                window.location.href = '/public';
                               }, 100);
                             } else {
-                              // Fallback if viewer user not found
-                              window.location.href = '/viewer';
+                              // Fallback if public user not found
+                              window.location.href = '/public';
                             }
                           } else {
                             // For other roles, go to login first
@@ -222,7 +222,7 @@ export function Navigation() {
                         }}
                         className={`w-full text-left px-4 py-2 text-sm hover:bg-gray-100 flex items-center space-x-2 ${
                           (currentUser?.role === 'farmer' && role.name === 'Farmer') || 
-                          (currentUser?.role === 'viewer' && role.name === 'Viewer') ||
+                          (currentUser?.role === 'public' && role.name === 'Public') ||
                           (currentUser?.role === 'logistics' && role.name === 'Logistics') ||
                           (currentUser?.role === 'inspector' && role.name === 'Inspector') ||
                           (currentUser?.role === 'packaging' && role.name === 'Packaging')
@@ -231,7 +231,7 @@ export function Navigation() {
                       >
                         <span className="capitalize">{role.name}</span>
                         {((currentUser?.role === 'farmer' && role.name === 'Farmer') || 
-                          (currentUser?.role === 'viewer' && role.name === 'Viewer') ||
+                          (currentUser?.role === 'public' && role.name === 'Public') ||
                           (currentUser?.role === 'logistics' && role.name === 'Logistics') ||
                           (currentUser?.role === 'inspector' && role.name === 'Inspector') ||
                           (currentUser?.role === 'packaging' && role.name === 'Packaging')) && (
@@ -281,30 +281,29 @@ export function Navigation() {
                         <button
                           key={role.name}
                           onClick={() => {
-                            if (role.name === 'Viewer') {
+                            if (role.name === 'Public') {
                               // Update user context first, then navigate
-                              const viewerUser = DEMO_USERS.find((u: any) => u.role === 'viewer');
-                              if (viewerUser) {
-                                switchUser(viewerUser.id);
+                              const publicUser = DEMO_USERS.find((u: any) => u.role === 'public');
+                              if (publicUser) {
+                                switchUser(publicUser.id);
                                 // Small delay to ensure context updates before navigation
                                 setTimeout(() => {
-                                  window.location.href = '/viewer';
+                                  window.location.href = '/public';
                                 }, 100);
                               } else {
-                                // Fallback if viewer user not found
-                                window.location.href = '/viewer';
+                                // Fallback if public user not found
+                                window.location.href = '/public';
                               }
                             } else {
                               // For other roles, go to login first
                               router.push('/login');
                             }
                             setIsDropdownOpen(false);
-                            setIsDropdownOpen(false);
                             setIsMobileDropdownOpen(false);
                           }}
                           className={`w-full text-left px-4 py-2 text-sm hover:bg-gray-100 flex items-center space-x-2 ${
                             (currentUser?.role === 'farmer' && role.name === 'Farmer') || 
-                            (currentUser?.role === 'viewer' && role.name === 'Viewer') ||
+                            (currentUser?.role === 'public' && role.name === 'Public') ||
                             (currentUser?.role === 'logistics' && role.name === 'Logistics') ||
                             (currentUser?.role === 'inspector' && role.name === 'Inspector') ||
                             (currentUser?.role === 'packaging' && role.name === 'Packaging')
@@ -313,7 +312,7 @@ export function Navigation() {
                         >
                           <span className="capitalize">{role.name}</span>
                           {((currentUser?.role === 'farmer' && role.name === 'Farmer') || 
-                            (currentUser?.role === 'viewer' && role.name === 'Viewer') ||
+                            (currentUser?.role === 'public' && role.name === 'Public') ||
                             (currentUser?.role === 'logistics' && role.name === 'Logistics') ||
                             (currentUser?.role === 'inspector' && role.name === 'Inspector') ||
                             (currentUser?.role === 'packaging' && role.name === 'Packaging')) && (
