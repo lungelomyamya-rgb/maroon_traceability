@@ -207,10 +207,19 @@ export default function AnalyticsComponent() {
                 <p className="text-sm font-medium text-gray-600">Total Revenue</p>
                 <p className="text-2xl font-bold text-gray-900">R{analytics.totalRevenue.toLocaleString()}</p>
                 <div className="flex items-center mt-2">
-                  {getChangeIcon(analytics.monthlyRevenue[6].revenue, analytics.monthlyRevenue[5].revenue)}
-                  <span className={`text-sm ml-1 ${getChangeColor(analytics.monthlyRevenue[6].revenue, analytics.monthlyRevenue[5].revenue)}`}>
-                    {Math.abs(((analytics.monthlyRevenue[6].revenue - analytics.monthlyRevenue[5].revenue) / analytics.monthlyRevenue[5].revenue) * 100).toFixed(1)}%
-                  </span>
+                  {analytics && analytics.monthlyRevenue[6] && analytics.monthlyRevenue[5] ? (
+                    <>
+                      {getChangeIcon(analytics.monthlyRevenue[6].revenue, analytics.monthlyRevenue[5].revenue)}
+                      <span className={`text-sm ml-1 ${getChangeColor(analytics.monthlyRevenue[6].revenue, analytics.monthlyRevenue[5].revenue)}`}>
+                        {Math.abs(((analytics.monthlyRevenue[6].revenue - analytics.monthlyRevenue[5].revenue) / analytics.monthlyRevenue[5].revenue) * 100).toFixed(1)}%
+                      </span>
+                    </>
+                  ) : (
+                    <>
+                      <TrendingUp className="h-4 w-4 text-gray-400" />
+                      <span className="text-sm ml-1 text-gray-400">Loading...</span>
+                    </>
+                  )}
                 </div>
               </div>
               <div className="bg-blue-100 p-3 rounded-full">
