@@ -277,7 +277,15 @@ export default function AnalyticsComponent() {
                 </SelectContent>
               </Select>
             </div>
-            <div className="h-80 flex items-end justify-between gap-2">
+            
+            {/* Debug Info */}
+            <div className="mb-4 p-2 bg-gray-100 rounded text-xs">
+              <div>Chart Data: {analytics.monthlyRevenue.length} months</div>
+              <div>Selected Metric: {selectedMetric}</div>
+              <div>Max Value: {Math.max(...analytics.monthlyRevenue.map(d => selectedMetric === 'revenue' ? d.revenue : d.orders))}</div>
+            </div>
+            
+            <div className="h-80 bg-gray-50 rounded-lg p-4 flex items-end justify-between gap-2">
               {analytics.monthlyRevenue.map((item, index) => {
                 const maxValue = Math.max(...analytics.monthlyRevenue.map(d => selectedMetric === 'revenue' ? d.revenue : d.orders));
                 const value = selectedMetric === 'revenue' ? item.revenue : item.orders;
