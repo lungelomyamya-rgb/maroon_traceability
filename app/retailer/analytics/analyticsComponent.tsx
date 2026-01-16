@@ -302,17 +302,24 @@ export default function AnalyticsComponent() {
               <div>Max Value: {Math.max(...analytics.monthlyRevenue.map(d => selectedMetric === 'revenue' ? d.revenue : d.orders))}</div>
             </div>
             
-            <div className="h-80 bg-gray-50 rounded-lg p-4 flex items-end justify-between gap-2">
+            <div className="h-80 bg-white rounded-lg border-2 border-gray-200 p-4 flex items-end justify-between gap-2">
               {analytics.monthlyRevenue.map((item, index) => {
                 const maxValue = Math.max(...analytics.monthlyRevenue.map(d => selectedMetric === 'revenue' ? d.revenue : d.orders));
                 const value = selectedMetric === 'revenue' ? item.revenue : item.orders;
-                const height = maxValue > 0 ? (value / maxValue) * 100 : 5; // Ensure minimum height for visibility
+                const height = maxValue > 0 ? (value / maxValue) * 100 : 15; // Increased minimum height for better visibility
+                
+                console.log(`Chart bar ${index}:`, {
+                  month: item.month,
+                  value: value,
+                  height: height,
+                  maxValue: maxValue
+                });
 
                 return (
                   <div key={index} className="flex-1 flex flex-col items-center">
                     <div 
                       className="w-full bg-gradient-to-t from-blue-600 to-blue-400 rounded-t-lg transition-all duration-500 hover:from-blue-700 hover:to-blue-500 shadow-md"
-                      style={{ height: `${Math.max(height, 10)}%` }} // Ensure minimum 10% height
+                      style={{ height: `${Math.max(height, 15)}%`, minHeight: '60px' }} // Increased minimum height and fixed pixel height
                     />
                     <span className="text-xs text-gray-600 mt-2">{item.month}</span>
                     <span className="text-xs font-medium">
