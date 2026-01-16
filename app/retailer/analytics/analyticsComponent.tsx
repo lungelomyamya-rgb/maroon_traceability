@@ -302,27 +302,74 @@ export default function AnalyticsComponent() {
               <div>Max Value: {Math.max(...analytics.monthlyRevenue.map(d => selectedMetric === 'revenue' ? d.revenue : d.orders))}</div>
             </div>
             
-            <div className="h-80 bg-white rounded-lg border-2 border-gray-200 p-4 flex items-end justify-between gap-2">
+            <div className="h-80 bg-gradient-to-br from-gray-50 to-gray-100 rounded-xl p-6 relative overflow-hidden">
+              {/* Background Pattern */}
+              <div className="absolute inset-0 opacity-5">
+                <div className="absolute inset-0 bg-gradient-to-br from-blue-100 via-transparent to-blue-200 opacity-30"></div>
+              </div>
+              
+              {/* Grid Lines */}
+              <div className="absolute inset-0 flex items-center justify-center">
+                {[...Array(6)].map((_, i) => (
+                  <div
+                    key={i}
+                    className="absolute w-px h-full"
+                    style={{
+                      background: `linear-gradient(to right, transparent ${
+                        i % 2 === 0 ? 'rgba(59, 130, 246, 0.03)' : 
+                        i % 2 === 1 ? 'rgba(59, 130, 246, 0.06)' : 
+                        'rgba(59, 130, 246, 0.03)'
+                      })`,
+                      transform: `translateY(${i * 10}px)`
+                    }}
+                  />
+                ))}
+              </div>
+              
+              {/* Chart Bars */}
               {analytics.monthlyRevenue.map((item, index) => {
                 const maxValue = Math.max(...analytics.monthlyRevenue.map(d => selectedMetric === 'revenue' ? d.revenue : d.orders));
                 const value = selectedMetric === 'revenue' ? item.revenue : item.orders;
-                const height = maxValue > 0 ? (value / maxValue) * 100 : 15; // Increased minimum height for better visibility
+                const heightPercentage = maxValue > 0 ? (value / maxValue) * 100 : 15;
                 
-                console.log(`Chart bar ${index}:`, {
-                  month: item.month,
-                  value: value,
-                  height: height,
-                  maxValue: maxValue
-                });
-
                 return (
-                  <div key={index} className="flex-1 flex flex-col items-center">
+                  <div key={index} className="relative flex-1 flex flex-col items-center justify-end group">
+                    {/* Tooltip */}
+                    <div className="absolute -top-8 left-1/2 transform -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10">
+                      <div className="bg-gray-900 text-white p-3 rounded-lg shadow-xl border border border-gray-200 min-w-[140px]">
+                        <div className="text-xs font-medium text-gray-300 mb-1">{item.month}</div>
+                        <div className="text-lg font-bold text-white">{selectedMetric === 'revenue' ? `R${(value / 1000).toFixed(1)}k` : value}</div>
+                        {selectedMetric === 'revenue' && (
+                          <div className="text-xs text-gray-300">R{((value / 1000).toFixed(0)}k)</div>
+                        )}
+                      </div>
+                      <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-2 h-2 rotate-45 bg-gray-900 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    </div>
+                    
+                    {/* Bar */}
                     <div 
-                      className="w-full bg-gradient-to-t from-blue-600 to-blue-400 rounded-t-lg transition-all duration-500 hover:from-blue-700 hover:to-blue-500 shadow-md"
-                      style={{ height: `${Math.max(height, 15)}%`, minHeight: '60px' }} // Increased minimum height and fixed pixel height
-                    />
-                    <span className="text-xs text-gray-600 mt-2">{item.month}</span>
-                    <span className="text-xs font-medium">
+                      className="relative w-full bg-gradient-to-t from-blue-600 via-blue-500 to-blue-400 hover:from-blue-700 hover:to-blue-600 rounded-t-lg transition-all duration-700 ease-out transform hover:scale-105 shadow-lg hover:shadow-2xl group-hover:shadow-blue-500/25"
+                      style={{ 
+                        height: `${Math.max(heightPercentage, 20)}%`,
+                        animationDelay: `${index * 100}ms`
+                      }}
+                    >
+                      {/* Animated Shine Effect */}
+                      <div className="absolute inset-0 rounded-t-lg bg-gradient-to-t from-white via-transparent to-blue-200 opacity-0 group-hover:opacity-20 transition-opacity duration-500"></div>
+                      
+                      {/* Value Label on Top */}
+                      <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        <div className="bg-blue-600 text-white px-2 py-1 rounded-full text-xs font-bold shadow-lg">
+                          {selectedMetric === 'revenue' ? '↑' : '📈'}
+                        </div>
+                      </div>
+                    </div>
+                    
+                    {/* Month Label */}
+                    <span className="text-xs text-gray-600 mt-2 font-medium group-hover:text-blue-700 transition-colors duration-200">{item.month}</span>
+                    
+                    {/* Value Label */}
+                    <span className="text-xs font-bold text-gray-700 group-hover:text-blue-600 transition-colors duration-200">
                       {selectedMetric === 'revenue' ? `R${(value / 1000).toFixed(1)}k` : value}
                     </span>
                   </div>
