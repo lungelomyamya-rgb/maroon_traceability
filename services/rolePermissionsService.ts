@@ -1,7 +1,7 @@
 // src/services/rolePermissionsService.ts
 // Role-based access control for Maroon Traceability events
 
-export type UserRole = 'farmer' | 'inspector' | 'logistics' | 'packaging' | 'viewer' | 'admin';
+export type UserRole = 'farmer' | 'inspector' | 'logistics' | 'packaging' | 'retailer' | 'viewer' | 'admin';
 
 export interface EventType {
   id: string;
@@ -410,6 +410,12 @@ class RolePermissionsService {
         { name: 'Overview', href: '/packaging' },
         { name: 'Batch Creation', href: '/packaging/batch' },
         { name: 'Quality Check', href: '/packaging/quality' }
+      ],
+      retailer: [
+        { name: 'Overview', href: '/retailer' },
+        { name: 'Products', href: '/retailer/product-management' },
+        { name: 'Orders', href: '/retailer/orders' },
+        { name: 'Analytics', href: '/retailer/analytics' }
       ],
       viewer: [
         { name: 'Products', href: '/products' },

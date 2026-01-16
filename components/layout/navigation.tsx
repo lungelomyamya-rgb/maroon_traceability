@@ -25,16 +25,29 @@ export function Navigation() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isMobileDropdownOpen, setIsMobileDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const mobileDropdownRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
+    const handleClickOutside = (event: MouseEvent | TouchEvent) => {
+      // Handle desktop dropdown
       if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
         setIsDropdownOpen(false);
       }
+      
+      // Handle mobile dropdown
+      if (mobileDropdownRef.current && !mobileDropdownRef.current.contains(event.target as Node)) {
+        setIsMobileDropdownOpen(false);
+      }
     };
 
+    // Add both mouse and touch event listeners for better mobile support
     document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
+    document.addEventListener('touchstart', handleClickOutside);
+    
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('touchstart', handleClickOutside);
+    };
   }, []);
 
   // Hide navigation on login page
@@ -44,7 +57,7 @@ export function Navigation() {
 
   // Page type detection
   const cleanPathname = pathname?.replace(/\/+$/, '') || '';
-  const isPublicPage = cleanPathname === '/public';
+  const isPublicPage = cleanPathname === '/marketplace';
   const isTracePage = cleanPathname.startsWith('/public-access/trace/');
   const isPublicAccessPage = cleanPathname === '/public-access';
   const isFarmerPage = cleanPathname.startsWith('/farmer');
@@ -108,7 +121,7 @@ export function Navigation() {
     // Only show dashboard for public role
     if (currentUser?.role === 'public') {
       return [
-        { name: 'Marketplace', href: '/public', current: cleanPathname === '/public' },
+        { name: 'Marketplace', href: '/marketplace', current: cleanPathname === '/marketplace' },
         { name: 'Products', href: '/products', current: cleanPathname === '/products' },
         { name: 'Public Access', href: '/public-access', current: isPublicAccessPage },
       ];
@@ -121,15 +134,16 @@ export function Navigation() {
   const navigation = userRole 
     ? rolePermissionsService.getNavigationItems(userRole).map(item => ({
         ...item,
-        current: cleanPathname === item.href || (item.href === '/public' && isPublicPage)
+        current: cleanPathname === item.href || (item.href === '/marketplace' && isPublicPage)
       }))
     : getDefaultNavigationItems();
 
   const roles = [
-    { name: 'Public', href: '/public' },
+    { name: 'Public', href: '/marketplace' },
     { name: 'Farmer', href: '/farmer' },
     { name: 'Logistics', href: '/logistics' },
     { name: 'Packaging', href: '/packaging' },
+    { name: 'Retailer', href: '/retailer' },
     { name: 'Inspector', href: '/inspector' },
   ];
 
@@ -137,35 +151,43 @@ export function Navigation() {
     <nav className="bg-white shadow-sm border-b">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16 items-center">
-          <div className="flex">
-            <div className="flex-shrink-0 flex items-center">
-              <img src={getAssetPath("/images/maroon-logo.png")} alt="MAROON" className="h-8 w-8 mr-3 nav-logo" />
-              <div>
-                <Link href="/public" className="text-xl font-bold text-gray-900">
-                  Maroon Blockchain
-                </Link>
-                {currentUser?.role === 'farmer' && (
-                  <div className="text-sm text-green-600 font-medium">Farmer Portal</div>
-                )}
-                {currentUser?.role === 'public' && (
-                  <div className="text-sm text-gray-600 font-medium">Public Portal</div>
-                )}
-                {currentUser?.role === 'logistics' && (
-                  <div className="text-sm text-blue-600 font-medium">Logistics Portal</div>
-                )}
-                {currentUser?.role === 'inspector' && (
-                  <div className="text-sm text-purple-600 font-medium">Inspector Portal</div>
-                )}
-                {currentUser?.role === 'packaging' && (
-                  <div className="text-sm text-orange-600 font-medium">Packaging Portal</div>
-                )}
-              </div>
+          {/* Logo and Title - Always visible */}
+          <div className="flex-shrink-0 flex items-center">
+            <img src={getAssetPath("/images/maroon-logo.png")} alt="MAROON" className="h-90 w-90 mr-3 nav-logo" />
+            <div className="hidden sm:block">
+              <Link href={currentUser?.role === 'public' ? '/marketplace' : `/${currentUser?.role || 'public'}`} className="text-xl font-bold text-gray-900">
+                Maroon Blockchain
+              </Link>
+              {currentUser?.role === 'farmer' && (
+                <div className="text-sm text-green-600 font-medium">Farmer Portal</div>
+              )}
+              {currentUser?.role === 'public' && (
+                <div className="text-sm text-gray-600 font-medium">Public Portal</div>
+              )}
+              {currentUser?.role === 'logistics' && (
+                <div className="text-sm text-blue-600 font-medium">Logistics Portal</div>
+              )}
+              {currentUser?.role === 'inspector' && (
+                <div className="text-sm text-purple-600 font-medium">Inspector Portal</div>
+              )}
+              {currentUser?.role === 'packaging' && (
+                <div className="text-sm text-orange-600 font-medium">Packaging Portal</div>
+              )}
+              {currentUser?.role === 'retailer' && (
+                <div className="text-sm text-indigo-600 font-medium">Retailer Portal</div>
+              )}
+            </div>
+            {/* Mobile Title - Logo only */}
+            <div className="sm:hidden">
+              <Link href={currentUser?.role === 'public' ? '/marketplace' : `/${currentUser?.role || 'marketplace'}`} className="text-lg font-bold text-gray-900">
+                Maroon
+              </Link>
             </div>
           </div>
 
           <div className="flex items-center space-x-6">
             {/* Main Navigation - Desktop */}
-            <div className="hidden sm:flex sm:space-x-4">
+            <div className="hidden lg:flex lg:space-x-4">
               {navigation.map((item: any) => (
                 <Link
                   key={item.name}
@@ -184,7 +206,7 @@ export function Navigation() {
             </div>
 
             {/* Desktop Role Selector */}
-            <div className="hidden sm:block relative" ref={dropdownRef}>
+            <div className="hidden lg:block relative" ref={dropdownRef}>
               <Button 
                 variant="ghost" 
                 className="flex items-center space-x-2"
@@ -208,11 +230,11 @@ export function Navigation() {
                               switchUser(publicUser.id);
                               // Small delay to ensure context updates before navigation
                               setTimeout(() => {
-                                window.location.href = '/public';
+                                window.location.href = '/marketplace';
                               }, 100);
                             } else {
                               // Fallback if public user not found
-                              window.location.href = '/public';
+                              window.location.href = '/marketplace';
                             }
                           } else {
                             // For other roles, go to login first
@@ -225,7 +247,8 @@ export function Navigation() {
                           (currentUser?.role === 'public' && role.name === 'Public') ||
                           (currentUser?.role === 'logistics' && role.name === 'Logistics') ||
                           (currentUser?.role === 'inspector' && role.name === 'Inspector') ||
-                          (currentUser?.role === 'packaging' && role.name === 'Packaging')
+                          (currentUser?.role === 'packaging' && role.name === 'Packaging') ||
+                          (currentUser?.role === 'retailer' && role.name === 'Retailer')
                             ? 'bg-gray-100' : ''
                         }`}
                       >
@@ -234,7 +257,8 @@ export function Navigation() {
                           (currentUser?.role === 'public' && role.name === 'Public') ||
                           (currentUser?.role === 'logistics' && role.name === 'Logistics') ||
                           (currentUser?.role === 'inspector' && role.name === 'Inspector') ||
-                          (currentUser?.role === 'packaging' && role.name === 'Packaging')) && (
+                          (currentUser?.role === 'packaging' && role.name === 'Packaging') ||
+                          (currentUser?.role === 'retailer' && role.name === 'Retailer')) && (
                           <span className="text-xs text-gray-500 ml-2">(Current)</span>
                         )}
                       </button>
@@ -245,7 +269,7 @@ export function Navigation() {
             </div>
 
             {/* Mobile Navigation - Hamburger Menu with Navigation Tabs */}
-            <div className="sm:hidden">
+            <div className="lg:hidden" ref={mobileDropdownRef}>
               <Button 
                 variant="ghost" 
                 className="flex items-center space-x-2"
@@ -288,11 +312,11 @@ export function Navigation() {
                                 switchUser(publicUser.id);
                                 // Small delay to ensure context updates before navigation
                                 setTimeout(() => {
-                                  window.location.href = '/public';
+                                  window.location.href = '/marketplace';
                                 }, 100);
                               } else {
                                 // Fallback if public user not found
-                                window.location.href = '/public';
+                                window.location.href = '/marketplace';
                               }
                             } else {
                               // For other roles, go to login first
@@ -306,7 +330,8 @@ export function Navigation() {
                             (currentUser?.role === 'public' && role.name === 'Public') ||
                             (currentUser?.role === 'logistics' && role.name === 'Logistics') ||
                             (currentUser?.role === 'inspector' && role.name === 'Inspector') ||
-                            (currentUser?.role === 'packaging' && role.name === 'Packaging')
+                            (currentUser?.role === 'packaging' && role.name === 'Packaging') ||
+                            (currentUser?.role === 'retailer' && role.name === 'Retailer')
                               ? 'bg-gray-100' : ''
                           }`}
                         >
@@ -315,7 +340,8 @@ export function Navigation() {
                             (currentUser?.role === 'public' && role.name === 'Public') ||
                             (currentUser?.role === 'logistics' && role.name === 'Logistics') ||
                             (currentUser?.role === 'inspector' && role.name === 'Inspector') ||
-                            (currentUser?.role === 'packaging' && role.name === 'Packaging')) && (
+                            (currentUser?.role === 'packaging' && role.name === 'Packaging') ||
+                            (currentUser?.role === 'retailer' && role.name === 'Retailer')) && (
                             <span className="text-xs text-gray-500">(Current)</span>
                           )}
                         </button>
