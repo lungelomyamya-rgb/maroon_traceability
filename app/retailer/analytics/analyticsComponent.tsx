@@ -277,17 +277,17 @@ export default function AnalyticsComponent() {
                 </SelectContent>
               </Select>
             </div>
-            <div className="h-64 flex items-end justify-between gap-2">
+            <div className="h-80 flex items-end justify-between gap-2">
               {analytics.monthlyRevenue.map((item, index) => {
                 const maxValue = Math.max(...analytics.monthlyRevenue.map(d => selectedMetric === 'revenue' ? d.revenue : d.orders));
                 const value = selectedMetric === 'revenue' ? item.revenue : item.orders;
-                const height = (value / maxValue) * 100;
+                const height = maxValue > 0 ? (value / maxValue) * 100 : 5; // Ensure minimum height for visibility
 
                 return (
                   <div key={index} className="flex-1 flex flex-col items-center">
                     <div 
-                      className="w-full bg-gradient-to-t from-blue-600 to-blue-400 rounded-t-lg transition-all duration-500 hover:from-blue-700 hover:to-blue-500"
-                      style={{ height: `${height}%` }}
+                      className="w-full bg-gradient-to-t from-blue-600 to-blue-400 rounded-t-lg transition-all duration-500 hover:from-blue-700 hover:to-blue-500 shadow-md"
+                      style={{ height: `${Math.max(height, 10)}%` }} // Ensure minimum 10% height
                     />
                     <span className="text-xs text-gray-600 mt-2">{item.month}</span>
                     <span className="text-xs font-medium">
