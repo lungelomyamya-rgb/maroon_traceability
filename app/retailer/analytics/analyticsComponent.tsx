@@ -340,7 +340,7 @@ export default function AnalyticsComponent() {
                         <div className="text-xs font-medium text-gray-300 mb-1">{item.month}</div>
                         <div className="text-lg font-bold text-white">{selectedMetric === 'revenue' ? `R${(value / 1000).toFixed(1)}k` : value}</div>
                         {selectedMetric === 'revenue' && (
-                          <div className="text-xs text-gray-300">R{((value / 1000).toFixed(0)}k)</div>
+                          <div className="text-xs text-gray-300">R{((value / 1000).toFixed(0)}k</div>
                         )}
                       </div>
                       <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-2 h-2 rotate-45 bg-gray-900 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
@@ -373,7 +373,7 @@ export default function AnalyticsComponent() {
                       {selectedMetric === 'revenue' ? `R${(value / 1000).toFixed(1)}k` : value}
                     </span>
                   </div>
-                );
+                ); 
               })}
             </div>
           </Card>
