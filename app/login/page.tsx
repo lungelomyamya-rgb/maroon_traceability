@@ -38,13 +38,13 @@ export default function LoginPage() {
       const user = DEMO_USERS.find((u: any) => u.role === role);
       if (user) {
         switchUser(user.id);
-        // Small delay to ensure context updates before navigation
-        setTimeout(() => {
-          window.location.href = '/public';
-        }, 100);
+        // Use router for proper navigation and wait a bit for context to update
+        await new Promise(resolve => setTimeout(resolve, 150));
+        // Redirect public role to marketplace instead of /public (which doesn't exist)
+        router.push(role === 'public' ? '/marketplace' : `/${role}`);
       } else {
-        // Fallback if public user not found
-        window.location.href = '/public';
+        // Fallback if user not found
+        router.push('/marketplace');
       }
     } catch (err) {
       setError('Failed to switch user. Please try again.');

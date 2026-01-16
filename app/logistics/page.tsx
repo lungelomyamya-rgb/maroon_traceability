@@ -21,17 +21,23 @@ export default function LogisticsPage() {
   const [schedules, setSchedules] = useState<TransportSchedule[]>([]);
 
   useEffect(() => {
-    // If user is not logged in, redirect to login
-    if (!currentUser) {
-      router.push('/login?redirect=/logistics');
-      return;
-    }
-    
-    // If user is logged in but doesn't have logistics role, redirect to unauthorized
-    if (currentUser.role !== 'logistics') {
-      router.push('/unauthorized');
-      return;
-    }
+    // Redirect with delay for context update
+    const timer = setTimeout(() => {
+      // If user is not logged in, redirect to login
+      if (!currentUser) {
+        router.push('/login?redirect=/logistics');
+        return;
+      }
+      
+      // If user is logged in but doesn't have logistics role, redirect to unauthorized
+      if (currentUser.role !== 'logistics') {
+        console.log('Logistics page - redirecting to unauthorized. Current user:', currentUser);
+        router.push('/unauthorized');
+        return;
+      }
+    }, 200);
+
+    return () => clearTimeout(timer);
 
     // Load mock data
     const mockVehicles: Vehicle[] = [
@@ -151,7 +157,10 @@ export default function LogisticsPage() {
   if (!currentUser || currentUser.role !== 'logistics') {
     return (
       <div className="flex items-center justify-center min-h-screen">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-primary"></div>
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-primary mx-auto mb-4"></div>
+          <p className="text-gray-600">Checking authentication...</p>
+        </div>
       </div>
     );
   }

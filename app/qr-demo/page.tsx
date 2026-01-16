@@ -210,7 +210,7 @@ export default function QRDemoPage() {
             </Button>
             <Button
               variant="outline"
-              onClick={() => window.open('/public', '_blank')}
+              onClick={() => window.open('/marketplace', '_blank')}
             >
               Public Marketplace
             </Button>

@@ -26,13 +26,20 @@ export default function InspectorPage() {
   const { currentUser } = useUser();
   const router = useRouter();
   const [inspections, setInspections] = useState<InspectionRecord[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Redirect if user doesn't have inspector role
-    if (currentUser?.role !== 'inspector') {
-      router.push('/unauthorized');
-      return;
-    }
+    // Redirect if user doesn't have inspector role (with delay for context update)
+    const timer = setTimeout(() => {
+      if (currentUser?.role !== 'inspector') {
+        console.log('Inspector page - redirecting to unauthorized. Current user:', currentUser);
+        router.push('/unauthorized');
+        return;
+      }
+      setLoading(false);
+    }, 200);
+
+    return () => clearTimeout(timer);
 
     // Load mock inspection data
     const mockInspections: InspectionRecord[] = [
@@ -40,7 +47,7 @@ export default function InspectorPage() {
         id: 'insp1',
         productId: 'PRD-2024-001',
         batchId: 'BATCH-001',
-        inspectorId: currentUser.id,
+        inspectorId: currentUser?.id || '',
         inspectionDate: '2025-01-20T10:00:00Z',
         location: 'Packhouse 1, Stellenbosch',
         status: 'completed',
@@ -71,7 +78,7 @@ export default function InspectorPage() {
         id: 'insp2',
         productId: 'PRD-2024-002',
         batchId: 'BATCH-002',
-        inspectorId: currentUser.id,
+        inspectorId: currentUser?.id || '',
         inspectionDate: '2025-01-21T09:00:00Z',
         location: 'Cold Storage 2, Cape Town',
         status: 'in-progress',
@@ -99,7 +106,7 @@ export default function InspectorPage() {
         id: 'insp3',
         productId: 'PRD-2024-003',
         batchId: 'BATCH-003',
-        inspectorId: currentUser.id,
+        inspectorId: currentUser?.id || '',
         inspectionDate: '2025-01-22T11:00:00Z',
         location: 'Processing Facility, Paarl',
         status: 'pending',
@@ -127,6 +134,17 @@ export default function InspectorPage() {
 
     setInspections(mockInspections);
   }, [currentUser, router]);
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-primary mx-auto mb-4"></div>
+          <p className="text-gray-600">Checking authentication...</p>
+        </div>
+      </div>
+    );
+  }
 
   if (!currentUser || currentUser.role !== 'inspector') {
     return (

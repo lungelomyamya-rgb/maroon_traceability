@@ -1457,7 +1457,7 @@ export default function Marketplace() {
                       </span>
                     )}
                   </Button>
-                  <Button onClick={() => router.push('/account')}>
+                  <Button onClick={() => router.push('/login')}>
                     Account
                   </Button>
                 </>

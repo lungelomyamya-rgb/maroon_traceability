@@ -165,6 +165,8 @@ function MetricsCards({ analytics }: { analytics: Analytics }) {
 }
 
 function RecentOrders({ orders }: { orders: Order[] }) {
+  const router = useRouter();
+  
   const getStatusColor = (status: string) => {
     switch (status) {
       case 'pending': return 'bg-yellow-100 text-yellow-800';
@@ -190,7 +192,7 @@ function RecentOrders({ orders }: { orders: Order[] }) {
     <Card className="p-6">
       <div className="flex items-center justify-between mb-6">
         <h3 className="text-lg font-semibold">Recent Orders</h3>
-        <Button variant="outline" size="sm">
+        <Button variant="outline" size="sm" onClick={() => router.push('/retailer/orders')}>
           View All
         </Button>
       </div>
@@ -216,10 +218,10 @@ function RecentOrders({ orders }: { orders: Order[] }) {
               </p>
             </div>
             <div className="flex items-center gap-2">
-              <Button variant="outline" size="sm">
+              <Button variant="outline" size="sm" onClick={() => alert(`Viewing order ${order.id} details`)}>
                 <Eye className="h-4 w-4" />
               </Button>
-              <Button size="sm">
+              <Button size="sm" onClick={() => alert(`Processing order ${order.id}`)}>
                 Process
               </Button>
             </div>
@@ -231,6 +233,8 @@ function RecentOrders({ orders }: { orders: Order[] }) {
 }
 
 function TopProducts({ products }: { products: Product[] }) {
+  const router = useRouter();
+  
   const topProducts = products
     .sort((a, b) => b.soldCount - a.soldCount)
     .slice(0, 5);
@@ -239,7 +243,7 @@ function TopProducts({ products }: { products: Product[] }) {
     <Card className="p-6">
       <div className="flex items-center justify-between mb-6">
         <h3 className="text-lg font-semibold">Top Products</h3>
-        <Button variant="outline" size="sm">
+        <Button variant="outline" size="sm" onClick={() => router.push('/retailer/product-management')}>
           View All
         </Button>
       </div>
@@ -275,6 +279,8 @@ function TopProducts({ products }: { products: Product[] }) {
 }
 
 function InventoryAlerts({ products }: { products: Product[] }) {
+  const router = useRouter();
+  
   const lowStockProducts = products.filter(p => p.stockLevel <= p.minStockLevel);
   const outOfStockProducts = products.filter(p => p.stockLevel === 0);
 
@@ -282,7 +288,7 @@ function InventoryAlerts({ products }: { products: Product[] }) {
     <Card className="p-6">
       <div className="flex items-center justify-between mb-6">
         <h3 className="text-lg font-semibold">Inventory Alerts</h3>
-        <Button variant="outline" size="sm">
+        <Button variant="outline" size="sm" onClick={() => router.push('/retailer/inventory')}>
           Manage Inventory
         </Button>
       </div>
@@ -292,13 +298,16 @@ function InventoryAlerts({ products }: { products: Product[] }) {
           <div className="p-4 bg-red-50 border border-red-200 rounded-lg">
             <div className="flex items-center gap-2 mb-2">
               <AlertTriangle className="h-5 w-5 text-red-600" />
-              <h4 className="font-medium text-red-800">Out of Stock</h4>
+              <h4 className="font-medium text-red-900">Out of Stock</h4>
             </div>
+            <p className="text-sm text-red-700 mb-3">
+              {outOfStockProducts.length} product{outOfStockProducts.length > 1 ? 's' : ''} out of stock
+            </p>
             <div className="space-y-2">
               {outOfStockProducts.map((product) => (
-                <div key={product.id} className="flex items-center justify-between text-sm">
-                  <span>{product.name}</span>
-                  <Badge className="bg-red-100 text-red-800">0 in stock</Badge>
+                <div key={product.id} className="flex justify-between items-center text-sm">
+                  <span className="text-red-800">{product.name}</span>
+                  <span className="text-red-600 font-medium">0 units</span>
                 </div>
               ))}
             </div>
@@ -309,25 +318,28 @@ function InventoryAlerts({ products }: { products: Product[] }) {
           <div className="p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
             <div className="flex items-center gap-2 mb-2">
               <AlertTriangle className="h-5 w-5 text-yellow-600" />
-              <h4 className="font-medium text-yellow-800">Low Stock</h4>
+              <h4 className="font-medium text-yellow-900">Low Stock</h4>
             </div>
+            <p className="text-sm text-yellow-700 mb-3">
+              {lowStockProducts.length} product{lowStockProducts.length > 1 ? 's' : ''} running low
+            </p>
             <div className="space-y-2">
               {lowStockProducts.map((product) => (
-                <div key={product.id} className="flex items-center justify-between text-sm">
-                  <span>{product.name}</span>
-                  <Badge className="bg-yellow-100 text-yellow-800">
-                    {product.stockLevel} left
-                  </Badge>
+                <div key={product.id} className="flex justify-between items-center text-sm">
+                  <span className="text-yellow-800">{product.name}</span>
+                  <span className="text-yellow-600 font-medium">{product.stockLevel} units</span>
                 </div>
               ))}
             </div>
           </div>
         )}
         
-        {lowStockProducts.length === 0 && outOfStockProducts.length === 0 && (
-          <div className="text-center py-8 text-gray-500">
-            <CheckCircle className="h-12 w-12 mx-auto mb-2" />
-            <p>All products are well stocked</p>
+        {outOfStockProducts.length === 0 && lowStockProducts.length === 0 && (
+          <div className="p-4 bg-green-50 border border-green-200 rounded-lg">
+            <div className="flex items-center gap-2">
+              <CheckCircle className="h-5 w-5 text-green-600" />
+              <p className="text-sm text-green-700">All products are well stocked</p>
+            </div>
           </div>
         )}
       </div>
@@ -344,7 +356,7 @@ function QuickActions() {
       description: "List a new product on marketplace",
       icon: <Plus className="h-6 w-6" />,
       color: "bg-green-600 hover:bg-green-700",
-      href: "/retailer/products/add"
+      href: "/retailer/product-management"
     },
     {
       title: "Manage Orders",
@@ -387,29 +399,104 @@ function QuickActions() {
 }
 
 function SalesChart({ data }: { data: Array<{ month: string; revenue: number }> }) {
+  console.log('SalesChart data:', data); // Debug log
+  
+  if (!data || data.length === 0) {
+    return (
+      <Card className="p-6">
+        <h3 className="text-lg font-semibold mb-4">Revenue Trend</h3>
+        <div className="text-gray-500">No revenue data available</div>
+      </Card>
+    );
+  }
+
   const maxRevenue = Math.max(...data.map(d => d.revenue));
   
   return (
-    <Card className="p-6">
+    <Card className="p-6 bg-gradient-to-br from-white to-gray-50 border-0 shadow-lg">
       <div className="flex items-center justify-between mb-6">
-        <h3 className="text-lg font-semibold">Revenue Trend</h3>
-        <Button variant="outline" size="sm">
+        <div>
+          <h3 className="text-xl font-bold text-gray-900">Revenue Trend</h3>
+          <p className="text-sm text-gray-600">Monthly performance overview</p>
+        </div>
+        <Button variant="outline" size="sm" className="bg-white/80 backdrop-blur-sm hover:bg-white">
           <Download className="h-4 w-4 mr-2" />
           Export
         </Button>
       </div>
       
-      <div className="h-64 flex items-end justify-between gap-2">
-        {data.map((item, index) => (
-          <div key={index} className="flex-1 flex flex-col items-center">
-            <div 
-              className="w-full bg-blue-600 rounded-t-lg transition-all duration-500 hover:bg-blue-700"
-              style={{ height: `${(item.revenue / maxRevenue) * 100}%` }}
-            />
-            <span className="text-xs text-gray-600 mt-2">{item.month}</span>
-            <span className="text-xs font-medium">R{(item.revenue / 1000).toFixed(1)}k</span>
-          </div>
-        ))}
+      <div className="relative h-80 bg-gradient-to-b from-gray-50 to-white rounded-xl p-4">
+        {/* Grid lines */}
+        <div className="absolute inset-0 flex flex-col justify-between pointer-events-none">
+          {[0, 25, 50, 75, 100].map((percent) => (
+            <div key={percent} className="border-b border-gray-200 border-dashed" style={{ opacity: percent === 0 ? 0 : 0.3 }} />
+          ))}
+        </div>
+        
+        <div className="relative h-full flex items-end justify-between gap-3">
+          {data.map((item, index) => {
+            const barHeight = (item.revenue / maxRevenue) * 100;
+            const isHighest = item.revenue === maxRevenue;
+            
+            return (
+              <div key={index} className="flex-1 flex flex-col items-center group">
+                <div className="relative w-full flex flex-col items-center">
+                  {/* Bar with gradient */}
+                  <div 
+                    className={`
+                      w-full rounded-t-lg transition-all duration-700 ease-out transform
+                      ${isHighest 
+                        ? 'bg-gradient-to-t from-blue-600 to-blue-400 shadow-lg shadow-blue-500/25' 
+                        : 'bg-gradient-to-t from-blue-500 to-blue-300'
+                      }
+                      hover:scale-105 hover:shadow-xl
+                    `}
+                    style={{ 
+                      height: `${Math.max(barHeight, 5)}%`,
+                      minHeight: '30px'
+                    }}
+                  >
+                    {/* Value label on top of bar */}
+                    {isHighest && (
+                      <div className="absolute -top-8 left-1/2 transform -translate-x-1/2 bg-blue-600 text-white text-xs px-2 py-1 rounded-full font-medium">
+                        R{(item.revenue / 1000).toFixed(1)}k
+                      </div>
+                    )}
+                  </div>
+                  
+                  {/* Hover tooltip */}
+                  <div className="absolute -top-12 left-1/2 transform -translate-x-1/2 bg-gray-900 text-white text-xs px-3 py-2 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap z-10">
+                    <div className="font-medium">{item.month}</div>
+                    <div className="text-blue-300">R{item.revenue.toLocaleString()}</div>
+                    <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-gray-900"></div>
+                  </div>
+                </div>
+                
+                {/* Month label */}
+                <div className="mt-3 text-center">
+                  <div className="text-sm font-medium text-gray-700">{item.month}</div>
+                  <div className="text-xs text-gray-500">R{(item.revenue / 1000).toFixed(1)}k</div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+      
+      {/* Summary stats */}
+      <div className="grid grid-cols-3 gap-4 mt-6">
+        <div className="text-center p-3 bg-blue-50 rounded-lg">
+          <div className="text-2xl font-bold text-blue-600">R{data[data.length - 1].revenue.toLocaleString()}</div>
+          <div className="text-xs text-blue-600">Current Month</div>
+        </div>
+        <div className="text-center p-3 bg-green-50 rounded-lg">
+          <div className="text-2xl font-bold text-green-600">R{maxRevenue.toLocaleString()}</div>
+          <div className="text-xs text-green-600">Peak Revenue</div>
+        </div>
+        <div className="text-center p-3 bg-purple-50 rounded-lg">
+          <div className="text-2xl font-bold text-purple-600">R{Math.round(data.reduce((sum, item) => sum + item.revenue, 0) / data.length).toLocaleString()}</div>
+          <div className="text-xs text-purple-600">Average</div>
+        </div>
       </div>
     </Card>
   );
@@ -576,46 +663,23 @@ export default function RetailerDashboard() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Header */}
-      <header className="bg-white shadow-sm border-b">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16">
-            <div>
-              <h1 className="text-2xl font-bold text-gray-900">Seller Dashboard</h1>
-              <p className="text-sm text-gray-600">Manage your marketplace store</p>
-            </div>
-            <div className="flex items-center gap-4">
-              <Button variant="outline" size="sm">
-                <Bell className="h-4 w-4 mr-2" />
-                Notifications
-              </Button>
-              <Button variant="outline" size="sm">
-                <Settings className="h-4 w-4 mr-2" />
-                Settings
-              </Button>
-            </div>
-          </div>
+    <div className="space-y-6">
+      {/* Quick Actions */}
+      <QuickActions />
+
+      {/* Metrics Cards */}
+      <MetricsCards analytics={analytics} />
+
+      {/* Main Dashboard Grid */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        {/* Recent Orders */}
+        <div className="lg:col-span-2">
+          <RecentOrders orders={orders} />
         </div>
-      </header>
 
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Quick Actions */}
-        <QuickActions />
-
-        {/* Metrics Cards */}
-        <MetricsCards analytics={analytics} />
-
-        {/* Main Dashboard Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          {/* Recent Orders */}
-          <div className="lg:col-span-2">
-            <RecentOrders orders={orders} />
-          </div>
-
-          {/* Top Products */}
-          <TopProducts products={products} />
-        </div>
+        {/* Top Products */}
+        <TopProducts products={products} />
+      </div>
 
         {/* Second Row */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-6">
@@ -647,7 +711,6 @@ export default function RetailerDashboard() {
             <p className="text-sm text-gray-600">Average Rating</p>
           </Card>
         </div>
-      </main>
-    </div>
-  );
+      </div>
+    );
 }
