@@ -330,3 +330,21 @@
   -webkit-background-clip: text;
   color: transparent;
 }
+
+/* Chart bar styles for analytics */
+.chart-bar {
+  background: linear-gradient(to top, #3b82f6, #2563eb, #60a5fa) !important;
+  box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3) !important;
+}
+
+.chart-bar-highest {
+  background: linear-gradient(to top, #1e40af, #3b82f6, #60a5fa) !important;
+  box-shadow: 0 4px 20px rgba(59, 130, 246, 0.5) !important;
+}
+
+/* Ensure chart bars are visible */
+.chart-bar,
+.chart-bar-highest {
+  min-height: 30px !important;
+  opacity: 1 !important;
+}
