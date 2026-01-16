@@ -683,9 +683,12 @@ export default function RetailerDashboard() {
 
         {/* Second Row */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-6">
-          {/* Sales Chart */}
+          {/* Summary Cards */}
           <div className="lg:col-span-2">
-            <SalesChart data={analytics.monthlyRevenue} />
+            {/* Placeholder for chart space */}
+            <div className="h-80 bg-gray-50 rounded-lg p-4 flex items-center justify-center">
+              <p className="text-gray-500">View detailed analytics on the Analytics page</p>
+            </div>
           </div>
 
           {/* Inventory Alerts */}
