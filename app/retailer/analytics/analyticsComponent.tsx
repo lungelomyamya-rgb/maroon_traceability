@@ -148,22 +148,23 @@ export default function AnalyticsComponent() {
     return current > previous ? 'text-green-600' : 'text-red-600';
   };
 
-  if (loading) {
-    return (
-      <div className="flex items-center justify-center min-h-screen">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-600"></div>
-      </div>
-    );
-  }
-
-  if (!analytics) {
+  if (!analytics || loading) {
     return (
       <div className="flex items-center justify-center min-h-screen">
         <div className="text-center">
-          <p className="text-gray-600">Unable to load analytics data</p>
-          <Button onClick={() => window.location.reload()} className="mt-4">
-            Try Again
-          </Button>
+          {loading ? (
+            <>
+              <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-600"></div>
+              <p className="text-gray-600 mt-4">Loading analytics data...</p>
+            </>
+          ) : (
+            <>
+              <p className="text-gray-600">Unable to load analytics data</p>
+              <Button onClick={() => window.location.reload()} className="mt-4">
+                Try Again
+              </Button>
+            </>
+          )}
         </div>
       </div>
     );
