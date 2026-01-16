@@ -53,89 +53,96 @@ export default function AnalyticsComponent() {
   const [timeRange, setTimeRange] = useState('30days');
   const [selectedMetric, setSelectedMetric] = useState('revenue');
 
+  // Add error boundary and logging
   useEffect(() => {
-    // Mock comprehensive analytics data
-    const mockAnalytics: AnalyticsData = {
-      totalRevenue: 156789.45,
-      totalOrders: 847,
-      averageOrderValue: 185.12,
-      conversionRate: 3.8,
-      totalProducts: 24,
-      activeProducts: 18,
-      lowStockProducts: 3,
-      pendingOrders: 12,
-      monthlyRevenue: [
-        { month: 'Aug', revenue: 22000, orders: 125 },
-        { month: 'Sep', revenue: 28000, orders: 156 },
-        { month: 'Oct', revenue: 35000, orders: 198 },
-        { month: 'Nov', revenue: 42000, orders: 234 },
-        { month: 'Dec', revenue: 51000, orders: 289 },
-        { month: 'Jan', revenue: 38789, orders: 220 }
-      ],
-      topProducts: [
-        { 
-          productId: 'prod1', 
-          name: 'Premium Organic Moringa Powder', 
-          sales: 542, 
-          revenue: 48789.58,
-          views: 3420 
+    try {
+      // Mock comprehensive analytics data
+      const mockAnalytics: AnalyticsData = {
+        totalRevenue: 156789.45,
+        totalOrders: 847,
+        averageOrderValue: 185.12,
+        conversionRate: 3.8,
+        totalProducts: 24,
+        activeProducts: 18,
+        lowStockProducts: 3,
+        pendingOrders: 12,
+        monthlyRevenue: [
+          { month: 'Aug', revenue: 22000, orders: 125 },
+          { month: 'Sep', revenue: 28000, orders: 156 },
+          { month: 'Oct', revenue: 35000, orders: 198 },
+          { month: 'Nov', revenue: 42000, orders: 234 },
+          { month: 'Dec', revenue: 51000, orders: 289 },
+          { month: 'Jan', revenue: 38789, orders: 220 }
+        ],
+        topProducts: [
+          { 
+            productId: 'prod1', 
+            name: 'Premium Organic Moringa Powder', 
+            sales: 542, 
+            revenue: 48789.58,
+            views: 3420 
+          },
+          { 
+            productId: 'prod2', 
+            name: 'Moringa Tea Bags', 
+            sales: 289, 
+            revenue: 13005.00,
+            views: 1890 
+          },
+          { 
+            productId: 'prod3', 
+            name: 'Moringa Capsules', 
+            sales: 234, 
+            revenue: 15210.00,
+            views: 1560 
+          },
+          { 
+            productId: 'prod4', 
+            name: 'Organic Moringa Oil', 
+            sales: 156, 
+            revenue: 23400.00,
+            views: 1230 
+          },
+          { 
+            productId: 'prod5', 
+            name: 'Moringa Seeds', 
+            sales: 98, 
+            revenue: 7840.00,
+            views: 890 
+          }
+        ],
+        customerMetrics: {
+          totalCustomers: 523,
+          repeatCustomers: 189,
+          newCustomers: 67,
+          averageRating: 4.6
         },
-        { 
-          productId: 'prod2', 
-          name: 'Moringa Tea Bags', 
-          sales: 289, 
-          revenue: 13005.00,
-          views: 1890 
-        },
-        { 
-          productId: 'prod3', 
-          name: 'Moringa Capsules', 
-          sales: 234, 
-          revenue: 15210.00,
-          views: 1560 
-        },
-        { 
-          productId: 'prod4', 
-          name: 'Organic Moringa Oil', 
-          sales: 156, 
-          revenue: 23400.00,
-          views: 1230 
-        },
-        { 
-          productId: 'prod5', 
-          name: 'Moringa Seeds', 
-          sales: 98, 
-          revenue: 7840.00,
-          views: 890 
-        }
-      ],
-      customerMetrics: {
-        totalCustomers: 523,
-        repeatCustomers: 189,
-        newCustomers: 67,
-        averageRating: 4.6
-      },
-      salesByCategory: [
-        { category: 'Powders', revenue: 48789.58, percentage: 31.1 },
-        { category: 'Teas', revenue: 13005.00, percentage: 8.3 },
-        { category: 'Supplements', revenue: 15210.00, percentage: 9.7 },
-        { category: 'Oils', revenue: 23400.00, percentage: 14.9 },
-        { category: 'Seeds', revenue: 7840.00, percentage: 5.0 },
-        { category: 'Fresh', revenue: 32145.87, percentage: 20.5 },
-        { category: 'Other', revenue: 16399.00, percentage: 10.5 }
-      ],
-      recentPerformance: [
-        { date: '2025-01-18', revenue: 2456.78, orders: 14 },
-        { date: '2025-01-17', revenue: 3124.56, orders: 18 },
-        { date: '2025-01-16', revenue: 2890.34, orders: 16 },
-        { date: '2025-01-15', revenue: 1987.23, orders: 11 },
-        { date: '2025-01-14', revenue: 3567.89, orders: 21 },
-        { date: '2025-01-13', revenue: 2234.67, orders: 13 }
-      ]
-    };
+        salesByCategory: [
+          { category: 'Powders', revenue: 48789.58, percentage: 31.1 },
+          { category: 'Teas', revenue: 13005.00, percentage: 8.3 },
+          { category: 'Supplements', revenue: 15210.00, percentage: 9.7 },
+          { category: 'Oils', revenue: 23400.00, percentage: 14.9 },
+          { category: 'Seeds', revenue: 7840.00, percentage: 5.0 },
+          { category: 'Fresh', revenue: 32145.87, percentage: 20.5 },
+          { category: 'Other', revenue: 16399.00, percentage: 10.5 }
+        ],
+        recentPerformance: [
+          { date: '2025-01-18', revenue: 2456.78, orders: 14 },
+          { date: '2025-01-17', revenue: 3124.56, orders: 18 },
+          { date: '2025-01-16', revenue: 2890.34, orders: 16 },
+          { date: '2025-01-15', revenue: 1987.23, orders: 11 },
+          { date: '2025-01-14', revenue: 3567.89, orders: 21 },
+          { date: '2025-01-13', revenue: 2234.67, orders: 13 }
+        ]
+      };
 
-    setAnalytics(mockAnalytics);
-    setLoading(false);
+      console.log('Analytics data loaded:', mockAnalytics);
+      setAnalytics(mockAnalytics);
+      setLoading(false);
+    } catch (error) {
+      console.error('Error loading analytics:', error);
+      setLoading(false);
+    }
   }, []);
 
   const getChangeIcon = (current: number, previous: number) => {
@@ -200,9 +207,9 @@ export default function AnalyticsComponent() {
                 <p className="text-sm font-medium text-gray-600">Total Revenue</p>
                 <p className="text-2xl font-bold text-gray-900">R{analytics.totalRevenue.toLocaleString()}</p>
                 <div className="flex items-center mt-2">
-                  {getChangeIcon(analytics.monthlyRevenue[5].revenue, analytics.monthlyRevenue[4].revenue)}
-                  <span className={`text-sm ml-1 ${getChangeColor(analytics.monthlyRevenue[5].revenue, analytics.monthlyRevenue[4].revenue)}`}>
-                    {Math.abs(((analytics.monthlyRevenue[5].revenue - analytics.monthlyRevenue[4].revenue) / analytics.monthlyRevenue[4].revenue) * 100).toFixed(1)}%
+                  {getChangeIcon(analytics.monthlyRevenue[6].revenue, analytics.monthlyRevenue[5].revenue)}
+                  <span className={`text-sm ml-1 ${getChangeColor(analytics.monthlyRevenue[6].revenue, analytics.monthlyRevenue[5].revenue)}`}>
+                    {Math.abs(((analytics.monthlyRevenue[6].revenue - analytics.monthlyRevenue[5].revenue) / analytics.monthlyRevenue[5].revenue) * 100).toFixed(1)}%
                   </span>
                 </div>
               </div>
