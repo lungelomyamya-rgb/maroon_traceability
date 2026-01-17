@@ -149,7 +149,7 @@ export default function CheckoutPage() {
             <div className="inline-flex items-center justify-center w-20 h-20 bg-green-100 rounded-full mb-6">
               <CheckCircle className="h-10 w-10 text-green-600" />
             </div>
-            <h1 className="text-3xl font-bold text-gray-900 mb-4">Order Complete!</h1>
+            <h2 className="text-lg sm:text-xl font-bold text-gray-900 mb-4 sm:mb-6">Shipping Information</h2>
             <p className="text-lg text-gray-600 mb-2">Thank you for your purchase</p>
             <p className="text-sm text-gray-500 mb-8">Order #{orderNumber}</p>
             
@@ -195,18 +195,18 @@ export default function CheckoutPage() {
     <>
       {/* Full-width Header - Separate from main content */}
       <nav className="bg-white shadow-sm border-b sticky top-0 z-50">
-        <div className="w-full px-4 sm:px-6 lg:px-8">
+        <div className="w-full px-3 sm:px-4 lg:px-8">
           <div className="flex justify-between h-16 items-center">
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-2 sm:gap-4">
               <Button 
                 variant="outline" 
                 size="sm"
                 onClick={() => router.push('/marketplace/cart')}
               >
-                <ArrowLeft className="h-4 w-4 mr-2" />
-                Back to Cart
+                <ArrowLeft className="h-4 w-4 mr-1 sm:mr-2" />
+                <span className="hidden sm:inline">Back to Cart</span>
               </Button>
-              <h1 className="text-2xl font-bold text-gray-900">Checkout</h1>
+              <h1 className="text-lg sm:text-xl lg:text-2xl font-bold text-gray-900 truncate">Checkout</h1>
             </div>
           </div>
         </div>
@@ -214,13 +214,13 @@ export default function CheckoutPage() {
 
       {/* Main Content */}
       <div className="min-h-screen bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="max-w-4xl mx-auto px-3 sm:px-4 lg:px-8 py-8">
         <form onSubmit={handleSubmit} className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Shipping Information */}
           <div className="lg:col-span-2 space-y-8">
             <Card className="overflow-hidden shadow-lg border-0">
               <div className="bg-gradient-to-r from-green-600 to-green-700 p-6">
-                <h2 className="text-xl font-bold text-white flex items-center">
+                <h2 className="text-lg sm:text-xl font-bold text-white flex items-center">
                   <MapPin className="h-6 w-6 mr-3" />
                   Shipping Information
                 </h2>
@@ -232,12 +232,11 @@ export default function CheckoutPage() {
                     <label className="block text-sm font-semibold text-gray-700 mb-2">
                       First Name *
                     </label>
-                    <Input
+                    <input
                       type="text"
                       value={formData.firstName}
-                      onChange={(e) => handleInputChange('firstName', e.target.value)}
-                      required
-                      className="h-12 border-gray-300 focus:border-green-500 focus:ring-green-500"
+                      onChange={(e) => setFormData({...formData, firstName: e.target.value})}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 text-sm sm:text-base"
                       placeholder="Enter your first name"
                     />
                   </div>
@@ -246,12 +245,11 @@ export default function CheckoutPage() {
                     <label className="block text-sm font-semibold text-gray-700 mb-2">
                       Last Name *
                     </label>
-                    <Input
+                    <input
                       type="text"
                       value={formData.lastName}
-                      onChange={(e) => handleInputChange('lastName', e.target.value)}
-                      required
-                      className="h-12 border-gray-300 focus:border-green-500 focus:ring-green-500"
+                      onChange={(e) => setFormData({...formData, lastName: e.target.value})}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 text-sm sm:text-base"
                       placeholder="Enter your last name"
                     />
                   </div>
@@ -260,12 +258,11 @@ export default function CheckoutPage() {
                     <label className="block text-sm font-semibold text-gray-700 mb-2">
                       Email Address *
                     </label>
-                    <Input
+                    <input
                       type="email"
                       value={formData.email}
-                      onChange={(e) => handleInputChange('email', e.target.value)}
-                      required
-                      className="h-12 border-gray-300 focus:border-green-500 focus:ring-green-500"
+                      onChange={(e) => setFormData({...formData, email: e.target.value})}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 text-sm sm:text-base"
                       placeholder="your.email@example.com"
                     />
                   </div>
@@ -274,12 +271,11 @@ export default function CheckoutPage() {
                     <label className="block text-sm font-semibold text-gray-700 mb-2">
                       Phone Number *
                     </label>
-                    <Input
+                    <input
                       type="tel"
                       value={formData.phone}
-                      onChange={(e) => handleInputChange('phone', e.target.value)}
-                      required
-                      className="h-12 border-gray-300 focus:border-green-500 focus:ring-green-500"
+                      onChange={(e) => setFormData({...formData, phone: e.target.value})}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 text-sm sm:text-base"
                       placeholder="+27 (XX) XXX-XXXX"
                     />
                   </div>
@@ -288,12 +284,11 @@ export default function CheckoutPage() {
                     <label className="block text-sm font-semibold text-gray-700 mb-2">
                       Street Address *
                     </label>
-                    <Input
+                    <input
                       type="text"
                       value={formData.address}
-                      onChange={(e) => handleInputChange('address', e.target.value)}
-                      required
-                      className="h-12 border-gray-300 focus:border-green-500 focus:ring-green-500"
+                      onChange={(e) => setFormData({...formData, address: e.target.value})}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 text-sm sm:text-base"
                       placeholder="123 Main Street, Apartment 4B"
                     />
                   </div>
@@ -302,12 +297,11 @@ export default function CheckoutPage() {
                     <label className="block text-sm font-semibold text-gray-700 mb-2">
                       City *
                     </label>
-                    <Input
+                    <input
                       type="text"
                       value={formData.city}
-                      onChange={(e) => handleInputChange('city', e.target.value)}
-                      required
-                      className="h-12 border-gray-300 focus:border-green-500 focus:ring-green-500"
+                      onChange={(e) => setFormData({...formData, city: e.target.value})}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 text-sm sm:text-base"
                       placeholder="Cape Town"
                     />
                   </div>
@@ -316,12 +310,11 @@ export default function CheckoutPage() {
                     <label className="block text-sm font-semibold text-gray-700 mb-2">
                       Province *
                     </label>
-                    <Input
+                    <input
                       type="text"
                       value={formData.province}
-                      onChange={(e) => handleInputChange('province', e.target.value)}
-                      required
-                      className="h-12 border-gray-300 focus:border-green-500 focus:ring-green-500"
+                      onChange={(e) => setFormData({...formData, province: e.target.value})}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 text-sm sm:text-base"
                       placeholder="Western Cape"
                     />
                   </div>
@@ -330,12 +323,11 @@ export default function CheckoutPage() {
                     <label className="block text-sm font-semibold text-gray-700 mb-2">
                       Postal Code *
                     </label>
-                    <Input
+                    <input
                       type="text"
                       value={formData.postalCode}
-                      onChange={(e) => handleInputChange('postalCode', e.target.value)}
-                      required
-                      className="h-12 border-gray-300 focus:border-green-500 focus:ring-green-500"
+                      onChange={(e) => setFormData({...formData, postalCode: e.target.value})}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 text-sm sm:text-base"
                       placeholder="8000"
                     />
                   </div>
@@ -346,7 +338,7 @@ export default function CheckoutPage() {
             {/* Payment Information */}
             <Card className="overflow-hidden shadow-lg border-0">
               <div className="bg-gradient-to-r from-blue-600 to-blue-700 p-6">
-                <h2 className="text-xl font-bold text-white flex items-center">
+                <h2 className="text-lg sm:text-xl font-bold text-white flex items-center">
                   <CreditCard className="h-6 w-6 mr-3" />
                   Payment Information
                 </h2>
@@ -357,13 +349,12 @@ export default function CheckoutPage() {
                   <label className="block text-sm font-semibold text-gray-700 mb-2">
                     Card Number *
                   </label>
-                  <Input
+                  <input
                     type="text"
                     placeholder="1234 5678 9012 3456"
                     value={formData.cardNumber}
-                    onChange={(e) => handleInputChange('cardNumber', e.target.value)}
-                    required
-                    className="h-12 border-gray-300 focus:border-blue-500 focus:ring-blue-500"
+                    onChange={(e) => setFormData({...formData, cardNumber: e.target.value})}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm sm:text-base"
                   />
                 </div>
                 
@@ -371,28 +362,26 @@ export default function CheckoutPage() {
                   <label className="block text-sm font-semibold text-gray-700 mb-2">
                     Name on Card *
                   </label>
-                  <Input
+                  <input
                     type="text"
                     value={formData.cardName}
-                    onChange={(e) => handleInputChange('cardName', e.target.value)}
-                    required
-                    className="h-12 border-gray-300 focus:border-blue-500 focus:ring-blue-500"
+                    onChange={(e) => setFormData({...formData, cardName: e.target.value})}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm sm:text-base"
                     placeholder="John Doe"
                   />
                 </div>
                 
-                <div className="grid grid-cols-2 gap-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
                   <div>
                     <label className="block text-sm font-semibold text-gray-700 mb-2">
                       Expiry Date *
                     </label>
-                    <Input
+                    <input
                       type="text"
                       placeholder="MM/YY"
                       value={formData.expiryDate}
-                      onChange={(e) => handleInputChange('expiryDate', e.target.value)}
-                      required
-                      className="h-12 border-gray-300 focus:border-blue-500 focus:ring-blue-500"
+                      onChange={(e) => setFormData({...formData, expiryDate: e.target.value})}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm sm:text-base"
                     />
                   </div>
                   
@@ -400,13 +389,12 @@ export default function CheckoutPage() {
                     <label className="block text-sm font-semibold text-gray-700 mb-2">
                       CVV *
                     </label>
-                    <Input
+                    <input
                       type="text"
                       placeholder="123"
                       value={formData.cvv}
-                      onChange={(e) => handleInputChange('cvv', e.target.value)}
-                      required
-                      className="h-12 border-gray-300 focus:border-blue-500 focus:ring-blue-500"
+                      onChange={(e) => setFormData({...formData, cvv: e.target.value})}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm sm:text-base"
                     />
                   </div>
                 </div>
@@ -426,7 +414,7 @@ export default function CheckoutPage() {
             {/* Order Notes */}
             <Card className="overflow-hidden shadow-lg border-0">
               <div className="bg-gradient-to-r from-purple-600 to-purple-700 p-6">
-                <h2 className="text-xl font-bold text-white flex items-center">
+                <h2 className="text-lg sm:text-xl font-bold text-white flex items-center">
                   <Mail className="h-6 w-6 mr-3" />
                   Order Notes (Optional)
                 </h2>
@@ -434,11 +422,11 @@ export default function CheckoutPage() {
               
               <div className="p-6">
                 <textarea
-                  className="w-full p-4 border-gray-300 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent resize-none"
-                  rows={4}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 text-sm sm:text-base resize-none"
+                  rows={3}
                   placeholder="Special instructions for delivery, preferred delivery time, or any other notes..."
                   value={formData.orderNotes}
-                  onChange={(e) => handleInputChange('orderNotes', e.target.value)}
+                  onChange={(e) => setFormData({...formData, orderNotes: e.target.value})}
                 />
               </div>
             </Card>
@@ -448,7 +436,7 @@ export default function CheckoutPage() {
           <div className="lg:col-span-1">
             <Card className="overflow-hidden shadow-lg border-0 sticky top-24">
               <div className="bg-gradient-to-r from-green-600 to-green-700 p-6">
-                <h2 className="text-xl font-bold text-white flex items-center">
+                <h2 className="text-lg sm:text-xl font-bold text-white flex items-center">
                   <ShoppingCart className="h-6 w-6 mr-3" />
                   Order Summary
                 </h2>
@@ -456,7 +444,7 @@ export default function CheckoutPage() {
               
               <div className="p-6">
                 {/* Items */}
-                <div className="space-y-4 mb-6">
+                <div className="space-y-4 sm:space-y-6">
                   {orderSummary.items.map((item, index) => (
                     <div key={index} className="flex justify-between items-start pb-3 border-b last:border-0">
                       <div className="flex-1">
@@ -513,7 +501,8 @@ export default function CheckoutPage() {
                 {/* Place Order Button */}
                 <Button 
                   type="submit"
-                  className="w-full bg-green-600 hover:bg-green-700 text-white py-4 rounded-full h-14 text-lg font-bold shadow-lg hover:shadow-xl transition-all duration-200 mt-6"
+                  className="w-full bg-green-600 hover:bg-green-700 text-white py-2 sm:py-3 rounded-full h-10 sm:h-12 text-sm sm:text-base font-semibold shadow-lg hover:shadow-xl transition-all duration-200"
+                  onClick={handleSubmit}
                   disabled={isProcessing}
                 >
                   {isProcessing ? (

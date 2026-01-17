@@ -124,46 +124,46 @@ interface Order {
 // Enhanced Marketplace Components
 function HeroSection({ router }: { router: any }) {
   return (
-    <section className="bg-gradient-to-r from-green-600 to-emerald-700 text-white py-8 rounded-t-3xl">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section className="bg-gradient-to-r from-green-600 to-emerald-700 text-white py-6 sm:py-8 md:py-12 rounded-t-3xl">
+      <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-8">
         <div className="text-center">
-          <Badge className="bg-white/20 text-white mb-3">
-            <Leaf className="h-3 w-3 mr-1" />
-            100% Traceable Products
+          <Badge className="bg-white/20 text-white mb-2 sm:mb-3">
+            <Leaf className="h-3 w-3 sm:h-4 sm:w-4 mr-1" />
+            <span className="text-xs sm:text-sm">100% Traceable Products</span>
           </Badge>
-          <h1 className="text-3xl md:text-4xl font-bold mb-4">
+          <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-3 sm:mb-4">
             Lwandle Moringa Marketplace
           </h1>
-          <p className="text-lg md:text-xl mb-6 text-green-100 max-w-2xl mx-auto">
+          <p className="text-sm sm:text-base md:text-lg mb-4 sm:mb-6 text-green-100 max-w-xl sm:max-w-2xl mx-auto">
             Farm-to-Shelf Transparency. Every product tells a story of quality, sustainability, and trust.
           </p>
           
-          <div className="flex flex-wrap justify-center gap-3 mb-8">
-            <div className="flex items-center gap-2 bg-white/10 px-3 py-1 rounded-full">
-              <CheckCircle className="h-4 w-4" />
-              <span className="text-sm">Verified Farmers</span>
+          <div className="flex flex-wrap justify-center gap-2 sm:gap-3 mb-4 sm:mb-8">
+            <div className="flex items-center gap-1 sm:gap-2 bg-white/10 px-2 sm:px-3 py-1 rounded-full">
+              <CheckCircle className="h-3 w-3 sm:h-4 sm:w-4" />
+              <span className="text-xs sm:text-sm">Verified Farmers</span>
             </div>
-            <div className="flex items-center gap-2 bg-white/10 px-3 py-1 rounded-full">
-              <Award className="h-4 w-4" />
-              <span className="text-sm">Quality Inspected</span>
+            <div className="flex items-center gap-1 sm:gap-2 bg-white/10 px-2 sm:px-3 py-1 rounded-full">
+              <Award className="h-3 w-3 sm:h-4 sm:w-4" />
+              <span className="text-xs sm:text-sm">Quality Inspected</span>
             </div>
-            <div className="flex items-center gap-2 bg-white/10 px-3 py-1 rounded-full">
-              <Leaf className="h-4 w-4" />
-              <span className="text-sm">Sustainably Grown</span>
+            <div className="flex items-center gap-1 sm:gap-2 bg-white/10 px-2 sm:px-3 py-1 rounded-full">
+              <Leaf className="h-3 w-3 sm:h-4 sm:w-4" />
+              <span className="text-xs sm:text-sm">Sustainably Grown</span>
             </div>
-            <div className="flex items-center gap-2 bg-white/10 px-3 py-1 rounded-full">
-              <Truck className="h-4 w-4" />
-              <span>Fresh Delivery</span>
+            <div className="flex items-center gap-1 sm:gap-2 bg-white/10 px-2 sm:px-3 py-1 rounded-full">
+              <Truck className="h-3 w-3 sm:h-4 sm:w-4" />
+              <span className="text-xs sm:text-sm">Fresh Delivery</span>
             </div>
           </div>
 
           {/* Added Traceability CTAs */}
-          <div className="flex flex-col sm:flex-row gap-4 justify-center mt-8">
+          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center mt-6 sm:mt-8">
             <button 
               onClick={() => router.push('/qr-demo')}
-              className="inline-flex items-center justify-center rounded-md font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none ring-offset-background border border-input hover:bg-accent hover:text-accent-foreground h-10 py-2 px-4 !bg-gradient-to-r !from-green-600 !to-green-500 hover:!from-green-700 hover:!to-green-600 text-white px-8 py-3 shadow-lg rounded-full"
+              className="inline-flex items-center justify-center rounded-md font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none ring-offset-background border border-input hover:bg-accent hover:text-accent-foreground h-10 py-2 px-4 !bg-gradient-to-r !from-green-600 !to-green-500 hover:!from-green-700 hover:!to-green-600 text-white px-4 sm:px-8 py-2 sm:py-3 shadow-lg rounded-full text-sm sm:text-base"
             >
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-qr-code h-5 w-5 mr-2">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-qr-code h-4 w-4 sm:h-5 sm:w-5 mr-1 sm:mr-2">
                 <rect width="5" height="5" x="3" y="3" rx="1"></rect>
                 <rect width="5" height="5" x="16" y="3" rx="1"></rect>
                 <rect width="5" height="5" x="3" y="16" rx="1"></rect>
@@ -177,17 +177,17 @@ function HeroSection({ router }: { router: any }) {
                 <path d="M21 12v.01"></path>
                 <path d="M12 21v-1"></path>
               </svg>
-              Scan Product QR Code
+              <span className="text-xs sm:text-sm">Scan Product QR Code</span>
             </button>
             <button 
               onClick={() => router.push('/marketplace/products')}
-              className="inline-flex items-center justify-center rounded-md font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none ring-offset-background border border-input hover:bg-accent hover:text-accent-foreground h-10 py-2 px-4 px-8 py-3 bg-white/10 hover:bg-white/20 text-white border-white/20"
+              className="inline-flex items-center justify-center rounded-md font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none ring-offset-background border border-input hover:bg-accent hover:text-accent-foreground h-10 py-2 px-4 px-4 sm:px-8 py-2 sm:py-3 bg-white/10 hover:bg-white/20 text-white border-white/20 text-sm sm:text-base"
             >
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-search h-5 w-5 mr-2">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-search h-4 w-4 sm:h-5 sm:w-5 mr-1 sm:mr-2">
                 <circle cx="11" cy="11" r="8"></circle>
                 <path d="m21 21-4.3-4.3"></path>
               </svg>
-              View Products
+              <span className="text-xs sm:text-sm">View Products</span>
             </button>
           </div>
         </div>
@@ -208,13 +208,13 @@ function FeaturedProducts({ products, router }: { products: Product[]; router: a
         </div>
         
         
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
           {featured.map((product) => (
-            <Card key={product.id} className="overflow-hidden hover:shadow-xl transition-shadow group rounded-2xl">
+            <Card key={product.id} className="overflow-hidden hover:shadow-xl transition-shadow group rounded-xl sm:rounded-2xl">
               <div className="relative">
-                <div className="w-full h-48 bg-gradient-to-br from-green-100 to-green-200 flex items-center justify-center group-hover:scale-105 transition-transform duration-300 rounded-t-2xl">
+                <div className="w-full h-32 sm:h-48 bg-gradient-to-br from-green-100 to-green-200 flex items-center justify-center group-hover:scale-105 transition-transform duration-300 rounded-t-xl sm:rounded-t-2xl">
                   <div className="text-center">
-                    <div className="text-4xl mb-2">
+                    <div className="text-2xl sm:text-4xl mb-2">
                       {product.category === 'Powders' ? '🌿' :
                        product.category === 'Teas' ? '🍵' :
                        product.category === 'Supplements' ? '💊' :
@@ -227,30 +227,30 @@ function FeaturedProducts({ products, router }: { products: Product[]; router: a
                        product.category === 'Honey' ? '🍯' :
                        product.category === 'Grains' ? '🌾' : '📦'}
                     </div>
-                    <p className="text-sm text-green-700 font-medium">{product.category}</p>
+                    <p className="text-xs sm:text-sm text-green-700 font-medium">{product.category}</p>
                   </div>
                 </div>
                 {product.discount && (
-                  <Badge className="absolute top-2 right-2 bg-red-600">
+                  <Badge className="absolute top-1 sm:top-2 right-1 sm:right-2 bg-red-600 text-xs">
                     -{product.discount}%
                   </Badge>
                 )}
-                <div className="absolute top-2 left-2">
-                  <Badge className="bg-green-600 text-white">
-                    <Leaf className="h-3 w-3 mr-1" />
-                    Organic
+                <div className="absolute top-1 sm:top-2 left-1 sm:left-2">
+                  <Badge className="bg-green-600 text-white text-xs">
+                    <Leaf className="h-2 w-2 sm:h-3 sm:w-3 mr-1" />
+                    <span className="text-xs">Organic</span>
                   </Badge>
                 </div>
               </div>
               
-              <div className="p-4">
-                <h3 className="font-semibold text-gray-900 mb-2 text-sm line-clamp-1">{product.name}</h3>
+              <div className="p-3 sm:p-4">
+                <h3 className="font-semibold text-gray-900 mb-2 text-sm sm:text-base line-clamp-1">{product.name}</h3>
                 <div className="flex items-center gap-2 mb-2">
                   <div className="flex items-center">
                     {[...Array(5)].map((_, i) => (
                       <Star
                         key={i}
-                        className={`h-4 w-4 ${
+                        className={`h-3 w-3 sm:h-4 sm:w-4 ${
                           i < Math.floor(product.farmer.rating)
                             ? 'text-yellow-400 fill-current'
                             : 'text-gray-300'
@@ -258,28 +258,28 @@ function FeaturedProducts({ products, router }: { products: Product[]; router: a
                       />
                     ))}
                   </div>
-                  <span className="text-sm text-gray-500">({product.farmer.totalReviews})</span>
+                  <span className="text-xs sm:text-sm text-gray-500">({product.farmer.totalReviews})</span>
                 </div>
                 
                 <div className="flex items-center justify-between mb-3">
                   <div>
                     <div className="flex items-center gap-2">
-                      <span className="text-xl font-bold text-gray-900">R{product.price.toFixed(2)}</span>
+                      <span className="text-lg sm:text-xl font-bold text-gray-900">R{product.price.toFixed(2)}</span>
                       {product.originalPrice && (
-                        <span className="text-sm text-gray-500 line-through">R{product.originalPrice.toFixed(2)}</span>
+                        <span className="text-xs sm:text-sm text-gray-500 line-through">R{product.originalPrice.toFixed(2)}</span>
                       )}
                     </div>
-                    <p className="text-xs text-gray-500">{product.soldCount} sold</p>
+                    <p className="text-xs sm:text-sm text-gray-500">{product.soldCount} sold</p>
                   </div>
                 </div>
                 
                 <Button 
                   onClick={() => router.push('/marketplace/cart')}
-                  className="w-full" 
+                  className="w-full text-sm sm:text-base" 
                   size="sm"
                 >
-                  <ShoppingCart className="h-4 w-4 mr-2" />
-                  Add to Cart
+                  <ShoppingCart className="h-3 w-3 sm:h-4 sm:w-4 mr-2" />
+                  <span className="hidden sm:inline">Add to Cart</span>
                 </Button>
               </div>
             </Card>
@@ -326,14 +326,14 @@ function TrustSignals() {
           <p className="text-lg text-gray-600">Transparency and quality at every step</p>
         </div>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-8">
           {trustBadges.map((badge, index) => (
             <div key={index} className="text-center">
-              <div className={`w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4 ${badge.color}`}>
+              <div className={`w-12 h-12 sm:w-16 sm:h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-3 sm:mb-4 ${badge.color}`}>
                 {badge.icon}
               </div>
-              <h3 className="font-semibold text-lg mb-2">{badge.title}</h3>
-              <p className="text-gray-600 text-sm">{badge.description}</p>
+              <h3 className="font-semibold text-base sm:text-lg mb-2">{badge.title}</h3>
+              <p className="text-gray-600 text-sm sm:text-base">{badge.description}</p>
             </div>
           ))}
         </div>
@@ -379,44 +379,42 @@ function QRScannerSection() {
   };
 
   return (
-    <section id="qr-scanner" className="py-16 px-4 sm:px-6 lg:px-8 bg-gray-50 flex-1">
+    <section id="qr-scanner" className="py-12 sm:py-16 px-3 sm:px-4 lg:px-8 bg-gray-50">
       <div className="max-w-4xl mx-auto">
-        <div className="text-center mb-8">
-          <h2 className="text-3xl font-bold text-gray-900 mb-4">Scan Product QR Code</h2>
-          <p className="text-lg text-gray-600">Enter a product ID to trace its journey</p>
+        <div className="text-center mb-6 sm:mb-8">
+          <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-3 sm:mb-4">Scan Product QR Code</h2>
+          <p className="text-base sm:text-lg text-gray-600">Enter a product ID to trace its journey</p>
         </div>
         
-        <div className="bg-white rounded-2xl shadow-lg border border-gray-200 p-8">
+        <div className="bg-white rounded-xl sm:rounded-2xl shadow-lg border border-gray-200 p-4 sm:p-8">
           {scanResult ? (
-            <div className="text-center py-8">
-              <div className="inline-flex items-center justify-center w-16 h-16 bg-green-100 rounded-full mb-4">
-                <CheckCircle className="h-8 w-8 text-green-600" />
+            <div className="text-center py-6 sm:py-8">
+              <div className="inline-flex items-center justify-center w-12 h-12 sm:w-16 sm:h-16 bg-green-100 rounded-full mb-3 sm:mb-4">
+                <CheckCircle className="h-6 w-6 sm:h-8 sm:w-8 text-green-600" />
               </div>
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">Scan Successful!</h3>
-              <p className="text-sm text-gray-600 font-mono bg-gray-100 px-3 py-2 rounded">
-                {scanResult}
-              </p>
+              <h3 className="text-base sm:text-lg font-semibold text-gray-900 mb-2">Scan Successful!</h3>
+              <p className="text-sm text-gray-600 font-mono bg-gray-100 px-2 sm:px-3 py-1 sm:py-2 rounded">{scanResult}</p>
               <p className="text-xs text-gray-500 mt-2">Opening trace page...</p>
             </div>
           ) : (
-            <div className="space-y-6">
+            <div className="space-y-4 sm:space-y-6">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   Enter Product ID or QR Code Data
                 </label>
-                <div className="flex gap-3">
+                <div className="flex gap-2 sm:gap-3">
                   <input
                     type="text"
                     value={mockInput}
                     onChange={(e) => setMockInput(e.target.value)}
                     placeholder="e.g., PRD-2024-001"
-                    className="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                    className="flex-1 px-3 sm:px-4 py-2 sm:py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent text-sm sm:text-base"
                     autoFocus
                   />
                   <Button
                     variant="outline"
                     onClick={useRandomId}
-                    className="whitespace-nowrap"
+                    className="whitespace-nowrap text-sm sm:text-base"
                   >
                     Random
                   </Button>
@@ -430,33 +428,34 @@ function QRScannerSection() {
                 </div>
               )}
 
-              <div className="flex gap-3">
+              <div className="flex gap-2 sm:gap-3">
                 <Button
                   onClick={handleScan}
-                  className="flex-1 bg-gradient-to-r from-green-600 to-green-500 hover:from-green-700 hover:to-green-600 text-white shadow-lg"
+                  className="flex-1 bg-gradient-to-r from-green-600 to-green-500 hover:from-green-700 hover:to-green-600 text-white shadow-lg text-sm sm:text-base py-2 sm:py-3"
                 >
-                  <QrCode className="h-4 w-4 mr-2" />
-                  Trace Product
+                  <QrCode className="h-4 w-4 sm:h-5 sm:w-5 mr-2" />
+                  <span className="hidden sm:inline">Trace Product</span>
                 </Button>
                 {isScanning && (
                   <Button
                     variant="outline"
                     onClick={stopScanning}
+                    className="text-sm sm:text-base"
                   >
                     Cancel
                   </Button>
                 )}
               </div>
 
-              <div className="text-xs text-gray-500 text-center">
+              <div className="text-xs text-gray-500 text-center mt-4 sm:mt-6">
                 <p>Try: PRD-2024-001, BLK1704123456789, or click "Random"</p>
               </div>
             </div>
           )}
         </div>
         
-        <div className="mt-8 grid grid-cols-1 lg:grid-cols-2 gap-8">
-          <div className="bg-white p-6 rounded-lg border">
+        <div className="mt-6 sm:mt-8 grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8">
+          <div className="bg-white p-4 sm:p-6 rounded-lg border">
             <h3 className="font-semibold text-gray-900 mb-3">How to Use:</h3>
             <ol className="space-y-2 text-sm text-gray-600">
               <li>1. Enter a product ID in the field above</li>
@@ -464,7 +463,7 @@ function QRScannerSection() {
               <li>3. Explore the complete traceability information</li>
             </ol>
           </div>
-          <div className="bg-blue-50 p-4 rounded-lg">
+          <div className="bg-blue-50 p-3 sm:p-4 rounded-lg">
             <h4 className="font-medium text-blue-900 mb-2">Demo Product IDs:</h4>
             <ul className="text-sm text-blue-800 space-y-1">
               <li>• PRD-2024-001 (Organic Apples)</li>
@@ -505,30 +504,30 @@ function Categories({ categories, router }: { categories: string[]; router: any 
           <p className="text-xl text-gray-600 max-w-2xl mx-auto">Browse our wide selection of premium agricultural products, from superfoods to fresh produce</p>
         </div>
         
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-6">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-3 sm:gap-6">
           {categories.map((category, index) => (
             <div 
               key={category} 
-              className="group relative overflow-hidden bg-white border-2 border-transparent hover:border-green-500 hover:shadow-2xl transition-all duration-300 cursor-pointer transform hover:scale-105 rounded-2xl aspect-square"
+              className="group relative overflow-hidden bg-white border-2 border-transparent hover:border-green-500 hover:shadow-xl transition-all duration-300 cursor-pointer transform hover:scale-105 rounded-xl sm:rounded-2xl aspect-square"
               onClick={() => handleCategoryClick(category)}
             >
               <div className="absolute inset-0 bg-gradient-to-br from-green-400 to-emerald-500 opacity-0 group-hover:opacity-10 transition-opacity duration-300"></div>
-              <div className="relative p-4 text-center flex flex-col justify-center h-full">
-                <div className="mb-3">
-                  <div className="w-12 h-12 mx-auto bg-gradient-to-br from-green-100 to-emerald-100 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                    <span className="text-2xl filter drop-shadow-sm">
+              <div className="relative p-3 sm:p-4 text-center flex flex-col justify-center h-full">
+                <div className="mb-2 sm:mb-3">
+                  <div className="w-8 h-8 sm:w-12 sm:h-12 mx-auto bg-gradient-to-br from-green-100 to-emerald-100 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                    <span className="text-lg sm:text-2xl filter drop-shadow-sm">
                       {categoryIcons[category] || '📦'}
                     </span>
                   </div>
-                  <div className="absolute -top-1 -right-1 w-3 h-3 bg-green-500 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                  <div className="absolute -top-1 -right-1 w-2 h-2 sm:w-3 sm:h-3 bg-green-500 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                 </div>
                 
-                <h3 className="font-bold text-sm text-gray-900 mb-2 group-hover:text-green-700 transition-colors duration-300 leading-tight">
+                <h3 className="font-bold text-xs sm:text-sm text-gray-900 mb-1 sm:mb-2 group-hover:text-green-700 transition-colors duration-300 leading-tight">
                   {category}
                 </h3>
                 
                 <div className="space-y-1">
-                  <p className="text-xs text-gray-500 group-hover:text-gray-700 transition-colors duration-300 leading-tight">
+                  <p className="text-xs sm:text-sm text-gray-500 group-hover:text-gray-700 transition-colors duration-300 leading-tight">
                     {category === 'Powders' && 'Superfoods'}
                     {category === 'Teas' && 'Herbal Teas'}
                     {category === 'Supplements' && 'Daily Nutrition'}
@@ -541,10 +540,10 @@ function Categories({ categories, router }: { categories: string[]; router: any 
                     {category === 'Honey' && 'Natural Sweeteners'}
                     {category === 'Grains' && 'Whole Grains'}
                   </p>
-                  
+                   
                   <div className="flex items-center justify-center text-green-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                     <span className="text-xs font-medium leading-tight">Browse</span>
-                    <svg className="w-3 h-3 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg className="w-2 h-2 sm:w-3 sm:h-3 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                     </svg>
                   </div>
@@ -1428,41 +1427,43 @@ export default function Marketplace() {
 
   return (
     <>
-      {/* Navigation Header - Separate from main content */}
-      <nav className="bg-white shadow-sm border-b sticky top-0 z-50">
-        <div className="w-full px-4 sm:px-6 lg:px-8">
+      {/* Marketplace Navigation Header - Responsive */}
+      <nav className="bg-white shadow-sm border-b sticky top-0 z-40">
+        <div className="w-full px-3 sm:px-4 lg:px-8">
           <div className="flex justify-between h-16 items-center">
-            <div className="flex">
+            <div className="flex items-center flex-1 min-w-0">
               <div className="flex-shrink-0 flex items-center">
-                <h1 className="text-xl font-bold text-gray-900 mr-4">Lwandle Moringa Marketplace</h1>
-                <Badge className="bg-green-100 text-green-800">
+                <h1 className="text-base sm:text-lg lg:text-xl font-bold text-gray-900 mr-2 sm:mr-4 truncate">Lwandle Moringa Marketplace</h1>
+                <Badge className="bg-green-100 text-green-800 hidden sm:flex">
                   <Leaf className="h-3 w-3 mr-1" />
-                  100% Traceable
+                  <span className="hidden sm:inline">100% Traceable</span>
+                  <span className="sm:hidden">100%</span>
                 </Badge>
               </div>
             </div>
-            <div className="flex items-center gap-4">
-              <Button variant="outline" onClick={() => router.push('/qr-demo')}>
+            <div className="flex items-center gap-2 sm:gap-4">
+              <Button variant="outline" size="sm" onClick={() => router.push('/qr-demo')} className="hidden sm:flex">
                 <QrCode className="h-4 w-4 mr-2" />
-                Scan QR
+                <span className="hidden sm:inline">Scan QR</span>
               </Button>
               {currentUser ? (
                 <>
-                  <Button onClick={() => router.push('/marketplace/cart')} className="relative">
-                    <ShoppingCart className="h-4 w-4 mr-2" />
-                    Cart
+                  <Button onClick={() => router.push('/marketplace/cart')} className="relative" size="sm">
+                    <ShoppingCart className="h-4 w-4 mr-1 sm:mr-2" />
+                    <span className="hidden sm:inline">Cart</span>
                     {cart.length > 0 && (
                       <span className="absolute -top-2 -right-2 bg-orange-600 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
                         {cart.reduce((sum, item) => sum + item.quantity, 0)}
                       </span>
                     )}
                   </Button>
-                  <Button onClick={() => router.push('/login')}>
-                    Account
+                  <Button onClick={() => router.push('/login')} size="sm">
+                    <span className="hidden sm:inline">Account</span>
+                    <span className="sm:hidden">Acct</span>
                   </Button>
                 </>
               ) : (
-                <Button onClick={() => router.push('/login')}>
+                <Button onClick={() => router.push('/login')} size="sm">
                   Login
                 </Button>
               )}

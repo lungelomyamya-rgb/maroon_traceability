@@ -285,44 +285,67 @@ export default function ProductsPage() {
       <nav className="bg-white shadow-sm border-b sticky top-0 z-50">
         <div className="w-full px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between h-16 items-center">
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-2 sm:gap-4">
               <Button 
                 variant="outline" 
                 size="sm"
                 onClick={() => router.push('/marketplace')}
+                className="h-8 sm:h-10"
               >
-                <ArrowLeft className="h-4 w-4 mr-2" />
-                Back to Marketplace
+                <ArrowLeft className="h-4 w-4 mr-1 sm:mr-2" />
+                <span className="hidden sm:inline">Back to Marketplace</span>
               </Button>
               <div>
-                <h1 className="text-2xl font-bold text-gray-900">All Products</h1>
-                <p className="text-sm text-gray-600">Browse our complete collection</p>
+                <h1 className="text-lg sm:text-xl lg:text-2xl font-bold text-gray-900 truncate">Products</h1>
+                <p className="text-xs sm:text-sm text-gray-600 hidden sm:block">Browse our complete collection</p>
               </div>
             </div>
-            <Badge className="bg-green-100 text-green-800">
-              {filteredProducts.length} products
-            </Badge>
+            <div className="flex items-center gap-2 sm:gap-4">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => router.push('/marketplace/cart')}
+                className="relative h-8 sm:h-10"
+              >
+                <ShoppingCart className="h-4 w-4 sm:h-5 sm:w-5 mr-2" />
+                <span className="hidden sm:inline">Cart</span>
+                {Object.keys(cart).length > 0 && (
+                  <span className="absolute -top-2 -right-2 bg-orange-600 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+                    {Object.values(cart).reduce((sum, quantity) => sum + quantity, 0)}
+                  </span>
+                )}
+              </Button>
+              <Badge className="bg-green-100 text-green-800">
+                {filteredProducts.length} products
+              </Badge>
+            </div>
           </div>
         </div>
       </nav>
 
       {/* Main Content */}
       <div className="min-h-screen bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-8 py-8">
           {/* Category Filters */}
-          <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-8">
-            {/* Section Title */}
-            <div className="flex items-center justify-between mb-6">
-              <h2 className="text-lg font-semibold text-gray-900 flex items-center">
-                <Filter className="h-5 w-5 mr-2 text-green-600" />
-                Browse Categories
+          <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4 sm:p-6">
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="text-lg sm:text-xl font-semibold text-gray-900 flex items-center">
+                <Grid3X3 className="h-5 w-5 mr-2 text-green-600" />
+                <span className="ml-2">{viewMode === 'grid' ? 'Grid View' : 'List View'}</span>
               </h2>
-              <Badge variant="secondary" className="text-xs">
-                {filteredProducts.length} products
-              </Badge>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => setViewMode(viewMode === 'grid' ? 'list' : 'grid')}
+                className="h-8 sm:h-10 w-8 sm:w-auto"
+              >
+                {viewMode === 'grid' ? (
+                  <List className="h-4 w-4" />
+                ) : (
+                  <Grid className="h-4 w-4" />
+                )}
+              </Button>
             </div>
-            
-            {/* Category Pills */}
             <div className="flex flex-wrap gap-3 mb-6">
               {['All', 'Powders', 'Teas', 'Fresh', 'Supplements', 'Oils', 'Seeds'].map((category) => (
                 <Button
@@ -330,8 +353,8 @@ export default function ProductsPage() {
                   variant={category === selectedCategory ? 'default' : 'outline'}
                   size="sm"
                   onClick={() => handleCategoryClick(category)}
-                  className={category === selectedCategory 
-                    ? "bg-green-600 hover:bg-green-700 text-white border-green-600 shadow-sm" 
+                  className={category === selectedCategory
+                    ? "bg-green-600 hover:bg-green-700 text-white border-green-600 shadow-sm"
                     : "border-gray-300 hover:border-green-400 hover:bg-green-50 transition-all duration-200"
                   }
                 >
@@ -360,10 +383,7 @@ export default function ProductsPage() {
                 </Button>
               ))}
             </div>
-            
-            {/* Search and Controls */}
             <div className="flex flex-col lg:flex-row gap-4">
-              {/* Search */}
               <div className="flex-1">
                 <div className="relative">
                   <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
@@ -376,8 +396,6 @@ export default function ProductsPage() {
                   />
                 </div>
               </div>
-
-              {/* Sort */}
               <div className="lg:w-56">
                 <Select value={sortBy} onValueChange={setSortBy}>
                   <SelectTrigger className="h-11 border-gray-300 focus:border-green-500 focus:ring-green-500">
@@ -392,8 +410,6 @@ export default function ProductsPage() {
                   </SelectContent>
                 </Select>
               </div>
-
-              {/* View Mode */}
               <div className="flex gap-2">
                 <Button
                   variant={viewMode === 'grid' ? 'default' : 'outline'}
@@ -412,8 +428,6 @@ export default function ProductsPage() {
               </div>
             </div>
           </div>
-
-          {/* Products */}
           {filteredProducts.length === 0 ? (
             <div className="text-center py-20 bg-white rounded-lg">
               <div className="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -423,7 +437,7 @@ export default function ProductsPage() {
               <p className="text-gray-600">Try adjusting your search or filters</p>
             </div>
           ) : (
-            <div className={viewMode === 'grid' ? 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6' : 'space-y-4'}>
+            <div className={viewMode === 'grid' ? 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6' : 'space-y-4'}>
               {filteredProducts.map((product) => (
                 <Card key={product.id} className={viewMode === 'grid' ? 'overflow-hidden hover:shadow-xl transition-shadow group rounded-2xl' : 'p-4 hover:shadow-md transition-shadow'}>
                   {viewMode === 'grid' ? (
@@ -442,7 +456,6 @@ export default function ProductsPage() {
                           </Badge>
                         )}
                       </div>
-                      
                       <div className="p-4">
                         <h3 className="font-semibold text-gray-900 mb-2 line-clamp-2">{product.name}</h3>
                         <div className="flex items-center gap-2 mb-2">
@@ -465,7 +478,6 @@ export default function ProductsPage() {
                           <MapPin className="h-3 w-3 mr-1" />
                           {product.farmer.location}
                         </p>
-                        
                         <div className="flex items-center justify-between mb-3">
                           <div>
                             <div className="flex items-center gap-2">
@@ -483,7 +495,6 @@ export default function ProductsPage() {
                             <span className="text-xs text-green-600">Blockchain</span>
                           </div>
                         </div>
-
                         <div className="flex items-center gap-2">
                           {cart[product.id] ? (
                             <div className="flex items-center gap-2 flex-1">
@@ -504,8 +515,8 @@ export default function ProductsPage() {
                               </Button>
                             </div>
                           ) : (
-                            <Button 
-                              className="w-full" 
+                            <Button
+                              className="w-full"
                               size="sm"
                               onClick={() => addToCart(product.id)}
                             >
@@ -525,7 +536,6 @@ export default function ProductsPage() {
                       <div className="w-24 h-24 bg-gradient-to-br from-green-100 to-green-200 rounded-lg flex items-center justify-center flex-shrink-0">
                         <span className="text-3xl">{product.image}</span>
                       </div>
-                      
                       <div className="flex-1">
                         <div className="flex justify-between mb-2">
                           <div>
@@ -545,7 +555,6 @@ export default function ProductsPage() {
                             )}
                           </div>
                         </div>
-                        
                         <div className="flex items-center justify-between">
                           <div className="flex items-center gap-2">
                             <div className="flex items-center">
@@ -562,7 +571,6 @@ export default function ProductsPage() {
                             </div>
                             <span className="text-sm text-gray-500">({product.farmer.totalReviews})</span>
                           </div>
-                          
                           <div className="flex items-center gap-2">
                             {cart[product.id] ? (
                               <div className="flex items-center gap-2">
@@ -583,7 +591,7 @@ export default function ProductsPage() {
                                 </Button>
                               </div>
                             ) : (
-                              <Button 
+                              <Button
                                 size="sm"
                                 onClick={() => addToCart(product.id)}
                               >
