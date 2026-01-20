@@ -160,28 +160,29 @@ export function FertiliserLog({ products }: FertiliserLogProps) {
   };
 
   return (
-    <div className="space-y-6">
-      <div className="flex justify-between items-center">
-        <h2 className="text-xl font-semibold text-gray-900">Fertiliser Application Log</h2>
+    <div className="space-y-4 sm:space-y-6">
+      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3">
+        <h2 className="text-lg sm:text-xl font-semibold text-gray-900">Fertiliser Application Log</h2>
         <Button 
           onClick={() => setShowAddForm(!showAddForm)}
-          className="bg-green hover:bg-green-hover text-white"
+          className="bg-green hover:bg-green-hover text-white w-full sm:w-auto"
         >
-          <Plus className="h-4 w-4 mr-2" />
-          Log Application
+          <Plus className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
+          <span className="hidden sm:inline">Log Application</span>
+          <span className="sm:hidden">Log App</span>
         </Button>
       </div>
 
       {showAddForm && (
-        <Card className="p-6">
-          <h3 className="text-lg font-medium mb-4">Record Fertiliser Application</h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <Card className="p-4 sm:p-6">
+          <h3 className="text-base sm:text-lg font-medium mb-3 sm:mb-4">Record Fertiliser Application</h3>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Fertiliser Type</label>
+              <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1">Fertiliser Type</label>
               <select
                 value={newApplication.fertiliserType}
                 onChange={(e) => setNewApplication({...newApplication, fertiliserType: e.target.value})}
-                className="w-full p-2 border border-gray-300 rounded-md"
+                className="w-full p-2 text-xs sm:text-sm border border-gray-300 rounded-md"
               >
                 <option value="">Select type</option>
                 {fertiliserTypes.map(type => (
@@ -191,29 +192,31 @@ export function FertiliserLog({ products }: FertiliserLogProps) {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Brand</label>
+              <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1">Brand</label>
               <Input
                 value={newApplication.brand}
                 onChange={(e) => setNewApplication({...newApplication, brand: e.target.value})}
                 placeholder="Brand name"
+                className="text-xs sm:text-sm"
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">NPK Ratio</label>
+              <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1">NPK Ratio</label>
               <Input
                 value={newApplication.npkRatio}
                 onChange={(e) => setNewApplication({...newApplication, npkRatio: e.target.value})}
                 placeholder="e.g., 20-20-20"
+                className="text-xs sm:text-sm"
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Application Method</label>
+              <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1">Application Method</label>
               <select
                 value={newApplication.applicationMethod}
                 onChange={(e) => setNewApplication({...newApplication, applicationMethod: e.target.value})}
-                className="w-full p-2 border border-gray-300 rounded-md"
+                className="w-full p-2 text-xs sm:text-sm border border-gray-300 rounded-md"
               >
                 {applicationMethods.map(method => (
                   <option key={method} value={method}>{method}</option>
@@ -222,18 +225,19 @@ export function FertiliserLog({ products }: FertiliserLogProps) {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Quantity</label>
-              <div className="flex gap-2">
+              <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1">Quantity</label>
+              <div className="flex gap-1 sm:gap-2">
                 <Input
                   type="number"
                   value={newApplication.quantity}
                   onChange={(e) => setNewApplication({...newApplication, quantity: e.target.value})}
                   placeholder="Amount"
+                  className="text-xs sm:text-sm"
                 />
                 <select
                   value={newApplication.unit}
                   onChange={(e) => setNewApplication({...newApplication, unit: e.target.value})}
-                  className="p-2 border border-gray-300 rounded-md"
+                  className="p-2 text-xs sm:text-sm border border-gray-300 rounded-md"
                 >
                   <option value="kg">kg</option>
                   <option value="g">g</option>
@@ -244,29 +248,31 @@ export function FertiliserLog({ products }: FertiliserLogProps) {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Next Application</label>
+              <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1">Next Application</label>
               <Input
                 type="date"
                 value={newApplication.nextApplication}
                 onChange={(e) => setNewApplication({...newApplication, nextApplication: e.target.value})}
+                className="text-xs sm:text-sm"
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Weather Conditions</label>
+              <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1">Weather Conditions</label>
               <Input
                 value={newApplication.weather}
                 onChange={(e) => setNewApplication({...newApplication, weather: e.target.value})}
                 placeholder="e.g., Clear, 22°C"
+                className="text-xs sm:text-sm"
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Soil Moisture</label>
+              <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1">Soil Moisture</label>
               <select
                 value={newApplication.soilMoisture}
                 onChange={(e) => setNewApplication({...newApplication, soilMoisture: e.target.value})}
-                className="w-full p-2 border border-gray-300 rounded-md"
+                className="w-full p-2 text-xs sm:text-sm border border-gray-300 rounded-md"
               >
                 <option value="">Select moisture level</option>
                 <option value="Dry">Dry</option>
@@ -277,107 +283,110 @@ export function FertiliserLog({ products }: FertiliserLogProps) {
               </select>
             </div>
 
-            <div className="md:col-span-2">
+            <div className="sm:col-span-2">
               <label className="flex items-center gap-2">
                 <input
                   type="checkbox"
                   checked={newApplication.organic}
                   onChange={(e) => setNewApplication({...newApplication, organic: e.target.checked})}
                 />
-                <span className="text-sm font-medium text-gray-700">Organic Fertiliser</span>
+                <span className="text-xs sm:text-sm font-medium text-gray-700">Organic Fertiliser</span>
               </label>
             </div>
 
-            <div className="md:col-span-2">
-              <label className="block text-sm font-medium text-gray-700 mb-1">Notes</label>
+            <div className="sm:col-span-2">
+              <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1">Notes</label>
               <Textarea
                 value={newApplication.notes}
                 onChange={(e) => setNewApplication({...newApplication, notes: e.target.value})}
                 rows={3}
                 placeholder="Application notes and observations"
+                className="text-xs sm:text-sm"
               />
             </div>
           </div>
 
-          <div className="flex justify-end gap-2 mt-4">
-            <Button variant="outline" onClick={() => setShowAddForm(false)}>
+          <div className="flex flex-col sm:flex-row sm:justify-end gap-2 sm:gap-3 mt-4">
+            <Button variant="outline" onClick={() => setShowAddForm(false)} className="w-full sm:w-auto">
               Cancel
             </Button>
-            <Button onClick={handleAddApplication}>
-              Save Application
+            <Button onClick={handleAddApplication} className="w-full sm:w-auto">
+              <span className="hidden sm:inline">Save Application</span>
+              <span className="sm:hidden">Save App</span>
             </Button>
           </div>
         </Card>
       )}
 
-      <div className="space-y-4">
+      <div className="space-y-3 sm:space-y-4">
         {applications.map((application) => (
-          <Card key={application.id} className="p-6">
-            <div className="flex items-start justify-between mb-4">
-              <div className="flex items-center gap-3">
-                <div className="p-2 bg-green-100 rounded-lg">
-                  <Droplets className="h-6 w-6 text-green-600" />
+          <Card key={application.id} className="p-4 sm:p-6">
+            <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 mb-4">
+              <div className="flex items-center gap-2 sm:gap-3">
+                <div className="p-1.5 sm:p-2 bg-green-100 rounded-lg">
+                  <Droplets className="h-4 w-4 sm:h-5 sm:w-5 lg:h-6 lg:w-6 text-green-600" />
                 </div>
                 <div>
-                  <h3 className="text-lg font-semibold text-gray-900">{application.fertiliserType}</h3>
-                  <p className="text-sm text-gray-500">{application.brand}</p>
+                  <h3 className="text-sm sm:text-base lg:text-lg font-semibold text-gray-900">{application.fertiliserType}</h3>
+                  <p className="text-xs sm:text-sm text-gray-500">{application.brand}</p>
                 </div>
               </div>
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-1 sm:gap-2">
                 {application.organic && (
-                  <Badge className="bg-green-100 text-green-800">
-                    <Leaf className="h-3 w-3 mr-1" />
-                    Organic
+                  <Badge className="bg-green-100 text-green-800 text-xs">
+                    <Leaf className="h-2 w-2 sm:h-3 sm:w-3 mr-1" />
+                    <span className="hidden sm:inline">Organic</span>
+                    <span className="sm:hidden">Org</span>
                   </Badge>
                 )}
-                <Badge variant={getNPKColor(application.npkRatio)}>
+                <Badge variant={getNPKColor(application.npkRatio)} className="text-xs">
                   NPK: {application.npkRatio}
                 </Badge>
               </div>
             </div>
 
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-4 text-xs sm:text-sm">
               <div>
                 <span className="text-gray-600">Date:</span>
-                <span className="ml-2 font-medium">{application.date}</span>
+                <span className="ml-1 sm:ml-2 font-medium">{application.date}</span>
               </div>
               <div>
                 <span className="text-gray-600">Quantity:</span>
-                <span className="ml-2 font-medium">{application.quantity} {application.unit}</span>
+                <span className="ml-1 sm:ml-2 font-medium">{application.quantity} {application.unit}</span>
               </div>
               <div>
                 <span className="text-gray-600">Method:</span>
-                <span className="ml-2 font-medium capitalize">{application.applicationMethod}</span>
+                <span className="ml-1 sm:ml-2 font-medium capitalize">{application.applicationMethod}</span>
               </div>
               <div>
                 <span className="text-gray-600">Next:</span>
-                <span className="ml-2 font-medium">{application.nextApplication}</span>
+                <span className="ml-1 sm:ml-2 font-medium">{application.nextApplication}</span>
               </div>
             </div>
 
-            <div className="mt-4 space-y-2">
-              <div className="flex items-center gap-2 text-sm">
-                <Calendar className="h-4 w-4 text-gray-400" />
+            <div className="mt-3 sm:mt-4 space-y-1 sm:space-y-2">
+              <div className="flex items-center gap-1 sm:gap-2 text-xs sm:text-sm">
+                <Calendar className="h-3 w-3 sm:h-4 sm:w-4 text-gray-400" />
                 <span className="text-gray-600">Weather: {application.weather}</span>
               </div>
-              <div className="flex items-center gap-2 text-sm">
-                <Droplets className="h-4 w-4 text-gray-400" />
+              <div className="flex items-center gap-1 sm:gap-2 text-xs sm:text-sm">
+                <Droplets className="h-3 w-3 sm:h-4 sm:w-4 text-gray-400" />
                 <span className="text-gray-600">Soil Moisture: {application.soilMoisture}</span>
               </div>
             </div>
 
             {application.notes && (
-              <div className="mt-4 p-3 bg-gray-50 rounded-lg">
-                <p className="text-sm text-gray-700">{application.notes}</p>
+              <div className="mt-3 sm:mt-4 p-2 sm:p-3 bg-gray-50 rounded-lg">
+                <p className="text-xs sm:text-sm text-gray-700">{application.notes}</p>
               </div>
             )}
 
-            <div className="mt-4 p-3 bg-blue-50 rounded-lg">
-              <div className="flex items-start gap-2">
-                <AlertTriangle className="h-4 w-4 text-blue-600 mt-0.5" />
+            <div className="mt-3 sm:mt-4 p-2 sm:p-3 bg-blue-50 rounded-lg">
+              <div className="flex items-start gap-1 sm:gap-2">
+                <AlertTriangle className="h-3 w-3 sm:h-4 sm:w-4 text-blue-600 mt-0.5" />
                 <div>
-                  <p className="text-sm font-medium text-blue-900">Safety Precautions</p>
-                  <ul className="text-sm text-blue-700 mt-1">
+                  <p className="text-xs sm:text-sm font-medium text-blue-900">Safety Precautions</p>
+                  <ul className="text-xs sm:text-sm text-blue-700 mt-1">
                     {application.safetyPrecautions.map((precaution, index) => (
                       <li key={index}>• {precaution}</li>
                     ))}
@@ -386,14 +395,16 @@ export function FertiliserLog({ products }: FertiliserLogProps) {
               </div>
             </div>
 
-            <div className="flex gap-2 mt-4">
-              <Button variant="outline" size="sm">
-                <TrendingUp className="h-4 w-4 mr-1" />
-                View Impact
+            <div className="flex flex-col sm:flex-row gap-2 sm:gap-3 mt-3 sm:mt-4">
+              <Button variant="outline" size="sm" className="h-7 sm:h-9 px-2 sm:px-3 text-xs w-full sm:w-auto">
+                <TrendingUp className="h-3 w-3 sm:h-4 sm:w-4 mr-1" />
+                <span className="hidden sm:inline">View Impact</span>
+                <span className="sm:hidden">Impact</span>
               </Button>
-              <Button variant="outline" size="sm">
-                <Calendar className="h-4 w-4 mr-1" />
-                Schedule Next
+              <Button variant="outline" size="sm" className="h-7 sm:h-9 px-2 sm:px-3 text-xs w-full sm:w-auto">
+                <Calendar className="h-3 w-3 sm:h-4 sm:w-4 mr-1" />
+                <span className="hidden sm:inline">Schedule Next</span>
+                <span className="sm:hidden">Schedule</span>
               </Button>
             </div>
           </Card>

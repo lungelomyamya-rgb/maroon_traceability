@@ -26,12 +26,17 @@ export function ProductEventList({ productId }: ProductEventListProps) {
         type: 'planting',
         actor: 'John Farmer',
         actorRole: 'farmer',
-        timestamp: '2025-01-15T09:00:00Z',
+        timestamp: '2025-01-20T08:30:00Z',
         location: 'Field A, North Farm',
-        notes: 'Planted organic tomato seedlings with organic compost',
-        photos: [],
+        notes: 'Planted 200 organic tomato seedlings with organic compost and proper spacing',
+        photos: ['planting_photo_1.jpg', 'seedling_tray.jpg'],
         syncStatus: 'synced',
-        data: {}
+        data: {
+          seedVariety: 'Celebrity Tomato',
+          quantity: 200,
+          method: 'organic',
+          weather: 'Sunny, 22°C'
+        }
       },
       {
         id: 'evt2',
@@ -39,25 +44,139 @@ export function ProductEventList({ productId }: ProductEventListProps) {
         type: 'growth',
         actor: 'John Farmer',
         actorRole: 'farmer',
-        timestamp: '2025-02-01T10:30:00Z',
+        timestamp: '2025-01-22T06:00:00Z',
         location: 'Field A, North Farm',
-        notes: 'Healthy growth observed, plants reaching 30cm height',
-        photos: [],
+        notes: 'First watering after planting, soil moisture levels good',
+        photos: ['watering_setup.jpg'],
         syncStatus: 'synced',
-        data: {}
+        data: {
+          waterAmount: '500L',
+          method: 'drip irrigation',
+          time: 'Early morning'
+        }
       },
       {
         id: 'evt3',
         productId,
+        type: 'growth',
+        actor: 'John Farmer',
+        actorRole: 'farmer',
+        timestamp: '2025-01-28T14:15:00Z',
+        location: 'Field A, North Farm',
+        notes: 'Applied organic compost tea to boost growth and soil health',
+        photos: ['fertiliser_application.jpg'],
+        syncStatus: 'synced',
+        data: {
+          fertiliserType: 'Organic Compost',
+          amount: '50kg',
+          npkRatio: '2-1-2',
+          method: 'broadcast'
+        }
+      },
+      {
+        id: 'evt4',
+        productId,
+        type: 'growth',
+        actor: 'John Farmer',
+        actorRole: 'farmer',
+        timestamp: '2025-02-05T09:00:00Z',
+        location: 'Field A, North Farm',
+        notes: 'Plants showing healthy growth, reaching 25cm height. No pests detected.',
+        photos: ['growth_measurement.jpg', 'plant_health_check.jpg'],
+        syncStatus: 'synced',
+        data: {
+          height: '25cm',
+          health: 'Excellent',
+          stage: 'vegetative',
+          temperature: '24°C'
+        }
+      },
+      {
+        id: 'evt5',
+        productId,
+        type: 'growth',
+        actor: 'John Farmer',
+        actorRole: 'farmer',
+        timestamp: '2025-02-12T16:30:00Z',
+        location: 'Field A, North Farm',
+        notes: 'Applied organic neem oil spray as preventive measure against aphids',
+        photos: ['pest_control_application.jpg'],
+        syncStatus: 'synced',
+        data: {
+          treatment: 'Neem Oil',
+          concentration: '5%',
+          coverage: 'Full field'
+        }
+      },
+      {
+        id: 'evt6',
+        productId,
         type: 'harvest',
         actor: 'John Farmer',
         actorRole: 'farmer',
-        timestamp: '2025-03-15T08:00:00Z',
+        timestamp: '2025-03-15T07:00:00Z',
         location: 'Field A, North Farm',
-        notes: 'Harvested 500kg of premium tomatoes',
-        photos: [],
+        notes: 'Harvested 450kg of premium quality tomatoes. Excellent color and firmness.',
+        photos: ['harvesting_process.jpg', 'harvested_tomatoes.jpg'],
         syncStatus: 'synced',
-        data: {}
+        data: {
+          quantity: '450kg',
+          quality: 'Premium',
+          averageWeight: '250g',
+          marketPrice: 'R25/kg'
+        }
+      },
+      {
+        id: 'evt7',
+        productId,
+        type: 'quality-inspection',
+        actor: 'Quality Inspector',
+        actorRole: 'inspector',
+        timestamp: '2025-03-16T10:00:00Z',
+        location: 'Quality Lab, Processing Center',
+        notes: 'Quality inspection passed. All tomatoes meet premium standards.',
+        photos: ['quality_inspection.jpg', 'lab_results.jpg'],
+        syncStatus: 'synced',
+        data: {
+          grade: 'Premium',
+          sugarContent: '4.2%',
+          acidity: '0.6%',
+          shelfLife: '14 days'
+        }
+      },
+      {
+        id: 'evt8',
+        productId,
+        type: 'packaging',
+        actor: 'Packaging Team',
+        actorRole: 'packaging',
+        timestamp: '2025-03-16T14:00:00Z',
+        location: 'Packaging Facility',
+        notes: 'Packaged in eco-friendly cardboard boxes with proper labeling',
+        photos: ['packaging_process.jpg', 'boxed_tomatoes.jpg'],
+        syncStatus: 'synced',
+        data: {
+          packagingType: 'Cardboard',
+          boxSize: '1kg',
+          labels: ['Organic', 'Premium', 'Traceable']
+        }
+      },
+      {
+        id: 'evt9',
+        productId,
+        type: 'transport',
+        actor: 'Logistics Team',
+        actorRole: 'logistics',
+        timestamp: '2025-03-17T09:00:00Z',
+        location: 'Distribution Center',
+        notes: 'Shipped to local markets and restaurants',
+        photos: ['loading_truck.jpg', 'shipping_manifest.jpg'],
+        syncStatus: 'synced',
+        data: {
+          destination: 'Local Markets',
+          transport: 'Refrigerated Truck',
+          temperature: '4°C'
+        }
       }
     ];
 

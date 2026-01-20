@@ -2,6 +2,7 @@
 export type EventType = 
   | 'planting'
   | 'growth'
+  | 'fertiliser'
   | 'harvest'
   | 'quality-inspection'
   | 'compliance-check'
@@ -49,6 +50,12 @@ export const EVENT_CONFIG: Record<EventType, {
     icon: '🌿',
     color: 'lime',
     description: 'Crop growth monitoring',
+  },
+  'fertiliser': {
+    label: 'Fertiliser Application',
+    icon: '💧',
+    color: 'blue',
+    description: 'Fertiliser applied to crops',
   },
   'harvest': {
     label: 'Harvest',

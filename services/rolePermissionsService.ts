@@ -386,7 +386,8 @@ class RolePermissionsService {
 
     const roleSpecificItems = {
       farmer: [
-        { name: 'Event Management', href: '/farmer/dashboard' },
+        { name: 'Overview', href: '/farmer' },
+        { name: 'Event Management', href: '/farmer/events' },
         { name: 'Growth Monitoring', href: '/farmer/growth' },
         { name: 'Fertiliser Logs', href: '/farmer/fertiliser' },
         { name: 'Seed Varieties', href: '/farmer/seeds' },

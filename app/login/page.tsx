@@ -55,19 +55,19 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-green-50 via-white to-blue-50 p-8">
-      <div className="max-w-4xl mx-auto">
-        <div className="text-center mb-12">
-          <div className="flex justify-center items-center mb-6">
-            <img src={getAssetPath("/images/maroon-logo.png")} alt="MAROON" className="h-16 w-16 mr-4" />
-            <h1 className="text-4xl font-bold tracking-tight text-gray-900">
+    <div className="min-h-screen bg-gradient-to-br from-green-50 via-white to-blue-50 p-4 sm:p-6 lg:p-8">
+      <div className="max-w-4xl mx-auto px-2 sm:px-4 lg:px-8">
+        <div className="text-center mb-8 sm:mb-10 lg:mb-12">
+          <div className="flex justify-center items-center mb-4 sm:mb-6">
+            <img src={getAssetPath("/images/maroon-logo.png")} alt="MAROON" className="h-10 sm:h-12 lg:h-16 w-10 sm:w-12 lg:w-16 mr-2 sm:mr-4" />
+            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight text-gray-900">
               Maroon Traceability
             </h1>
           </div>
-          <p className="text-xl text-gray-600 font-medium">
+          <p className="text-base sm:text-lg lg:text-xl text-gray-600 font-medium">
             Select your role to access the system
           </p>
-          <p className="text-sm text-gray-500 mt-2">
+          <p className="text-xs sm:text-sm text-gray-500 mt-1 sm:mt-2">
             Blockchain-powered supply chain transparency
           </p>
         </div>
@@ -78,7 +78,7 @@ export default function LoginPage() {
           </div>
         )}
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 lg:gap-6">
           {Object.entries({
             farmer: 'Manage your farm and track your products from seed to harvest',
             inspector: 'Inspect and verify product quality with detailed assessments',
@@ -89,14 +89,14 @@ export default function LoginPage() {
           }).map(([role, description]) => (
             <div 
               key={role} 
-              className={`p-6 bg-white border-2 rounded-xl transition-all hover:shadow-lg hover:scale-105 cursor-pointer ${
+              className={`p-3 sm:p-4 lg:p-6 bg-white border-2 rounded-lg sm:rounded-xl transition-all hover:shadow-lg hover:scale-105 cursor-pointer ${
                 selectedRole === role ? 'border-blue-500 shadow-lg' : 'border-gray-200'
               }`}
               onClick={() => handleUserSelect(role as UserRole)}
             >
               <div className="mb-4">
-                <div className="w-12 h-12 bg-blue-600 rounded-lg flex items-center justify-center mb-3 mx-auto">
-                  <span className="text-white text-xl font-bold">
+                <div className="w-8 sm:w-10 lg:w-12 h-8 sm:h-10 lg:h-12 bg-blue-600 rounded-lg flex items-center justify-center mb-2 sm:mb-3 mx-auto">
+                  <span className="text-white text-sm sm:text-base lg:text-lg font-bold">
                     {role === 'farmer' ? '👨‍🌾' : 
                      role === 'inspector' ? '🔍' : 
                      role === 'logistics' ? '🚚' : 
@@ -104,8 +104,8 @@ export default function LoginPage() {
                      role === 'retailer' ? '🏪' : '👁️'}
                   </span>
                 </div>
-                <h3 className="text-lg font-semibold text-gray-900 capitalize mb-2 text-center">{role}</h3>
-                <p className="text-sm text-gray-600 leading-relaxed text-center">{description}</p>
+                <h3 className="text-sm sm:text-base lg:text-lg font-semibold text-gray-900 capitalize mb-1 sm:mb-2 text-center">{role}</h3>
+                <p className="text-xs sm:text-sm text-gray-600 leading-relaxed text-center">{description}</p>
               </div>
               <button
                 onClick={(e) => {
@@ -113,10 +113,10 @@ export default function LoginPage() {
                   handleUserSelect(role as UserRole);
                 }}
                 disabled={isLoading}
-                className="w-full px-4 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 font-medium transition-all"
+                className="w-full px-3 sm:px-4 py-2 sm:py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 font-medium transition-all text-xs sm:text-sm lg:text-base"
               >
                 {isLoading && selectedRole === role ? (
-                  <span className="mr-2">⏳</span>
+                  <span className="mr-1 sm:mr-2 text-xs sm:text-sm">⏳</span>
                 ) : null}
                 {isLoading && selectedRole === role ? 'Logging in...' : `Log in as ${role}`}
               </button>
@@ -124,9 +124,9 @@ export default function LoginPage() {
           ))}
         </div>
 
-        <div className="mt-12 text-center">
+        <div className="mt-8 sm:mt-10 lg:mt-12 text-center">
           <div className="inline-flex items-center px-4 py-2 bg-blue-50 rounded-full">
-            <span className="text-sm text-blue-700 font-medium">
+            <span className="text-xs sm:text-sm text-blue-700 font-medium">
               🔒 Demo Mode - Select any role to explore the platform
             </span>
           </div>

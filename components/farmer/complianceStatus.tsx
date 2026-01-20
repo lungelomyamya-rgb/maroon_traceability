@@ -176,60 +176,61 @@ export function ComplianceStatus({ products }: ComplianceStatusProps) {
   };
 
   return (
-    <div className="space-y-6">
-      <div className="flex justify-between items-center">
-        <h2 className="text-xl font-semibold text-gray-900">Compliance & Regulations</h2>
-        <Button className="bg-green hover:bg-green-hover text-white">
-          <Upload className="h-4 w-4 mr-2" />
-          Upload Documents
+    <div className="space-y-4 sm:space-y-6">
+      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3">
+        <h2 className="text-lg sm:text-xl font-semibold text-gray-900">Compliance & Regulations</h2>
+        <Button className="bg-green hover:bg-green-hover text-white w-full sm:w-auto">
+          <Upload className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
+          <span className="hidden sm:inline">Upload Documents</span>
+          <span className="sm:hidden">Upload</span>
         </Button>
       </div>
 
       {/* Compliance Overview */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-        <Card className="p-6">
-          <div className="flex items-center gap-3">
-            <CheckCircle className="h-8 w-8 text-green-600" />
+      <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-6">
+        <Card className="p-3 sm:p-4 lg:p-6">
+          <div className="flex items-center gap-2 sm:gap-3">
+            <CheckCircle className="h-6 w-6 sm:h-7 sm:w-7 lg:h-8 lg:w-8 text-green-600" />
             <div>
-              <p className="text-sm text-gray-600">Compliance Score</p>
-              <p className="text-2xl font-bold text-gray-900">{complianceScore}%</p>
+              <p className="text-xs sm:text-sm text-gray-600">Compliance Score</p>
+              <p className="text-lg sm:text-xl lg:text-2xl font-bold text-gray-900">{complianceScore}%</p>
             </div>
           </div>
           <div className="mt-2">
-            <Progress value={complianceScore} className="h-2" />
+            <Progress value={complianceScore} className="h-1 sm:h-2" />
           </div>
         </Card>
 
-        <Card className="p-6">
-          <div className="flex items-center gap-3">
-            <AlertTriangle className="h-8 w-8 text-red-600" />
+        <Card className="p-3 sm:p-4 lg:p-6">
+          <div className="flex items-center gap-2 sm:gap-3">
+            <AlertTriangle className="h-6 w-6 sm:h-7 sm:w-7 lg:h-8 lg:w-8 text-red-600" />
             <div>
-              <p className="text-sm text-gray-600">Overdue</p>
-              <p className="text-2xl font-bold text-gray-900">
+              <p className="text-xs sm:text-sm text-gray-600">Overdue</p>
+              <p className="text-lg sm:text-xl lg:text-2xl font-bold text-gray-900">
                 {requirements.filter(req => req.status === 'overdue').length}
               </p>
             </div>
           </div>
         </Card>
 
-        <Card className="p-6">
-          <div className="flex items-center gap-3">
-            <Clock className="h-8 w-8 text-yellow-600" />
+        <Card className="p-3 sm:p-4 lg:p-6">
+          <div className="flex items-center gap-2 sm:gap-3">
+            <Clock className="h-6 w-6 sm:h-7 sm:w-7 lg:h-8 lg:w-8 text-yellow-600" />
             <div>
-              <p className="text-sm text-gray-600">Pending</p>
-              <p className="text-2xl font-bold text-gray-900">
+              <p className="text-xs sm:text-sm text-gray-600">Pending</p>
+              <p className="text-lg sm:text-xl lg:text-2xl font-bold text-gray-900">
                 {requirements.filter(req => req.status === 'pending').length}
               </p>
             </div>
           </div>
         </Card>
 
-        <Card className="p-6">
-          <div className="flex items-center gap-3">
-            <Shield className="h-8 w-8 text-blue-600" />
+        <Card className="p-3 sm:p-4 lg:p-6">
+          <div className="flex items-center gap-2 sm:gap-3">
+            <Shield className="h-6 w-6 sm:h-7 sm:w-7 lg:h-8 lg:w-8 text-blue-600" />
             <div>
-              <p className="text-sm text-gray-600">Next Audit</p>
-              <p className="text-2xl font-bold text-gray-900">15</p>
+              <p className="text-xs sm:text-sm text-gray-600">Next Audit</p>
+              <p className="text-lg sm:text-xl lg:text-2xl font-bold text-gray-900">15</p>
               <p className="text-xs text-gray-500">days</p>
             </div>
           </div>
@@ -237,16 +238,18 @@ export function ComplianceStatus({ products }: ComplianceStatusProps) {
       </div>
 
       {/* Category Filter */}
-      <div className="flex gap-2 flex-wrap">
+      <div className="flex gap-1 sm:gap-2 flex-wrap">
         {categories.map(category => (
           <Button
             key={category.value}
             variant={selectedCategory === category.value ? 'default' : 'outline'}
             onClick={() => setSelectedCategory(category.value)}
             size="sm"
+            className="h-8 sm:h-9 px-2 sm:px-3 text-xs sm:text-sm"
           >
             <span className="mr-1">{category.icon}</span>
-            {category.label}
+            <span className="hidden sm:inline">{category.label}</span>
+            <span className="sm:hidden">{category.label.split(' ')[0]}</span>
           </Button>
         ))}
       </div>
@@ -259,40 +262,40 @@ export function ComplianceStatus({ products }: ComplianceStatusProps) {
           const severityColor = getSeverityColor(requirement.severity);
           
           return (
-            <Card key={requirement.id} className="p-6">
-              <div className="flex items-start justify-between mb-4">
-                <div className="flex items-center gap-3">
-                  <span className="text-2xl">{config?.icon}</span>
+            <Card key={requirement.id} className="p-4 sm:p-6">
+              <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 mb-4">
+                <div className="flex items-start gap-2 sm:gap-3">
+                  <span className="text-xl sm:text-2xl">{config?.icon}</span>
                   <div>
-                    <h3 className="text-lg font-semibold text-gray-900">{requirement.title}</h3>
-                    <p className="text-sm text-gray-500">{config?.label} • {requirement.authority}</p>
+                    <h3 className="text-sm sm:text-base lg:text-lg font-semibold text-gray-900">{requirement.title}</h3>
+                    <p className="text-xs sm:text-sm text-gray-500">{config?.label} • {requirement.authority}</p>
                   </div>
                 </div>
-                <div className="flex items-center gap-2">
-                  <Badge variant={severityColor}>
+                <div className="flex items-center gap-1 sm:gap-2">
+                  <Badge variant={severityColor} className="text-xs">
                     {requirement.severity}
                   </Badge>
-                  <Badge variant={statusColor}>
+                  <Badge variant={statusColor} className="text-xs">
                     {getStatusIcon(requirement.status)}
                     <span className="ml-1">{requirement.status}</span>
                   </Badge>
                 </div>
               </div>
 
-              <p className="text-gray-700 mb-4">{requirement.description}</p>
+              <p className="text-xs sm:text-sm text-gray-700 mb-4">{requirement.description}</p>
 
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 text-xs sm:text-sm">
                 <div>
                   <span className="text-gray-600">Due Date:</span>
-                  <span className="ml-2 font-medium">{requirement.dueDate}</span>
+                  <span className="ml-1 sm:ml-2 font-medium">{requirement.dueDate}</span>
                 </div>
                 <div>
                   <span className="text-gray-600">Region:</span>
-                  <span className="ml-2 font-medium">{requirement.region}</span>
+                  <span className="ml-1 sm:ml-2 font-medium">{requirement.region}</span>
                 </div>
                 <div>
                   <span className="text-gray-600">Next Audit:</span>
-                  <span className="ml-2 font-medium">{requirement.nextAudit}</span>
+                  <span className="ml-1 sm:ml-2 font-medium">{requirement.nextAudit}</span>
                 </div>
               </div>
 
@@ -310,30 +313,34 @@ export function ComplianceStatus({ products }: ComplianceStatusProps) {
 
               {requirement.documents.length > 0 && (
                 <div className="mt-4">
-                  <p className="text-sm font-medium text-gray-700 mb-2">Documents ({requirement.documents.length})</p>
-                  <div className="flex flex-wrap gap-2">
+                  <p className="text-xs sm:text-sm font-medium text-gray-700 mb-2">Documents ({requirement.documents.length})</p>
+                  <div className="flex flex-wrap gap-1 sm:gap-2">
                     {requirement.documents.map((doc, index) => (
-                      <Button key={index} variant="outline" size="sm">
-                        <FileText className="h-4 w-4 mr-1" />
-                        {doc}
+                      <Button key={index} variant="outline" size="sm" className="h-7 sm:h-9 px-2 sm:px-3 text-xs">
+                        <FileText className="h-3 w-3 sm:h-4 sm:w-4 mr-1" />
+                        <span className="hidden sm:inline">{doc}</span>
+                        <span className="sm:hidden">Doc {index + 1}</span>
                       </Button>
                     ))}
                   </div>
                 </div>
               )}
 
-              <div className="flex gap-2 mt-4">
-                <Button variant="outline" size="sm">
-                  <Upload className="h-4 w-4 mr-1" />
-                  Upload Document
+              <div className="flex flex-col sm:flex-row gap-2 sm:gap-3 mt-4">
+                <Button variant="outline" size="sm" className="h-8 sm:h-9 px-2 sm:px-3 text-xs sm:text-sm w-full sm:w-auto">
+                  <Upload className="h-3 w-3 sm:h-4 sm:w-4 mr-1" />
+                  <span className="hidden sm:inline">Upload Document</span>
+                  <span className="sm:hidden">Upload</span>
                 </Button>
-                <Button variant="outline" size="sm">
-                  <Download className="h-4 w-4 mr-1" />
-                  Download Template
+                <Button variant="outline" size="sm" className="h-8 sm:h-9 px-2 sm:px-3 text-xs sm:text-sm w-full sm:w-auto">
+                  <Download className="h-3 w-3 sm:h-4 sm:w-4 mr-1" />
+                  <span className="hidden sm:inline">Download Template</span>
+                  <span className="sm:hidden">Template</span>
                 </Button>
-                <Button variant="outline" size="sm">
-                  <CheckCircle className="h-4 w-4 mr-1" />
-                  Mark Complete
+                <Button variant="outline" size="sm" className="h-8 sm:h-9 px-2 sm:px-3 text-xs sm:text-sm w-full sm:w-auto">
+                  <CheckCircle className="h-3 w-3 sm:h-4 sm:w-4 mr-1" />
+                  <span className="hidden sm:inline">Mark Complete</span>
+                  <span className="sm:hidden">Complete</span>
                 </Button>
               </div>
             </Card>
@@ -342,10 +349,10 @@ export function ComplianceStatus({ products }: ComplianceStatusProps) {
       </div>
 
       {filteredRequirements.length === 0 && (
-        <Card className="p-12 text-center">
-          <FileText className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-          <h3 className="text-lg font-medium text-gray-900 mb-2">No Requirements Found</h3>
-          <p className="text-gray-500">No compliance requirements found for the selected category.</p>
+        <Card className="p-6 sm:p-8 lg:p-12 text-center">
+          <FileText className="h-8 w-8 sm:h-10 sm:w-10 lg:h-12 lg:w-12 text-gray-400 mx-auto mb-3 sm:mb-4" />
+          <h3 className="text-sm sm:text-base lg:text-lg font-medium text-gray-900 mb-1 sm:mb-2">No Requirements Found</h3>
+          <p className="text-xs sm:text-sm text-gray-500">No compliance requirements found for the selected category.</p>
         </Card>
       )}
     </div>

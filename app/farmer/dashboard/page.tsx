@@ -8,7 +8,7 @@ import { useProducts } from '@/contexts/productContext';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Plus, Package, AlertCircle } from 'lucide-react';
+import { Plus, Package, AlertCircle, Sprout, Droplets, Shield } from 'lucide-react';
 import { DashboardLayout } from '@/components/dashboard/DashboardLayout';
 import { EventForm } from '@/components/events/eventForm';
 import { ProductEventList } from '@/components/events/productEventList';
@@ -36,7 +36,7 @@ export default function FarmerDashboard() {
     }
   }, [currentUser, router]);
 
-  const farmerProducts = products.filter(p => p.farmerId === currentUser?.id);
+  const farmerProducts = products.length > 0 ? products.slice(0, 1) : []; // Show only 1 product for cleaner dashboard
 
   if (!currentUser || currentUser.role !== 'farmer') {
     return (
@@ -84,22 +84,24 @@ export default function FarmerDashboard() {
       subtitle="Manage your farm operations and track products from seed to sale"
       cards={metricsCards}
       actions={
-        <div className="flex justify-center gap-4">
+        <div className="flex justify-center gap-2 sm:gap-3 lg:gap-4">
           <Button 
             onClick={() => setShowEventForm(!showEventForm)}
             className="bg-green hover:bg-green-hover text-white shadow-lg"
             size="lg"
           >
-            <Plus className="h-4 w-4 mr-2" />
-            Add Event
+            <Plus className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
+            <span className="hidden sm:inline">Add Event</span>
+            <span className="sm:hidden">Event</span>
           </Button>
           <Button 
             onClick={() => router.push('/farmer/seeds')}
             className="bg-blue hover:bg-blue-hover text-white shadow-lg"
             size="lg"
           >
-            <Package className="h-4 w-4 mr-2" />
-            Manage Seeds
+            <Package className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
+            <span className="hidden sm:inline">Manage Seeds</span>
+            <span className="sm:hidden">Seeds</span>
           </Button>
         </div>
       }
@@ -107,14 +109,16 @@ export default function FarmerDashboard() {
       <div className="space-y-6">
         {/* Event Management Section */}
         {showEventForm && (
-          <Card className="p-6 mb-6">
-            <div className="flex justify-between items-center mb-4">
-              <h3 className="text-lg font-medium">Create New Event</h3>
+          <Card className="p-4 sm:p-6 mb-4 sm:mb-6">
+            <div className="flex justify-between items-center mb-3 sm:mb-4">
+              <h3 className="text-base sm:text-lg font-medium">Create New Event</h3>
               <Button 
                 variant="outline" 
                 onClick={() => setShowEventForm(false)}
+                className="h-8 sm:h-10 w-8 sm:w-auto"
               >
-                Cancel
+                <span className="hidden sm:inline">Cancel</span>
+                <span className="sm:hidden">×</span>
               </Button>
             </div>
             <EventForm 
@@ -127,34 +131,56 @@ export default function FarmerDashboard() {
           </Card>
         )}
 
-        {/* Product Events */}
-        <div className="space-y-6">
-          <h3 className="text-lg font-medium text-gray-900 mb-4">Recent Product Events</h3>
-          {farmerProducts.length > 0 ? (
-            farmerProducts.slice(0, 3).map((product) => (
-              <Card key={product.id} className="p-6">
-                <div className="flex items-center justify-between mb-4">
-                  <h4 className="font-medium text-gray-900">{product.name}</h4>
-                  <Badge variant="outline">{product.category}</Badge>
+        {/* Quick Actions - Navigation to Dedicated Pages */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-6">
+          <div className="cursor-pointer" onClick={() => router.push('/farmer/growth')}>
+            <Card className="p-3 sm:p-4 lg:p-6 hover:shadow-lg transition-shadow">
+              <div className="text-center">
+                <div className="inline-flex items-center justify-center w-8 sm:w-10 lg:w-12 h-8 sm:h-10 lg:h-12 bg-green-100 rounded-full mb-2 sm:mb-4">
+                  <Sprout className="h-4 w-4 sm:h-5 sm:w-5 lg:h-6 lg:w-6 text-green-600" />
                 </div>
-                <ProductEventList productId={product.id} />
-              </Card>
-            ))
-          ) : (
-            <Card className="p-6 text-center">
-              <p className="text-gray-500">No products available. Add your first product to see events.</p>
+                <h3 className="text-xs sm:text-sm lg:text-base font-semibold text-gray-900 mb-1">Growth Monitoring</h3>
+                <p className="text-xs text-gray-600">Track plant growth stages</p>
+              </div>
             </Card>
-          )}
-        </div>
+          </div>
 
-        {/* Additional Components */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <GrowthStageMonitor products={farmerProducts} />
-          <FertiliserLog products={farmerProducts} />
-        </div>
+          <div className="cursor-pointer" onClick={() => router.push('/farmer/fertiliser')}>
+            <Card className="p-3 sm:p-4 lg:p-6 hover:shadow-lg transition-shadow">
+              <div className="text-center">
+                <div className="inline-flex items-center justify-center w-8 sm:w-10 lg:w-12 h-8 sm:h-10 lg:h-12 bg-blue-100 rounded-full mb-2 sm:mb-4">
+                  <Droplets className="h-4 w-4 sm:h-5 sm:w-5 lg:h-6 lg:w-6 text-blue-600" />
+                </div>
+                <h3 className="text-xs sm:text-sm lg:text-base font-semibold text-gray-900 mb-1">Fertiliser Log</h3>
+                <p className="text-xs text-gray-600">Manage applications</p>
+              </div>
+            </Card>
+          </div>
 
-        <SeedVarietyTracker products={farmerProducts} />
-        <ComplianceStatus products={farmerProducts} />
+          <div className="cursor-pointer" onClick={() => router.push('/farmer/seeds')}>
+            <Card className="p-3 sm:p-4 lg:p-6 hover:shadow-lg transition-shadow">
+              <div className="text-center">
+                <div className="inline-flex items-center justify-center w-8 sm:w-10 lg:w-12 h-8 sm:h-10 lg:h-12 bg-purple-100 rounded-full mb-2 sm:mb-4">
+                  <Package className="h-4 w-4 sm:h-5 sm:w-5 lg:h-6 lg:w-6 text-purple-600" />
+                </div>
+                <h3 className="text-xs sm:text-sm lg:text-base font-semibold text-gray-900 mb-1">Seed Varieties</h3>
+                <p className="text-xs text-gray-600">Track seed inventory</p>
+              </div>
+            </Card>
+          </div>
+
+          <div className="cursor-pointer" onClick={() => router.push('/farmer/compliance')}>
+            <Card className="p-3 sm:p-4 lg:p-6 hover:shadow-lg transition-shadow">
+              <div className="text-center">
+                <div className="inline-flex items-center justify-center w-8 sm:w-10 lg:w-12 h-8 sm:h-10 lg:h-12 bg-orange-100 rounded-full mb-2 sm:mb-4">
+                  <Shield className="h-4 w-4 sm:h-5 sm:w-5 lg:h-6 lg:w-6 text-orange-600" />
+                </div>
+                <h3 className="text-xs sm:text-sm lg:text-base font-semibold text-gray-900 mb-1">Compliance</h3>
+                <p className="text-xs text-gray-600">Regulations & certifications</p>
+              </div>
+            </Card>
+          </div>
+        </div>
       </div>
     </DashboardLayout>
   );

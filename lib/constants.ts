@@ -38,6 +38,7 @@ export const CATEGORY_COLORS: Record<ProductCategory, { bg: string; text: string
 export const eventTypes = [
   { value: 'planting', label: 'Planting' },
   { value: 'growth', label: 'Growth Monitoring' },
+  { value: 'fertiliser', label: 'Fertiliser Application' },
   { value: 'harvest', label: 'Harvest' },
   { value: 'quality-inspection', label: 'Quality Inspection' },
   { value: 'packaging', label: 'Packaging' },
