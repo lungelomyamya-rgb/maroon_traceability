@@ -31,7 +31,7 @@ jobs:
     - name: Build application
       run: npm run build
       env:
-        NEXT_PUBLIC_BASE_PATH: /maroon_traceability_demo
+        NEXT_PUBLIC_BASE_PATH: /maroon_traceability
       
     - name: Setup Pages
       uses: actions/configure-pages@v4
