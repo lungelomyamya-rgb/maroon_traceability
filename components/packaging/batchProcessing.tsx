@@ -11,7 +11,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Plus, X, Loader2, QrCode, Package, MapPin, Calendar } from 'lucide-react';
 import { PackagingEventForm } from '@/components/packaging/packagingEventForm';
-import { QRGenerator } from '@/components/qr/qRGenerator';
+import { QRGenerator } from '@/components/qr';
 import { BatchProcessingTable } from '@/components/packaging/batchProcessingTable';
 import type { 
   BatchProcessingItem, 

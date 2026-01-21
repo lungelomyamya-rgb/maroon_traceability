@@ -10,7 +10,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { QrCode, Download, Plus, Search, Package, Copy, Check } from 'lucide-react';
-import { QRGenerator } from '@/components/qr/qRGenerator';
+import { QRGenerator } from '@/components/qr';
 
 export default function QRGenerationPage() {
   const { currentUser } = useUser();
