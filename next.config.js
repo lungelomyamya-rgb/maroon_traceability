@@ -1,7 +1,7 @@
 // next.config.js
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // Configure for static export for GitHub Pages
+  // Configure for static export for GitHub Pages (required for static hosting)
   output: 'export',
   trailingSlash: true,
   // Fix manifest and icon paths for GitHub Pages
