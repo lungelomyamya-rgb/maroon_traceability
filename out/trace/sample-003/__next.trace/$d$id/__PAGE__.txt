@@ -1,0 +1,6 @@
+1:"$Sreact.fragment"
+2:I[18718,["/maroon_traceability_demo/_next/static/chunks/d53d5c2c580a8c82.js","/maroon_traceability_demo/_next/static/chunks/3b82fd10af4ddd4c.js","/maroon_traceability_demo/_next/static/chunks/da8d7c9ddca52c77.js"],"default"]
+3:I[97367,["/maroon_traceability_demo/_next/static/chunks/ff1a16fafef87110.js","/maroon_traceability_demo/_next/static/chunks/7709d74854063ffa.js"],"OutletBoundary"]
+4:"$Sreact.suspense"
+0:{"buildId":"build","rsc":["$","$1","c",{"children":[["$","$L2",null,{"id":"sample-003"}],[["$","script","script-0",{"src":"/maroon_traceability_demo/_next/static/chunks/da8d7c9ddca52c77.js","async":true}]],["$","$L3",null,{"children":["$","$4",null,{"name":"Next.MetadataOutlet","children":"$@5"}]}]]}],"loading":null,"isPartial":false}
+5:null

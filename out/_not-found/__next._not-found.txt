@@ -1,0 +1,4 @@
+1:"$Sreact.fragment"
+2:I[39756,["/maroon_traceability_demo/_next/static/chunks/da4fbf5fdd2288a2.js","/maroon_traceability_demo/_next/static/chunks/7709d74854063ffa.js","/maroon_traceability_demo/_next/static/chunks/3b82fd10af4ddd4c.js"],"default"]
+3:I[37457,["/maroon_traceability_demo/_next/static/chunks/da4fbf5fdd2288a2.js","/maroon_traceability_demo/_next/static/chunks/7709d74854063ffa.js","/maroon_traceability_demo/_next/static/chunks/3b82fd10af4ddd4c.js"],"default"]
+0:{"buildId":"build","rsc":["$","$1","c",{"children":[null,["$","$L2",null,{"parallelRouterKey":"children","template":["$","$L3",null,{}]}]]}],"loading":null,"isPartial":false}

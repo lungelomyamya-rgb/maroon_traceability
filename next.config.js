@@ -1,17 +1,18 @@
 // next.config.js
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // Use standard build for deployment
+  // Configure for static export for GitHub Pages
+  output: 'export',
   trailingSlash: true,
-  // Fix manifest and icon paths
+  // Fix manifest and icon paths for GitHub Pages
   generateBuildId: () => 'build',
-  // Disable image optimization for compatibility
+  // Disable image optimization for static export
   images: {
     unoptimized: true
   },
-  // Set base path for deployment (will be set via environment variable)
+  // Set base path for GitHub Pages (will be set via environment variable)
   basePath: process.env.NEXT_PUBLIC_BASE_PATH || '',
-  // Set asset prefix for deployment
+  // Set asset prefix for GitHub Pages
   assetPrefix: process.env.NEXT_PUBLIC_BASE_PATH || ''
 }
 

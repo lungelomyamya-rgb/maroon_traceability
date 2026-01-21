@@ -1,0 +1,24 @@
+{
+  "name": "Maroon Blockchain - Supply Chain Traceability",
+  "short_name": "Maroon",
+  "description": "Blockchain-powered supply chain traceability for South African farmers and retailers",
+  "start_url": "/maroon_traceability/",
+  "scope": "/maroon_traceability/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#10b981",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/maroon_traceability/icon-192.svg",
+      "sizes": "192x192",
+      "type": "image/svg+xml"
+    },
+    {
+      "src": "/maroon_traceability/icon-512.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml"
+    }
+  ],
+  "categories": ["business", "productivity", "utilities"]
+}
