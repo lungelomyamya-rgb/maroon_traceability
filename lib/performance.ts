@@ -13,7 +13,7 @@ export const useStableCallback = <T extends (...args: any[]) => any>(
 
 // Memoized value with deep comparison
 export const useDeepMemo = <T>(factory: () => T, deps: React.DependencyList): T => {
-  const ref = useRef<{ deps: React.DependencyList; value: T }>();
+  const ref = useRef<{ deps: React.DependencyList; value: T } | undefined>(undefined);
   
   if (!ref.current || !depsEqual(deps, ref.current.deps)) {
     ref.current = { deps, value: factory() };
