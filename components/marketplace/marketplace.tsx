@@ -19,6 +19,7 @@ import CategoriesComponent from './categories';
 import TrustSignals from './trustSignals';
 import QRScannerSection from './qRScannerSection';
 import SearchAndFilter from './searchAndFilter';
+import { getAssetPath } from '@/lib/utils/assetPath';
 import { mockProducts, categories } from '@/constants/marketplaceData';
 import { Product } from '@/constants/marketplaceData';
 
@@ -113,7 +114,7 @@ export default function Marketplace() {
               <div className="flex items-center flex-1 min-w-0">
                 <div className="flex-shrink-0 flex items-center">
                   <img 
-                    src="/images/lwandleMoringaBakery.png" 
+                    src={getAssetPath("/images/lwandleMoringaBakery.png")} 
                     alt="Lwandle Moringa Bakery Logo"
                     className="h-10 w-10 sm:h-12 sm:w-12 mr-3 rounded-lg"
                   />
