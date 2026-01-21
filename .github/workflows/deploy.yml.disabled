@@ -33,17 +33,14 @@ jobs:
 
       - name: Build
         run: |
-          npm run build:export
-          # Ensure .nojekyll exists in the output directory
-          mkdir -p out
-          touch out/.nojekyll
+          npm run build
         env:
           NEXT_PUBLIC_BASE_PATH: /maroon_traceability
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: './out'
+          path: './.next'
 
   deploy:
     environment:
