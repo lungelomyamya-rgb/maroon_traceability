@@ -186,7 +186,7 @@ export const GRADE_CRITERIA: Record<Grade, GradeCriteria> = {
 export const VERIFICATION_PROVIDERS = {
   sgs: {
     name: 'SGS South Africa',
-    logo: '/images/sgs-logo.png',
+    logo: '/maroon_traceability/images/sgs-logo.png',
     website: 'https://www.sgs.co.za',
     services: ['Quality Inspection', 'Certification', 'Laboratory Testing'],
     contact: '+27 11 123 4567',
@@ -194,7 +194,7 @@ export const VERIFICATION_PROVIDERS = {
   },
   'bureau-veritas': {
     name: 'Bureau Veritas',
-    logo: '/images/bv-logo.png',
+    logo: '/maroon_traceability/images/bv-logo.png',
     website: 'https://www.bureauveritas.co.za',
     services: ['Inspection Services', 'Certification', 'Compliance'],
     contact: '+27 11 987 6543',
@@ -202,7 +202,7 @@ export const VERIFICATION_PROVIDERS = {
   },
   intertek: {
     name: 'Intertek',
-    logo: '/images/intertek-logo.png',
+    logo: '/maroon_traceability/images/intertek-logo.png',
     website: 'https://www.intertek.com',
     services: ['Quality Assurance', 'Testing', 'Inspection'],
     contact: '+27 11 555 0123',

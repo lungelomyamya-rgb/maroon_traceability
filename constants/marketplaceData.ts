@@ -93,7 +93,7 @@ export const mockProducts: Product[] = [
       waterUsage: 450,
       practices: ['Drip Irrigation', 'Solar Powered', 'Zero Waste Processing']
     },
-    images: ['/images/moringa-powder.jpg'],
+    images: ['/maroon_traceability/images/moringa-powder.jpg'],
     reviews: [
       {
         id: 'rev1',
@@ -154,7 +154,7 @@ export const mockProducts: Product[] = [
       waterUsage: 320,
       practices: ['Natural Drying', 'Biodegradable Packaging']
     },
-    images: ['/images/moringa-tea.jpg'],
+    images: ['/maroon_traceability/images/moringa-tea.jpg'],
     reviews: [],
     traceabilityUrl: '/trace/prod2',
     marketplaceUrl: '/marketplace/products/prod2',
@@ -198,7 +198,7 @@ export const mockProducts: Product[] = [
       waterUsage: 580,
       practices: ['GMP Processing', 'Recyclable Packaging', 'Renewable Energy']
     },
-    images: ['/images/moringa-capsules.jpg'],
+    images: ['/maroon_traceability/images/moringa-capsules.jpg'],
     reviews: [],
     traceabilityUrl: '/trace/prod3',
     marketplaceUrl: '/marketplace/products/prod3',
@@ -244,7 +244,7 @@ export const mockProducts: Product[] = [
       waterUsage: 280,
       practices: ['Cold Press Extraction', 'Glass Bottling', 'Solar Powered Facility']
     },
-    images: ['/images/moringa-oil.jpg'],
+    images: ['/maroon_traceability/images/moringa-oil.jpg'],
     reviews: [],
     traceabilityUrl: '/trace/prod4',
     marketplaceUrl: '/marketplace/products/prod4',
@@ -290,7 +290,7 @@ export const mockProducts: Product[] = [
       waterUsage: 150,
       practices: ['Heirloom Varieties', 'Natural Processing', 'Biodegradable Packaging']
     },
-    images: ['/images/moringa-seeds.jpg'],
+    images: ['/maroon_traceability/images/moringa-seeds.jpg'],
     reviews: [],
     traceabilityUrl: '/trace/prod5',
     marketplaceUrl: '/marketplace/products/prod5',
@@ -336,7 +336,7 @@ export const mockProducts: Product[] = [
       waterUsage: 80,
       practices: ['Daily Harvest', 'Natural Washing', 'Rapid Cooling']
     },
-    images: ['/images/fresh-moringa.jpg'],
+    images: ['/maroon_traceability/images/fresh-moringa.jpg'],
     reviews: [],
     traceabilityUrl: '/trace/prod6',
     marketplaceUrl: '/marketplace/products/prod6',
@@ -382,7 +382,7 @@ export const mockProducts: Product[] = [
       waterUsage: 420,
       practices: ['Free Range', 'Moringa Feed', 'Humane Treatment']
     },
-    images: ['/images/fresh-eggs.jpg'],
+    images: ['/maroon_traceability/images/fresh-eggs.jpg'],
     reviews: [],
     traceabilityUrl: '/trace/prod7',
     marketplaceUrl: '/marketplace/products/prod7',
@@ -428,7 +428,7 @@ export const mockProducts: Product[] = [
       waterUsage: 90,
       practices: ['Sustainable Beekeeping', 'Natural Infusion', 'Glass Packaging']
     },
-    images: ['/images/moringa-honey.jpg'],
+    images: ['/maroon_traceability/images/moringa-honey.jpg'],
     reviews: [],
     traceabilityUrl: '/trace/prod8',
     marketplaceUrl: '/marketplace/products/prod8',
