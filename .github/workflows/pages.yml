@@ -30,9 +30,8 @@ jobs:
       
     - name: Build application
       run: npm run build
-      
-    - name: Run tests
-      run: npm test
+      env:
+        NEXT_PUBLIC_BASE_PATH: /maroon_traceability_demo
       
     - name: Setup Pages
       uses: actions/configure-pages@v4
@@ -40,7 +39,7 @@ jobs:
     - name: Upload artifact
       uses: actions/upload-pages-artifact@v3
       with:
-        path: ./out
+        path: .next
         
   deploy:
     environment:

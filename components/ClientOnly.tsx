@@ -1,4 +1,4 @@
-// src/components/ClientOnly.tsx
+// src/components/clientOnly.tsx
 'use client';
 
 import React, { useState, useEffect } from 'react';
