@@ -268,17 +268,19 @@ export default function OrdersComponent() {
           <div className="space-y-4">
             {filteredOrders.map((order) => (
               <div key={order.id} className="border rounded-lg p-4 hover:bg-gray-50 transition-colors">
-                <div className="flex items-start justify-between">
-                  <div className="flex-1">
-                    <div className="flex items-center gap-3 mb-2">
-                      <h3 className="font-semibold text-lg">{order.id}</h3>
-                      <Badge className={getStatusColor(order.status)}>
-                        {order.status}
-                      </Badge>
-                      <Badge className={getPaymentStatusColor(order.paymentStatus)}>
-                        {order.paymentStatus}
-                      </Badge>
-                    </div>
+                  <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-4">
+                    <div className="flex-1">
+                      <div className="flex flex-col sm:flex-row sm:items-start gap-3 mb-2">
+                        <h3 className="font-semibold text-lg">{order.id}</h3>
+                        <div className="flex flex-wrap gap-2">
+                          <Badge className={getStatusColor(order.status)}>
+                            {order.status}
+                          </Badge>
+                          <Badge className={getPaymentStatusColor(order.paymentStatus)}>
+                            {order.paymentStatus}
+                          </Badge>
+                        </div>
+                      </div>
                     
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-3">
                       <div>
@@ -310,61 +312,56 @@ export default function OrdersComponent() {
                       </div>
                     </div>
 
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <p className="text-sm text-gray-500">
-                          Order Date: {new Date(order.createdAt).toLocaleDateString()}
-                        </p>
+                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mt-4">
+                      <div className="text-sm text-gray-500">
+                        <p>Order Date: {new Date(order.createdAt).toLocaleDateString()}</p>
                         {order.estimatedDelivery && (
-                          <p className="text-sm text-gray-500">
-                            Est. Delivery: {new Date(order.estimatedDelivery).toLocaleDateString()}
-                          </p>
+                          <p>Est. Delivery: {new Date(order.estimatedDelivery).toLocaleDateString()}</p>
                         )}
                         {order.trackingNumber && (
-                          <p className="text-sm text-gray-500">
-                            Tracking: {order.trackingNumber} ({order.courier})
-                          </p>
+                          <p>Tracking: {order.trackingNumber} ({order.courier})</p>
                         )}
                       </div>
                       <p className="text-lg font-bold text-gray-900">Total: R{order.total.toFixed(2)}</p>
                     </div>
                   </div>
 
-                  <div className="flex items-center gap-2 ml-4">
-                    <Button variant="outline" size="sm" onClick={() => setSelectedOrder(order)}>
-                      <Eye className="h-4 w-4" />
+                  <div className="flex flex-col sm:flex-row gap-2 mt-4 lg:mt-0 lg:ml-4">
+                    <Button variant="outline" size="sm" onClick={() => setSelectedOrder(order)} className="w-full sm:w-auto">
+                      <Eye className="h-4 w-4 mr-2" />
+                      View Details
                     </Button>
                     
                     {order.status === 'pending' && (
-                      <Button size="sm" onClick={() => updateOrderStatus(order.id, 'confirmed')}>
+                      <Button size="sm" onClick={() => updateOrderStatus(order.id, 'confirmed')} className="w-full sm:w-auto">
                         <CheckCircle className="h-4 w-4 mr-2" />
                         Confirm
                       </Button>
                     )}
                     
                     {order.status === 'confirmed' && (
-                      <Button size="sm" onClick={() => updateOrderStatus(order.id, 'processing')}>
+                      <Button size="sm" onClick={() => updateOrderStatus(order.id, 'processing')} className="w-full sm:w-auto">
                         <Package className="h-4 w-4 mr-2" />
                         Process
                       </Button>
                     )}
                     
                     {order.status === 'processing' && (
-                      <Button size="sm" onClick={() => updateOrderStatus(order.id, 'shipped')}>
+                      <Button size="sm" onClick={() => updateOrderStatus(order.id, 'shipped')} className="w-full sm:w-auto">
                         <Truck className="h-4 w-4 mr-2" />
                         Ship
                       </Button>
                     )}
                     
                     {(order.status === 'shipped' || order.status === 'delivered') && (
-                      <>
-                        <Button variant="outline" size="sm" onClick={() => generateShippingLabel(order)}>
+                      <div className="flex gap-2">
+                        <Button variant="outline" size="sm" onClick={() => generateShippingLabel(order)} className="w-full sm:w-auto">
                           <Printer className="h-4 w-4" />
                         </Button>
-                        <Button variant="outline" size="sm" onClick={() => sendTrackingEmail(order)}>
+                        <Button variant="outline" size="sm" onClick={() => sendTrackingEmail(order)} className="w-full sm:w-auto">
                           <Mail className="h-4 w-4" />
                         </Button>
-                      </>
+                      </div>
                     )}
                   </div>
                 </div>

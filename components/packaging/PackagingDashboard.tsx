@@ -142,7 +142,7 @@ export function PackagingDashboard({ }: PackagingDashboardProps) {
   return (
     <div className="space-y-6">
       {/* Quick Stats */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <Card className="p-4">
           <div className="flex items-center justify-between">
             <div>
@@ -195,78 +195,100 @@ export function PackagingDashboard({ }: PackagingDashboardProps) {
       </div>
 
       {/* Recent Activity */}
-      <Card className="p-6">
-        <div className="flex items-center justify-between mb-6">
+      <Card className="p-4 sm:p-6">
+        <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
           <div>
-            <h3 className="text-lg font-semibold text-gray-900">Recent Packaging Activity</h3>
+            <h3 className="text-lg sm:text-xl font-semibold text-gray-900">Recent Packaging Activity</h3>
             <p className="text-sm text-gray-500">Latest batch processing events</p>
           </div>
-          <div className="flex gap-2">
-            <Button variant="outline" onClick={() => console.log('View all records')}>
+          <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
+            <Button variant="outline" onClick={() => window.location.href = '/packaging/batch'} className="w-full sm:w-auto">
               <Eye className="h-4 w-4 mr-2" />
-              View All
+              <span className="hidden sm:inline">View All</span>
+              <span className="sm:hidden">All</span>
             </Button>
-            <Button onClick={() => window.location.href = '/packaging/batch'}>
+            <Button onClick={() => window.location.href = '/packaging/batch'} className="w-full sm:w-auto">
               <Plus className="h-4 w-4 mr-2" />
-              New Batch
+              <span className="hidden sm:inline">New Batch</span>
+              <span className="sm:hidden">New</span>
             </Button>
           </div>
         </div>
 
-        <div className="space-y-4">
+        <div className="space-y-3 sm:space-y-4">
           {records.map((record) => (
-            <div key={record.id} className="border rounded-lg p-4 hover:bg-gray-50 transition-colors">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-4">
-                  <div className="flex items-center gap-2">
-                    <span className="text-2xl">{getPackagingTypeIcon(record.packagingType)}</span>
-                    <div>
-                      <h4 className="font-medium text-gray-900">{record.productName}</h4>
-                      <p className="text-sm text-gray-500">{record.batchCode}</p>
+            <div key={record.id} className="border rounded-lg p-3 sm:p-4 hover:bg-gray-50 transition-all hover:shadow-md">
+              <div className="flex flex-col gap-4">
+                {/* Main content row */}
+                <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 sm:gap-4">
+                  <div className="flex items-center gap-3 sm:gap-4 flex-1 min-w-0">
+                    <div className="flex items-center gap-2 sm:gap-3">
+                      <span className="text-xl sm:text-2xl">{getPackagingTypeIcon(record.packagingType)}</span>
+                      <div className="flex-1 min-w-0">
+                        <h4 className="font-semibold text-gray-900 text-sm sm:text-base lg:text-lg truncate">{record.productName}</h4>
+                        <p className="text-xs sm:text-sm text-gray-500">{record.batchCode}</p>
+                      </div>
                     </div>
                   </div>
                   
-                  <div className="flex items-center gap-4 text-sm text-gray-600">
+                  <div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4 w-full sm:w-auto">
+                    <Badge className={`${BATCH_STATUS_COLORS[record.status]} text-xs px-2 sm:px-3 py-1`}>
+                      <div className="flex items-center gap-1">
+                        {getStatusIcon(record.status)}
+                        <span>{record.status.replace('-', ' ').charAt(0).toUpperCase() + record.status.slice(1).replace('-', ' ')}</span>
+                      </div>
+                    </Badge>
+                    
+                    <div className="flex gap-1 sm:gap-2">
+                      {record.qrCodes.length > 0 && (
+                        <Button variant="outline" size="sm" className="text-xs sm:text-sm">
+                          <QrCode className="h-3 w-3 sm:h-4 sm:w-4 mr-1" />
+                          <span className="hidden xs:inline">{record.qrCodes.length}</span>
+                          <span className="xs:hidden">QR</span>
+                        </Button>
+                      )}
+                      <Button variant="outline" size="sm" className="text-xs sm:text-sm">
+                        <Download className="h-3 w-3 sm:h-4 sm:w-4" />
+                        <span className="hidden sm:inline">Download</span>
+                        <span className="sm:hidden">⬇</span>
+                      </Button>
+                    </div>
+                  </div>
+                </div>
+                
+                {/* Details row */}
+                <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 text-xs sm:text-sm text-gray-600">
+                  <div className="flex items-center gap-2">
+                    <Package className="h-3 w-3 sm:h-4 sm:w-4" />
                     <span>{record.quantity} {record.unitOfMeasure}</span>
-                    <span>•</span>
-                    <span>{record.location}</span>
-                    <span>•</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span className="hidden sm:inline">•</span>
+                    <span className="truncate">{record.location}</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span className="hidden sm:inline">•</span>
                     <span>{new Date(record.packagingDate).toLocaleDateString()}</span>
                   </div>
                 </div>
                 
-                <div className="flex items-center gap-3">
-                  <Badge className={BATCH_STATUS_COLORS[record.status]}>
-                    <div className="flex items-center gap-1">
-                      {getStatusIcon(record.status)}
-                      <span>{record.status.replace('-', ' ').charAt(0).toUpperCase() + record.status.slice(1).replace('-', ' ')}</span>
-                    </div>
-                  </Badge>
-                  
-                  <div className="flex gap-1">
-                    {record.qrCodes.length > 0 && (
-                      <Button variant="outline" size="sm">
-                        <QrCode className="h-3 w-3 mr-1" />
-                        {record.qrCodes.length}
-                      </Button>
-                    )}
-                    <Button variant="outline" size="sm">
-                      <Download className="h-3 w-3" />
-                    </Button>
+                {/* Meta information */}
+                <div className="flex flex-wrap items-center gap-3 sm:gap-4 text-xs text-gray-500 pt-2 border-t border-gray-100">
+                  <div className="flex items-center gap-1">
+                    <span>Operator:</span>
+                    <span className="font-medium">{record.operator}</span>
                   </div>
+                  <div className="flex items-center gap-1">
+                    <span>ID:</span>
+                    <span className="font-mono">{record.productId}</span>
+                  </div>
+                  {record.notes && (
+                    <div className="flex items-center gap-1">
+                      <span>Notes:</span>
+                      <span className="truncate max-w-[200px]">{record.notes}</span>
+                    </div>
+                  )}
                 </div>
-              </div>
-              
-              <div className="mt-3 flex items-center gap-4 text-xs text-gray-500">
-                <span>Operator: {record.operator}</span>
-                <span>•</span>
-                <span>Product ID: {record.productId}</span>
-                {record.notes && (
-                  <>
-                    <span>•</span>
-                    <span>Notes: {record.notes}</span>
-                  </>
-                )}
               </div>
             </div>
           ))}

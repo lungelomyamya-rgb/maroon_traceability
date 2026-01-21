@@ -176,11 +176,13 @@ export function DriverManagement({ onDriverSelect }: DriverManagementProps) {
 
   return (
     <div className="space-y-6">
-      <div className="flex justify-between items-center">
-        <h2 className="text-xl font-semibold text-gray-700">Driver Management</h2>
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        <div>
+          <h2 className="text-xl sm:text-2xl font-semibold text-gray-900">Driver Team</h2>
+          </div>
         <Button 
           onClick={() => setShowAddForm(!showAddForm)}
-          className="bg-teal-600 hover:bg-teal-700 text-white"
+          className="bg-teal-600 hover:bg-teal-700 text-white w-full sm:w-auto"
         >
           <Plus className="h-4 w-4 mr-2" />
           Add Driver
@@ -189,11 +191,11 @@ export function DriverManagement({ onDriverSelect }: DriverManagementProps) {
 
       {/* Add/Edit Driver Form */}
       {(showAddForm || editingDriver) && (
-        <Card className="p-6">
+        <Card className="p-4 sm:p-6">
           <h3 className="text-lg font-medium mb-4">
             {showAddForm ? 'Add New Driver' : 'Edit Driver'}
           </h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
               <Input
@@ -301,34 +303,34 @@ export function DriverManagement({ onDriverSelect }: DriverManagementProps) {
       )}
 
       {/* Driver Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
         {drivers.map((driver) => {
           const driverStatusConfig = statusConfig[driver.status];
           const licenseExpiring = isLicenseExpiringSoon(driver.licenseExpiry);
 
           return (
-            <Card key={driver.id} className="p-6">
+            <Card key={driver.id} className="p-3 sm:p-4 lg:p-5 hover:shadow-lg transition-all duration-200 hover:scale-[1.02] border-0 shadow-md bg-white rounded-xl w-full min-h-[280px] sm:min-h-[320px] lg:min-h-[360px] flex flex-col">
               {/* Header with Status */}
-              <div className="flex justify-between items-start mb-4">
-                <div className="flex items-center gap-3 flex-1">
-                  <div className="p-3 bg-green-100 rounded-lg">
-                    <User className="h-6 w-6 text-green-600" />
+              <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2 sm:gap-3 mb-3 sm:mb-4">
+                <div className="flex items-center gap-2 sm:gap-3 flex-1 min-w-0">
+                  <div className="p-1 sm:p-1.5 bg-green-100 rounded-lg shadow-lg flex-shrink-0">
+                    <User className="h-3 w-3 sm:h-4 lg:h-5 text-green-600" />
                   </div>
-                  <div className="flex-1">
-                    <h3 className="font-semibold text-gray-700">{driver.name}</h3>
-                    <p className="text-sm text-gray-600">{driver.phone}</p>
+                  <div className="flex-1 min-w-0">
+                    <h3 className="font-semibold text-gray-700 text-xs sm:text-sm lg:text-base">{driver.name}</h3>
+                    <p className="text-xs sm:text-sm text-gray-600 truncate">{driver.phone}</p>
                   </div>
                 </div>
-                <Badge variant="info" className={driverStatusConfig.color}>
+                <Badge variant="info" className={`${driverStatusConfig.color} text-xs whitespace-nowrap flex-shrink-0`}>
                   {driverStatusConfig.icon} {driverStatusConfig.label}
                 </Badge>
               </div>
 
               {/* Driver Details */}
-              <div className="space-y-2 text-sm">
+              <div className="space-y-2 text-xs sm:text-sm mb-3 sm:mb-4">
                 <div className="flex items-center gap-2">
-                  <Mail className="h-4 w-4 text-gray-400" />
-                  <span className="text-gray-600">{driver.email}</span>
+                  <Mail className="h-3 w-3 sm:h-4 text-gray-400" />
+                  <span className="text-gray-600 truncate">{driver.email}</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-gray-600">Experience:</span>
@@ -342,12 +344,8 @@ export function DriverManagement({ onDriverSelect }: DriverManagementProps) {
                   </span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-gray-600">Total Deliveries:</span>
+                  <span className="text-gray-600">Total:</span>
                   <span className="font-medium">{driver.totalDeliveries}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-gray-600">On-time Rate:</span>
-                  <span className="font-medium">{driver.onTimeDeliveryRate}%</span>
                 </div>
               </div>
 
@@ -394,31 +392,34 @@ export function DriverManagement({ onDriverSelect }: DriverManagementProps) {
               )}
 
               {/* Actions */}
-              <div className="flex gap-2 mt-4">
+              <div className="flex flex-col sm:flex-row gap-2 mt-auto pt-3">
                 <Button
                   variant="outline"
                   size="sm"
                   onClick={() => {
                     onDriverSelect?.(driver);
                   }}
+                  className="flex-1 text-xs sm:text-sm"
                 >
-                  <Eye className="h-4 w-4 mr-1" />
+                  <Eye className="h-3 w-3 sm:h-4 sm:w-4 mr-1" />
                   View
                 </Button>
                 <Button
                   variant="outline"
                   size="sm"
                   onClick={() => setEditingDriver(driver)}
+                  className="flex-1 text-xs sm:text-sm"
                 >
-                  <Edit className="h-4 w-4 mr-1" />
+                  <Edit className="h-3 w-3 sm:h-4 sm:w-4 mr-1" />
                   Edit
                 </Button>
                 <Button
                   variant="outline"
                   size="sm"
                   onClick={() => {/* Assign vehicle */}}
+                  className="flex-1 text-xs sm:text-sm"
                 >
-                  <Truck className="h-4 w-4 mr-1" />
+                  <Truck className="h-3 w-3 sm:h-4 sm:w-4 mr-1" />
                   Assign
                 </Button>
               </div>

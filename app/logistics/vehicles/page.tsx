@@ -4,9 +4,10 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useUser } from '@/contexts/userContext';
+import { DashboardLayout } from '@/components/dashboard/dashboardLayout';
+import { Button } from '@/components/ui/button';
 import { VehicleManagement } from '@/components/logistics/vehicleManagement';
-import { DashboardLayout } from '@/components/dashboard/DashboardLayout';
-import { Truck } from 'lucide-react';
+import { Truck, Package } from 'lucide-react';
 
 export default function LogisticsVehiclesPage() {
   const { currentUser } = useUser();
@@ -29,11 +30,24 @@ export default function LogisticsVehiclesPage() {
   }
 
   return (
-    <DashboardLayout
-      title="Vehicle Management"
-      subtitle="Manage vehicle fleet, maintenance schedules, and registration"
-    >
-      <VehicleManagement />
-    </DashboardLayout>
+    <>
+      {/* Back Button Above DashboardLayout */}
+      <div className="px-4 sm:px-6 lg:px-8 pt-4">
+        <Button
+          variant="outline"
+          onClick={() => router.push('/logistics')}
+          className="inline-flex items-center gap-2 text-sm"
+        >
+          Back
+        </Button>
+      </div>
+      
+      <DashboardLayout
+        title="Vehicle Management"
+        subtitle="Manage vehicle fleet, maintenance schedules, and registration"
+      >
+        <VehicleManagement />
+      </DashboardLayout>
+    </>
   );
 }

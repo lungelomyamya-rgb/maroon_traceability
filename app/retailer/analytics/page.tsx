@@ -4,8 +4,8 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useUser } from '@/contexts/userContext';
-import { DashboardLayout } from '@/components/dashboard/DashboardLayout';
-import AnalyticsComponent from './analyticsComponent';
+import { DashboardLayout } from '@/components/dashboard/dashboardLayout';
+import AnalyticsComponent from '../../../components/retailers/analyticsComponent';
 
 export default function Analytics() {
   const { currentUser } = useUser();
@@ -36,11 +36,23 @@ export default function Analytics() {
   }
 
   return (
-    <DashboardLayout
-      title="Sales Analytics"
-      description="Track your business performance and insights"
-    >
-      <AnalyticsComponent />
-    </DashboardLayout>
+    <>
+      {/* Back Button Above DashboardLayout */}
+      <div className="px-4 sm:px-6 lg:px-8 pt-4">
+        <button
+          onClick={() => router.push('/retailer')}
+          className="inline-flex items-center gap-2 text-sm"
+        >
+          Back
+        </button>
+      </div>
+      
+      <DashboardLayout
+        title="Sales Analytics"
+        description="Track your business performance and insights"
+      >
+        <AnalyticsComponent />
+      </DashboardLayout>
+    </>
   );
 }

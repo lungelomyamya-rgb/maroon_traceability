@@ -101,20 +101,20 @@ export function EnhancedEventForm({
   };
 
   return (
-    <Card className="p-6">
-      <div className="flex items-center gap-2 mb-6">
-        <div className="p-2 bg-sky-100 rounded-lg">
-          <Truck className="h-5 w-5 text-sky-600" />
+    <Card className="p-4 sm:p-6 max-w-4xl mx-auto">
+      <div className="flex items-center gap-2 mb-4 sm:mb-6">
+        <div className="p-2 sm:p-3 bg-sky-100 rounded-lg">
+          <Truck className="h-5 w-5 sm:h-6 sm:w-6 text-sky-600" />
         </div>
         <div>
-          <h3 className="text-lg font-semibold text-gray-700">Logistics Event</h3>
+          <h3 className="text-lg sm:text-xl font-semibold text-gray-700">Logistics Event</h3>
           <p className="text-sm text-gray-600">Record transport and logistics activities</p>
         </div>
       </div>
 
       <form onSubmit={handleSubmit(handleFormSubmit)} className="space-y-6">
         {/* Basic Event Information */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
               Event Type
@@ -159,7 +159,7 @@ export function EnhancedEventForm({
                 <h4 className="font-medium text-blue-900">Transport Information</h4>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
                     Vehicle

@@ -19,9 +19,9 @@ export function Button({ className = '', variant = 'outline', size = 'default', 
   };
   
   const sizes = {
-    default: 'h-10 py-2 px-4',
-    sm: 'h-9 px-3 rounded-md',
-    lg: 'h-11 px-8 rounded-md',
+    default: 'h-10 py-2 px-4 text-sm sm:text-base',
+    sm: 'h-9 px-3 rounded-md text-xs sm:text-sm',
+    lg: 'h-11 sm:h-12 px-6 sm:px-8 rounded-md text-base sm:text-lg',
   };
 
   // Check if custom colors are provided in className

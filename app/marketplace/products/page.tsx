@@ -15,7 +15,6 @@ import {
   ShoppingCart, 
   Star, 
   Filter, 
-  ArrowLeft,
   Heart,
   MapPin,
   Shield,
@@ -64,6 +63,7 @@ export default function ProductsPage() {
   const [sortBy, setSortBy] = useState('featured');
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
   const [cart, setCart] = useState<{[key: string]: number}>({});
+  const [wishlist, setWishlist] = useState<Set<string>>(new Set());
   const [selectedCategory, setSelectedCategory] = useState('All');
 
   // Mock products data
@@ -261,6 +261,18 @@ export default function ProductsPage() {
     }
   };
 
+  const toggleWishlist = (productId: string) => {
+    setWishlist(prev => {
+      const newWishlist = new Set(prev);
+      if (newWishlist.has(productId)) {
+        newWishlist.delete(productId);
+      } else {
+        newWishlist.add(productId);
+      }
+      return newWishlist;
+    });
+  };
+
   const handleCategoryClick = (category: string) => {
     setSelectedCategory(category);
     if (category === 'All') {
@@ -286,15 +298,19 @@ export default function ProductsPage() {
         <div className="w-full px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between h-16 items-center">
             <div className="flex items-center gap-2 sm:gap-4">
-              <Button 
-                variant="outline" 
-                size="sm"
-                onClick={() => router.push('/marketplace')}
-                className="h-8 sm:h-10"
-              >
-                <ArrowLeft className="h-4 w-4 mr-1 sm:mr-2" />
-                <span className="hidden sm:inline">Back to Marketplace</span>
-              </Button>
+              <div className="flex items-center gap-2 sm:gap-3">
+                <button
+                  onClick={() => router.push('/marketplace')}
+                  className="cursor-pointer"
+                  aria-label="Go to marketplace"
+                >
+                  <img 
+                    src="/images/lwandleMoringaBakery.png" 
+                    alt="Lwandle Moringa Bakery"
+                    className="h-8 w-8 sm:h-10 sm:w-10 rounded-lg shadow-sm hover:shadow-md transition-shadow duration-200"
+                  />
+                </button>
+              </div>
               <div>
                 <h1 className="text-lg sm:text-xl lg:text-2xl font-bold text-gray-900 truncate">Products</h1>
                 <p className="text-xs sm:text-sm text-gray-600 hidden sm:block">Browse our complete collection</p>
@@ -323,9 +339,40 @@ export default function ProductsPage() {
         </div>
       </nav>
 
-      {/* Main Content */}
+      {/* Floating Back Button - Top Corner */}
+        <button
+          onClick={() => router.back()}
+          className="fixed top-4 left-4 bg-white hover:bg-gray-100 text-gray-800 p-3 rounded-full shadow-lg border border-gray-300 transition-all duration-300 z-30"
+          aria-label="Go back to previous page"
+        >
+          <svg 
+            xmlns="http://www.w3.org/2000/svg" 
+            width="20" 
+            height="20" 
+            viewBox="0 0 24 24" 
+            fill="none" 
+            stroke="currentColor" 
+            strokeWidth="2" 
+            strokeLinecap="round" 
+            strokeLinejoin="round"
+            className="h-4 w-4"
+          >
+          </svg>
+        </button>
+
+        {/* Main Content */}
       <div className="min-h-screen bg-gray-50">
         <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-8 py-8">
+          {/* Back Button Inside Main Content */}
+          <div className="mb-2">
+            <button
+              onClick={() => router.back()}
+              className="inline-flex items-center justify-center rounded-md font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none ring-offset-background border border-input hover:bg-accent hover:text-accent-foreground h-10 px-4 rounded-md text-sm sm:text-base"
+              aria-label="Go back to previous page"
+            >
+              Back
+            </button>
+          </div>
           {/* Category Filters */}
           <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4 sm:p-6">
             <div className="flex items-center justify-between mb-4">
@@ -437,16 +484,16 @@ export default function ProductsPage() {
               <p className="text-gray-600">Try adjusting your search or filters</p>
             </div>
           ) : (
-            <div className={viewMode === 'grid' ? 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6' : 'space-y-4'}>
+            <div className={viewMode === 'grid' ? 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-4 md:gap-5 lg:gap-6 mt-6' : 'space-y-4 mt-6'}>
               {filteredProducts.map((product) => (
                 <Card key={product.id} className={viewMode === 'grid' ? 'overflow-hidden hover:shadow-xl transition-shadow group rounded-2xl' : 'p-4 hover:shadow-md transition-shadow'}>
                   {viewMode === 'grid' ? (
                     // Grid View
                     <>
                       <div className="relative">
-                        <div className="w-full h-48 bg-gradient-to-br from-green-100 to-green-200 flex items-center justify-center group-hover:scale-105 transition-transform duration-300 rounded-t-2xl">
+                        <div className="w-full h-32 sm:h-40 md:h-48 lg:h-56 bg-gradient-to-br from-green-100 to-green-200 flex items-center justify-center group-hover:scale-105 transition-transform duration-300 rounded-t-xl sm:rounded-t-2xl">
                           <div className="text-center">
-                            <div className="text-4xl mb-2">{product.image}</div>
+                            <div className="text-2xl sm:text-3xl md:text-4xl mb-2">{product.image}</div>
                             <p className="text-sm text-green-700 font-medium">{product.category}</p>
                           </div>
                         </div>
@@ -456,8 +503,8 @@ export default function ProductsPage() {
                           </Badge>
                         )}
                       </div>
-                      <div className="p-4">
-                        <h3 className="font-semibold text-gray-900 mb-2 line-clamp-2">{product.name}</h3>
+                      <div className="p-3 sm:p-4">
+                        <h3 className="font-semibold text-gray-900 mb-2 text-sm sm:text-base line-clamp-2">{product.name}</h3>
                         <div className="flex items-center gap-2 mb-2">
                           <div className="flex items-center">
                             {[...Array(5)].map((_, i) => (
@@ -481,7 +528,7 @@ export default function ProductsPage() {
                         <div className="flex items-center justify-between mb-3">
                           <div>
                             <div className="flex items-center gap-2">
-                              <span className="text-xl font-bold text-gray-900">R{product.price}</span>
+                              <span className="text-lg sm:text-xl font-bold text-gray-900">R{product.price}</span>
                               {product.originalPrice && (
                                 <span className="text-sm text-gray-500 line-through">
                                   R{product.originalPrice}
@@ -524,22 +571,27 @@ export default function ProductsPage() {
                               Add to Cart
                             </Button>
                           )}
-                          <Button variant="outline" size="sm">
-                            <Heart className="h-4 w-4" />
+                          <Button 
+                            variant={wishlist.has(product.id) ? "default" : "outline"} 
+                            size="sm"
+                            onClick={() => toggleWishlist(product.id)}
+                            className={wishlist.has(product.id) ? "bg-red-50 border-red-200 text-red-600 hover:bg-red-100" : ""}
+                          >
+                            <Heart className={`h-4 w-4 ${wishlist.has(product.id) ? "fill-current" : ""}`} />
                           </Button>
                         </div>
                       </div>
                     </>
                   ) : (
                     // List View
-                    <div className="flex gap-4">
-                      <div className="w-24 h-24 bg-gradient-to-br from-green-100 to-green-200 rounded-lg flex items-center justify-center flex-shrink-0">
-                        <span className="text-3xl">{product.image}</span>
+                    <div className="flex flex-col sm:flex-row gap-4">
+                      <div className="w-20 h-20 sm:w-24 sm:h-24 bg-gradient-to-br from-green-50 to-green-100 rounded-lg sm:rounded-xl flex items-center justify-center flex-shrink-0 border border-green-200 shadow-sm">
+                        <span className="text-2xl sm:text-3xl">{product.image}</span>
                       </div>
                       <div className="flex-1">
                         <div className="flex justify-between mb-2">
                           <div>
-                            <h3 className="font-semibold text-gray-900">{product.name}</h3>
+                            <h3 className="font-semibold text-gray-900 text-sm sm:text-base">{product.name}</h3>
                             <p className="text-sm text-gray-600">by {product.farmer.name}</p>
                             <p className="text-sm text-gray-500 flex items-center">
                               <MapPin className="h-3 w-3 mr-1" />
@@ -547,7 +599,7 @@ export default function ProductsPage() {
                             </p>
                           </div>
                           <div className="text-right">
-                            <div className="font-semibold text-gray-900">R{product.price}</div>
+                            <div className="text-base sm:text-lg font-semibold text-gray-900">R{product.price}</div>
                             {product.discount && (
                               <Badge className="bg-red-100 text-red-800 text-xs">
                                 -{product.discount}% OFF

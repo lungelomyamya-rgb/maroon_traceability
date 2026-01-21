@@ -8,10 +8,10 @@ import { useProducts } from '@/contexts/productContext';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { DashboardLayout } from '@/components/dashboard/DashboardLayout';
+import { DashboardLayout } from '@/components/dashboard/dashboardLayout';
 import { ProductEventList } from '@/components/events/productEventList';
 import { EventForm } from '@/components/events/eventForm';
-import { Plus, Calendar, TrendingUp, Package, ArrowLeft, Sprout, Droplets, Shield } from 'lucide-react';
+import { Plus, Calendar, TrendingUp, Package, Sprout, Droplets, Shield } from 'lucide-react';
 
 export default function EventManagementPage() {
   const router = useRouter();
@@ -88,7 +88,6 @@ export default function EventManagementPage() {
           onClick={() => router.push('/farmer')}
           className="text-gray-600 hover:text-gray-900 hover:bg-gray-50"
         >
-          <ArrowLeft className="h-4 w-4 mr-2" />
           <span className="hidden sm:inline">Back to Profile</span>
           <span className="sm:hidden">Back</span>
         </Button>

@@ -10,6 +10,7 @@ export async function generateStaticParams() {
   ];
 }
 
-export default function PublicTracePage({ params }: { params: { id: string } }) {
-  return <TraceClient id={params.id} />;
+export default async function PublicTracePage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
+  return <TraceClient id={id} />;
 }

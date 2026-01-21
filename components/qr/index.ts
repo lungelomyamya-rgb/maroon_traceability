@@ -1,3 +1,3 @@
 // src/components/qr/index.ts
-export { QRScanner } from './QRScanner';
-export { QRGenerator } from './QRGenerator';
+export { QRScanner } from './qRScanner';
+export { QRGenerator } from './qRGenerator';

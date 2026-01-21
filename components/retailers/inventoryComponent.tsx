@@ -264,50 +264,50 @@ export default function InventoryComponent() {
 
         {/* Summary Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-6 sm:mb-8">
-          <Card className="p-6">
+          <Card className="p-4 sm:p-6">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm font-medium text-gray-600">Total Items</p>
-                <p className="text-2xl font-bold text-gray-900">{inventory.length}</p>
+                <p className="text-xl sm:text-2xl font-bold text-gray-900">{inventory.length}</p>
               </div>
-              <div className="bg-blue-100 p-3 rounded-full">
-                <Package className="h-6 w-6 text-blue-600" />
-              </div>
-            </div>
-          </Card>
-
-          <Card className="p-6">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm font-medium text-gray-600">Total Value</p>
-                <p className="text-2xl font-bold text-gray-900">R{getTotalValue().toLocaleString()}</p>
-              </div>
-              <div className="bg-green-100 p-3 rounded-full">
-                <TrendingUp className="h-6 w-6 text-green-600" />
+              <div className="p-2 sm:p-3 bg-blue-100 rounded-lg">
+                <Package className="h-5 w-5 text-blue-600" />
               </div>
             </div>
           </Card>
 
-          <Card className="p-6">
+          <Card className="p-4 sm:p-6">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm font-medium text-gray-600">Low Stock</p>
-                <p className="text-2xl font-bold text-yellow-600">{getLowStockItems().length}</p>
+                <p className="text-xl sm:text-2xl font-bold text-orange-600">{getLowStockItems().length}</p>
               </div>
-              <div className="bg-yellow-100 p-3 rounded-full">
-                <TrendingDown className="h-6 w-6 text-yellow-600" />
+              <div className="p-2 sm:p-3 bg-orange-100 rounded-lg">
+                <TrendingDown className="h-5 w-5 text-orange-600" />
               </div>
             </div>
           </Card>
 
-          <Card className="p-6">
+          <Card className="p-4 sm:p-6">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm font-medium text-gray-600">Out of Stock</p>
-                <p className="text-2xl font-bold text-red-600">{getOutOfStockItems().length}</p>
+                <p className="text-xl sm:text-2xl font-bold text-red-600">{getOutOfStockItems().length}</p>
               </div>
-              <div className="bg-red-100 p-3 rounded-full">
-                <TrendingDown className="h-6 w-6 text-red-600" />
+              <div className="p-2 sm:p-3 bg-red-100 rounded-lg">
+                <BarChart3 className="h-5 w-5 text-red-600" />
+              </div>
+            </div>
+          </Card>
+
+          <Card className="p-4 sm:p-6">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm font-medium text-gray-600">Total Value</p>
+                <p className="text-xl sm:text-2xl font-bold text-green-600">R{inventory.reduce((sum, item) => sum + (item.currentStock * item.unitPrice), 0).toLocaleString()}</p>
+              </div>
+              <div className="p-2 sm:p-3 bg-green-100 rounded-lg">
+                <TrendingUp className="h-5 w-5 text-green-600" />
               </div>
             </div>
           </Card>
@@ -361,7 +361,8 @@ export default function InventoryComponent() {
 
         {/* Inventory Table */}
         <Card className="p-6">
-          <div className="overflow-x-auto">
+          {/* Desktop Table */}
+          <div className="hidden lg:block overflow-x-auto">
             <table className="w-full">
               <thead>
                 <tr className="border-b">
@@ -422,6 +423,76 @@ export default function InventoryComponent() {
                 ))}
               </tbody>
             </table>
+          </div>
+
+          {/* Mobile Cards */}
+          <div className="lg:hidden space-y-4">
+            {filteredInventory.map((item) => (
+              <div key={item.id} className="border rounded-lg p-4 hover:shadow-md transition-shadow">
+                <div className="flex flex-col gap-3">
+                  {/* Product Info */}
+                  <div className="flex items-start gap-3">
+                    <div className="p-2 bg-blue-100 rounded-lg flex-shrink-0">
+                      <Package className="h-5 w-5 text-blue-600" />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <h4 className="font-bold text-gray-900 text-sm sm:text-base break-words">{item.name}</h4>
+                      <p className="text-xs sm:text-sm text-gray-500">{item.category}</p>
+                      <div className="flex flex-wrap gap-2 mt-2">
+                        <span className="text-xs font-mono bg-gray-100 px-2 py-1 rounded">{item.sku}</span>
+                        <span className="text-xs bg-gray-100 px-2 py-1 rounded">{item.batchCode}</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Stock Status */}
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <span className="font-medium text-sm sm:text-base">{item.currentStock}</span>
+                      <span className="text-xs text-gray-500">/ {item.maxStockLevel}</span>
+                      {getStockStatusIcon(item)}
+                    </div>
+                    <Badge className={`${getStatusColor(item.status)} text-xs`}>
+                      {item.status}
+                    </Badge>
+                  </div>
+
+                  {/* Details Grid */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
+                    <div className="flex items-center gap-2">
+                      <span className="text-xs text-gray-500">Location:</span>
+                      <span className="text-xs truncate">{item.location}</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <span className="text-xs text-gray-500">Value:</span>
+                      <span className="font-medium text-xs">R{(item.currentStock * item.unitPrice).toLocaleString()}</span>
+                    </div>
+                  </div>
+
+                  {/* Actions */}
+                  <div className="flex gap-2 pt-2">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => handleUpdateStock(item)}
+                      className="flex-1"
+                    >
+                      <Eye className="h-4 w-4 mr-2" />
+                      View Details
+                    </Button>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => handleReorder(item)}
+                      className="flex-1"
+                    >
+                      <Plus className="h-4 w-4 mr-2" />
+                      Reorder
+                    </Button>
+                  </div>
+                </div>
+              </div>
+            ))}
           </div>
         </Card>
       </div>

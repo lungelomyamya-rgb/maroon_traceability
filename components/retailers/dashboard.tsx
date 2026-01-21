@@ -34,7 +34,10 @@ import {
   ArrowDownRight,
   MoreHorizontal,
   Bell,
-  Settings
+  Settings,
+  CreditCard,
+  User,
+  Store
 } from 'lucide-react';
 
 interface Product {
@@ -142,22 +145,24 @@ function MetricsCards({ analytics }: { analytics: Analytics }) {
   ];
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-6 mb-6 sm:mb-8">
       {metrics.map((metric, index) => (
-        <Card key={index} className="p-6">
-          <div className="flex items-center justify-between mb-4">
-            <div className={`${metric.bgColor} p-3 rounded-lg ${metric.color}`}>
-              {metric.icon}
+        <Card key={index} className="p-3 sm:p-4 lg:p-6">
+          <div className="flex items-center justify-between mb-3 sm:mb-4">
+            <div className={`${metric.bgColor} p-2 sm:p-3 rounded-lg ${metric.color}`}>
+              <div className="h-4 w-4 sm:h-5 sm:w-5 lg:h-6 lg:w-6">
+                {metric.icon}
+              </div>
             </div>
-            <div className={`flex items-center text-sm ${
+            <div className={`flex items-center text-xs sm:text-sm ${
               metric.trend === 'up' ? 'text-green-600' : 'text-red-600'
             }`}>
-              {metric.trend === 'up' ? <ArrowUpRight className="h-4 w-4" /> : <ArrowDownRight className="h-4 w-4" />}
-              {metric.change}
+              {metric.trend === 'up' ? <ArrowUpRight className="h-3 w-3 sm:h-4 sm:w-4" /> : <ArrowDownRight className="h-3 w-3 sm:h-4 sm:w-4" />}
+              <span className="hidden sm:inline ml-1">{metric.change}</span>
             </div>
           </div>
-          <h3 className="text-2xl font-bold text-gray-900">{metric.value}</h3>
-          <p className="text-sm text-gray-600">{metric.title}</p>
+          <h3 className="text-lg sm:text-xl lg:text-2xl font-bold text-gray-900 mb-1">{metric.value}</h3>
+          <p className="text-xs sm:text-sm text-gray-600">{metric.title}</p>
         </Card>
       ))}
     </div>
@@ -189,28 +194,30 @@ function RecentOrders({ orders }: { orders: Order[] }) {
   };
 
   return (
-    <Card className="p-6">
-      <div className="flex items-center justify-between mb-6">
-        <h3 className="text-lg font-semibold">Recent Orders</h3>
-        <Button variant="outline" size="sm" onClick={() => router.push('/retailer/orders')}>
+    <Card className="p-3 sm:p-4 lg:p-6">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-4 sm:mb-6">
+        <h3 className="text-base sm:text-lg font-semibold">Recent Orders</h3>
+        <Button variant="outline" size="sm" onClick={() => router.push('/retailer/orders')} className="w-full sm:w-auto">
           View All
         </Button>
       </div>
       
-      <div className="space-y-4">
+      <div className="space-y-3 sm:space-y-4">
         {orders.slice(0, 5).map((order) => (
-          <div key={order.id} className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+          <div key={order.id} className="flex flex-col lg:flex-row lg:items-center lg:justify-between p-3 sm:p-4 bg-gray-50 rounded-lg gap-3 lg:gap-0">
             <div className="flex-1">
-              <div className="flex items-center gap-3 mb-2">
-                <h4 className="font-medium">{order.customerName}</h4>
-                <Badge className={getStatusColor(order.status)}>
-                  {order.status}
-                </Badge>
-                <Badge className={getPaymentStatusColor(order.paymentStatus)}>
-                  {order.paymentStatus}
-                </Badge>
+              <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3 mb-2">
+                <h4 className="font-medium text-sm sm:text-base">{order.customerName}</h4>
+                <div className="flex flex-wrap gap-1 sm:gap-2">
+                  <Badge className={`text-xs ${getStatusColor(order.status)}`}>
+                    {order.status}
+                  </Badge>
+                  <Badge className={`text-xs ${getPaymentStatusColor(order.paymentStatus)}`}>
+                    {order.paymentStatus}
+                  </Badge>
+                </div>
               </div>
-              <p className="text-sm text-gray-600 mb-1">
+              <p className="text-xs sm:text-sm text-gray-600 mb-1">
                 {order.items.length} items • R{order.total.toFixed(2)}
               </p>
               <p className="text-xs text-gray-500">
@@ -218,10 +225,11 @@ function RecentOrders({ orders }: { orders: Order[] }) {
               </p>
             </div>
             <div className="flex items-center gap-2">
-              <Button variant="outline" size="sm" onClick={() => alert(`Viewing order ${order.id} details`)}>
-                <Eye className="h-4 w-4" />
+              <Button variant="outline" size="sm" onClick={() => alert(`Viewing order ${order.id} details`)} className="flex-shrink-0">
+                <Eye className="h-3 w-3 sm:h-4 sm:w-4" />
+                <span className="hidden sm:inline ml-1">View</span>
               </Button>
-              <Button size="sm" onClick={() => alert(`Processing order ${order.id}`)}>
+              <Button size="sm" onClick={() => alert(`Processing order ${order.id}`)} className="flex-shrink-0">
                 Process
               </Button>
             </div>
@@ -240,36 +248,36 @@ function TopProducts({ products }: { products: Product[] }) {
     .slice(0, 5);
 
   return (
-    <Card className="p-6">
-      <div className="flex items-center justify-between mb-6">
-        <h3 className="text-lg font-semibold">Top Products</h3>
-        <Button variant="outline" size="sm" onClick={() => router.push('/retailer/product-management')}>
+    <Card className="p-3 sm:p-4 lg:p-6">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-4 sm:mb-6">
+        <h3 className="text-base sm:text-lg font-semibold">Top Products</h3>
+        <Button variant="outline" size="sm" onClick={() => router.push('/retailer/product-management')} className="w-full sm:w-auto">
           View All
         </Button>
       </div>
       
-      <div className="space-y-4">
+      <div className="space-y-3 sm:space-y-4">
         {topProducts.map((product, index) => (
-          <div key={product.id} className="flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <div className="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center text-sm font-medium">
+          <div key={product.id} className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-3">
+            <div className="flex items-center gap-2 sm:gap-3">
+              <div className="w-6 h-6 sm:w-8 sm:h-8 bg-gray-100 rounded-full flex items-center justify-center text-xs sm:text-sm font-medium">
                 {index + 1}
               </div>
               <div>
-                <h4 className="font-medium">{product.name}</h4>
-                <div className="flex items-center gap-2 text-sm text-gray-600">
+                <h4 className="font-medium text-sm sm:text-base">{product.name}</h4>
+                <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2 text-xs sm:text-sm text-gray-600">
                   <span>{product.soldCount} sold</span>
-                  <span>•</span>
+                  <span className="hidden sm:inline">•</span>
                   <div className="flex items-center">
-                    <Star className="h-3 w-3 text-yellow-400 fill-current" />
+                    <Star className="h-3 w-3 sm:h-4 sm:w-4 text-yellow-400 fill-current" />
                     <span>{product.rating}</span>
                   </div>
                 </div>
               </div>
             </div>
             <div className="text-right">
-              <p className="font-medium">R{product.price.toFixed(2)}</p>
-              <p className="text-sm text-gray-600">{product.stockLevel} in stock</p>
+              <p className="font-medium text-sm sm:text-base">R{product.price.toFixed(2)}</p>
+              <p className="text-xs sm:text-sm text-gray-600">{product.stockLevel} in stock</p>
             </div>
           </div>
         ))}
@@ -366,11 +374,11 @@ function QuickActions() {
       href: "/retailer/orders"
     },
     {
-      title: "View Analytics",
-      description: "Track sales and performance metrics",
-      icon: <BarChart3 className="h-6 w-6" />,
+      title: "Customers",
+      description: "Manage customer relationships",
+      icon: <User className="h-6 w-6" />,
       color: "bg-purple-600 hover:bg-purple-700",
-      href: "/retailer/analytics"
+      href: "/retailer/customers"
     },
     {
       title: "Inventory",
@@ -378,20 +386,52 @@ function QuickActions() {
       icon: <Package className="h-6 w-6" />,
       color: "bg-orange-600 hover:bg-orange-700",
       href: "/retailer/inventory"
+    },
+    {
+      title: "Shipping",
+      description: "Configure shipping providers",
+      icon: <Truck className="h-6 w-6" />,
+      color: "bg-indigo-600 hover:bg-indigo-700",
+      href: "/retailer/shipping"
+    },
+    {
+      title: "Payments",
+      description: "Manage payment gateways",
+      icon: <CreditCard className="h-6 w-6" />,
+      color: "bg-pink-600 hover:bg-pink-700",
+      href: "/retailer/payments"
+    },
+    {
+      title: "View Analytics",
+      description: "Track sales and performance metrics",
+      icon: <BarChart3 className="h-6 w-6" />,
+      color: "bg-teal-600 hover:bg-teal-700",
+      href: "/retailer/analytics"
+    },
+    {
+      title: "Store Settings",
+      description: "Configure store preferences",
+      icon: <Settings className="h-6 w-6" />,
+      color: "bg-gray-600 hover:bg-gray-700",
+      href: "/retailer/settings"
     }
   ];
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-8 gap-3 sm:gap-4 mb-6 sm:mb-8">
       {actions.map((action, index) => (
         <Button
           key={index}
-          className={`h-auto p-6 flex-col items-start text-left ${action.color}`}
+          className={`h-auto p-3 sm:p-4 lg:p-6 flex-col items-start text-left ${action.color}`}
           onClick={() => router.push(action.href)}
         >
-          <div className="text-white mb-3">{action.icon}</div>
-          <h3 className="text-white font-semibold mb-1">{action.title}</h3>
-          <p className="text-white/80 text-sm">{action.description}</p>
+          <div className="text-white mb-2 sm:mb-3">
+            <div className="h-4 w-4 sm:h-5 sm:w-5 lg:h-6 lg:w-6">
+              {action.icon}
+            </div>
+          </div>
+          <h3 className="text-white font-semibold text-xs sm:text-sm mb-1">{action.title}</h3>
+          <p className="text-white/80 text-xs hidden sm:block">{action.description}</p>
         </Button>
       ))}
     </div>
@@ -403,7 +443,7 @@ function SalesChart({ data }: { data: Array<{ month: string; revenue: number }> 
   
   if (!data || data.length === 0) {
     return (
-      <Card className="p-6">
+      <Card className="p-4 sm:p-6">
         <h3 className="text-lg font-semibold mb-4">Revenue Trend</h3>
         <div className="text-gray-500">No revenue data available</div>
       </Card>
@@ -413,19 +453,19 @@ function SalesChart({ data }: { data: Array<{ month: string; revenue: number }> 
   const maxRevenue = Math.max(...data.map(d => d.revenue));
   
   return (
-    <Card className="p-6 bg-gradient-to-br from-white to-gray-50 border-0 shadow-lg">
-      <div className="flex items-center justify-between mb-6">
+    <Card className="p-4 sm:p-6 bg-gradient-to-br from-white to-gray-50 border-0 shadow-lg">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
         <div>
-          <h3 className="text-xl font-bold text-gray-900">Revenue Trend</h3>
+          <h3 className="text-lg sm:text-xl font-bold text-gray-900">Revenue Trend</h3>
           <p className="text-sm text-gray-600">Monthly performance overview</p>
         </div>
-        <Button variant="outline" size="sm" className="bg-white/80 backdrop-blur-sm hover:bg-white">
+        <Button variant="outline" size="sm" className="bg-white/80 backdrop-blur-sm hover:bg-white w-full sm:w-auto">
           <Download className="h-4 w-4 mr-2" />
           Export
         </Button>
       </div>
       
-      <div className="relative h-80 bg-gradient-to-b from-gray-50 to-white rounded-xl p-4">
+      <div className="relative h-32 sm:h-48 md:h-64 lg:h-80 bg-gradient-to-b from-gray-50 to-white rounded-xl p-3 sm:p-4">
         {/* Grid lines */}
         <div className="absolute inset-0 flex flex-col justify-between pointer-events-none">
           {[0, 25, 50, 75, 100].map((percent) => (
@@ -433,7 +473,7 @@ function SalesChart({ data }: { data: Array<{ month: string; revenue: number }> 
           ))}
         </div>
         
-        <div className="relative h-full flex items-end justify-between gap-3">
+        <div className="relative h-full flex items-end justify-between gap-1 sm:gap-2 md:gap-3">
           {data.map((item, index) => {
             const barHeight = (item.revenue / maxRevenue) * 100;
             const isHighest = item.revenue === maxRevenue;
@@ -465,17 +505,17 @@ function SalesChart({ data }: { data: Array<{ month: string; revenue: number }> 
                   </div>
                   
                   {/* Hover tooltip */}
-                  <div className="absolute -top-12 left-1/2 transform -translate-x-1/2 bg-gray-900 text-white text-xs px-3 py-2 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap z-10">
+                  <div className="absolute -top-10 sm:-top-12 left-1/2 transform -translate-x-1/2 bg-gray-900 text-white text-xs px-2 sm:px-3 py-1 sm:py-2 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap z-10">
                     <div className="font-medium">{item.month}</div>
-                    <div className="text-blue-300">R{item.revenue.toLocaleString()}</div>
-                    <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-gray-900"></div>
+                    <div className="text-blue-300 text-xs sm:text-sm">R{item.revenue.toLocaleString()}</div>
+                    <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-gray-900 hidden sm:block"></div>
                   </div>
                 </div>
                 
                 {/* Month label */}
-                <div className="mt-3 text-center">
-                  <div className="text-sm font-medium text-gray-700">{item.month}</div>
-                  <div className="text-xs text-gray-500">R{(item.revenue / 1000).toFixed(1)}k</div>
+                <div className="mt-2 sm:mt-3 text-center">
+                  <div className="text-xs sm:text-sm font-medium text-gray-700">{item.month}</div>
+                  <div className="text-xs text-gray-500 hidden sm:block">R{(item.revenue / 1000).toFixed(1)}k</div>
                 </div>
               </div>
             );
@@ -484,17 +524,17 @@ function SalesChart({ data }: { data: Array<{ month: string; revenue: number }> 
       </div>
       
       {/* Summary stats */}
-      <div className="grid grid-cols-3 gap-4 mt-6">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 mt-6">
         <div className="text-center p-3 bg-blue-50 rounded-lg">
-          <div className="text-2xl font-bold text-blue-600">R{data[data.length - 1].revenue.toLocaleString()}</div>
+          <div className="text-xl sm:text-2xl font-bold text-blue-600">R{data[data.length - 1].revenue.toLocaleString()}</div>
           <div className="text-xs text-blue-600">Current Month</div>
         </div>
         <div className="text-center p-3 bg-green-50 rounded-lg">
-          <div className="text-2xl font-bold text-green-600">R{maxRevenue.toLocaleString()}</div>
+          <div className="text-xl sm:text-2xl font-bold text-green-600">R{maxRevenue.toLocaleString()}</div>
           <div className="text-xs text-green-600">Peak Revenue</div>
         </div>
         <div className="text-center p-3 bg-purple-50 rounded-lg">
-          <div className="text-2xl font-bold text-purple-600">R{Math.round(data.reduce((sum, item) => sum + item.revenue, 0) / data.length).toLocaleString()}</div>
+          <div className="text-xl sm:text-2xl font-bold text-purple-600">R{Math.round(data.reduce((sum, item) => sum + item.revenue, 0) / data.length).toLocaleString()}</div>
           <div className="text-xs text-purple-600">Average</div>
         </div>
       </div>
@@ -524,7 +564,7 @@ export default function RetailerDashboard() {
         status: 'active',
         batchCode: 'BATCH-001',
         qualityGrade: 'A',
-        images: ['/images/moringa-powder.jpg'],
+        images: ['/images/moringaPowder.jpg'],
         description: '100% organic moringa powder',
         tags: ['organic', 'premium', 'superfood'],
         createdAt: '2025-01-01',
@@ -544,7 +584,7 @@ export default function RetailerDashboard() {
         status: 'active',
         batchCode: 'BATCH-002',
         qualityGrade: 'A',
-        images: ['/images/moringa-tea.jpg'],
+        images: ['/images/moringaTea.jpg'],
         description: 'Premium quality moringa tea bags',
         tags: ['organic', 'tea', 'caffeine-free'],
         createdAt: '2025-01-05',
@@ -564,7 +604,7 @@ export default function RetailerDashboard() {
         status: 'out-of-stock',
         batchCode: 'BATCH-003',
         qualityGrade: 'B',
-        images: ['/images/moringa-capsules.jpg'],
+        images: ['/images/moringaCapsules.jpg'],
         description: 'Convenient moringa capsules',
         tags: ['supplements', 'convenient'],
         createdAt: '2025-01-10',
@@ -663,7 +703,41 @@ export default function RetailerDashboard() {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4 sm:space-y-6">
+      {/* Hero Section */}
+      <div className="bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl p-6 sm:p-8 lg:p-10 text-white">
+        <div className="flex flex-col lg:flex-row lg:items-center lg:justify-center gap-6 text-center lg:text-left">
+          <div className="flex-1 max-w-4xl">
+            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-4">
+              Retailer
+            </h1>
+            <p className="text-lg sm:text-xl text-blue-100 mb-6 max-w-2xl mx-auto lg:mx-0">
+              Manage your products, track orders, analyze sales, and grow your business with powerful tools designed for South African retailers.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-3 justify-center lg:justify-start">
+              <Button 
+                onClick={() => router.push('/retailer/product-management')}
+                className="bg-white text-blue-600 hover:bg-blue-50 px-6 py-3"
+              >
+                <Plus className="h-5 w-5 mr-2" />
+                Add New Product
+              </Button>
+              <Button 
+                variant="outline"
+                onClick={() => router.push('/retailer/analytics')}
+                className="border-white text-white hover:bg-white hover:text-blue-600 px-6 py-3"
+              >
+                <BarChart3 className="h-5 w-5 mr-2" />
+                View Analytics
+              </Button>
+            </div>
+          </div>
+          <div className="hidden lg:block">
+            <Store className="h-32 w-32 text-white/20" />
+          </div>
+        </div>
+      </div>
+
       {/* Quick Actions */}
       <QuickActions />
 
@@ -671,44 +745,58 @@ export default function RetailerDashboard() {
       <MetricsCards analytics={analytics} />
 
       {/* Main Dashboard Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
         {/* Recent Orders */}
         <div className="lg:col-span-2">
           <RecentOrders orders={orders} />
         </div>
 
         {/* Top Products */}
-        <TopProducts products={products} />
+        <div className="hidden lg:block">
+          <TopProducts products={products} />
+        </div>
       </div>
 
         {/* Second Row */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-6">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
           {/* Sales Chart */}
           <div className="lg:col-span-2">
             <SalesChart data={analytics.monthlyRevenue} />
           </div>
 
           {/* Inventory Alerts */}
-          <InventoryAlerts products={products} />
+          <div className="hidden lg:block">
+            <InventoryAlerts products={products} />
+          </div>
+        </div>
+
+        {/* Mobile Layout - Show Top Products and Inventory on mobile */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:hidden gap-4 sm:gap-6 mt-4 sm:mt-6">
+          <div className="sm:col-span-1">
+            <TopProducts products={products} />
+          </div>
+          <div className="sm:col-span-1">
+            <InventoryAlerts products={products} />
+          </div>
         </div>
 
         {/* Additional Stats */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mt-6">
-          <Card className="p-6 text-center">
-            <div className="text-3xl font-bold text-blue-600 mb-2">{analytics.totalProducts}</div>
-            <p className="text-sm text-gray-600">Total Products</p>
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 mt-4 sm:mt-6">
+          <Card className="p-3 sm:p-4 lg:p-6 text-center">
+            <div className="text-xl sm:text-2xl lg:text-3xl font-bold text-blue-600 mb-1 sm:mb-2">{analytics.totalProducts}</div>
+            <p className="text-xs sm:text-sm text-gray-600">Total Products</p>
           </Card>
-          <Card className="p-6 text-center">
-            <div className="text-3xl font-bold text-green-600 mb-2">{analytics.activeProducts}</div>
-            <p className="text-sm text-gray-600">Active Listings</p>
+          <Card className="p-3 sm:p-4 lg:p-6 text-center">
+            <div className="text-xl sm:text-2xl lg:text-3xl font-bold text-green-600 mb-1 sm:mb-2">{analytics.activeProducts}</div>
+            <p className="text-xs sm:text-sm text-gray-600">Active Listings</p>
           </Card>
-          <Card className="p-6 text-center">
-            <div className="text-3xl font-bold text-purple-600 mb-2">{analytics.customerMetrics.totalCustomers}</div>
-            <p className="text-sm text-gray-600">Total Customers</p>
+          <Card className="p-3 sm:p-4 lg:p-6 text-center">
+            <div className="text-xl sm:text-2xl lg:text-3xl font-bold text-purple-600 mb-1 sm:mb-2">{analytics.customerMetrics.totalCustomers}</div>
+            <p className="text-xs sm:text-sm text-gray-600">Total Customers</p>
           </Card>
-          <Card className="p-6 text-center">
-            <div className="text-3xl font-bold text-orange-600 mb-2">{analytics.customerMetrics.averageRating.toFixed(1)}</div>
-            <p className="text-sm text-gray-600">Average Rating</p>
+          <Card className="p-3 sm:p-4 lg:p-6 text-center">
+            <div className="text-xl sm:text-2xl lg:text-3xl font-bold text-orange-600 mb-1 sm:mb-2">{analytics.customerMetrics.averageRating.toFixed(1)}</div>
+            <p className="text-xs sm:text-sm text-gray-600">Average Rating</p>
           </Card>
         </div>
       </div>

@@ -4,8 +4,8 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useUser } from '@/contexts/userContext';
-import { DashboardLayout } from '@/components/dashboard/DashboardLayout';
-import OrdersComponent from './ordersComponent';
+import { DashboardLayout } from '@/components/dashboard/dashboardLayout';
+import OrdersComponent from '../../../components/retailers/ordersComponent';
 
 export default function Orders() {
   const { currentUser } = useUser();
@@ -36,11 +36,23 @@ export default function Orders() {
   }
 
   return (
-    <DashboardLayout
-      title="Order Management"
-      description="Process and track customer orders"
-    >
-      <OrdersComponent />
-    </DashboardLayout>
+    <>
+      {/* Back Button Above DashboardLayout */}
+      <div className="px-4 sm:px-6 lg:px-8 pt-4">
+        <button
+          onClick={() => router.push('/retailer')}
+          className="inline-flex items-center gap-2 text-sm"
+        >
+          Back
+        </button>
+      </div>
+      
+      <DashboardLayout
+        title="Order Management"
+        description="Process and track customer orders"
+      >
+        <OrdersComponent />
+      </DashboardLayout>
+    </>
   );
 }

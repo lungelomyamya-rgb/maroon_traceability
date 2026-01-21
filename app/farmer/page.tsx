@@ -8,8 +8,20 @@ import { useProducts } from '@/contexts/productContext';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { DashboardLayout } from '@/components/dashboard/DashboardLayout';
-import { Package, MapPin, Calendar, TrendingUp, Plus, Eye, Sprout, Droplets, Shield } from 'lucide-react';
+import { DashboardLayout } from '@/components/dashboard/dashboardLayout';
+import dynamic from 'next/dynamic';
+
+// Lazy load large components
+const EventForm = dynamic(() => import('@/components/events/eventForm').then(mod => ({ default: mod.EventForm })), {
+  loading: () => <div>Loading event form...</div>,
+  ssr: false
+});
+
+const ProductEventList = dynamic(() => import('@/components/events/productEventList').then(mod => ({ default: mod.ProductEventList })), {
+  loading: () => <div>Loading events...</div>,
+  ssr: false
+});
+import { Package, MapPin, Calendar, TrendingUp, Plus, Eye, Sprout, Droplets, Shield, AlertCircle, ArrowLeft } from 'lucide-react';
 import type { UserRole } from '@/types/user';
 
 export default function FarmerPage() {
@@ -17,9 +29,47 @@ export default function FarmerPage() {
   const { currentUser } = useUser();
   const { products } = useProducts();
   const [isChecking, setIsChecking] = useState(true);
+  const [showEventForm, setShowEventForm] = useState(false);
 
   // Get products for the current farmer (for demo, we'll use the first product)
   const farmerProducts = products.length > 0 ? products.slice(0, 1) : [];
+
+  // Calculate metrics for hero section
+  const activeProducts = farmerProducts.length;
+  const growingCrops = farmerProducts.filter(p => p.status === 'pending').length;
+  const readyForHarvest = farmerProducts.filter(p => p.status === 'verified').length;
+
+  // Metrics cards for the dashboard
+  const metricsCards = [
+    {
+      title: 'Active Products',
+      value: farmerProducts.length,
+      icon: <Package className="h-6 w-6" />,
+      color: 'green',
+      variant: 'total-transactions'
+    },
+    {
+      title: 'Growing Crops',
+      value: farmerProducts.filter(p => p.status === 'pending').length,
+      icon: <Package className="h-6 w-6" />,
+      color: 'lime',
+      variant: 'success'
+    },
+    {
+      title: 'Ready for Harvest',
+      value: farmerProducts.filter(p => p.status === 'verified').length,
+      icon: <Package className="h-6 w-6" />,
+      color: 'blue',
+      variant: 'monthly-revenue'
+    },
+    {
+      title: 'Compliance Needed',
+      value: 2,
+      icon: <AlertCircle className="h-6 w-6" />,
+      color: 'orange',
+      variant: 'warning'
+    }
+  ];
 
   useEffect(() => {
     const checkAuth = () => {
@@ -67,62 +117,73 @@ export default function FarmerPage() {
   }
 
   return (
-    <DashboardLayout>
+    <DashboardLayout
+      // title={`Welcome, ${currentUser?.name || 'Farmer'}!`}
+      description="Manage your farm operations from seed to harvest"
+    >
       <div className="space-y-6">
-        {/* Farmer Profile Header */}
-        <div className="bg-gradient-to-r from-green-600 to-green-700 rounded-lg p-6 text-white">
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-            <div>
-              <h1 className="text-2xl sm:text-3xl font-bold mb-2">Welcome, {currentUser.name || 'Farmer'}</h1>
-              <p className="text-green-100">Manage your farm products and track their journey</p>
+        {/* Hero Section */}
+        <div className="bg-gradient-to-r from-green-600 to-emerald-700 rounded-2xl p-4 sm:p-8 text-white relative">
+          <div className="text-center">
+            <h1 className="text-2xl sm:text-3xl font-bold mb-2">Farm Management</h1>
+            <p className="text-green-100 mb-4 sm:mb-6 text-sm sm:text-base">Complete agricultural operations management for Maroon Traceability System</p>
+            <div className="flex justify-center items-center gap-3 sm:gap-6 mb-4 sm:mb-8 flex-wrap">
+              <div className="flex items-center gap-2">
+                <Sprout className="h-4 w-4 sm:h-5 sm:w-5" />
+                <span className="text-xs sm:text-sm">{activeProducts} Active Products</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <Droplets className="h-4 w-4 sm:h-5 sm:w-5" />
+                <span className="text-xs sm:text-sm">{growingCrops} Growing Crops</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <Package className="h-4 w-4 sm:h-5 sm:w-5" />
+                <span className="text-xs sm:text-sm">{readyForHarvest} Ready for Harvest</span>
+              </div>
             </div>
-            <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
-              <Button 
-                onClick={() => router.push('/farmer/events')}
-                className="bg-white text-green-600 hover:bg-green-50 w-full sm:w-auto"
-              >
-                <Calendar className="h-4 w-4 mr-2" />
-                <span className="hidden sm:inline">Event Management</span>
-                <span className="sm:hidden">Events</span>
-              </Button>
+            <div className="hidden md:block">
+              <Sprout className="h-12 w-12 sm:h-16 sm:w-16 text-green-200 mx-auto" />
             </div>
           </div>
         </div>
-
-        {/* Quick Stats */}
-        <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-6">
-          <Card className="p-3 sm:p-4 lg:p-6">
-            <div className="text-center">
-              <Package className="h-6 w-6 sm:h-8 sm:w-8 lg:h-10 lg:w-10 text-green-600 mx-auto mb-1 sm:mb-2" />
-              <p className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900">{farmerProducts.length}</p>
-              <p className="text-xs sm:text-sm text-gray-600">Total Products</p>
+        {/* Event Management Section */}
+        {showEventForm && (
+          <Card className="p-4 sm:p-6 mb-4 sm:mb-6">
+            <div className="flex justify-between items-center mb-3 sm:mb-4">
+              <h3 className="text-base sm:text-lg font-medium">Create New Event</h3>
+              <Button 
+                variant="outline" 
+                onClick={() => setShowEventForm(false)}
+                className="h-8 sm:h-10 w-8 sm:w-auto"
+              >
+                <span className="hidden sm:inline">Cancel</span>
+                <span className="sm:hidden">×</span>
+              </Button>
             </div>
+            <EventForm 
+              productId={farmerProducts[0]?.id || ''}
+              onSubmit={async (data: any) => {
+                console.log('Event submitted:', data);
+                setShowEventForm(false);
+              }}
+            />
           </Card>
-          <Card className="p-3 sm:p-4 lg:p-6">
-            <div className="text-center">
-              <TrendingUp className="h-6 w-6 sm:h-8 sm:w-8 lg:h-10 lg:w-10 text-blue-600 mx-auto mb-1 sm:mb-2" />
-              <p className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900">98%</p>
-              <p className="text-xs sm:text-sm text-gray-600">Quality Score</p>
-            </div>
-          </Card>
-          <Card className="p-3 sm:p-4 lg:p-6">
-            <div className="text-center">
-              <MapPin className="h-6 w-6 sm:h-8 sm:w-8 lg:h-10 lg:w-10 text-orange-600 mx-auto mb-1 sm:mb-2" />
-              <p className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900">3</p>
-              <p className="text-xs sm:text-sm text-gray-600">Locations</p>
-            </div>
-          </Card>
-          <Card className="p-3 sm:p-4 lg:p-6">
-            <div className="text-center">
-              <Calendar className="h-6 w-6 sm:h-8 sm:w-8 lg:h-10 lg:w-10 text-purple-600 mx-auto mb-1 sm:mb-2" />
-              <p className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900">15</p>
-              <p className="text-xs sm:text-sm text-gray-600">Days Active</p>
-            </div>
-          </Card>
-        </div>
-
+        )}
+        
         {/* Quick Actions - Navigation to Dedicated Pages */}
-        <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-6">
+        <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-5 gap-3 sm:gap-4 lg:gap-6">
+          <div className="cursor-pointer" onClick={() => setShowEventForm(true)}>
+            <Card className="p-3 sm:p-4 lg:p-6 hover:shadow-lg transition-shadow">
+              <div className="text-center">
+                <div className="inline-flex items-center justify-center w-8 sm:w-10 lg:w-12 h-8 sm:h-10 lg:h-12 bg-emerald-100 rounded-full mb-2 sm:mb-4">
+                  <Calendar className="h-4 w-4 sm:h-5 sm:w-5 lg:h-6 lg:w-6 text-emerald-600" />
+                </div>
+                <h3 className="text-xs sm:text-sm lg:text-base font-semibold text-gray-900 mb-1">Event Management</h3>
+                <p className="text-xs text-gray-600">Add farm events</p>
+              </div>
+            </Card>
+          </div>
+
           <div className="cursor-pointer" onClick={() => router.push('/farmer/growth')}>
             <Card className="p-3 sm:p-4 lg:p-6 hover:shadow-lg transition-shadow">
               <div className="text-center">
@@ -153,8 +214,8 @@ export default function FarmerPage() {
                 <div className="inline-flex items-center justify-center w-8 sm:w-10 lg:w-12 h-8 sm:h-10 lg:h-12 bg-purple-100 rounded-full mb-2 sm:mb-4">
                   <Package className="h-4 w-4 sm:h-5 sm:w-5 lg:h-6 lg:w-6 text-purple-600" />
                 </div>
-                <h3 className="text-xs sm:text-sm lg:text-base font-semibold text-gray-900 mb-1">Products</h3>
-                <p className="text-xs text-gray-600">Manage farm products</p>
+                <h3 className="text-xs sm:text-sm lg:text-base font-semibold text-gray-900 mb-1">Seed Varieties</h3>
+                <p className="text-xs text-gray-600">Track seed inventory</p>
               </div>
             </Card>
           </div>
@@ -167,6 +228,18 @@ export default function FarmerPage() {
                 </div>
                 <h3 className="text-xs sm:text-sm lg:text-base font-semibold text-gray-900 mb-1">Compliance</h3>
                 <p className="text-xs text-gray-600">Regulations & certifications</p>
+              </div>
+            </Card>
+          </div>
+
+          <div className="cursor-pointer" onClick={() => router.push('/farmer/products')}>
+            <Card className="p-3 sm:p-4 lg:p-6 hover:shadow-lg transition-shadow">
+              <div className="text-center">
+                <div className="inline-flex items-center justify-center w-8 sm:w-10 lg:w-12 h-8 sm:h-10 lg:h-12 bg-blue-100 rounded-full mb-2 sm:mb-4">
+                  <Package className="h-4 w-4 sm:h-5 sm:w-5 lg:h-6 lg:w-6 text-blue-600" />
+                </div>
+                <h3 className="text-xs sm:text-sm lg:text-base font-semibold text-gray-900 mb-1">Products</h3>
+                <p className="text-xs text-gray-600">Manage products</p>
               </div>
             </Card>
           </div>

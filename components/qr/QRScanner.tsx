@@ -4,6 +4,7 @@
 import { useState, useCallback, useRef } from 'react';
 import { Camera, X, CheckCircle, AlertCircle, QrCode } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { useRouter } from 'next/navigation';
 
 interface QRScannerProps {
   onScanSuccess?: (data: string) => void;
@@ -24,6 +25,7 @@ export function QRScanner({
   const [showMockDialog, setShowMockDialog] = useState(false);
   const [mockInput, setMockInput] = useState('');
   const videoRef = useRef<HTMLVideoElement>(null);
+  const router = useRouter();
 
   const startScanning = useCallback(() => {
     if (mockMode) {
@@ -59,18 +61,22 @@ export function QRScanner({
     setError(null);
     onScanSuccess?.(mockInput);
     
-    // Auto-close after successful scan
+    // Redirect to product details page immediately after successful scan
     setTimeout(() => {
+      console.log('Navigating to:', `/trace/${mockInput}`);
+      // Navigate to the trace page with the product ID
+      router.push(`/trace/${mockInput}`);
+      // Close the scanner after initiating navigation
       stopScanning();
       onClose?.();
-    }, 1500);
-  }, [mockInput, onScanSuccess, onScanError, onClose, stopScanning]);
+    }, 1000); // Reduced timeout for better UX
+  }, [mockInput, onScanSuccess, onScanError, onClose, stopScanning, router]);
 
   const generateMockProductIds = useCallback(() => {
     const mockIds = [
-      'PRD-2024-001',
-      'PRD-2024-002', 
-      'PRD-2024-003',
+      'APPLE-001',
+      'TOMATO-002', 
+      'MORINGA-003',
       'BLK1704123456789',
       'TRACE-DEMO-001'
     ];
@@ -112,8 +118,11 @@ export function QRScanner({
                 <CheckCircle className="h-8 w-8 text-green-600" />
               </div>
               <h4 className="text-lg font-semibold text-gray-900 mb-2">Scan Successful!</h4>
-              <p className="text-sm text-gray-600 font-mono bg-gray-100 px-3 py-2 rounded">
+              <p className="text-sm text-gray-600 font-mono bg-gray-100 px-3 py-2 rounded mb-3">
                 {scanResult}
+              </p>
+              <p className="text-sm text-blue-600 animate-pulse">
+                Redirecting to product details...
               </p>
             </div>
           ) : (
@@ -127,7 +136,7 @@ export function QRScanner({
                     type="text"
                     value={mockInput}
                     onChange={(e) => setMockInput(e.target.value)}
-                    placeholder="e.g., PRD-2024-001"
+                    placeholder="e.g., APPLE-001"
                     className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                     autoFocus
                   />
@@ -154,7 +163,7 @@ export function QRScanner({
                   onClick={handleMockScan}
                   className="flex-1 bg-blue-600 hover:bg-blue-700"
                 >
-                  Scan Product
+                  View Product Details
                 </Button>
                 <Button
                   variant="outline"
@@ -165,7 +174,7 @@ export function QRScanner({
               </div>
 
               <div className="text-xs text-gray-500 text-center">
-                <p>Try: PRD-2024-001, BLK1704123456789, or click "Random"</p>
+                <p>Try: APPLE-001, TOMATO-002, MORINGA-003, or click "Random"</p>
               </div>
             </div>
           )}

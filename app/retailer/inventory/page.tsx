@@ -4,8 +4,8 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useUser } from '@/contexts/userContext';
-import { DashboardLayout } from '@/components/dashboard/DashboardLayout';
-import InventoryComponent from './inventoryComponent';
+import { DashboardLayout } from '@/components/dashboard/dashboardLayout';
+import InventoryComponent from '../../../components/retailers/inventoryComponent';
 
 export default function Inventory() {
   const { currentUser } = useUser();
@@ -36,11 +36,23 @@ export default function Inventory() {
   }
 
   return (
-    <DashboardLayout
-      title="Inventory Management"
-      description="Manage your stock levels and product availability"
-    >
-      <InventoryComponent />
-    </DashboardLayout>
+    <>
+      {/* Back Button Above DashboardLayout */}
+      <div className="px-4 sm:px-6 lg:px-8 pt-4">
+        <button
+          onClick={() => router.push('/retailer')}
+          className="inline-flex items-center gap-2 text-sm"
+        >
+          Back
+        </button>
+      </div>
+      
+      <DashboardLayout
+        title="Inventory Management"
+        description="Manage your stock levels and product availability"
+      >
+        <InventoryComponent />
+      </DashboardLayout>
+    </>
   );
 }

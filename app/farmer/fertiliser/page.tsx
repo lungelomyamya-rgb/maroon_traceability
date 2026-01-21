@@ -5,8 +5,15 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useUser } from '@/contexts/userContext';
 import { useProducts } from '@/contexts/productContext';
-import { DashboardLayout } from '@/components/dashboard/DashboardLayout';
-import { FertiliserLog } from '@/components/farmer/fertiliserLog';
+import { DashboardLayout } from '@/components/dashboard/dashboardLayout';
+import { Button } from '@/components/ui/button';
+import dynamic from 'next/dynamic';
+
+// Lazy load large component
+const FertiliserLog = dynamic(() => import('@/components/farmer/fertiliserLog').then(mod => ({ default: mod.FertiliserLog })), {
+  loading: () => <div>Loading fertiliser log...</div>,
+  ssr: false
+});
 
 export default function FarmerFertiliserPage() {
   const router = useRouter();
@@ -31,11 +38,24 @@ export default function FarmerFertiliserPage() {
   }
 
   return (
-    <DashboardLayout
-      title="Fertiliser Logs"
-      subtitle="Record nutrient applications and track soil health"
-    >
-      <FertiliserLog products={farmerProducts} />
-    </DashboardLayout>
+    <>
+      {/* Back Button Above DashboardLayout */}
+      <div className="px-4 sm:px-6 lg:px-8 pt-4">
+        <Button
+          variant="outline"
+          onClick={() => router.push('/farmer')}
+          className="inline-flex items-center gap-2 text-sm"
+        >
+          Back
+        </Button>
+      </div>
+      
+      <DashboardLayout
+        title="Fertiliser Logs"
+        subtitle="Record nutrient applications and track soil health"
+      >
+        <FertiliserLog products={farmerProducts} />
+      </DashboardLayout>
+    </>
   );
 }

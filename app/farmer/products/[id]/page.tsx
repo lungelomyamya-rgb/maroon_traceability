@@ -7,11 +7,10 @@ import { useProducts } from '@/contexts/productContext';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { DashboardLayout } from '@/components/dashboard/DashboardLayout';
+import { DashboardLayout } from '@/components/dashboard/dashboardLayout';
 import { ProductEventList } from '@/components/events/productEventList';
 import { EventForm } from '@/components/events/eventForm';
 import { 
-  ArrowLeft, 
   Package, 
   MapPin, 
   Calendar, 
@@ -79,7 +78,6 @@ export default function ProductDetailPage() {
           <h2 className="text-xl font-semibold text-gray-900 mb-2">Product Not Found</h2>
           <p className="text-gray-600 mb-6">The product you're looking for doesn't exist or you don't have access to it.</p>
           <Button onClick={() => router.push('/farmer')}>
-            <ArrowLeft className="h-4 w-4 mr-2" />
             Back to Profile
           </Button>
         </div>
@@ -96,7 +94,6 @@ export default function ProductDetailPage() {
           onClick={() => router.push('/farmer')}
           className="text-gray-600 hover:text-gray-900 hover:bg-gray-50"
         >
-          <ArrowLeft className="h-4 w-4 mr-2" />
           <span className="hidden sm:inline">Back to Profile</span>
           <span className="sm:hidden">Back</span>
         </Button>

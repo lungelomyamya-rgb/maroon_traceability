@@ -10,7 +10,6 @@ import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 import { 
-  ArrowLeft,
   CreditCard,
   Truck,
   Shield,
@@ -201,9 +200,9 @@ export default function CheckoutPage() {
               <Button 
                 variant="outline" 
                 size="sm"
-                onClick={() => router.push('/marketplace/cart')}
+                onClick={() => router.push('/marketplace')}
+                className="h-8 sm:h-10"
               >
-                <ArrowLeft className="h-4 w-4 mr-1 sm:mr-2" />
                 <span className="hidden sm:inline">Back to Cart</span>
               </Button>
               <h1 className="text-lg sm:text-xl lg:text-2xl font-bold text-gray-900 truncate">Checkout</h1>
@@ -211,6 +210,27 @@ export default function CheckoutPage() {
           </div>
         </div>
       </nav>
+
+      {/* Floating Back Button - Top Corner */}
+        <button
+          onClick={() => router.back()}
+          className="fixed top-4 left-4 bg-white hover:bg-gray-100 text-gray-800 p-3 rounded-full shadow-lg border border-gray-300 transition-all duration-300 z-30"
+          aria-label="Go back to previous page"
+        >
+          <svg 
+            xmlns="http://www.w3.org/2000/svg" 
+            width="20" 
+            height="20" 
+            viewBox="0 0 24 24" 
+            fill="none" 
+            stroke="currentColor" 
+            strokeWidth="2" 
+            strokeLinecap="round" 
+            strokeLinejoin="round"
+            className="h-4 w-4"
+          >
+          </svg>
+        </button>
 
       {/* Main Content */}
       <div className="min-h-screen bg-gray-50">

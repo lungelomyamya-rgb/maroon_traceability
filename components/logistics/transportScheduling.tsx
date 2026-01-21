@@ -9,6 +9,7 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Calendar, Clock, MapPin, Truck, User, Plus, Edit, Eye, Route, AlertTriangle } from 'lucide-react';
 import { TransportSchedule, TransportStatus, Vehicle, Driver } from '@/types/logistics';
+import { mockSchedules } from '@/constants/logisticsMockData';
 
 interface TransportSchedulingProps {
   onScheduleSelect?: (schedule: TransportSchedule) => void;
@@ -67,81 +68,7 @@ export function TransportScheduling({ onScheduleSelect, vehicles = [], drivers =
   ];
 
   useEffect(() => {
-    // Mock data - replace with API call
-    const mockSchedules: TransportSchedule[] = [
-      {
-        id: 'sched1',
-        vehicleId: 'veh1',
-        driverId: 'driver1',
-        productId: 'PRD-2024-001',
-        route: {
-          origin: {
-            name: 'Green Valley Farm',
-            address: '123 Farm Road, Stellenbosch',
-            lat: -33.9249,
-            lng: 18.4241,
-            contact: '+27 21 123 4567'
-          },
-          destination: {
-            name: 'Fresh Market Cape Town',
-            address: '456 Market St, Cape Town',
-            lat: -33.9249,
-            lng: 18.4241,
-            contact: '+27 21 987 6543'
-          }
-        },
-        scheduledDate: '2025-01-25T08:00:00Z',
-        estimatedDuration: 120,
-        status: 'scheduled',
-        priority: 'high',
-        cargoDetails: {
-          weight: 500,
-          volume: 2,
-          temperatureRequirements: '2-4°C',
-          specialHandling: ['Refrigerated', 'Perishable']
-        },
-        documents: [],
-        notes: 'Organic apples - handle with care',
-        createdAt: '2025-01-20T10:00:00Z',
-        updatedAt: '2025-01-20T10:00:00Z'
-      },
-      {
-        id: 'sched2',
-        vehicleId: 'veh2',
-        driverId: 'driver2',
-        productId: 'PRD-2024-002',
-        route: {
-          origin: {
-            name: 'Sunny Acres Farm',
-            address: '789 Sunny Lane, Paarl',
-            lat: -33.8688,
-            lng: 18.5058,
-            contact: '+27 21 555 1234'
-          },
-          destination: {
-            name: 'Organic Foods Store',
-            address: '321 Health St, Johannesburg',
-            lat: -26.2041,
-            lng: 28.0473,
-            contact: '+27 11 777 8888'
-          }
-        },
-        scheduledDate: '2025-01-26T06:00:00Z',
-        estimatedDuration: 480,
-        status: 'scheduled',
-        priority: 'medium',
-        cargoDetails: {
-          weight: 300,
-          volume: 1.5,
-          specialHandling: ['Organic Certified']
-        },
-        documents: [],
-        notes: 'Free range eggs - ensure careful handling',
-        createdAt: '2025-01-20T11:00:00Z',
-        updatedAt: '2025-01-20T11:00:00Z'
-      }
-    ];
-
+    // Load mock data from consolidated file
     setSchedules(mockSchedules);
   }, []);
 
@@ -250,11 +177,14 @@ export function TransportScheduling({ onScheduleSelect, vehicles = [], drivers =
 
   return (
     <div className="space-y-6">
-      <div className="flex justify-between items-center">
-        <h2 className="text-xl font-semibold text-gray-700">Transport Scheduling</h2>
+      {/* Header with Add Button */}
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        <div>
+          <h2 className="text-xl sm:text-2xl font-semibold text-gray-900">Transport Scheduling</h2>
+        </div>
         <Button 
           onClick={() => setShowAddForm(!showAddForm)}
-          className="bg-cyan-600 hover:bg-cyan-700 text-white"
+          className="bg-cyan-600 hover:bg-cyan-700 text-white w-full sm:w-auto"
         >
           <Plus className="h-4 w-4 mr-2" />
           Schedule Transport
@@ -263,11 +193,11 @@ export function TransportScheduling({ onScheduleSelect, vehicles = [], drivers =
 
       {/* Add/Edit Schedule Form */}
       {(showAddForm || editingSchedule) && (
-        <Card className="p-6">
+        <Card className="p-4 sm:p-6">
           <h3 className="text-lg font-medium mb-4">
             {showAddForm ? 'Schedule New Transport' : 'Edit Transport Schedule'}
           </h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">Product ID</label>
               <Input
@@ -523,35 +453,35 @@ export function TransportScheduling({ onScheduleSelect, vehicles = [], drivers =
       )}
 
       {/* Schedule List */}
-      <div className="space-y-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
         {schedules.map((schedule) => {
           const priorityConfigItem = priorityConfig[schedule.priority];
           const statusConfigItem = statusConfig[schedule.status];
           const overdue = isOverdue(schedule);
 
           return (
-            <Card key={schedule.id} className="p-6">
-              <div className="flex items-start justify-between mb-4">
-                <div className="flex items-center gap-3">
-                  <div className="p-2 bg-sky-100 rounded-lg">
-                    <Route className="h-6 w-6 text-sky-600" />
+            <Card key={schedule.id} className="p-3 sm:p-4 lg:p-5 hover:shadow-lg transition-all duration-200 hover:scale-[1.02] border-0 shadow-md bg-white rounded-xl w-full min-h-[320px] sm:min-h-[360px] lg:min-h-[400px] flex flex-col">
+              <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2 sm:gap-3 mb-3 sm:mb-4">
+                <div className="flex items-center gap-2 sm:gap-3 flex-1 min-w-0">
+                  <div className="p-1.5 sm:p-2 bg-sky-100 rounded-lg shadow-lg flex-shrink-0">
+                    <Route className="h-4 w-4 sm:h-5 lg:h-6 text-sky-600" />
                   </div>
-                  <div>
-                    <h3 className="font-semibold text-gray-700">{schedule.productId}</h3>
-                    <p className="text-sm text-gray-600">
+                  <div className="flex-1 min-w-0">
+                    <h3 className="font-semibold text-gray-700 text-sm sm:text-base lg:text-lg break-words">{schedule.productId}</h3>
+                    <p className="text-xs sm:text-sm text-gray-600 truncate">
                       {schedule.route.origin.name} → {schedule.route.destination.name}
                     </p>
                   </div>
                 </div>
-                <div className="flex items-center gap-2">
-                  <Badge variant="info" className={priorityConfigItem.color}>
+                <div className="flex flex-col gap-1 flex-shrink-0">
+                  <Badge variant="info" className={`${priorityConfigItem.color} text-xs whitespace-nowrap`}>
                     {priorityConfigItem.icon} {priorityConfigItem.label}
                   </Badge>
-                  <Badge variant="info" className={statusConfigItem.color}>
+                  <Badge variant="info" className={`${statusConfigItem.color} text-xs whitespace-nowrap`}>
                     {statusConfigItem.icon} {statusConfigItem.label}
                   </Badge>
                   {overdue && (
-                    <Badge className="bg-red-100 text-red-800">
+                    <Badge className="bg-red-100 text-red-800 text-xs whitespace-nowrap">
                       <AlertTriangle className="h-3 w-3 mr-1" />
                       Overdue
                     </Badge>
@@ -559,26 +489,26 @@ export function TransportScheduling({ onScheduleSelect, vehicles = [], drivers =
                 </div>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
+              <div className="space-y-3 text-xs sm:text-sm mb-3 sm:mb-4">
                 <div className="flex items-center gap-2">
-                  <Calendar className="h-4 w-4 text-gray-400" />
-                  <div>
+                  <Calendar className="h-3 w-3 sm:h-4 text-gray-400" />
+                  <div className="flex-1">
                     <p className="text-gray-600">Scheduled</p>
-                    <p className="font-medium">{new Date(schedule.scheduledDate).toLocaleString()}</p>
+                    <p className="font-medium text-xs">{new Date(schedule.scheduledDate).toLocaleString()}</p>
                   </div>
                 </div>
 
                 <div className="flex items-center gap-2">
-                  <Clock className="h-4 w-4 text-gray-400" />
-                  <div>
+                  <Clock className="h-3 w-3 sm:h-4 text-gray-400" />
+                  <div className="flex-1">
                     <p className="text-gray-600">Duration</p>
                     <p className="font-medium">{formatDuration(schedule.estimatedDuration)}</p>
                   </div>
                 </div>
 
                 <div className="flex items-center gap-2">
-                  <Truck className="h-4 w-4 text-gray-400" />
-                  <div>
+                  <Truck className="h-3 w-3 sm:h-4 text-gray-400" />
+                  <div className="flex-1">
                     <p className="text-gray-600">Cargo</p>
                     <p className="font-medium">{schedule.cargoDetails.weight}kg, {schedule.cargoDetails.volume}m³</p>
                   </div>
@@ -586,24 +516,24 @@ export function TransportScheduling({ onScheduleSelect, vehicles = [], drivers =
               </div>
 
               {/* Route Details */}
-              <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="mt-4 space-y-3">
                 <div className="flex items-start gap-2">
-                  <MapPin className="h-4 w-4 text-gray-400 mt-1" />
-                  <div>
+                  <MapPin className="h-3 w-3 sm:h-4 text-gray-400 mt-1 flex-shrink-0" />
+                  <div className="flex-1 min-w-0">
                     <p className="text-xs text-gray-600">Origin</p>
-                    <p className="text-sm font-medium">{schedule.route.origin.name}</p>
-                    <p className="text-xs text-gray-500">{schedule.route.origin.address}</p>
-                    <p className="text-xs text-gray-500">{schedule.route.origin.contact}</p>
+                    <p className="text-xs sm:text-sm font-medium truncate">{schedule.route.origin.name}</p>
+                    <p className="text-xs text-gray-500 truncate">{schedule.route.origin.address}</p>
+                    <p className="text-xs text-gray-500 truncate">{schedule.route.origin.contact}</p>
                   </div>
                 </div>
 
                 <div className="flex items-start gap-2">
-                  <MapPin className="h-4 w-4 text-gray-400 mt-1" />
-                  <div>
+                  <MapPin className="h-3 w-3 sm:h-4 text-gray-400 mt-1 flex-shrink-0" />
+                  <div className="flex-1 min-w-0">
                     <p className="text-xs text-gray-600">Destination</p>
-                    <p className="text-sm font-medium">{schedule.route.destination.name}</p>
-                    <p className="text-xs text-gray-500">{schedule.route.destination.address}</p>
-                    <p className="text-xs text-gray-500">{schedule.route.destination.contact}</p>
+                    <p className="text-xs sm:text-sm font-medium truncate">{schedule.route.destination.name}</p>
+                    <p className="text-xs text-gray-500 truncate">{schedule.route.destination.address}</p>
+                    <p className="text-xs text-gray-500 truncate">{schedule.route.destination.contact}</p>
                   </div>
                 </div>
               </div>
@@ -627,31 +557,33 @@ export function TransportScheduling({ onScheduleSelect, vehicles = [], drivers =
               )}
 
               {/* Actions */}
-              <div className="flex gap-2 mt-4">
+              <div className="flex flex-col sm:flex-row gap-2 mt-auto pt-3">
                 <Button
                   variant="outline"
                   size="sm"
                   onClick={() => onScheduleSelect?.(schedule)}
+                  className="flex-1 text-xs sm:text-sm"
                 >
-                  <Eye className="h-4 w-4 mr-1" />
+                  <Eye className="h-3 w-3 sm:h-4 sm:w-4 mr-1" />
                   View Details
                 </Button>
                 <Button
                   variant="outline"
                   size="sm"
                   onClick={() => setEditingSchedule(schedule)}
+                  className="flex-1 text-xs sm:text-sm"
                 >
-                  <Edit className="h-4 w-4 mr-1" />
+                  <Edit className="h-3 w-3 sm:h-4 sm:w-4 mr-1" />
                   Edit
                 </Button>
                 <Button
                   variant="outline"
                   size="sm"
-                  onClick={() => {/* Start transport */}}
-                  disabled={schedule.status !== 'scheduled'}
+                  onClick={() => {/* Start tracking */}}
+                  className="flex-1 text-xs sm:text-sm"
                 >
-                  <Truck className="h-4 w-4 mr-1" />
-                  Start Transport
+                  <Route className="h-3 w-3 sm:h-4 sm:w-4 mr-1" />
+                  Track
                 </Button>
               </div>
             </Card>

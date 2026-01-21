@@ -221,34 +221,36 @@ export function TransportDocumentation({ transportId, onDocumentUpdate }: Transp
 
   return (
     <div className="space-y-6">
-      <div className="flex justify-between items-center">
-        <h2 className="text-xl font-semibold text-gray-700">Transport Documentation</h2>
-        <div className="flex items-center gap-2">
+      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-3 sm:gap-4">
+        <div className="min-w-0">
+          <h2 className="text-lg sm:text-xl font-semibold text-gray-700 truncate">Transport Documentation</h2>
+        </div>
+        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-3">
           {isAllRequiredDocumentsUploaded() ? (
-            <Badge className="bg-green-100 text-green-800">
+            <Badge className="bg-green-100 text-green-800 text-xs whitespace-nowrap">
               <CheckCircle className="h-3 w-3 mr-1" />
               All Required Documents
             </Badge>
           ) : (
-            <Badge className="bg-yellow-100 text-yellow-800">
+            <Badge className="bg-yellow-100 text-yellow-800 text-xs whitespace-nowrap">
               <AlertTriangle className="h-3 w-3 mr-1" />
               Missing Required Documents
             </Badge>
           )}
           <Button 
             onClick={() => setShowUploadForm(!showUploadForm)}
-            className="bg-sky-600 hover:bg-sky-700 text-white"
+            className="bg-sky-600 hover:bg-sky-700 text-white text-xs sm:text-sm"
           >
-            <Plus className="h-4 w-4 mr-2" />
+            <Plus className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
             Upload Document
           </Button>
         </div>
       </div>
 
       {/* Required Documents Status */}
-      <Card className="p-6">
-        <h3 className="text-lg font-medium mb-4">Required Documents Status</h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <Card className="p-3 sm:p-4 lg:p-6">
+        <h3 className="text-base sm:text-lg font-medium mb-3 sm:mb-4">Required Documents Status</h3>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
           {getRequiredDocuments().map((type) => {
             const status = getDocumentStatus(type.value);
             const statusConfigItem = status === 'approved' ? statusConfig.approved :
@@ -273,9 +275,9 @@ export function TransportDocumentation({ transportId, onDocumentUpdate }: Transp
 
       {/* Upload Document Form */}
       {showUploadForm && (
-        <Card className="p-6">
-          <h3 className="text-lg font-medium mb-4">Upload New Document</h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <Card className="p-3 sm:p-4 lg:p-6">
+          <h3 className="text-base sm:text-lg font-medium mb-3 sm:mb-4">Upload New Document</h3>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">Document Type</label>
               <select
@@ -337,32 +339,32 @@ export function TransportDocumentation({ transportId, onDocumentUpdate }: Transp
       )}
 
       {/* Documents List */}
-      <div className="space-y-4">
+      <div className="space-y-3 sm:space-y-4">
         {documents.map((document) => {
           const typeConfig = documentTypes.find(t => t.value === document.type);
           const statusConfigItem = statusConfig[document.status];
 
           return (
-            <Card key={document.id} className="p-6">
-              <div className="flex items-start justify-between mb-4">
-                <div className="flex items-center gap-3">
-                  <div className="p-2 bg-sky-100 rounded-lg">
-                    <FileText className="h-6 w-6 text-sky-600" />
+            <Card key={document.id} className="p-3 sm:p-4 lg:p-6">
+              <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 mb-3 sm:mb-4">
+                <div className="flex items-center gap-2 sm:gap-3 flex-1 min-w-0">
+                  <div className="p-1.5 sm:p-2 bg-sky-100 rounded-lg shadow-lg flex-shrink-0">
+                    <FileText className="h-4 w-4 sm:h-5 lg:h-6 text-sky-600" />
                   </div>
-                  <div>
-                    <h3 className="font-semibold text-gray-700">{document.title}</h3>
-                    <p className="text-sm text-gray-600">{typeConfig?.description}</p>
+                  <div className="flex-1 min-w-0">
+                    <h3 className="font-semibold text-gray-700 text-sm sm:text-base truncate" title={document.title}>{document.title}</h3>
+                    <p className="text-xs sm:text-sm text-gray-600">{typeConfig?.description}</p>
                     <p className="text-xs text-gray-500">
                       Uploaded by {document.uploadedBy} on {new Date(document.uploadedAt).toLocaleString()}
                     </p>
                   </div>
                 </div>
-                <div className="flex items-center gap-2">
-                  <Badge variant="info" className={statusConfigItem.color}>
+                <div className="flex flex-wrap gap-1 sm:gap-2 flex-shrink-0">
+                  <Badge variant="info" className={`${statusConfigItem.color} text-xs whitespace-nowrap`}>
                     {statusConfigItem.icon} {statusConfigItem.label}
                   </Badge>
                   {typeConfig?.required && (
-                    <Badge className="bg-red-100 text-red-800 text-xs">
+                    <Badge className="bg-red-100 text-red-800 text-xs whitespace-nowrap">
                       Required
                     </Badge>
                   )}
@@ -371,60 +373,61 @@ export function TransportDocumentation({ transportId, onDocumentUpdate }: Transp
 
               {/* Document Metadata */}
               {Object.keys(document.metadata || {}).length > 0 && (
-                <div className="mt-4 p-3 bg-gray-50 rounded-lg">
+                <div className="mt-3 sm:mt-4 p-3 bg-gray-50 rounded-lg">
                   <h4 className="text-sm font-medium text-gray-700 mb-2">Document Details</h4>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-2 text-sm">
+                  <div className="space-y-1 sm:space-y-2 text-xs sm:text-sm">
                     {Object.entries(document.metadata || {}).map(([key, value]) => (
                       <div key={key} className="flex justify-between">
                         <span className="text-gray-600 capitalize">
-                          {key.replace(/([A-Z])/g, ' $1').trim()}:
+                          {key.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase())}
                         </span>
-                        <span className="font-medium">{value}</span>
+                        <span className="font-medium truncate ml-2">{value}</span>
                       </div>
                     ))}
                   </div>
                 </div>
               )}
-
-              {/* Actions */}
-              <div className="flex gap-2 mt-4">
+                          {/* Actions */}
+              <div className="flex flex-col sm:flex-row gap-2 mt-3 sm:mt-4">
                 <Button
                   variant="outline"
                   size="sm"
                   onClick={() => window.open(document.fileUrl, '_blank')}
+                  className="flex-1 text-xs sm:text-sm"
                 >
-                  <Eye className="h-4 w-4 mr-1" />
+                  <Eye className="h-3 w-3 sm:h-4 sm:w-4 mr-1" />
                   View
                 </Button>
                 <Button
                   variant="outline"
                   size="sm"
                   onClick={() => window.open(document.fileUrl, '_blank')}
+                  className="flex-1 text-xs sm:text-sm"
                 >
-                  <Download className="h-4 w-4 mr-1" />
+                  <Download className="h-3 w-3 sm:h-4 sm:w-4 mr-1" />
                   Download
                 </Button>
                 {document.status === 'pending' && (
-                  <>
+                  <div className="flex flex-col sm:flex-row gap-2 mt-2">
                     <Button
                       variant="outline"
                       size="sm"
                       onClick={() => handleApproveDocument(document.id)}
-                      className="text-green-600 border-green-300 hover:bg-green-50"
+                      className="text-green-600 border-green-300 hover:bg-green-50 text-xs sm:text-sm"
                     >
-                      <CheckCircle className="h-4 w-4 mr-1" />
+                      <CheckCircle className="h-3 w-3 sm:h-4 sm:w-4 mr-1" />
                       Approve
                     </Button>
                     <Button
                       variant="outline"
                       size="sm"
                       onClick={() => handleRejectDocument(document.id)}
-                      className="text-red-600 border-red-300 hover:bg-red-50"
+                      className="text-red-600 border-red-300 hover:bg-red-50 text-xs sm:text-sm"
                     >
-                      <XCircle className="h-4 w-4 mr-1" />
+                      <XCircle className="h-3 w-3 sm:h-4 sm:w-4 mr-1" />
                       Reject
                     </Button>
-                  </>
+                  </div>
                 )}
               </div>
             </Card>
@@ -433,9 +436,9 @@ export function TransportDocumentation({ transportId, onDocumentUpdate }: Transp
       </div>
 
       {/* Compliance Summary */}
-      <Card className="p-6">
-        <h3 className="text-lg font-medium mb-4">Compliance Summary</h3>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <Card className="p-3 sm:p-4 lg:p-6">
+        <h3 className="text-base sm:text-lg font-medium mb-3 sm:mb-4">Compliance Summary</h3>
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
           <div className="text-center p-4 bg-green-50 rounded-lg">
             <div className="text-2xl font-bold text-green-600">
               {documents.filter(d => d.status === 'approved').length}

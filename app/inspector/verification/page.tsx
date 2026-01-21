@@ -4,7 +4,7 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useUser } from '@/contexts/userContext';
-import { DashboardLayout } from '@/components/dashboard/DashboardLayout';
+import { DashboardLayout } from '@/components/dashboard/dashboardLayout';
 import { ThirdPartyVerification } from '@/components/inspector/thirdPartyVerification';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -147,83 +147,95 @@ export default function InspectorVerificationPage() {
   };
 
   return (
-    <DashboardLayout
-      title="Third-Party Verification"
-      description="Manage external verification requests and certificates"
-    >
-      <div className="space-y-6">
+    <>
+      {/* Back Button Above DashboardLayout */}
+      <div className="px-4 sm:px-6 lg:px-8 pt-4">
+        <Button
+          variant="outline"
+          onClick={() => router.push('/inspector')}
+          className="inline-flex items-center gap-2 text-sm"
+        >
+          Back
+        </Button>
+      </div>
+      
+      <DashboardLayout
+        title="Third-Party Verification"
+        description="Manage external verification requests and certificates"
+      >
+        <div className="space-y-6">
         {/* Metrics Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-          <Card className="p-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+          <Card className="p-4 sm:p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-gray-600">Total</p>
-                <p className="text-2xl font-bold text-gray-900">{statusCounts.total}</p>
+                <p className="text-sm sm:text-base font-medium text-gray-600">Total</p>
+                <p className="text-xl sm:text-2xl font-bold text-gray-900">{statusCounts.total}</p>
               </div>
-              <div className="p-2 bg-gray-100 rounded-lg">
-                <CheckCircle className="h-5 w-5 text-gray-600" />
+              <div className="p-2 sm:p-3 bg-gray-100 rounded-lg">
+                <CheckCircle className="h-4 w-4 sm:h-5 sm:w-5 text-gray-600" />
               </div>
             </div>
           </Card>
 
-          <Card className="p-4">
+          <Card className="p-4 sm:p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-gray-600">Pending</p>
-                <p className="text-2xl font-bold text-yellow-600">{statusCounts.pending}</p>
+                <p className="text-sm sm:text-base font-medium text-gray-600">Pending</p>
+                <p className="text-xl sm:text-2xl font-bold text-yellow-600">{statusCounts.pending}</p>
               </div>
-              <div className="p-2 bg-yellow-100 rounded-lg">
-                <Clock className="h-5 w-5 text-yellow-600" />
+              <div className="p-2 sm:p-3 bg-yellow-100 rounded-lg">
+                <Clock className="h-4 w-4 sm:h-5 sm:w-5 text-yellow-600" />
               </div>
             </div>
           </Card>
 
-          <Card className="p-4">
+          <Card className="p-4 sm:p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-gray-600">Verified</p>
-                <p className="text-2xl font-bold text-green-600">{statusCounts.verified}</p>
+                <p className="text-sm sm:text-base font-medium text-gray-600">Verified</p>
+                <p className="text-xl sm:text-2xl font-bold text-green-600">{statusCounts.verified}</p>
               </div>
-              <div className="p-2 bg-green-100 rounded-lg">
-                <CheckCircle className="h-5 w-5 text-green-600" />
+              <div className="p-2 sm:p-3 bg-green-100 rounded-lg">
+                <CheckCircle className="h-4 w-4 sm:h-5 sm:w-5 text-green-600" />
               </div>
             </div>
           </Card>
 
-          <Card className="p-4">
+          <Card className="p-4 sm:p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-gray-600">Rejected</p>
-                <p className="text-2xl font-bold text-red-600">{statusCounts.rejected}</p>
+                <p className="text-sm sm:text-base font-medium text-gray-600">Rejected</p>
+                <p className="text-xl sm:text-2xl font-bold text-red-600">{statusCounts.rejected}</p>
               </div>
-              <div className="p-2 bg-red-100 rounded-lg">
-                <AlertTriangle className="h-5 w-5 text-red-600" />
+              <div className="p-2 sm:p-3 bg-red-100 rounded-lg">
+                <AlertTriangle className="h-4 w-4 sm:h-5 sm:w-5 text-red-600" />
               </div>
             </div>
           </Card>
         </div>
 
         {/* Actions and Search */}
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+        <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4">
           <Button
             onClick={() => {
               setShowNewForm(true);
               setSelectedVerification(null);
             }}
-            className="bg-blue-600 hover:bg-blue-700 text-white"
+            className="bg-blue-600 hover:bg-blue-700 text-white w-full lg:w-auto h-10 sm:h-auto px-4 sm:px-6 py-2 text-sm sm:text-base"
           >
             <Plus className="h-4 w-4 mr-2" />
             Request Verification
           </Button>
 
-          <div className="relative w-full md:w-64">
+          <div className="relative w-full lg:w-64">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400 pointer-events-none" />
             <input
               type="text"
               placeholder="Search verifications..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="pl-10 pr-4 py-2 border border-gray-300 rounded-md focus:border-blue-500 focus:ring-blue-500 w-full"
+              className="pl-10 pr-4 py-2 border border-gray-300 rounded-md focus:border-blue-500 focus:ring-blue-500 w-full text-sm"
             />
           </div>
         </div>
@@ -251,68 +263,66 @@ export default function InspectorVerificationPage() {
                   const providerInfo = getProviderInfo(verification.provider);
                   
                   return (
-                    <div key={verification.id} className="border rounded-lg p-4 hover:bg-gray-50 transition-colors">
-                      <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-4">
-                          <div className="p-2 bg-blue-100 rounded-lg">
-                            <CheckCircle className="h-5 w-5 text-blue-600" />
+                    <div key={verification.id} className="border rounded-lg p-3 sm:p-4 hover:bg-gray-50 transition-colors">
+                      <div className="flex flex-col sm:flex-row justify-between gap-4">
+                        <div className="flex items-start gap-3 sm:gap-4">
+                          <div className="p-2 bg-blue-100 rounded-lg flex-shrink-0">
+                            <CheckCircle className="h-4 w-4 sm:h-5 sm:w-5 text-blue-600" />
                           </div>
-                          <div>
-                            <div className="flex items-center gap-2 mb-1">
-                              <h4 className="font-medium text-gray-900">{verification.referenceNumber}</h4>
-                              <Badge className={providerInfo.color}>
-                                {providerInfo.name}
-                              </Badge>
-                              <Badge className={getStatusColor(verification.status)}>
-                                {verification.status}
-                              </Badge>
+                          <div className="min-w-0 flex-1">
+                            <div className="flex flex-col sm:flex-row sm:items-center gap-2 mb-1">
+                              <h4 className="font-medium text-gray-900 text-sm sm:text-base truncate">{verification.referenceNumber}</h4>
+                              <div className="flex flex-wrap gap-1">
+                                <Badge className={`${providerInfo.color} text-xs`}>
+                                  {providerInfo.name}
+                                </Badge>
+                                <Badge className={`${getStatusColor(verification.status)} text-xs`}>
+                                  {verification.status}
+                                </Badge>
+                              </div>
                             </div>
-                            <p className="text-sm text-gray-500">
+                            <p className="text-xs sm:text-sm text-gray-500">
                               Inspection: {verification.inspectionId}
                             </p>
                             {verification.verifiedAt && (
-                              <p className="text-sm text-gray-500">
+                              <p className="text-xs sm:text-sm text-gray-500">
                                 Verified: {new Date(verification.verifiedAt).toLocaleDateString()} by {verification.verifiedBy}
                               </p>
                             )}
                             {verification.notes && (
-                              <p className="text-sm text-gray-600 mt-1">{verification.notes}</p>
+                              <p className="text-xs sm:text-sm text-gray-600 mt-1 line-clamp-2">{verification.notes}</p>
                             )}
                           </div>
                         </div>
                         
-                        <div className="text-right">
-                          <div className="flex gap-2 mb-2">
+                        <div className="text-right flex-shrink-0">
+                          <div className="flex flex-col sm:flex-row gap-2 mb-2">
                             <Button
                               variant="outline"
                               size="sm"
                               onClick={() => setSelectedVerification(verification)}
+                              className="text-xs"
                             >
-                              <Eye className="h-4 w-4 mr-1" />
-                              View
+                              <Eye className="h-3 w-3 sm:h-4 sm:w-4 mr-1" />
+                              <span className="hidden sm:inline">View</span>
+                              <span className="sm:hidden">View</span>
                             </Button>
                             
                             {verification.status === 'pending' && (
                               <Button
                                 size="sm"
-                                className="bg-blue-600 hover:bg-blue-700 text-white"
+                                className="bg-blue-600 hover:bg-blue-700 text-white text-xs"
                                 onClick={() => {
                                   setSelectedVerification(verification);
                                   setShowNewForm(true);
                                 }}
                               >
-                                <Plus className="h-4 w-4 mr-1" />
-                                Update
+                                <Plus className="h-3 w-3 sm:h-4 sm:w-4 mr-1" />
+                                <span className="hidden sm:inline">Process</span>
+                                <span className="sm:hidden">Process</span>
                               </Button>
                             )}
                           </div>
-                          
-                          {verification.documents.length > 0 && (
-                            <div className="flex items-center gap-1 text-xs text-gray-500">
-                              <FileText className="h-3 w-3" />
-                              {verification.documents.length} document(s)
-                            </div>
-                          )}
                         </div>
                       </div>
                     </div>
@@ -324,5 +334,6 @@ export default function InspectorVerificationPage() {
         )}
       </div>
     </DashboardLayout>
+    </>
   );
 }

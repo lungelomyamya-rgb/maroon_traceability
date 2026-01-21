@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation';
 import { QRScanner, QRGenerator } from '@/components/qr';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { QrCode, Scan, ArrowRight, ArrowLeft } from 'lucide-react';
+import { QrCode, Scan, ArrowRight } from 'lucide-react';
 
 export default function QRDemoPage() {
   const router = useRouter();
@@ -45,7 +45,6 @@ export default function QRDemoPage() {
           onClick={handleGoBack}
           className="shadow-md"
         >
-          <ArrowLeft className="h-4 w-4 mr-2" />
           Back
         </Button>
       </div>
@@ -118,11 +117,40 @@ export default function QRDemoPage() {
             <div className="mt-3 sm:mt-4 p-3 sm:p-4 bg-gray-100 rounded-lg">
               <h4 className="text-sm sm:text-base font-medium text-gray-900 mb-2">Test Data:</h4>
               <ul className="text-xs sm:text-sm text-gray-600 space-y-1">
-                <li>• PRD-2024-001</li>
-                <li>• BLK1704123456789</li>
-                <li>• TRACE-DEMO-001</li>
-                <li>• Or use the "Random" button</li>
+                <li>• APPLE-001 (Organic Apples)</li>
+                <li>• TOMATO-002 (Premium Tomatoes)</li>
+                <li>• MORINGA-003 (Moringa Powder)</li>
+                <li>• Or use the "Random" button above</li>
               </ul>
+              <div className="mt-3 pt-3 border-t border-gray-300">
+                <p className="text-xs text-gray-500 mb-2">Quick Test:</p>
+                <div className="flex gap-2 flex-wrap">
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    onClick={() => router.push('/trace/APPLE-001')}
+                    className="text-xs"
+                  >
+                    Test APPLE-001
+                  </Button>
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    onClick={() => router.push('/trace/TOMATO-002')}
+                    className="text-xs"
+                  >
+                    Test TOMATO-002
+                  </Button>
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    onClick={() => router.push('/trace/MORINGA-003')}
+                    className="text-xs"
+                  >
+                    Test MORINGA-003
+                  </Button>
+                </div>
+              </div>
             </div>
           </div>
 
@@ -133,12 +161,12 @@ export default function QRDemoPage() {
               <h2 className="text-lg sm:text-xl font-semibold text-gray-900">QR Generator</h2>
             </div>
             <QRGenerator
-              productId="DEMO-001"
-              productName="Demo Organic Apples"
-              farmer="Demo Farm"
-              location="Stellenbosch, Western Cape"
+              productId={generatedData}
+              productName={generatedData ? 'Demo Organic Apples' : ''}
+              farmer={generatedData ? 'Demo Farm' : ''}
+              location={generatedData ? 'Stellenbosch, Western Cape' : ''}
               onGenerate={handleGenerate}
-              mockMode={true}
+              mockMode={false}
             />
             
             <div className="mt-3 sm:mt-4 p-3 sm:p-4 bg-gray-100 rounded-lg">
@@ -155,63 +183,60 @@ export default function QRDemoPage() {
 
         {/* Workflow Demo */}
         <Card className="mt-8 p-6">
-          <h3 className="text-lg font-semibold text-gray-900 mb-4">Complete Workflow</h3>
-          <div className="space-y-4">
-            <div className="flex items-center gap-4">
+          <h3 className="text-xl sm:text-2xl lg:text-3xl font-semibold text-gray-900 mb-2 sm:mb-3">Complete Workflow</h3>
+          <div className="space-y-6 sm:space-y-8">
+            <div className="flex flex-col sm:flex-row gap-4 sm:gap-6">
               <div className="flex-shrink-0">
-                <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
-                  <span className="text-sm font-medium text-blue-600">1</span>
+                <div className="w-10 sm:w-12 lg:w-14 h-10 sm:h-12 lg:h-14 bg-blue-100 rounded-full flex items-center justify-center">
+                  <span className="text-base sm:text-lg lg:text-xl font-medium text-blue-600">1</span>
                 </div>
               </div>
               <div>
-                <h4 className="font-medium text-gray-900">Generate QR Code</h4>
-                <p className="text-sm text-gray-600">Create a QR code for a product using the generator above</p>
+                <h4 className="text-lg sm:text-xl lg:text-2xl font-medium text-gray-900">Generate QR Code</h4>
+                <p className="text-base sm:text-lg lg:text-xl text-gray-600 mb-4 sm:mb-6">Create a QR code for a product using the generator above</p>
               </div>
             </div>
-
             <div className="flex items-center gap-4">
               <ArrowRight className="h-4 w-4 text-gray-400" />
             </div>
-
-            <div className="flex items-center gap-4">
+            <div className="flex flex-col sm:flex-row gap-4 sm:gap-6">
               <div className="flex-shrink-0">
-                <div className="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center">
-                  <span className="text-sm font-medium text-green-600">2</span>
+                <div className="w-10 sm:w-12 lg:w-14 h-10 sm:h-12 lg:h-14 bg-green-100 rounded-full flex items-center justify-center">
+                  <span className="text-base sm:text-lg lg:text-xl font-medium text-green-600">2</span>
                 </div>
               </div>
               <div>
-                <h4 className="font-medium text-gray-900">Scan QR Code</h4>
-                <p className="text-sm text-gray-600">Use the scanner to read the generated QR code data</p>
+                <h4 className="text-lg sm:text-xl lg:text-2xl font-medium text-gray-900">Scan QR Code</h4>
+                <p className="text-base sm:text-lg lg:text-xl text-gray-600 mb-4 sm:mb-6">Use the scanner to read the generated QR code data</p>
               </div>
             </div>
-
             <div className="flex items-center gap-4">
               <ArrowRight className="h-4 w-4 text-gray-400" />
             </div>
-
-            <div className="flex items-center gap-4">
+            <div className="flex flex-col sm:flex-row gap-4 sm:gap-6">
               <div className="flex-shrink-0">
-                <div className="w-8 h-8 bg-purple-100 rounded-full flex items-center justify-center">
-                  <span className="text-sm font-medium text-purple-600">3</span>
+                <div className="w-10 sm:w-12 lg:w-14 h-10 sm:h-12 lg:h-14 bg-purple-100 rounded-full flex items-center justify-center">
+                  <span className="text-base sm:text-lg lg:text-xl font-medium text-purple-600">3</span>
                 </div>
               </div>
               <div>
-                <h4 className="font-medium text-gray-900">View Product Trace</h4>
-                <p className="text-sm text-gray-600">Navigate to the product trace page with scanned data</p>
+                <h4 className="text-lg sm:text-xl lg:text-2xl font-medium text-gray-900">View Product Trace</h4>
+                <p className="text-base sm:text-lg lg:text-xl text-gray-600 mb-4 sm:mb-6">Navigate to the product trace page with scanned data</p>
               </div>
             </div>
           </div>
-
-          <div className="mt-6 flex gap-4">
+          <div className="mt-8 sm:mt-10 lg:mt-12 flex flex-col sm:flex-row gap-4 sm:gap-6">
             <Button
               onClick={() => window.open('/trace/DEMO-001', '_blank')}
-              className="bg-purple-600 hover:bg-purple-700"
+              className="h-12 sm:h-14 lg:h-16 py-3 sm:py-4 px-6 sm:px-8 text-sm sm:text-base lg:text-lg bg-purple-600 hover:bg-purple-700 transition-all duration-200 shadow-lg hover:shadow-xl rounded-full"
             >
               View Trace
             </Button>
             <Button
               variant="outline"
+              size="sm"
               onClick={() => window.open('/marketplace', '_blank')}
+              className="h-12 sm:h-14 lg:h-16 py-3 sm:py-4 px-6 sm:px-8 text-sm sm:text-base lg:text-lg"
             >
               Public Marketplace
             </Button>

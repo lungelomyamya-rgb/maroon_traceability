@@ -1,8 +1,8 @@
 'use client';
 
 import React, { useState } from 'react';
-import LoginForm from './LoginForm';
-import RegisterForm from './RegisterForm';
+import LoginForm from './loginForm';
+import RegisterForm from './registerForm';
 
 export default function AuthPage() {
   const [isLogin, setIsLogin] = useState(true);

@@ -72,6 +72,7 @@ export function Navigation() {
       { name: 'Vehicles', href: '/logistics/vehicles', description: 'Manage vehicle fleet and maintenance' },
       { name: 'Drivers', href: '/logistics/drivers', description: 'Driver profiles and assignments' },
       { name: 'Scheduling', href: '/logistics/scheduling', description: 'Transport scheduling and routes' },
+      { name: 'Order Tracking', href: '/logistics/order-tracking', description: 'Track deliveries in real-time' },
       { name: 'Documentation', href: '/logistics/documentation', description: 'Bills of lading and delivery docs' },
       { name: 'Events', href: '/logistics/events', description: 'Logistics events and activities' }
     ];
@@ -87,6 +88,7 @@ export function Navigation() {
       { name: 'Growth Monitoring', href: '/farmer/growth', description: 'Track plant development stages' },
       { name: 'Fertiliser Logs', href: '/farmer/fertiliser', description: 'Record nutrient applications' },
       { name: 'Seed Varieties', href: '/farmer/seeds', description: 'Manage seed certifications' },
+      { name: 'Products', href: '/farmer/products', description: 'Manage agricultural products' },
       { name: 'Compliance', href: '/farmer/compliance', description: 'Food safety and export compliance' }
     ];
 
@@ -109,11 +111,6 @@ export function Navigation() {
       ...tab,
       current: cleanPathname === tab.href || (tab.href === '/inspector' && cleanPathname === '/inspector')
     }));
-  };
-
-  // Packaging-specific navigation items (empty - no tabs for packaging)
-  const getPackagingNavigationItems = () => {
-    return [];
   };
 
   // Default navigation for other roles
@@ -153,7 +150,7 @@ export function Navigation() {
         <div className="flex justify-between h-16 items-center">
           {/* Logo and Title - Always visible */}
           <div className="flex-shrink-0 flex items-center">
-            <img src={getAssetPath("/images/maroon-logo.png")} alt="MAROON" className="h-90 w-90 mr-3 nav-logo" />
+            <img src={getAssetPath("/images/maroonLogo.png")} alt="MAROON" className="h-90 w-90 mr-3 nav-logo" />
             <div className="hidden sm:block">
               <Link href={currentUser?.role === 'public' ? '/marketplace' : `/${currentUser?.role || 'public'}`} className="text-xl font-bold text-gray-900">
                 Maroon Blockchain
@@ -272,14 +269,14 @@ export function Navigation() {
             <div className="lg:hidden" ref={mobileDropdownRef}>
               <Button 
                 variant="ghost" 
-                className="flex items-center space-x-2"
+                className="flex items-center space-x-2 p-2 sm:p-3"
                 onClick={() => setIsMobileDropdownOpen(!isMobileDropdownOpen)}
               >
-                <Menu className="h-4 w-4" />
+                <Menu className="h-5 w-5 sm:h-6 sm:w-6" />
               </Button>
               
               {isMobileDropdownOpen && (
-                <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg z-50 border border-gray-200">
+                <div className="absolute right-0 mt-2 w-64 sm:w-72 bg-white rounded-md shadow-lg z-50 border border-gray-200">
                   <div className="py-1">
                     {/* Mobile Navigation Items - Same as Desktop */}
                     {navigation.map((item: any) => (

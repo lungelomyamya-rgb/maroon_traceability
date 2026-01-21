@@ -4,7 +4,7 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useUser } from '@/contexts/userContext';
-import { DashboardLayout } from '@/components/dashboard/DashboardLayout';
+import { DashboardLayout } from '@/components/dashboard/dashboardLayout';
 import { QualityInspectionForm } from '@/components/inspector/qualityInspectionForm';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -186,76 +186,88 @@ export default function InspectorInspectionsPage() {
   };
 
   return (
-    <DashboardLayout
-      title="Quality Inspections"
-      description="Manage product quality assessments and grading"
-    >
-      <div className="space-y-6">
-        {/* Metrics Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-          <Card className="p-4">
+    <>
+      {/* Back Button Above DashboardLayout */}
+      <div className="px-4 sm:px-6 lg:px-8 pt-4">
+        <Button
+          variant="outline"
+          onClick={() => router.push('/inspector')}
+          className="inline-flex items-center gap-2 text-sm"
+        >
+          Back
+        </Button>
+      </div>
+      
+      <DashboardLayout
+        title="Quality Inspections"
+        description="Manage product quality assessments and grading"
+      >
+        <div className="space-y-6">
+        {/* Status Cards */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+          <Card className="p-4 sm:p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-gray-600">Total</p>
-                <p className="text-2xl font-bold text-gray-900">{statusCounts.total}</p>
+                <p className="text-sm sm:text-base font-medium text-gray-600">Total</p>
+                <p className="text-xl sm:text-2xl font-bold text-gray-900">{statusCounts.total}</p>
               </div>
-              <div className="p-2 bg-gray-100 rounded-lg">
-                <ClipboardList className="h-5 w-5 text-gray-600" />
+              <div className="p-2 sm:p-3 bg-gray-100 rounded-lg">
+                <ClipboardList className="h-4 w-4 sm:h-5 sm:w-5 text-gray-600" />
               </div>
             </div>
           </Card>
 
-          <Card className="p-4">
+          <Card className="p-4 sm:p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-gray-600">Pending</p>
-                <p className="text-2xl font-bold text-yellow-600">{statusCounts.pending}</p>
+                <p className="text-sm sm:text-base font-medium text-gray-600">Pending</p>
+                <p className="text-xl sm:text-2xl font-bold text-yellow-600">{statusCounts.pending}</p>
               </div>
-              <div className="p-2 bg-yellow-100 rounded-lg">
-                <Clock className="h-5 w-5 text-yellow-600" />
+              <div className="p-2 sm:p-3 bg-yellow-100 rounded-lg">
+                <Clock className="h-4 w-4 sm:h-5 sm:w-5 text-yellow-600" />
               </div>
             </div>
           </Card>
 
-          <Card className="p-4">
+          <Card className="p-4 sm:p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-gray-600">In Progress</p>
-                <p className="text-2xl font-bold text-blue-600">{statusCounts['in-progress']}</p>
+                <p className="text-sm sm:text-base font-medium text-gray-600">In Progress</p>
+                <p className="text-xl sm:text-2xl font-bold text-blue-600">{statusCounts['in-progress']}</p>
               </div>
-              <div className="p-2 bg-blue-100 rounded-lg">
-                <AlertTriangle className="h-5 w-5 text-blue-600" />
+              <div className="p-2 sm:p-3 bg-blue-100 rounded-lg">
+                <AlertTriangle className="h-4 w-4 sm:h-5 sm:w-5 text-blue-600" />
               </div>
             </div>
           </Card>
 
-          <Card className="p-4">
+          <Card className="p-4 sm:p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-gray-600">Completed</p>
-                <p className="text-2xl font-bold text-green-600">{statusCounts.completed}</p>
+                <p className="text-sm sm:text-base font-medium text-gray-600">Completed</p>
+                <p className="text-xl sm:text-2xl font-bold text-green-600">{statusCounts.completed}</p>
               </div>
-              <div className="p-2 bg-green-100 rounded-lg">
-                <CheckCircle className="h-5 w-5 text-green-600" />
+              <div className="p-2 sm:p-3 bg-green-100 rounded-lg">
+                <CheckCircle className="h-4 w-4 sm:h-5 sm:w-5 text-green-600" />
               </div>
             </div>
           </Card>
         </div>
 
         {/* Actions and Filters */}
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+        <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4">
           <Button
             onClick={() => {
               setShowNewForm(true);
               setSelectedInspection(null);
             }}
-            className="bg-purple-600 hover:bg-purple-700 text-white"
+            className="bg-purple-600 hover:bg-purple-700 text-white w-full lg:w-auto h-10 sm:h-auto px-4 sm:px-6 py-2 text-sm sm:text-base"
           >
             <Plus className="h-4 w-4 mr-2" />
             New Inspection
           </Button>
 
-          <div className="flex flex-col sm:flex-row gap-3 w-full md:w-auto">
+          <div className="flex flex-col sm:flex-row gap-3 w-full lg:w-auto">
             <div className="relative">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400 pointer-events-none" />
               <input
@@ -263,14 +275,14 @@ export default function InspectorInspectionsPage() {
                 placeholder="Search inspections..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="pl-10 pr-4 py-2 border border-gray-300 rounded-md focus:border-purple-500 focus:ring-purple-500 w-full sm:w-64"
+                className="pl-10 pr-4 py-2 border border-gray-300 rounded-md focus:border-purple-500 focus:ring-purple-500 w-full sm:w-64 text-sm"
               />
             </div>
 
             <select
               value={statusFilter}
               onChange={(e) => setStatusFilter(e.target.value as InspectionStatus | 'all')}
-              className="px-4 py-2 border border-gray-300 rounded-md focus:border-purple-500 focus:ring-purple-500"
+              className="px-4 py-2 border border-gray-300 rounded-md focus:border-purple-500 focus:ring-purple-500 text-sm"
             >
               <option value="all">All Status</option>
               <option value="pending">Pending</option>
@@ -300,63 +312,68 @@ export default function InspectorInspectionsPage() {
             ) : (
               <div className="space-y-4">
                 {filteredInspections.map((inspection) => (
-                  <div key={inspection.id} className="border rounded-lg p-4 hover:bg-gray-50 transition-colors">
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-4">
-                        <div className="p-2 bg-purple-100 rounded-lg">
-                          <Camera className="h-5 w-5 text-purple-600" />
+                  <div key={inspection.id} className="border rounded-lg p-3 sm:p-4 hover:bg-gray-50 transition-colors">
+                    <div className="flex flex-col sm:flex-row justify-between gap-4">
+                      <div className="flex items-start gap-3 sm:gap-4">
+                        <div className="p-2 bg-purple-100 rounded-lg flex-shrink-0">
+                          <Camera className="h-4 w-4 sm:h-5 sm:w-5 text-purple-600" />
                         </div>
-                        <div>
-                          <div className="flex items-center gap-2 mb-1">
-                            <h4 className="font-medium text-gray-900">{inspection.productId}</h4>
+                        <div className="min-w-0 flex-1">
+                          <div className="flex flex-col sm:flex-row sm:items-center gap-2 mb-1">
+                            <h4 className="font-medium text-gray-900 text-sm sm:text-base truncate">{inspection.productId}</h4>
                             {inspection.batchId && (
                               <Badge variant="outline" className="text-xs">
                                 {inspection.batchId}
                               </Badge>
                             )}
                           </div>
-                          <p className="text-sm text-gray-500">
-                            {inspection.location} • {new Date(inspection.inspectionDate).toLocaleDateString()}
+                          <p className="text-xs sm:text-sm text-gray-500">
+                            <span className="hidden sm:inline">{inspection.location} • </span>
+                            <span className="sm:hidden">{inspection.location.split(',')[0]} • </span>
+                            {new Date(inspection.inspectionDate).toLocaleDateString()}
                           </p>
                           {inspection.notes && (
-                            <p className="text-sm text-gray-600 mt-1 line-clamp-2">{inspection.notes}</p>
+                            <p className="text-xs sm:text-sm text-gray-600 mt-1 line-clamp-2">{inspection.notes}</p>
                           )}
                         </div>
                       </div>
                       
-                      <div className="text-right">
-                        <div className="flex gap-2 mb-2">
-                          <Badge className={getStatusColor(inspection.status)}>
+                      <div className="text-right flex-shrink-0">
+                        <div className="flex flex-col sm:flex-row gap-2 mb-2">
+                          <Badge className={`${getStatusColor(inspection.status)} text-xs`}>
                             {inspection.status}
                           </Badge>
                           {inspection.grade && (
-                            <Badge className={getGradeColor(inspection.grade)}>
+                            <Badge className={`${getGradeColor(inspection.grade)} text-xs`}>
                               Grade {inspection.grade}
                             </Badge>
                           )}
                         </div>
                         
-                        <div className="flex gap-2">
+                        <div className="flex flex-col sm:flex-row gap-2">
                           <Button
                             variant="outline"
                             size="sm"
                             onClick={() => setSelectedInspection(inspection)}
+                            className="text-xs"
                           >
-                            <Eye className="h-4 w-4 mr-1" />
-                            View
+                            <Eye className="h-3 w-3 sm:h-4 sm:w-4 mr-1" />
+                            <span className="hidden sm:inline">View</span>
+                            <span className="sm:hidden">View</span>
                           </Button>
                           
                           {inspection.status === 'pending' && (
                             <Button
                               size="sm"
-                              className="bg-purple-600 hover:bg-purple-700 text-white"
+                              className="bg-purple-600 hover:bg-purple-700 text-white text-xs"
                               onClick={() => {
                                 setSelectedInspection(inspection);
                                 setShowNewForm(true);
                               }}
                             >
-                              <Plus className="h-4 w-4 mr-1" />
-                              Start
+                              <Plus className="h-3 w-3 sm:h-4 sm:w-4 mr-1" />
+                              <span className="hidden sm:inline">Start</span>
+                              <span className="sm:hidden">Start</span>
                             </Button>
                           )}
                         </div>
@@ -370,5 +387,6 @@ export default function InspectorInspectionsPage() {
         )}
       </div>
     </DashboardLayout>
+    </>
   );
 }

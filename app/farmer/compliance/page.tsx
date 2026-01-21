@@ -5,8 +5,15 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useUser } from '@/contexts/userContext';
 import { useProducts } from '@/contexts/productContext';
-import { DashboardLayout } from '@/components/dashboard/DashboardLayout';
-import { ComplianceStatus } from '@/components/farmer/complianceStatus';
+import { DashboardLayout } from '@/components/dashboard/dashboardLayout';
+import { Button } from '@/components/ui/button';
+import dynamic from 'next/dynamic';
+
+// Lazy load large component
+const ComplianceStatus = dynamic(() => import('@/components/farmer/complianceStatus').then(mod => ({ default: mod.ComplianceStatus })), {
+  loading: () => <div>Loading compliance status...</div>,
+  ssr: false
+});
 
 export default function FarmerCompliancePage() {
   const router = useRouter();
@@ -31,11 +38,24 @@ export default function FarmerCompliancePage() {
   }
 
   return (
-    <DashboardLayout
-      title="Compliance & Regulations"
-      subtitle="Manage food safety, export compliance, and regulatory requirements"
-    >
-      <ComplianceStatus products={farmerProducts} />
-    </DashboardLayout>
+    <>
+      {/* Back Button Above DashboardLayout */}
+      <div className="px-4 sm:px-6 lg:px-8 pt-4">
+        <Button
+          variant="outline"
+          onClick={() => router.push('/farmer')}
+          className="inline-flex items-center gap-2 text-sm"
+        >
+          Back
+        </Button>
+      </div>
+      
+      <DashboardLayout
+        title="Compliance & Regulations"
+        subtitle="Manage food safety, export compliance, and regulatory requirements"
+      >
+        <ComplianceStatus products={farmerProducts} />
+      </DashboardLayout>
+    </>
   );
 }

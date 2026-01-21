@@ -4,7 +4,7 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useUser } from '@/contexts/userContext';
-import { DashboardLayout } from '@/components/dashboard/DashboardLayout';
+import { DashboardLayout } from '@/components/dashboard/dashboardLayout';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -18,7 +18,8 @@ import {
   AlertTriangle,
   TrendingUp,
   Users,
-  Calendar
+  Calendar,
+  MapPin
 } from 'lucide-react';
 import { InspectionRecord, InspectionStatus, Grade } from '@/types/inspector';
 
@@ -40,8 +41,10 @@ export default function InspectorPage() {
     }, 200);
 
     return () => clearTimeout(timer);
+  }, [currentUser, router]);
 
-    // Load mock inspection data
+  // Load mock inspection data
+  useEffect(() => {
     const mockInspections: InspectionRecord[] = [
       {
         id: 'insp1',
@@ -81,7 +84,7 @@ export default function InspectorPage() {
         inspectorId: currentUser?.id || '',
         inspectionDate: '2025-01-21T09:00:00Z',
         location: 'Cold Storage 2, Cape Town',
-        status: 'in-progress',
+        status: 'completed',
         grade: 'B',
         qualityMetrics: {
           moistureContent: 14.5,
@@ -109,6 +112,96 @@ export default function InspectorPage() {
         inspectorId: currentUser?.id || '',
         inspectionDate: '2025-01-22T11:00:00Z',
         location: 'Processing Facility, Paarl',
+        status: 'in-progress',
+        grade: 'B',
+        qualityMetrics: {
+          moistureContent: 14.8,
+          size: 'Medium',
+          color: 'Red',
+          firmness: 7.5,
+          sugarContent: 14.5,
+          defects: ['Minor bruising', 'Color variation'],
+          weight: 200,
+          temperature: 4.1,
+          pesticideResidue: 0.04,
+          microbialCount: 1100
+        },
+        photos: [],
+        notes: 'Inspection in progress - initial assessment shows B grade quality',
+        recommendations: ['Address color variation issues', 'Monitor moisture levels'],
+        verificationProvider: 'internal',
+        createdAt: '2025-01-22T11:00:00Z',
+        updatedAt: '2025-01-22T11:00:00Z'
+      },
+      {
+        id: 'insp4',
+        productId: 'PRD-2024-004',
+        batchId: 'BATCH-004',
+        inspectorId: currentUser?.id || '',
+        inspectionDate: '2025-01-19T14:00:00Z',
+        location: 'Farm Gate Inspection, Stellenbosch',
+        status: 'completed',
+        grade: 'A',
+        qualityMetrics: {
+          moistureContent: 12.8,
+          size: 'Large',
+          color: 'Deep Red',
+          firmness: 8.8,
+          sugarContent: 17.2,
+          defects: [],
+          weight: 300,
+          temperature: 4.0,
+          pesticideResidue: 0.01,
+          microbialCount: 750
+        },
+        photos: [],
+        notes: 'Premium quality produce, excellent storage conditions',
+        recommendations: ['Ready for export market', 'Maintain cold chain'],
+        verificationProvider: 'sgs',
+        verificationReference: 'SGS-2024-001235',
+        verifiedBy: 'Dr. Sarah Johnson',
+        verifiedAt: '2025-01-19T16:30:00Z',
+        createdAt: '2025-01-19T14:00:00Z',
+        updatedAt: '2025-01-19T16:30:00Z'
+      },
+      {
+        id: 'insp5',
+        productId: 'PRD-2024-005',
+        batchId: 'BATCH-005',
+        inspectorId: currentUser?.id || '',
+        inspectionDate: '2025-01-18T08:00:00Z',
+        location: 'Orchard Block A, Grabouw',
+        status: 'completed',
+        grade: 'A',
+        qualityMetrics: {
+          moistureContent: 13.5,
+          size: 'Extra Large',
+          color: 'Crimson',
+          firmness: 9.0,
+          sugarContent: 18.5,
+          defects: [],
+          weight: 320,
+          temperature: 3.9,
+          pesticideResidue: 0.015,
+          microbialCount: 680
+        },
+        photos: [],
+        notes: 'Outstanding quality - exceeds all grade A requirements',
+        recommendations: ['Premium pricing recommended', 'Expedite processing'],
+        verificationProvider: 'sgs',
+        verificationReference: 'SGS-2024-001236',
+        verifiedBy: 'Dr. Michael Chen',
+        verifiedAt: '2025-01-18T10:15:00Z',
+        createdAt: '2025-01-18T08:00:00Z',
+        updatedAt: '2025-01-18T10:15:00Z'
+      },
+      {
+        id: 'insp6',
+        productId: 'PRD-2024-006',
+        batchId: 'BATCH-006',
+        inspectorId: currentUser?.id || '',
+        inspectionDate: '2025-01-23T10:00:00Z',
+        location: 'Distribution Center, Cape Town',
         status: 'pending',
         grade: undefined,
         qualityMetrics: {
@@ -127,13 +220,13 @@ export default function InspectorPage() {
         notes: '',
         recommendations: [],
         verificationProvider: 'internal',
-        createdAt: '2025-01-22T11:00:00Z',
-        updatedAt: '2025-01-22T11:00:00Z'
+        createdAt: '2025-01-23T10:00:00Z',
+        updatedAt: '2025-01-23T10:00:00Z'
       }
     ];
 
     setInspections(mockInspections);
-  }, [currentUser, router]);
+  }, [currentUser]);
 
   if (loading) {
     return (
@@ -188,164 +281,172 @@ export default function InspectorPage() {
 
   return (
     <DashboardLayout
-      description="Inspector dashboard and overview"
-    >
+      description="Inspector dashboard and overview">
       <div className="space-y-6">
-        {/* Hero Section */}
-        <div className="bg-gradient-to-r from-purple-600 to-purple-800 rounded-2xl p-8 text-white">
-          <div className="text-center">
-            <h1 className="text-3xl font-bold mb-2">Quality Inspector Portal</h1>
-            <p className="text-purple-100 mb-6">Comprehensive quality assessment and verification system</p>
-            <div className="flex justify-center items-center gap-6 mb-8">
-              <div className="flex items-center gap-2">
-                <CheckCircle className="h-5 w-5" />
-                <span className="text-sm">{completedInspections} Completed</span>
+          {/* Hero Section */}
+          <div className="bg-gradient-to-r from-purple-600 to-purple-800 rounded-2xl p-4 sm:p-6 lg:p-8 text-white">
+            <div className="text-center">
+              <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold mb-2 sm:mb-4">Quality Inspector</h1>
+              <p className="text-sm sm:text-base lg:text-lg text-purple-100 mb-4 sm:mb-6">Comprehensive quality assessment and verification system</p>
+              <div className="flex justify-center items-center gap-3 sm:gap-4 lg:gap-6 mb-4 sm:mb-6 lg:mb-8">
+                <div className="flex items-center gap-2 sm:gap-3">
+                  <CheckCircle className="h-4 w-4 sm:h-5 sm:w-5 lg:h-6 lg:w-6" />
+                  <span className="text-sm sm:text-base">{completedInspections} Completed</span>
+                </div>
+                <div className="flex items-center gap-2 sm:gap-3">
+                  <ClipboardList className="h-4 w-4 sm:h-5 sm:w-5 lg:h-6 lg:w-6" />
+                  <span className="text-sm sm:text-base">{inProgressInspections} In Progress</span>
+                </div>
+                <div className="flex items-center gap-2 sm:gap-3">
+                  <TrendingUp className="h-4 w-4 sm:h-5 sm:w-5 lg:h-6 lg:w-6" />
+                  <span className="text-sm sm:text-base">Avg Grade: {averageGrade.toFixed(1)}</span>
+                </div>
               </div>
-              <div className="flex items-center gap-2">
-                <ClipboardList className="h-5 w-5" />
-                <span className="text-sm">{inProgressInspections} In Progress</span>
+              <div className="hidden md:block">
+                <Camera className="h-8 w-8 sm:h-12 sm:w-12 lg:h-16 lg:w-16 text-purple-200 mx-auto" />
               </div>
-              <div className="flex items-center gap-2">
-                <TrendingUp className="h-5 w-5" />
-                <span className="text-sm">Avg Grade: {averageGrade.toFixed(1)}</span>
-              </div>
-            </div>
-            <div className="hidden md:block">
-              <Camera className="h-16 w-16 text-purple-200 mx-auto" />
             </div>
           </div>
-        </div>
 
-        {/* Quick Actions */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <button
-            onClick={() => router.push('/inspector/inspections')}
-            className="bg-purple-600 hover:bg-purple-700 text-white flex items-center gap-2 h-auto p-4 rounded-md font-medium transition-colors"
-          >
-            <ClipboardList className="h-5 w-5" />
-            <div className="text-left">
-              <div className="font-medium">New Inspection</div>
-              <div className="text-xs opacity-90">Start quality assessment</div>
-            </div>
-          </button>
-          <button
-            onClick={() => router.push('/inspector/verification')}
-            className="bg-blue-600 hover:bg-blue-700 text-white flex items-center gap-2 h-auto p-4 rounded-md font-medium transition-colors"
-          >
-            <CheckCircle className="h-5 w-5" />
-            <div className="text-left">
-              <div className="font-medium">Request Verification</div>
-              <div className="text-xs opacity-90">Third-party certification</div>
-            </div>
-          </button>
-          <button
-            onClick={() => router.push('/inspector/reports')}
-            className="bg-indigo-600 hover:bg-indigo-700 text-white flex items-center gap-2 h-auto p-4 rounded-md font-medium transition-colors"
-          >
-            <FileText className="h-5 w-5" />
-            <div className="text-left">
-              <div className="font-medium">View Reports</div>
-              <div className="text-xs opacity-90">Inspection analytics</div>
-            </div>
-          </button>
-        </div>
-
-        {/* Overview Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          <Card className="p-6">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm font-medium text-gray-600">Completed</p>
-                <p className="text-2xl font-bold text-gray-900">{completedInspections}</p>
-              </div>
-              <div className="p-3 bg-green-100 rounded-lg">
-                <CheckCircle className="h-6 w-6 text-green-600" />
-              </div>
-            </div>
-          </Card>
-
-          <Card className="p-6">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm font-medium text-gray-600">In Progress</p>
-                <p className="text-2xl font-bold text-gray-900">{inProgressInspections}</p>
-              </div>
-              <div className="p-3 bg-blue-100 rounded-lg">
-                <ClipboardList className="h-6 w-6 text-blue-600" />
-              </div>
-            </div>
-          </Card>
-
-          <Card className="p-6">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm font-medium text-gray-600">Pending</p>
-                <p className="text-2xl font-bold text-gray-900">{pendingInspections}</p>
-              </div>
-              <div className="p-3 bg-yellow-100 rounded-lg">
-                <AlertTriangle className="h-6 w-6 text-yellow-600" />
-              </div>
-            </div>
-          </Card>
-
-          <Card className="p-6">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm font-medium text-gray-600">Avg Grade</p>
-                <p className="text-2xl font-bold text-gray-900">{averageGrade.toFixed(1)}</p>
-              </div>
-              <div className="p-3 bg-purple-100 rounded-lg">
-                <TrendingUp className="h-6 w-6 text-purple-600" />
-              </div>
-            </div>
-          </Card>
-        </div>
-
-        {/* Recent Inspections */}
-        <Card className="p-6">
-          <div className="flex justify-between items-center mb-4">
-            <h3 className="text-lg font-semibold text-gray-900">Recent Inspections</h3>
-            <Button
-              variant="outline"
+          {/* Quick Actions */}
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
+            <button
               onClick={() => router.push('/inspector/inspections')}
+              className="bg-purple-600 hover:bg-purple-700 text-white flex items-center gap-2 sm:gap-3 h-auto p-3 sm:p-4 rounded-md font-medium transition-colors"
             >
-              View All
-            </Button>
+              <ClipboardList className="h-4 w-4 sm:h-5 sm:w-5" />
+              <div className="text-left">
+                <div className="font-medium text-sm sm:text-base">New Inspection</div>
+                <div className="text-xs opacity-90">Start quality assessment</div>
+              </div>
+            </button>
+            <button
+              onClick={() => router.push('/inspector/verification')}
+              className="bg-blue-600 hover:bg-blue-700 text-white flex items-center gap-2 h-auto p-4 rounded-md font-medium transition-colors"
+            >
+              <CheckCircle className="h-5 w-5" />
+              <div className="text-left">
+                <div className="font-medium">Request Verification</div>
+                <div className="text-xs opacity-90">Third-party certification</div>
+              </div>
+            </button>
+            <button
+              onClick={() => router.push('/inspector/reports')}
+              className="bg-indigo-600 hover:bg-indigo-700 text-white flex items-center gap-2 h-auto p-4 rounded-md font-medium transition-colors"
+            >
+              <FileText className="h-5 w-5" />
+              <div className="text-left">
+                <div className="font-medium">View Reports</div>
+                <div className="text-xs opacity-90">Inspection analytics</div>
+              </div>
+            </button>
           </div>
-          <div className="space-y-4">
-            {inspections.slice(0, 3).map((inspection) => (
-              <div key={inspection.id} className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
-                <div className="flex items-center gap-3">
-                  <div className="p-2 bg-purple-100 rounded-lg">
-                    <Camera className="h-5 w-5 text-purple-600" />
-                  </div>
-                  <div>
-                    <p className="font-medium text-gray-900">{inspection.productId}</p>
-                    <p className="text-sm text-gray-500">
-                      {inspection.location} • {new Date(inspection.inspectionDate).toLocaleDateString()}
-                    </p>
-                  </div>
+
+          {/* Overview Cards */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <Card className="p-6">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-sm font-medium text-gray-600">Completed</p>
+                  <p className="text-2xl font-bold text-gray-900">{completedInspections}</p>
                 </div>
-                <div className="text-right">
-                  <div className="flex gap-2 mb-1">
-                    <Badge className={getStatusColor(inspection.status)}>
-                      {inspection.status}
-                    </Badge>
-                    {inspection.grade && (
-                      <Badge className={getGradeColor(inspection.grade)}>
-                        Grade {inspection.grade}
-                      </Badge>
-                    )}
-                  </div>
-                  <p className="text-xs text-gray-500">
-                    {inspection.verificationProvider === 'sgs' ? 'SGS Verified' : 'Internal'}
-                  </p>
+                <div className="p-3 bg-green-100 rounded-lg">
+                  <CheckCircle className="h-6 w-6 text-green-600" />
                 </div>
               </div>
-            ))}
+            </Card>
+
+            <Card className="p-6">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-sm font-medium text-gray-600">In Progress</p>
+                  <p className="text-2xl font-bold text-gray-900">{inProgressInspections}</p>
+                </div>
+                <div className="p-3 bg-blue-100 rounded-lg">
+                  <ClipboardList className="h-6 w-6 text-blue-600" />
+                </div>
+              </div>
+            </Card>
+
+            <Card className="p-6">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-sm font-medium text-gray-600">Pending</p>
+                  <p className="text-2xl font-bold text-gray-900">{pendingInspections}</p>
+                </div>
+                <div className="p-3 bg-yellow-100 rounded-lg">
+                  <AlertTriangle className="h-6 w-6 text-yellow-600" />
+                </div>
+              </div>
+            </Card>
+
+            <Card className="p-6">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-sm font-medium text-gray-600">Avg Grade</p>
+                  <p className="text-2xl font-bold text-gray-900">{averageGrade.toFixed(1)}</p>
+                </div>
+                <div className="p-3 bg-purple-100 rounded-lg">
+                  <TrendingUp className="h-6 w-6 text-purple-600" />
+                </div>
+              </div>
+            </Card>
           </div>
-        </Card>
-      </div>
+
+          {/* Recent Activities */}
+          <Card title="Recent Activities" className="space-y-4">
+            {inspections.slice(0, 3).map((inspection, index) => (
+              <Card key={index} className="p-4 sm:p-6 hover:shadow-lg transition-all duration-200 hover:scale-[1.02] border-0 shadow-md">
+                <div className="flex flex-col sm:flex-row justify-between gap-4">
+                  <div className="flex items-start gap-3 sm:gap-4">
+                    <div className="p-3 bg-gradient-to-br from-purple-500 to-purple-600 rounded-xl shadow-lg flex-shrink-0">
+                      <Camera className="h-5 w-5 sm:h-6 sm:w-6 text-white" />
+                    </div>
+                    <div className="min-w-0 flex-1">
+                      <p className="font-semibold text-gray-900 text-base sm:text-lg truncate mb-1">{inspection.productId}</p>
+                      <div className="flex items-center gap-2 mb-2">
+                        <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                        <p className="text-xs text-gray-600">Quality Score: 95/100</p>
+                      </div>
+                      <p className="text-sm text-gray-600 flex items-center gap-2">
+                        <MapPin className="h-4 w-4 text-purple-500" />
+                        <span className="hidden sm:inline">{inspection.location}</span>
+                        <span className="sm:hidden">{inspection.location.split(',')[0]}</span>
+                      </p>
+                      <p className="text-xs text-gray-500 mt-1">
+                        {new Date(inspection.inspectionDate).toLocaleDateString('en-US', { 
+                          year: 'numeric', 
+                          month: 'short', 
+                          day: 'numeric' 
+                        })}
+                      </p>
+                    </div>
+                  </div>
+                  <div className="text-right flex-shrink-0">
+                    <div className="flex flex-col sm:flex-row gap-2 mb-1">
+                      <Badge className={`
+                        ${getStatusColor(inspection.status)} 
+                        px-3 py-1.5 text-xs font-semibold
+                        border-0 shadow-sm
+                      `}>
+                        {inspection.status}
+                      </Badge>
+                      {inspection.grade && (
+                        <Badge className={`
+                          ${getGradeColor(inspection.grade)} 
+                          px-3 py-1.5 text-xs font-semibold
+                          border-0 shadow-sm
+                        `}>
+                          Grade {inspection.grade}
+                        </Badge>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              </Card>
+            ))}
+          </Card>
+        </div>
     </DashboardLayout>
   );
 }

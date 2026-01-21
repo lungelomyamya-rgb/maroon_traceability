@@ -5,7 +5,8 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useUser } from '@/contexts/userContext';
 import { TransportDocumentation } from '@/components/logistics/transportDocumentation';
-import { DashboardLayout } from '@/components/dashboard/DashboardLayout';
+import { DashboardLayout } from '@/components/dashboard/dashboardLayout';
+import { Button } from '@/components/ui/button';
 import { FileText } from 'lucide-react';
 
 export default function LogisticsDocumentationPage() {
@@ -29,11 +30,24 @@ export default function LogisticsDocumentationPage() {
   }
 
   return (
-    <DashboardLayout
-      title="Transport Documentation"
-      subtitle="Manage bills of lading, delivery confirmations, and compliance documents"
-    >
-      <TransportDocumentation />
-    </DashboardLayout>
+    <>
+      {/* Back Button Above DashboardLayout */}
+      <div className="px-4 sm:px-6 lg:px-8 pt-4">
+        <Button
+          variant="outline"
+          onClick={() => router.push('/logistics')}
+          className="inline-flex items-center gap-2 text-sm"
+        >
+          Back
+        </Button>
+      </div>
+      
+      <DashboardLayout
+        title="Transport Documentation"
+        subtitle="Manage bills of lading, delivery confirmations, and compliance documents"
+      >
+        <TransportDocumentation />
+      </DashboardLayout>
+    </>
   );
 }

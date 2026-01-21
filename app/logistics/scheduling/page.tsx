@@ -5,9 +5,11 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useUser } from '@/contexts/userContext';
 import { TransportScheduling } from '@/components/logistics/transportScheduling';
-import { DashboardLayout } from '@/components/dashboard/DashboardLayout';
+import { DashboardLayout } from '@/components/dashboard/dashboardLayout';
+import { Button } from '@/components/ui/button';
 import { Calendar } from 'lucide-react';
 import { Vehicle, Driver } from '@/types/logistics';
+import { mockVehicles, mockDrivers } from '@/constants/logisticsMockData';
 
 export default function LogisticsSchedulingPage() {
   const { currentUser } = useUser();
@@ -22,77 +24,7 @@ export default function LogisticsSchedulingPage() {
       return;
     }
 
-    // Load mock data
-    const mockVehicles: Vehicle[] = [
-      {
-        id: 'veh1',
-        registrationNumber: 'CA 123456',
-        make: 'Mercedes-Benz',
-        model: 'Actros 1845',
-        year: 2022,
-        type: 'truck',
-        capacity: 28000,
-        status: 'active',
-        currentDriver: 'driver1',
-        lastMaintenance: '2025-01-15',
-        nextMaintenance: '2025-04-15',
-        insuranceExpiry: '2025-12-31',
-        registrationExpiry: '2026-03-31',
-        features: ['GPS Tracking', 'Air Suspension', 'Sleeping Cabin'],
-        location: { lat: -33.9249, lng: 18.4241 }
-      },
-      {
-        id: 'veh2',
-        registrationNumber: 'CA 789012',
-        make: 'Isuzu',
-        model: 'NPR 300',
-        year: 2021,
-        type: 'refrigerated',
-        capacity: 3500,
-        status: 'available',
-        lastMaintenance: '2025-01-10',
-        nextMaintenance: '2025-04-10',
-        insuranceExpiry: '2025-11-30',
-        registrationExpiry: '2026-02-28',
-        features: ['Temperature Control', 'Refrigerated', 'GPS Tracking'],
-        location: { lat: -33.8688, lng: 18.5058 }
-      }
-    ];
-
-    const mockDrivers: Driver[] = [
-      {
-        id: 'driver1',
-        name: 'John Smith',
-        phone: '+27 83 123 4567',
-        email: 'john.smith@logistics.co.za',
-        licenseNumber: 'DL12345678901',
-        licenseExpiry: '2025-12-31',
-        certifications: ['Commercial Driver License', 'Refrigerated Goods', 'Food Safety Handling'],
-        status: 'on-delivery',
-        currentVehicle: 'veh1',
-        currentLocation: { lat: -33.9249, lng: 18.4241 },
-        experience: 8,
-        rating: 4.8,
-        totalDeliveries: 342,
-        onTimeDeliveryRate: 96.5
-      },
-      {
-        id: 'driver2',
-        name: 'Maria Johnson',
-        phone: '+27 82 987 6543',
-        email: 'maria.j@logistics.co.za',
-        licenseNumber: 'DL98765432109',
-        licenseExpiry: '2026-03-15',
-        certifications: ['Commercial Driver License', 'Hazardous Materials', 'Defensive Driving'],
-        status: 'available',
-        currentLocation: { lat: -33.8688, lng: 18.5058 },
-        experience: 5,
-        rating: 4.6,
-        totalDeliveries: 189,
-        onTimeDeliveryRate: 94.2
-      }
-    ];
-
+    // Load mock data from consolidated file
     setVehicles(mockVehicles);
     setDrivers(mockDrivers);
   }, [currentUser, router]);
@@ -106,11 +38,24 @@ export default function LogisticsSchedulingPage() {
   }
 
   return (
-    <DashboardLayout
-      title="Transport Scheduling"
-      subtitle="Schedule transports, manage routes, and optimize deliveries"
-    >
-      <TransportScheduling vehicles={vehicles} drivers={drivers} />
-    </DashboardLayout>
+    <>
+      {/* Back Button Above DashboardLayout */}
+      <div className="px-4 sm:px-6 lg:px-8 pt-4">
+        <Button
+          variant="outline"
+          onClick={() => router.push('/logistics')}
+          className="inline-flex items-center gap-2 text-sm"
+        >
+          Back
+        </Button>
+      </div>
+      
+      <DashboardLayout
+        title="Transport Scheduling"
+        subtitle="Schedule transports, manage routes, and optimize deliveries"
+      >
+        <TransportScheduling vehicles={vehicles} drivers={drivers} />
+      </DashboardLayout>
+    </>
   );
 }

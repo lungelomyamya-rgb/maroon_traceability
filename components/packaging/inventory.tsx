@@ -4,7 +4,7 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useUser } from '@/contexts/userContext';
-import { DashboardLayout } from '@/components/dashboard/DashboardLayout';
+import { DashboardLayout } from '@/components/dashboard/dashboardLayout';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -352,71 +352,71 @@ export default function PackagingInventoryPage() {
     >
       <div className="space-y-6">
         {/* Summary Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
-          <Card className="p-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-3 sm:gap-4">
+          <Card className="p-3 sm:p-4 lg:p-5 hover:shadow-lg transition-shadow">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-gray-600">Total Items</p>
-                <p className="text-2xl font-bold text-gray-900">{totalItems}</p>
+                <p className="text-xs sm:text-sm font-medium text-gray-600">Total Items</p>
+                <p className="text-xl sm:text-2xl font-bold text-gray-900">{totalItems}</p>
               </div>
-              <div className="p-2 bg-blue-100 rounded-lg">
-                <Package className="h-5 w-5 text-blue-600" />
+              <div className="p-1.5 sm:p-2 lg:p-3 bg-blue-100 rounded-lg">
+                <Package className="h-4 w-4 sm:h-5 sm:w-5 text-blue-600" />
               </div>
             </div>
           </Card>
 
-          <Card className="p-4">
+          <Card className="p-3 sm:p-4 lg:p-5 hover:shadow-lg transition-shadow">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-gray-600">In Stock</p>
-                <p className="text-2xl font-bold text-green-600">{inStockItems}</p>
+                <p className="text-xs sm:text-sm font-medium text-gray-600">In Stock</p>
+                <p className="text-xl sm:text-2xl font-bold text-green-600">{inStockItems}</p>
               </div>
-              <div className="p-2 bg-green-100 rounded-lg">
-                <CheckCircle className="h-5 w-5 text-green-600" />
+              <div className="p-1.5 sm:p-2 lg:p-3 bg-green-100 rounded-lg">
+                <CheckCircle className="h-4 w-4 sm:h-5 sm:w-5 text-green-600" />
               </div>
             </div>
           </Card>
 
-          <Card className="p-4">
+          <Card className="p-3 sm:p-4 lg:p-5 hover:shadow-lg transition-shadow">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-gray-600">Low Stock</p>
-                <p className="text-2xl font-bold text-yellow-600">{lowStockItems}</p>
+                <p className="text-xs sm:text-sm font-medium text-gray-600">Low Stock</p>
+                <p className="text-xl sm:text-2xl font-bold text-yellow-600">{lowStockItems}</p>
               </div>
-              <div className="p-2 bg-yellow-100 rounded-lg">
-                <AlertTriangle className="h-5 w-5 text-yellow-600" />
+              <div className="p-1.5 sm:p-2 lg:p-3 bg-yellow-100 rounded-lg">
+                <AlertTriangle className="h-4 w-4 sm:h-5 sm:w-5 text-yellow-600" />
               </div>
             </div>
           </Card>
 
-          <Card className="p-4">
+          <Card className="p-3 sm:p-4 lg:p-5 hover:shadow-lg transition-shadow">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-gray-600">Out of Stock</p>
-                <p className="text-2xl font-bold text-red-600">{outOfStockItems}</p>
+                <p className="text-xs sm:text-sm font-medium text-gray-600">Out of Stock</p>
+                <p className="text-xl sm:text-2xl font-bold text-red-600">{outOfStockItems}</p>
               </div>
-              <div className="p-2 bg-red-100 rounded-lg">
-                <TrendingDown className="h-5 w-5 text-red-600" />
+              <div className="p-1.5 sm:p-2 lg:p-3 bg-red-100 rounded-lg">
+                <TrendingDown className="h-4 w-4 sm:h-5 sm:w-5 text-red-600" />
               </div>
             </div>
           </Card>
 
-          <Card className="p-4">
+          <Card className="p-3 sm:p-4 lg:p-5 hover:shadow-lg transition-shadow">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-gray-600">Total Value</p>
-                <p className="text-2xl font-bold text-gray-900">R{totalValue.toFixed(2)}</p>
+                <p className="text-xs sm:text-sm font-medium text-gray-600">Total Value</p>
+                <p className="text-xl sm:text-2xl font-bold text-gray-900">R{totalValue.toFixed(2)}</p>
               </div>
-              <div className="p-2 bg-purple-100 rounded-lg">
-                <BarChart3 className="h-5 w-5 text-purple-600" />
+              <div className="p-1.5 sm:p-2 lg:p-3 bg-purple-100 rounded-lg">
+                <BarChart3 className="h-4 w-4 sm:h-5 sm:w-5 text-purple-600" />
               </div>
             </div>
           </Card>
         </div>
 
         {/* Filters and Search */}
-        <Card className="p-6">
-          <div className="flex flex-col lg:flex-row gap-4">
+        <Card className="p-4 sm:p-6">
+          <div className="flex flex-col lg:flex-row gap-3 sm:gap-4">
             <div className="flex-1">
               <div className="relative">
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
@@ -424,7 +424,7 @@ export default function PackagingInventoryPage() {
                   placeholder="Search by product name, batch, or ID..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="pl-10"
+                  className="pl-10 text-sm sm:text-base"
                 />
               </div>
             </div>
@@ -464,69 +464,70 @@ export default function PackagingInventoryPage() {
         </Card>
 
         {/* Inventory Table */}
-        <Card className="p-6">
+        <Card className="p-4 sm:p-6">
           <div className="overflow-x-auto">
-            <table className="w-full">
+            <table className="w-full text-sm sm:text-base">
               <thead>
                 <tr className="border-b">
-                  <th className="text-left py-3 px-4">Product</th>
-                  <th className="text-left py-3 px-4">Batch</th>
-                  <th className="text-left py-3 px-4">Category</th>
-                  <th className="text-center py-3 px-4">Stock Level</th>
-                  <th className="text-left py-3 px-4">Status</th>
-                  <th className="text-left py-3 px-4">Quality</th>
-                  <th className="text-right py-3 px-4">Value</th>
-                  <th className="text-center py-3 px-4">Actions</th>
+                  <th className="text-left py-2 sm:py-3 px-2 sm:px-4 text-xs sm:text-sm font-medium text-gray-700">Product</th>
+                  <th className="text-left py-2 sm:py-3 px-2 sm:px-4 text-xs sm:text-sm font-medium text-gray-700">Batch</th>
+                  <th className="text-left py-2 sm:py-3 px-2 sm:px-4 text-xs sm:text-sm font-medium text-gray-700">Category</th>
+                  <th className="text-center py-2 sm:py-3 px-2 sm:px-4 text-xs sm:text-sm font-medium text-gray-700">Stock Level</th>
+                  <th className="text-left py-2 sm:py-3 px-2 sm:px-4 text-xs sm:text-sm font-medium text-gray-700">Status</th>
+                  <th className="text-left py-2 sm:py-3 px-2 sm:px-4 text-xs sm:text-sm font-medium text-gray-700">Quality</th>
+                  <th className="text-right py-2 sm:py-3 px-2 sm:px-4 text-xs sm:text-sm font-medium text-gray-700">Value</th>
+                  <th className="text-center py-2 sm:py-3 px-2 sm:px-4 text-xs sm:text-sm font-medium text-gray-700">Actions</th>
                 </tr>
               </thead>
               <tbody>
                 {filteredInventory.map((item) => (
                   <tr key={item.id} className="border-b hover:bg-gray-50">
-                    <td className="py-3 px-4">
+                    <td className="py-2 sm:py-3 px-2 sm:px-4">
                       <div>
-                        <p className="font-medium">{item.productName}</p>
-                        <p className="text-sm text-gray-500">{item.productId}</p>
+                        <p className="font-medium text-sm sm:text-base">{item.productName}</p>
+                        <p className="text-xs sm:text-sm text-gray-500">{item.productId}</p>
                       </div>
                     </td>
-                    <td className="py-3 px-4">
+                    <td className="py-2 sm:py-3 px-2 sm:px-4">
                       <div>
-                        <p className="text-sm">{item.batchNumber}</p>
+                        <p className="text-xs sm:text-sm">{item.batchNumber}</p>
                         <p className="text-xs text-gray-500">{item.qrCode}</p>
                       </div>
                     </td>
-                    <td className="py-3 px-4">
-                      <Badge variant="outline">{item.category}</Badge>
+                    <td className="py-2 sm:py-3 px-2 sm:px-4">
+                      <Badge variant="outline" className="text-xs">{item.category}</Badge>
                     </td>
-                    <td className="py-3 px-4 text-center">
+                    <td className="py-2 sm:py-3 px-2 sm:px-4 text-center">
                       <div className="text-center">
-                        <p className="font-medium">{item.currentStock} {item.unit}</p>
+                        <p className="font-medium text-sm sm:text-base">{item.currentStock} {item.unit}</p>
                         <p className="text-xs text-gray-500">
                           Min: {item.minStockLevel} | Max: {item.maxStockLevel}
                         </p>
                       </div>
                     </td>
-                    <td className="py-3 px-4">
+                    <td className="py-2 sm:py-3 px-2 sm:px-4">
                       <Badge className={getStatusColor(item.status)}>
                         {item.status.replace('-', ' ')}
                       </Badge>
                     </td>
-                    <td className="py-3 px-4">
+                    <td className="py-2 sm:py-3 px-2 sm:px-4">
                       <Badge className={getQualityGradeColor(item.qualityGrade)}>
                         Grade {item.qualityGrade}
                       </Badge>
                     </td>
-                    <td className="py-3 px-4 text-right">
-                      <p className="font-medium">R{item.totalValue.toFixed(2)}</p>
+                    <td className="py-2 sm:py-3 px-2 sm:px-4 text-right">
+                      <p className="font-medium text-sm sm:text-base">R{item.totalValue.toFixed(2)}</p>
                       <p className="text-xs text-gray-500">R{item.unitCost}/{item.unit}</p>
                     </td>
-                    <td className="py-3 px-4">
+                    <td className="py-2 sm:py-3 px-2 sm:px-4">
                       <div className="flex justify-center gap-1">
                         <Button
                           variant="outline"
                           size="sm"
                           onClick={() => setSelectedItem(item)}
+                          className="h-7 sm:h-8 w-7 sm:w-8 text-xs"
                         >
-                          <Edit className="h-3 w-3" />
+                          <Edit className="h-3 w-3 sm:h-4 sm:w-4" />
                         </Button>
                         <Button
                           variant="outline"
@@ -540,7 +541,9 @@ export default function PackagingInventoryPage() {
                               }
                             }
                           }}
+                          className="h-7 sm:h-8 w-7 sm:w-8 text-xs"
                         >
+                          <Package className="h-3 w-3 sm:h-4 sm:w-4" />
                           <Package className="h-3 w-3" />
                         </Button>
                       </div>

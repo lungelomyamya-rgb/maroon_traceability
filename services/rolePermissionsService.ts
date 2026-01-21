@@ -391,6 +391,7 @@ class RolePermissionsService {
         { name: 'Growth Monitoring', href: '/farmer/growth' },
         { name: 'Fertiliser Logs', href: '/farmer/fertiliser' },
         { name: 'Seed Varieties', href: '/farmer/seeds' },
+        { name: 'Products', href: '/farmer/products' },
         { name: 'Compliance', href: '/farmer/compliance' }
       ],
       inspector: [
@@ -404,18 +405,26 @@ class RolePermissionsService {
         { name: 'Vehicles', href: '/logistics/vehicles' },
         { name: 'Drivers', href: '/logistics/drivers' },
         { name: 'Scheduling', href: '/logistics/scheduling' },
+        { name: 'Order Tracking', href: '/logistics/order-tracking' },
         { name: 'Documentation', href: '/logistics/documentation' },
         { name: 'Events', href: '/logistics/events' }
       ],
       packaging: [
         { name: 'Overview', href: '/packaging' },
-        { name: 'Batch Creation', href: '/packaging/batch' },
-        { name: 'Quality Check', href: '/packaging/quality' }
+        { name: 'Batch Processing', href: '/packaging/batch' },
+        { name: 'Inventory', href: '/packaging/inventory' },
+        { name: 'Quality Check', href: '/packaging/quality-check' },
+        { name: 'QR Generation', href: '/packaging/qr-generation' },
+        { name: 'Reports', href: '/packaging/reports' }
       ],
       retailer: [
         { name: 'Overview', href: '/retailer' },
         { name: 'Products', href: '/retailer/product-management' },
         { name: 'Orders', href: '/retailer/orders' },
+        { name: 'Customers', href: '/retailer/customers' },
+        { name: 'Inventory', href: '/retailer/inventory' },
+        { name: 'Shipping', href: '/retailer/shipping' },
+        { name: 'Payments', href: '/retailer/payments' },
         { name: 'Analytics', href: '/retailer/analytics' }
       ],
       viewer: [

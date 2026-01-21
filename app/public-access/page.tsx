@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation';
 import { QRScanner } from '@/components/qr';
 import { Button } from '@/components/ui/button';
 import { QrCode, Search, Shield, Users, Globe, Smartphone, Share2, Printer } from 'lucide-react';
-import { DashboardLayout } from '@/components/dashboard/DashboardLayout';
+import { DashboardLayout } from '@/components/dashboard/dashboardLayout';
 import { ErrorBoundary } from '@/components/errorBoundary';
 import { getAssetPath } from '@/lib/utils/assetPath';
 
@@ -96,7 +96,7 @@ export default function PublicAccessPage() {
 
             <div className="text-center p-6">
               <div className="inline-flex items-center justify-center w-12 h-12 bg-green-100 rounded-full mb-4">
-                <img src={getAssetPath("/images/maroon-logo.png")} alt="MAROON" className="h-16 w-16 text-green-600" />
+                <img src={getAssetPath("/images/maroonLogo.png")} alt="MAROON" className="h-16 w-16 text-green-600" />
               </div>
               <h3 className="text-lg font-semibold text-gray-900 mb-2">Complete Timeline</h3>
               <p className="text-gray-600">View the entire product journey from farm to retail with verified events</p>
@@ -171,7 +171,7 @@ export default function PublicAccessPage() {
               <div key={product.id} className="bg-white border rounded-lg p-4 hover:shadow-lg transition-shadow">
                 <div className="mb-4">
                   <div className="w-full h-32 bg-green-100 rounded-lg flex items-center justify-center overflow-hidden">
-                    <img src={getAssetPath("/images/maroon-logo.png")} alt="MAROON" className="h-full w-full object-contain" />
+                    <img src={getAssetPath("/images/maroonLogo.png")} alt="MAROON" className="h-full w-full object-contain" />
                   </div>
                 </div>
                 <h3 className="font-semibold text-gray-900 mb-2">{product.name}</h3>
@@ -193,7 +193,7 @@ export default function PublicAccessPage() {
       <footer className="bg-gray-900 text-white py-3 pt-3 px-4 pb-0">
         <div className="max-w-6xl mx-auto text-center">
           <div className="flex items-center justify-center gap-2 mb-1">
-            <img src={getAssetPath("/images/maroon-logo.png")} alt="MAROON" className="h-3 w-3" />
+            <img src={getAssetPath("/images/maroonLogo.png")} alt="MAROON" className="h-3 w-3" />
             <span className="text-xs font-semibold">Maroon Blockchain</span>
           </div>
           <p className="text-gray-400 text-xs">

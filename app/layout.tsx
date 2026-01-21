@@ -4,7 +4,7 @@ import { Inter } from 'next/font/google';
 import './globals.css';
 import ClientLayout from './clientLayout';
 import { ServiceWorkerRegistration } from '@/components/service-worker-registration';
-import { ClientOnly } from '@/components/ClientOnly';
+import { ClientOnly } from '@/components/clientOnly';
 
 const inter = Inter({ subsets: ['latin'] });
 

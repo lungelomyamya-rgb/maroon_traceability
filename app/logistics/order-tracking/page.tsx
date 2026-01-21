@@ -4,7 +4,7 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useUser } from '@/contexts/userContext';
-import { DashboardLayout } from '@/components/dashboard/DashboardLayout';
+import { DashboardLayout } from '@/components/dashboard/dashboardLayout';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -305,13 +305,25 @@ export default function OrderTrackingPage() {
   }
 
   return (
-    <DashboardLayout
-      title="Order Tracking"
-      description="Real-time order tracking and delivery management"
-    >
-      <div className="space-y-6">
-        {/* Filters and Search */}
-        <Card className="p-6">
+    <>
+      {/* Back Button Above DashboardLayout */}
+      <div className="px-4 sm:px-6 lg:px-8 pt-4">
+        <Button
+          variant="outline"
+          onClick={() => router.push('/logistics')}
+          className="inline-flex items-center gap-2 text-sm"
+        >
+          Back
+        </Button>
+      </div>
+      
+      <DashboardLayout
+        title="Order Tracking"
+        description="Real-time order tracking and delivery management"
+      >
+        <div className="space-y-6">
+          {/* Filters and Search */}
+          <Card className="p-4 sm:p-6">
           <div className="flex flex-col lg:flex-row gap-4">
             <div className="flex-1">
               <div className="relative">
@@ -324,71 +336,76 @@ export default function OrderTrackingPage() {
                 />
               </div>
             </div>
-            <Select value={statusFilter} onValueChange={setStatusFilter}>
-              <SelectTrigger className="w-full lg:w-48">
-                <SelectValue placeholder="Filter by status" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">All Statuses</SelectItem>
-                <SelectItem value="pending">Pending</SelectItem>
-                <SelectItem value="collected">Collected</SelectItem>
-                <SelectItem value="in-transit">In Transit</SelectItem>
-                <SelectItem value="out-for-delivery">Out for Delivery</SelectItem>
-                <SelectItem value="delivered">Delivered</SelectItem>
-                <SelectItem value="delayed">Delayed</SelectItem>
-                <SelectItem value="cancelled">Cancelled</SelectItem>
-              </SelectContent>
-            </Select>
-            <Select value={priorityFilter} onValueChange={setPriorityFilter}>
-              <SelectTrigger className="w-full lg:w-48">
-                <SelectValue placeholder="Filter by priority" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">All Priorities</SelectItem>
-                <SelectItem value="low">Low</SelectItem>
-                <SelectItem value="medium">Medium</SelectItem>
-                <SelectItem value="high">High</SelectItem>
-                <SelectItem value="urgent">Urgent</SelectItem>
-              </SelectContent>
-            </Select>
-            <Button variant="outline" onClick={() => window.location.reload()}>
-              <RefreshCw className="h-4 w-4 mr-2" />
-              Refresh
-            </Button>
+            <div className="flex flex-col sm:flex-row gap-2">
+              <Select value={statusFilter} onValueChange={setStatusFilter}>
+                <SelectTrigger className="w-full lg:w-48">
+                  <SelectValue placeholder="Filter by status" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">All Statuses</SelectItem>
+                  <SelectItem value="pending">Pending</SelectItem>
+                  <SelectItem value="collected">Collected</SelectItem>
+                  <SelectItem value="in-transit">In Transit</SelectItem>
+                  <SelectItem value="out-for-delivery">Out for Delivery</SelectItem>
+                  <SelectItem value="delivered">Delivered</SelectItem>
+                  <SelectItem value="delayed">Delayed</SelectItem>
+                  <SelectItem value="cancelled">Cancelled</SelectItem>
+                </SelectContent>
+              </Select>
+              <Select value={priorityFilter} onValueChange={setPriorityFilter}>
+                <SelectTrigger className="w-full lg:w-48">
+                  <SelectValue placeholder="Filter by priority" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">All Priorities</SelectItem>
+                  <SelectItem value="low">Low</SelectItem>
+                  <SelectItem value="medium">Medium</SelectItem>
+                  <SelectItem value="high">High</SelectItem>
+                  <SelectItem value="urgent">Urgent</SelectItem>
+                </SelectContent>
+              </Select>
+              <Button variant="outline" onClick={() => window.location.reload()}>
+                <RefreshCw className="h-4 w-4 mr-2" />
+                <span className="hidden sm:inline">Refresh</span>
+                <span className="sm:hidden">↻</span>
+              </Button>
+            </div>
           </div>
         </Card>
 
         {/* Orders List */}
         <div className="grid gap-4">
           {filteredOrders.map((order) => (
-            <Card key={order.id} className="p-6">
+            <Card key={order.id} className="p-4 sm:p-6">
               <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
                 <div className="flex-1">
-                  <div className="flex items-center gap-3 mb-2">
-                    <h3 className="text-lg font-semibold">{order.orderId}</h3>
-                    <Badge className={getStatusColor(order.currentStatus)}>
-                      {order.currentStatus.replace('-', ' ')}
-                    </Badge>
-                    <Badge className={getPriorityColor(order.priority)}>
-                      {order.priority}
-                    </Badge>
+                  <div className="flex flex-col sm:flex-row sm:items-center gap-2 mb-2">
+                    <h3 className="text-base sm:text-lg font-semibold">{order.orderId}</h3>
+                    <div className="flex flex-wrap gap-2">
+                      <Badge className={getStatusColor(order.currentStatus)}>
+                        {order.currentStatus.replace('-', ' ')}
+                      </Badge>
+                      <Badge className={getPriorityColor(order.priority)}>
+                        {order.priority}
+                      </Badge>
+                    </div>
                   </div>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-2 text-sm text-gray-600">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm text-gray-600">
                     <div className="flex items-center gap-2">
-                      <Truck className="h-4 w-4" />
-                      <span>{order.driver.name} - {order.driver.vehicle}</span>
+                      <Truck className="h-4 w-4 flex-shrink-0" />
+                      <span className="truncate">{order.driver.name} - {order.driver.vehicle}</span>
                     </div>
                     <div className="flex items-center gap-2">
-                      <MapPin className="h-4 w-4" />
-                      <span>{order.route.origin} → {order.route.destination}</span>
+                      <MapPin className="h-4 w-4 flex-shrink-0" />
+                      <span className="truncate">{order.route.origin} → {order.route.destination}</span>
                     </div>
                     <div className="flex items-center gap-2">
-                      <Clock className="h-4 w-4" />
-                      <span>Est: {new Date(order.estimatedDelivery).toLocaleString()}</span>
+                      <Clock className="h-4 w-4 flex-shrink-0" />
+                      <span className="text-xs">Est: {new Date(order.estimatedDelivery).toLocaleString()}</span>
                     </div>
                     <div className="flex items-center gap-2">
-                      <Phone className="h-4 w-4" />
-                      <span>{order.customerPhone}</span>
+                      <Phone className="h-4 w-4 flex-shrink-0" />
+                      <span className="text-xs">{order.customerPhone}</span>
                     </div>
                   </div>
                   {order.specialInstructions && (
@@ -403,6 +420,7 @@ export default function OrderTrackingPage() {
                     variant="outline"
                     size="sm"
                     onClick={() => setSelectedOrder(order)}
+                    className="w-full sm:w-auto"
                   >
                     View Details
                   </Button>
@@ -526,7 +544,8 @@ export default function OrderTrackingPage() {
             </div>
           </Card>
         )}
-      </div>
-    </DashboardLayout>
+        </div>
+      </DashboardLayout>
+    </>
   );
 }

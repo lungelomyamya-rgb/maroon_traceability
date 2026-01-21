@@ -179,11 +179,11 @@ export default function AnalyticsComponent() {
 
   return (
     <div className="min-h-screen bg-gray-50 p-4 sm:p-6">
-      <div className="max-w-7xl mx-auto">
+      <div className="max-w-6xl sm:max-w-7xl mx-auto">
         {/* Action Controls */}
-        <div className="flex flex-col sm:flex-row items-center justify-end gap-3 mb-6">
+        <div className="flex flex-col sm:flex-row items-center justify-end gap-3 mb-6 lg:mb-8">
           <Select value={timeRange} onValueChange={setTimeRange}>
-            <SelectTrigger className="w-full sm:w-40 text-sm">
+            <SelectTrigger className="w-full sm:w-40 lg:w-48 lg:text-base">
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
@@ -193,87 +193,84 @@ export default function AnalyticsComponent() {
               <SelectItem value="1year">Last Year</SelectItem>
             </SelectContent>
           </Select>
-          <Button variant="outline" size="sm" className="w-full sm:w-auto">
-            <Download className="h-4 w-4 mr-2" />
+          <Button variant="outline" size="sm" className="w-full sm:w-auto lg:text-base">
+            <Download className="h-4 w-4 lg:h-5 lg:w-5 mr-2" />
             Export Report
           </Button>
         </div>
 
         {/* Key Metrics */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-6 sm:mb-8">
-          <Card className="p-6">
+          <Card className="p-4 sm:p-6 lg:p-8 shadow-sm hover:shadow-md transition-shadow">
             <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm font-medium text-gray-600">Total Revenue</p>
-                <p className="text-2xl font-bold text-gray-900">R{analytics.totalRevenue.toLocaleString()}</p>
-                <div className="flex items-center mt-2">
-                  {analytics && analytics.monthlyRevenue[6] && analytics.monthlyRevenue[5] ? (
-                    <>
-                      {getChangeIcon(analytics.monthlyRevenue[6].revenue, analytics.monthlyRevenue[5].revenue)}
-                      <span className={`text-sm ml-1 ${getChangeColor(analytics.monthlyRevenue[6].revenue, analytics.monthlyRevenue[5].revenue)}`}>
-                        {Math.abs(((analytics.monthlyRevenue[6].revenue - analytics.monthlyRevenue[5].revenue) / analytics.monthlyRevenue[5].revenue) * 100).toFixed(1)}%
-                      </span>
-                    </>
-                  ) : (
-                    <>
-                      <TrendingUp className="h-4 w-4 text-gray-400" />
-                      <span className="text-sm ml-1 text-gray-400">Loading...</span>
-                    </>
-                  )}
-                </div>
+              <div className="flex-1 min-w-0">
+                <p className="text-sm font-medium text-gray-600 lg:text-base">Total Revenue</p>
+                <p className="text-lg sm:text-xl lg:text-2xl font-bold text-gray-900 break-words">R{analytics.totalRevenue.toLocaleString()}</p>
               </div>
-              <div className="bg-blue-100 p-3 rounded-full">
-                <DollarSign className="h-6 w-6 text-blue-600" />
+              <div className="p-2 sm:p-3 lg:p-4 bg-green-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                <svg className="h-5 w-5 sm:h-6 sm:w-6 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
+                </svg>
               </div>
             </div>
           </Card>
 
-          <Card className="p-6">
+          <Card className="p-4 sm:p-6 lg:p-8 shadow-sm hover:shadow-md transition-shadow">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-gray-600">Total Orders</p>
-                <p className="text-2xl font-bold text-gray-900">{analytics.totalOrders}</p>
-                <div className="flex items-center mt-2">
-                  {getChangeIcon(analytics.monthlyRevenue[5].orders, analytics.monthlyRevenue[4].orders)}
-                  <span className={`text-sm ml-1 ${getChangeColor(analytics.monthlyRevenue[5].orders, analytics.monthlyRevenue[4].orders)}`}>
-                    {Math.abs(((analytics.monthlyRevenue[5].orders - analytics.monthlyRevenue[4].orders) / analytics.monthlyRevenue[4].orders) * 100).toFixed(1)}%
-                  </span>
-                </div>
+                <p className="text-sm font-medium text-gray-600 lg:text-base">Total Orders</p>
+                <p className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900">{analytics.totalOrders}</p>
               </div>
-              <div className="bg-green-100 p-3 rounded-full">
-                <ShoppingCart className="h-6 w-6 text-green-600" />
+              <div className="p-2 sm:p-3 lg:p-4 bg-blue-100 rounded-lg">
+                <ShoppingCart className="h-5 w-5 sm:h-6 sm:w-6 text-blue-600" />
               </div>
             </div>
           </Card>
 
-          <Card className="p-6">
+          <Card className="p-4 sm:p-6 lg:p-8 shadow-sm hover:shadow-md transition-shadow">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-gray-600">Conversion Rate</p>
-                <p className="text-2xl font-bold text-gray-900">{analytics.conversionRate}%</p>
-                <div className="flex items-center mt-2">
-                  <Target className="h-4 w-4 text-purple-600" />
-                  <span className="text-sm ml-1 text-purple-600">+0.3% vs last month</span>
-                </div>
+                <p className="text-sm font-medium text-gray-600 lg:text-base">Average Order Value</p>
+                <p className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900">R{analytics.averageOrderValue.toFixed(2)}</p>
               </div>
-              <div className="bg-purple-100 p-3 rounded-full">
-                <Target className="h-6 w-6 text-purple-600" />
+              <div className="p-2 sm:p-3 lg:p-4 bg-purple-100 rounded-lg">
+                <Target className="h-5 w-5 sm:h-6 sm:w-6 text-purple-600" />
               </div>
             </div>
           </Card>
 
-          <Card className="p-6">
+          <Card className="p-4 sm:p-6 lg:p-8 shadow-sm hover:shadow-md transition-shadow">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-gray-600">Avg Order Value</p>
-                <p className="text-2xl font-bold text-gray-900">R{analytics.averageOrderValue.toFixed(2)}</p>
-                <div className="flex items-center mt-2">
-                  <ArrowUpRight className="h-4 w-4 text-green-600" />
-                  <span className="text-sm ml-1 text-green-600">+5.2% vs last month</span>
-                </div>
+                <p className="text-sm font-medium text-gray-600 lg:text-base">Conversion Rate</p>
+                <p className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900">{analytics.conversionRate.toFixed(1)}%</p>
               </div>
-              <div className="bg-orange-100 p-3 rounded-full">
-                <TrendingUp className="h-6 w-6 text-orange-600" />
+              <div className="p-2 sm:p-3 lg:p-4 bg-orange-100 rounded-lg">
+                <BarChart3 className="h-5 w-5 sm:h-6 sm:w-6 text-orange-600" />
+              </div>
+            </div>
+          </Card>
+
+          <Card className="p-4 sm:p-6 lg:p-8 shadow-sm hover:shadow-md transition-shadow">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm font-medium text-gray-600 lg:text-base">Active Products</p>
+                <p className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900">{analytics.activeProducts}</p>
+              </div>
+              <div className="p-2 sm:p-3 lg:p-4 bg-indigo-100 rounded-lg">
+                <Package className="h-5 w-5 sm:h-6 sm:w-6 text-indigo-600" />
+              </div>
+            </div>
+          </Card>
+
+          <Card className="p-4 sm:p-6 lg:p-8 shadow-sm hover:shadow-md transition-shadow">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm font-medium text-gray-600 lg:text-base">Low Stock Products</p>
+                <p className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900">{analytics.lowStockProducts}</p>
+              </div>
+              <div className="p-2 sm:p-3 lg:p-4 bg-red-100 rounded-lg">
+                <Clock className="h-5 w-5 sm:h-6 sm:w-6 text-red-600" />
               </div>
             </div>
           </Card>
@@ -281,11 +278,11 @@ export default function AnalyticsComponent() {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
           {/* Revenue Chart */}
-          <Card className="p-6">
-            <div className="flex items-center justify-between mb-6">
+          <Card className="p-4 sm:p-6">
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
               <h3 className="text-lg font-semibold">Revenue Trend</h3>
               <Select value={selectedMetric} onValueChange={setSelectedMetric}>
-                <SelectTrigger className="w-32">
+                <SelectTrigger className="w-full sm:w-32">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
@@ -296,13 +293,13 @@ export default function AnalyticsComponent() {
             </div>
             
             {/* Debug Info */}
-            <div className="mb-4 p-2 bg-gray-100 rounded text-xs">
+            <div className="mb-4 p-2 bg-gray-100 rounded text-xs hidden">
               <div>Chart Data: {analytics.monthlyRevenue.length} months</div>
               <div>Selected Metric: {selectedMetric}</div>
               <div>Max Value: {Math.max(...analytics.monthlyRevenue.map(d => selectedMetric === 'revenue' ? d.revenue : d.orders))}</div>
             </div>
             
-            <div className="h-80 bg-white rounded-xl border-2 border-slate-200 p-6 relative overflow-hidden">
+            <div className="h-32 sm:h-48 md:h-64 lg:h-80 bg-white rounded-xl border-2 border-slate-200 p-3 sm:p-4 md:p-6 relative overflow-hidden">
               {/* Simple Background */}
               <div className="absolute inset-0 bg-gradient-to-br from-slate-50 to-slate-100 opacity-20"></div>
               
@@ -322,7 +319,7 @@ export default function AnalyticsComponent() {
               </div>
               
               {/* Chart Bars */}
-              <div className="relative h-full flex items-end gap-2 z-10">
+              <div className="relative h-full flex items-end gap-1 sm:gap-2 z-10">
                 {analytics.monthlyRevenue.map((item, index) => {
                   const maxValue = Math.max(...analytics.monthlyRevenue.map(d => selectedMetric === 'revenue' ? d.revenue : d.orders));
                   const value = selectedMetric === 'revenue' ? item.revenue : item.orders;
@@ -340,12 +337,12 @@ export default function AnalyticsComponent() {
                   return (
                     <div key={index} className="relative flex-1 flex flex-col items-center justify-end group">
                       {/* Simple Tooltip */}
-                      <div className="absolute -top-16 left-1/2 transform -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-20 pointer-events-none">
-                        <div className="bg-slate-900 text-white p-3 rounded-lg shadow-xl border border-slate-700 min-w-[140px]">
+                      <div className="absolute -top-16 sm:-top-20 left-1/2 transform -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-20 pointer-events-none">
+                        <div className="bg-slate-900 text-white p-2 rounded-lg shadow-xl border border-slate-700 min-w-[100px] sm:min-w-[120px]">
                           <div className="text-xs font-medium text-slate-300 mb-1">{item.month}</div>
-                          <div className="text-lg font-bold text-white">{selectedMetric === 'revenue' ? `R${(value / 1000).toFixed(1)}k` : value}</div>
+                          <div className="text-xs sm:text-sm font-bold text-white">{selectedMetric === 'revenue' ? `R${(value / 1000).toFixed(1)}k` : value}</div>
                           {selectedMetric === 'revenue' && (
-                            <div className="text-xs text-slate-400 mt-1">R{((value / 1000).toFixed(0))}k</div>
+                            <div className="text-xs text-slate-400 mt-1 hidden sm:block">R{((value / 1000).toFixed(0))}k</div>
                           )}
                         </div>
                       </div>
@@ -364,9 +361,9 @@ export default function AnalyticsComponent() {
                       </div>
                       
                       {/* Labels */}
-                      <div className="mt-3 text-center">
+                      <div className="mt-1 sm:mt-2 text-center">
                         <div className="text-xs font-semibold text-slate-700 group-hover:text-blue-700 transition-colors duration-200">{item.month}</div>
-                        <div className="text-xs font-bold text-slate-800 group-hover:text-blue-600 transition-colors duration-200">
+                        <div className="text-xs font-bold text-slate-800 group-hover:text-blue-600 transition-colors duration-200 hidden sm:block">
                           {selectedMetric === 'revenue' ? `R${(value / 1000).toFixed(1)}k` : value}
                         </div>
                       </div>
@@ -404,16 +401,16 @@ export default function AnalyticsComponent() {
             <div className="space-y-4">
               {analytics.topProducts.map((product, index) => (
                 <div key={product.productId} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-                  <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center text-sm font-medium">
+                  <div className="flex items-center gap-4 min-w-0 flex-1">
+                    <div className="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center text-sm font-medium flex-shrink-0">
                       {index + 1}
                     </div>
-                    <div>
-                      <p className="text-sm font-medium">{product.name}</p>
+                    <div className="flex-1 min-w-0">
+                      <p className="text-sm font-medium truncate">{product.name}</p>
                       <p className="text-xs text-gray-500">{product.views} views</p>
                     </div>
                   </div>
-                  <div className="text-right">
+                  <div className="text-right flex-shrink-0">
                     <p className="text-sm font-medium">{product.sales} sold</p>
                     <p className="text-sm font-bold text-green-600">R{product.revenue.toLocaleString()}</p>
                   </div>
