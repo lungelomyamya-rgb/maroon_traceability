@@ -36,7 +36,7 @@ export default function IntroPage() {
             {/* Hero Image */}
             <div className="mb-4 sm:mb-6 lg:mb-8 flex justify-center px-1 sm:px-2">
               <img 
-                src={`/images/heroImage.png?v=${CACHE_BUST}`} 
+                src={`/maroon_traceability/images/heroImage.png?v=${CACHE_BUST}`} 
                 alt="Maroon - Agricultural Asset Protection" 
                 className="w-full max-w-2xl sm:max-w-3xl md:max-w-4xl lg:max-w-5xl h-auto object-cover rounded-lg shadow-lg"
               />
@@ -170,7 +170,7 @@ export default function IntroPage() {
             <div className="text-center">
               <div className="mb-4 sm:mb-6 flex justify-center">
                 <img 
-                  src={`/images/howItWorks1.png?v=${CACHE_BUST}`} 
+                  src={`/maroon_traceability/images/howItWorks1.png?v=${CACHE_BUST}`} 
                   alt="Step 1: Tag Your Animal" 
                   className="w-full max-w-40 sm:max-w-48 md:max-w-xs lg:max-w-sm h-32 sm:h-36 md:h-40 lg:h-48 object-contain rounded-lg shadow-md"
                 />
@@ -184,7 +184,7 @@ export default function IntroPage() {
             <div className="text-center">
               <div className="mb-4 sm:mb-6 flex justify-center">
                 <img 
-                  src={`/images/howItWorks2.png?v=${CACHE_BUST}`} 
+                  src={`/maroon_traceability/images/howItWorks2.png?v=${CACHE_BUST}`} 
                   alt="Step 2: Record What Matters" 
                   className="w-full max-w-40 sm:max-w-48 md:max-w-xs lg:max-w-sm h-32 sm:h-36 md:h-40 lg:h-48 object-contain"
                 />
@@ -201,7 +201,7 @@ export default function IntroPage() {
             <div className="text-center">
               <div className="mb-4 sm:mb-6 flex justify-center">
                 <img 
-                  src={`/images/howItWorks3.png?v=${CACHE_BUST}`} 
+                  src={`/maroon_traceability/images/howItWorks3.png?v=${CACHE_BUST}`} 
                   alt="Step 3: Show, Don't Tell" 
                   className="w-full max-w-40 sm:max-w-48 md:max-w-xs lg:max-w-sm h-32 sm:h-36 md:h-40 lg:h-48 object-contain rounded-lg shadow-md"
                 />
