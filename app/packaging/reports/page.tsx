@@ -331,19 +331,19 @@ export default function ReportsPage() {
               {topProducts.map((product, index) => (
                 <div key={index} className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-4 bg-white border-2 border-gray-200 rounded-xl hover:border-purple-300 hover:shadow-lg transition-all">
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 sm:w-12 sm:h-12 bg-orange-100 rounded-full flex items-center justify-center text-lg font-bold text-orange-600">
+                    <div className="w-8 h-8 sm:w-10 sm:h-12 lg:w-14 lg:h-16 bg-orange-100 rounded-full flex items-center justify-center text-sm sm:text-base lg:text-lg font-bold text-orange-600">
                       {index + 1}
                     </div>
                     <div className="flex-1 min-w-0">
                       <div>
-                        <h4 className="font-bold text-gray-900 text-base sm:text-lg">{product.name}</h4>
-                        <p className="text-sm text-gray-500">{product.batches} batches</p>
+                        <h4 className="font-bold text-gray-900 text-sm sm:text-base lg:text-lg">{product.name}</h4>
+                        <p className="text-xs sm:text-sm lg:text-base text-gray-500">{product.batches} batches</p>
                       </div>
                     </div>
                   <div className="text-right">
                     <div className="flex items-center gap-1">
-                      <span className="text-2xl sm:text-3xl font-bold text-green-600">{product.efficiency}%</span>
-                      <span className="text-sm text-gray-500">efficiency</span>
+                      <span className="text-lg sm:text-xl lg:text-2xl xl:text-3xl font-bold text-green-600">{product.efficiency}%</span>
+                      <span className="text-xs sm:text-sm lg:text-base text-gray-500">efficiency</span>
                     </div>
                   </div>
                 </div>

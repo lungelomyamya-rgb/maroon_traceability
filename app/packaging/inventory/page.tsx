@@ -155,7 +155,7 @@ export default function InventoryPage() {
           {/* Inventory Grid */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
             {inventoryItems.map((item) => (
-              <div className="p-3 sm:p-4 lg:p-6 hover:shadow-lg transition-all duration-200 hover:scale-[1.01] border-0 shadow-md overflow-hidden">
+              <div key={item.id} className="p-3 sm:p-4 lg:p-6 hover:shadow-lg transition-all duration-200 hover:scale-[1.01] border-0 shadow-md overflow-hidden">
                 {/* Header */}
                 <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 mb-4">
                   <div className="flex items-center gap-3">
