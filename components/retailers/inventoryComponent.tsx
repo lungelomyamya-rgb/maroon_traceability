@@ -447,7 +447,7 @@ export default function InventoryComponent() {
 
                   {/* Stock Status */}
                   <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-1">
                       <span className="font-medium text-sm sm:text-base leading-none self-center">{item.currentStock}</span>
                       <span className="text-xs text-gray-500 leading-none self-center">/ {item.maxStockLevel}</span>
                       {getStockStatusIcon(item)}

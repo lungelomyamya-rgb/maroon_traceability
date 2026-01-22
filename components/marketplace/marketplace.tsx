@@ -51,6 +51,12 @@ export default function Marketplace() {
     };
 
     window.addEventListener('scroll', handleScroll);
+    
+    // Scroll to top on page load
+    setTimeout(() => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }, 100);
+
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
@@ -129,7 +135,7 @@ export default function Marketplace() {
                   variant="ghost" 
                   size="sm" 
                   onClick={() => router.push('/qr-demo')} 
-                  className="hidden xs:flex px-2"
+                  className="flex px-2"
                   aria-label="Scan QR code"
                 >
                   <QrCode className="h-4 w-4" />
