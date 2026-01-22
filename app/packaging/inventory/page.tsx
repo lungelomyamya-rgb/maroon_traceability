@@ -155,12 +155,12 @@ export default function InventoryPage() {
           {/* Inventory Grid */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
             {inventoryItems.map((item) => (
-              <Card key={item.id} className="p-4 sm:p-6 hover:shadow-lg transition-all duration-200 hover:scale-[1.01] border-0 shadow-md overflow-hidden">
+              <div className="p-3 sm:p-4 lg:p-6 hover:shadow-lg transition-all duration-200 hover:scale-[1.01] border-0 shadow-md overflow-hidden">
                 {/* Header */}
                 <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 mb-4">
                   <div className="flex items-center gap-3">
                     <div className="p-3 sm:p-4 bg-blue-100 rounded-xl">
-                      <Box className="h-5 w-5 sm:h-6 sm:w-6 text-blue-600" />
+                      <Box className="h-5 w-5 sm:h-6 sm:w-6 lg:h-8 lg:w-10 text-blue-600" />
                     </div>
                     <div className="flex-1 min-w-0">
                       <h3 className="font-bold text-gray-900 text-base sm:text-lg">{item.productName}</h3>
@@ -235,7 +235,7 @@ export default function InventoryPage() {
                     Export
                   </Button>
                 </div>
-              </Card>
+              </div>
             ))}
           </div>
 

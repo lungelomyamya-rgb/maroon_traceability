@@ -52,19 +52,19 @@ export default function PackagingPage() {
           {/* Hero Section */}
           <div className="bg-gradient-to-r from-emerald-600 to-teal-700 rounded-2xl p-4 sm:p-6 md:p-8 text-white relative overflow-hidden">
             <div className="text-center relative z-10">
-              <h1 className="text-xl sm:text-2xl md:text-3xl font-bold mb-2">Packaging Management</h1>
-              <p className="text-emerald-100 mb-4 sm:mb-6 text-xs sm:text-sm md:text-base">Complete packaging operations and batch management for Maroon Traceability System</p>
+              <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold mb-2 sm:mb-4">Packaging Management</h1>
+              <p className="text-emerald-100 mb-2 sm:mb-4 text-xs sm:text-sm md:text-base">Complete packaging operations and batch management for Maroon Traceability System</p>
               <div className="flex justify-center items-center gap-2 sm:gap-4 md:gap-6 mb-4 sm:mb-6 md:mb-8 flex-wrap">
                 <div className="flex items-center gap-1 sm:gap-2 bg-white/10 backdrop-blur-sm rounded-lg px-3 py-2">
-                  <Package className="h-3 w-3 sm:h-4 sm:w-4 md:h-5 md:w-5" />
+                  <Package className="h-3 w-3 sm:h-4 sm:w-4 md:h-5 md:w-6" />
                   <span className="text-xs sm:text-sm font-medium">Active Batches</span>
                 </div>
                 <div className="flex items-center gap-1 sm:gap-2 bg-white/10 backdrop-blur-sm rounded-lg px-3 py-2">
-                  <QrCode className="h-3 w-3 sm:h-4 sm:w-4 md:h-5 md:w-5" />
+                  <QrCode className="h-3 w-3 sm:h-4 sm:w-4 md:h-5 md:w-6" />
                   <span className="text-xs sm:text-sm font-medium">QR Codes</span>
                 </div>
                 <div className="flex items-center gap-1 sm:gap-2 bg-white/10 backdrop-blur-sm rounded-lg px-3 py-2">
-                  <Box className="h-3 w-3 sm:h-4 sm:w-4 md:h-5 md:w-5" />
+                  <Box className="h-3 w-3 sm:h-4 sm:w-4 md:h-5 md:w-6" />
                   <span className="text-xs sm:text-sm font-medium">Inventory Items</span>
                 </div>
               </div>
@@ -80,7 +80,7 @@ export default function PackagingPage() {
           </div>
 
           {/* Quick Actions */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3 sm:gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-3 sm:gap-4 md:gap-6 lg:gap-8">
             <button
               onClick={() => router.push('/packaging/batch')}
               className="bg-emerald-600 hover:bg-emerald-700 text-white flex items-center gap-2 sm:gap-3 h-auto p-3 sm:p-4 rounded-lg font-medium transition-all hover:scale-105 active:scale-95 shadow-lg"
