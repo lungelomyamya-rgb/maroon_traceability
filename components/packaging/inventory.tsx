@@ -640,7 +640,7 @@ export default function PackagingInventoryPage() {
                   <p><strong>Storage Requirements:</strong></p>
                   <ul className="list-disc list-inside">
                     {selectedItem.storageRequirements.map((req, index) => (
-                      <li key={index}>{req}</li>
+                      <li key={`storage-${index}-${req}`}>{req}</li>
                     ))}
                   </ul>
                 </div>
@@ -652,7 +652,7 @@ export default function PackagingInventoryPage() {
                 <h4 className="font-medium mb-3">Certifications</h4>
                 <div className="flex flex-wrap gap-2">
                   {selectedItem.certifications.map((cert, index) => (
-                    <Badge key={index} variant="outline">{cert}</Badge>
+                    <Badge key={`cert-${index}-${cert}`} variant="outline">{cert}</Badge>
                   ))}
                 </div>
               </div>

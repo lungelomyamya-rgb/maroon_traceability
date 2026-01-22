@@ -8,8 +8,8 @@ import { ClientOnly } from '@/components/clientOnly';
 
 const inter = Inter({ subsets: ['latin'] });
 
-// Use basePath from Next.js config for server-side rendering
-const basePath = process.env.NEXT_PUBLIC_BASE_PATH || '';
+// Use basePath from Next.js config for server-side rendering (only in production)
+const basePath = process.env.NODE_ENV === 'development' ? '' : (process.env.NEXT_PUBLIC_BASE_PATH || '');
 
 export const metadata: Metadata = {
   title: 'Maroon Traceability System',
