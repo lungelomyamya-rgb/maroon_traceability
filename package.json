@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "cross-env TURBOPACK=0 next dev",
+    "dev": "cross-env TURBOPACK=0 NODE_ENV=development next dev",
     "build": "cross-env TURBOPACK=0 next build",
     "build:export": "cross-env TURBOPACK=0 next build",
     "export": "next export",

@@ -8,13 +8,18 @@ import { ClientOnly } from '@/components/clientOnly';
 
 const inter = Inter({ subsets: ['latin'] });
 
+// Dynamic base path for assets - only use prefix in production
+const getBasePath = () => {
+  return process.env.NODE_ENV === 'development' ? '' : '/maroon_traceability';
+};
+
 export const metadata: Metadata = {
   title: 'Maroon Traceability System',
   description: 'Blockchain-based product traceability system',
-  manifest: '/maroon_traceability/manifest.json?v=' + Date.now(),
+  manifest: `${getBasePath()}/manifest.json?v=` + Date.now(),
   icons: {
-    icon: '/maroon_traceability/icon-192.svg',
-    apple: '/maroon_traceability/icon-512.svg',
+    icon: `${getBasePath()}/icon-192.svg`,
+    apple: `${getBasePath()}/icon-512.svg`,
   },
 };
 

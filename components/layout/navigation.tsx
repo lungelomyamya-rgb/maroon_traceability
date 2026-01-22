@@ -150,7 +150,7 @@ export function Navigation() {
         <div className="flex justify-between h-16 items-center">
           {/* Logo and Title - Always visible */}
           <div className="flex-shrink-0 flex items-center">
-            <img src={getAssetPath("/images/maroonLogo.png")} alt="MAROON" className="h-90 w-90 mr-3 nav-logo" />
+            <img src={getAssetPath("/images/maroonLogo.png")} alt="MAROON" className="h-8 w-8 mr-3 nav-logo" />
             <div className="hidden sm:block">
               <Link href={currentUser?.role === 'public' ? '/marketplace' : `/${currentUser?.role || 'public'}`} className="text-xl font-bold text-gray-900">
                 Maroon Blockchain
