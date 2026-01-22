@@ -268,7 +268,7 @@ export default function InventoryComponent() {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm font-medium text-gray-600">Total Items</p>
-                <p className="text-xl sm:text-2xl font-bold text-gray-900">{inventory.length}</p>
+                <p className="text-base sm:text-lg lg:text-xl font-bold text-gray-900">{inventory.length}</p>
               </div>
               <div className="p-2 sm:p-3 bg-blue-100 rounded-lg">
                 <Package className="h-5 w-5 sm:h-6 sm:w-6 lg:h-8 lg:w-10 text-blue-600" />
@@ -280,7 +280,7 @@ export default function InventoryComponent() {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm font-medium text-gray-600">Low Stock</p>
-                <p className="text-xl sm:text-2xl font-bold text-orange-600">{getLowStockItems().length}</p>
+                <p className="text-base sm:text-lg lg:text-xl font-bold text-orange-600">{getLowStockItems().length}</p>
               </div>
               <div className="p-2 sm:p-3 bg-orange-100 rounded-lg">
                 <TrendingDown className="h-5 w-5 sm:h-6 sm:w-6 lg:h-8 lg:w-10 text-orange-600" />
@@ -292,7 +292,7 @@ export default function InventoryComponent() {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm font-medium text-gray-600">Out of Stock</p>
-                <p className="text-xl sm:text-2xl font-bold text-red-600">{getOutOfStockItems().length}</p>
+                <p className="text-base sm:text-lg lg:text-xl font-bold text-red-600">{getOutOfStockItems().length}</p>
               </div>
               <div className="p-2 sm:p-3 bg-red-100 rounded-lg">
                 <BarChart3 className="h-5 w-5 sm:h-6 sm:w-6 lg:h-8 lg:w-10 text-red-600" />
@@ -304,7 +304,7 @@ export default function InventoryComponent() {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm font-medium text-gray-600">Total Value</p>
-                <p className="text-xl sm:text-2xl font-bold text-green-600">R{inventory.reduce((sum, item) => sum + (item.currentStock * item.unitPrice), 0).toLocaleString()}</p>
+                <p className="text-base sm:text-lg lg:text-xl font-bold text-green-600">R{inventory.reduce((sum, item) => sum + (item.currentStock * item.unitPrice), 0).toLocaleString()}</p>
               </div>
               <div className="p-2 sm:p-3 bg-green-100 rounded-lg">
                 <TrendingUp className="h-5 w-5 sm:h-6 sm:w-6 lg:h-8 lg:w-10 text-green-600" />
