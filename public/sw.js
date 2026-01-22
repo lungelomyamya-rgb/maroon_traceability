@@ -145,8 +145,8 @@ self.addEventListener('push', (event) => {
   
   const options = {
     body: data.body || 'New update available',
-    icon: 'icon-192.svg',
-    badge: 'icon-192.svg',
+    icon: '/maroon_traceability/icon-192.svg',
+    badge: '/maroon_traceability/icon-192.svg',
     vibrate: [200, 100, 200],
     data: data,
   };
