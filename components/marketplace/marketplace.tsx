@@ -117,21 +117,21 @@ export default function Marketplace() {
         <nav className="bg-white shadow-sm border-b sticky top-0 z-40" role="navigation" aria-label="Marketplace navigation">
           <div className="w-full px-3 sm:px-4 lg:px-8">
             <div className="flex justify-between h-14 sm:h-16 items-center">
-              <div className="flex justify-between h-14 sm:h-16 items-center">
-                <div className="flex items-center gap-2 flex-1 min-w-0">
-                  <div className="flex-shrink-0 flex items-center">
-                    <img 
-                      src={getAssetPath("/images/lwandleMoringaBakery.png")} 
-                      alt="Lwandle Moringa Bakery Logo"
-                      className="h-10 w-10 sm:h-12 sm:w-12 mr-2 rounded-lg"
-                    />
-                    <div className="block">
-                      <h1 className="text-lg sm:text-xl lg:text-2xl font-bold text-gray-900 truncate">Lwandle Moringa</h1>
-                      <p className="text-green-600 text-xs sm:text-sm hidden xs:block">100% Traceable Products</p>
-                    </div>
+              <div className="flex items-center gap-2 sm:gap-3 md:gap-4 lg:gap-6">
+                <div className="flex items-center flex-1 min-w-0">
+                  <img 
+                    src={getAssetPath("/images/lwandleMoringaBakery.png")} 
+                    alt="Lwandle Moringa Bakery Logo"
+                    className="h-10 w-10 sm:h-12 sm:w-12 mr-2 rounded-lg"
+                  />
+                  <div className="block">
+                    <h1 className="text-lg sm:text-xl lg:text-2xl font-bold text-gray-900 truncate">Lwandle Moringa</h1>
+                    <p className="text-green-600 text-xs sm:text-sm hidden xs:block">100% Traceable Products</p>
                   </div>
                 </div>
-                <div className="flex items-center gap-2 sm:gap-3 lg:gap-4">
+              </div>
+              <div className="flex items-center gap-2 sm:gap-3 md:gap-4 lg:gap-6">
+                <div className="flex items-center gap-2 sm:gap-3 md:gap-4 lg:gap-6">
                   <Button 
                     variant="ghost" 
                     size="sm" 
@@ -143,57 +143,59 @@ export default function Marketplace() {
                     <span className="hidden sm:inline ml-2">Scan QR</span>
                   </Button>
                 </div>
-            </div>
-                {currentUser ? (
-                  <>
-                    <Button 
-                      onClick={() => router.push('/marketplace/cart')} 
-                      className="relative px-2 sm:px-3" 
-                      size="sm"
-                      aria-label={`Shopping cart with ${getCartItemCount()} items`}
-                    >
-                      <ShoppingCart className="h-4 w-4" />
-                      <span className="hidden sm:inline ml-2">Cart</span>
-                      {cart.length > 0 && (
-                        <span 
-                          className="absolute -top-1 -right-1 bg-orange-600 text-white text-xs rounded-full h-4 w-4 sm:h-5 sm:w-5 flex items-center justify-center"
-                          aria-label={`${getCartItemCount()} items in cart`}
-                        >
-                          {getCartItemCount()}
-                        </span>
-                      )}
-                    </Button>
-                    <Button 
-                      onClick={() => router.push('/marketplace/orders')} 
-                      size="sm"
-                      className="px-2 sm:px-3"
-                      aria-label="View orders"
-                    >
-                      <span className="hidden sm:inline">Orders</span>
-                      <span className="sm:hidden">📦</span>
-                    </Button>
+                <div className="flex items-center gap-2 sm:gap-3 md:gap-4 lg:gap-6">
+                  {currentUser ? (
+                    <>
+                      <Button 
+                        onClick={() => router.push('/marketplace/cart')} 
+                        className="relative px-2 sm:px-3" 
+                        size="sm"
+                        aria-label={`Shopping cart with ${getCartItemCount()} items`}
+                      >
+                        <ShoppingCart className="h-4 w-4" />
+                        <span className="hidden sm:inline ml-2">Cart</span>
+                        {cart.length > 0 && (
+                          <span 
+                            className="absolute -top-1 -right-1 bg-orange-600 text-white text-xs rounded-full h-4 w-4 sm:h-5 sm:w-5 flex items-center justify-center"
+                            aria-label={`${getCartItemCount()} items in cart`}
+                          >
+                            {getCartItemCount()}
+                          </span>
+                        )}
+                      </Button>
+                      <Button 
+                        onClick={() => router.push('/marketplace/orders')} 
+                        size="sm"
+                        className="px-2 sm:px-3"
+                        aria-label="View orders"
+                      >
+                        <span className="hidden sm:inline">Orders</span>
+                        <span className="sm:hidden">📦</span>
+                      </Button>
+                      <Button 
+                        onClick={() => router.push('/login')} 
+                        size="sm"
+                        className="px-2 sm:px-3"
+                        aria-label="Account"
+                      >
+                        <span className="hidden sm:inline">Account</span>
+                        <span className="sm:hidden">👤</span>
+                      </Button>
+                    </>
+                  ) : (
                     <Button 
                       onClick={() => router.push('/login')} 
                       size="sm"
-                      className="px-2 sm:px-3"
-                      aria-label="Account"
+                      className="px-2 sm:px-3 text-xs sm:text-sm"
+                      aria-label="Login to marketplace"
                     >
-                      <span className="hidden sm:inline">Account</span>
-                      <span className="sm:hidden">👤</span>
+                      Login
                     </Button>
-                  </>
-                ) : (
-                  <Button 
-                    onClick={() => router.push('/login')} 
-                    size="sm"
-                    className="px-2 sm:px-3 text-xs sm:text-sm"
-                    aria-label="Login to marketplace"
-                  >
-                    Login
-                  </Button>
-                )}
+                  )}
+                </div>
               </div>
             </div>
+          </div>
         </nav>
 
         {/* Main Content */}
