@@ -336,8 +336,8 @@ export default function ReportsPage() {
                     </div>
                     <div className="flex-1 min-w-0">
                       <div>
-                        <h4 className="font-bold text-gray-900 text-sm sm:text-base lg:text-lg">{product.name}</h4>
-                        <p className="text-xs sm:text-sm lg:text-base text-gray-500">{product.batches} batches</p>
+                        <h4 className="font-bold text-gray-900 text-xs sm:text-sm lg:text-base">{product.name}</h4>
+                        <p className="text-xs sm:text-xs lg:text-sm text-gray-500">{product.batches} batches</p>
                       </div>
                     </div>
                   <div className="text-right">
@@ -406,7 +406,7 @@ export default function ReportsPage() {
                 <tbody className="bg-white divide-y divide-gray-200">
                   {reportsData.map((report) => (
                     <tr key={report.id} className="hover:bg-gray-50">
-                      <td className="px-2 sm:px-4 py-3 text-sm font-medium text-gray-900">{report.title}</td>
+                      <td className="px-2 sm:px-4 py-3 text-xs sm:text-xs lg:text-sm font-medium text-gray-900">{report.title}</td>
                       <td className="px-2 sm:px-4 py-3 text-sm text-gray-600">{report.period}</td>
                       <td className="px-2 sm:px-4 py-3 text-sm text-gray-900">{report.totalBatches}</td>
                       <td className="px-2 sm:px-4 py-3 text-sm text-green-600">{report.completedBatches}</td>
@@ -451,7 +451,7 @@ export default function ReportsPage() {
                     {getActivityIcon(activity.type)}
                   </div>
                   <div className="flex-1">
-                    <p className="text-sm font-medium text-gray-900">{activity.description}</p>
+                    <p className="text-xs sm:text-xs lg:text-sm font-medium text-gray-900">{activity.description}</p>
                     <p className="text-xs text-gray-500">
                       {new Date(activity.timestamp).toLocaleString()} • {activity.user}
                     </p>
