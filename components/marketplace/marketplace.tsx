@@ -117,30 +117,32 @@ export default function Marketplace() {
         <nav className="bg-white shadow-sm border-b sticky top-0 z-40" role="navigation" aria-label="Marketplace navigation">
           <div className="w-full px-3 sm:px-4 lg:px-8">
             <div className="flex justify-between h-14 sm:h-16 items-center">
-              <div className="flex items-center flex-1 min-w-0">
-                <div className="flex-shrink-0 flex items-center">
-                  <img 
-                    src={getAssetPath("/images/lwandleMoringaBakery.png")} 
-                    alt="Lwandle Moringa Bakery Logo"
-                    className="h-10 w-10 sm:h-12 sm:w-12 mr-3 rounded-lg"
-                  />
-                  <div className="block">
-                    <h1 className="text-lg sm:text-xl lg:text-2xl font-bold text-gray-900 truncate">Lwandle Moringa</h1>
-                    <p className="text-green-600 text-xs sm:text-sm hidden xs:block">100% Traceable Products</p>
-                  </div>
+              <div className="flex items-center justify-between">
+            <div className="flex items-center flex-1 min-w-0">
+              <div className="flex-shrink-0 flex items-center">
+                <img 
+                  src={getAssetPath("/images/lwandleMoringaBakery.png")} 
+                  alt="Lwandle Moringa Bakery Logo"
+                  className="h-10 w-10 sm:h-12 sm:w-12 mr-3 rounded-lg"
+                />
+                <div className="block">
+                  <h1 className="text-lg sm:text-xl lg:text-2xl font-bold text-gray-900 truncate">Lwandle Moringa</h1>
+                  <p className="text-green-600 text-xs sm:text-sm hidden xs:block">100% Traceable Products</p>
                 </div>
               </div>
-              <div className="flex items-center gap-1 sm:gap-2 lg:gap-4">
-                <Button 
-                  variant="ghost" 
-                  size="sm" 
-                  onClick={() => router.push('/qr-demo')} 
-                  className="flex px-2"
-                  aria-label="Scan QR code"
-                >
-                  <QrCode className="h-4 w-4" />
-                  <span className="hidden sm:inline ml-2">Scan QR</span>
-                </Button>
+            </div>
+            <div className="flex items-center gap-1 sm:gap-2 lg:gap-4">
+              <Button 
+                variant="ghost" 
+                size="sm" 
+                onClick={() => router.push('/qr-demo')} 
+                className="flex px-2 flex-shrink-0"
+                aria-label="Scan QR code"
+              >
+                <QrCode className="h-4 w-4" />
+                <span className="hidden sm:inline ml-2">Scan QR</span>
+              </Button>
+            </div>
                 {currentUser ? (
                   <>
                     <Button 
