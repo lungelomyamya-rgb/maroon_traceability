@@ -453,7 +453,7 @@ export default function InventoryComponent() {
                       {getStockStatusIcon(item)}
                     </div>
                     <div className="flex items-center">
-                      <Badge className={`${getStatusColor(item.status)} text-xs`}>
+                      <Badge className={`${getStatusColor(item.status)} text-xs px-2 py-1`}>
                         {item.status}
                       </Badge>
                     </div>
