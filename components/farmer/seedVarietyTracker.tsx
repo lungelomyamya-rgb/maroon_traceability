@@ -223,7 +223,7 @@ export function SeedVarietyTracker({ products }: SeedVarietyTrackerProps) {
         <h2 className="text-lg sm:text-xl font-semibold text-gray-900">Seed Variety & Certification Tracking</h2>
         <Button 
           onClick={() => setShowAddForm(!showAddForm)}
-          className="bg-green hover:bg-green-hover text-white w-full sm:w-auto"
+          className="bg-emerald-600 hover:bg-emerald-700 text-white shadow-lg w-full sm:w-auto"
         >
           <Plus className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
           <span className="hidden sm:inline">Add Seed Variety</span>

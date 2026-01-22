@@ -116,7 +116,7 @@ export function GrowthStageMonitor({ products }: GrowthStageMonitorProps) {
         <h2 className="text-lg sm:text-xl font-semibold text-gray-900">Growth Stage Monitoring</h2>
         <Button 
           onClick={() => setShowAddForm(!showAddForm)}
-          className="bg-green hover:bg-green-hover text-white w-full sm:w-auto"
+          className="bg-green-600 hover:bg-green-700 text-white w-full sm:w-auto"
         >
           <Plus className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
           <span className="hidden sm:inline">Add Growth Update</span>

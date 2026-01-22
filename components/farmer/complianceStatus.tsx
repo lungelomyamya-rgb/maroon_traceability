@@ -179,7 +179,7 @@ export function ComplianceStatus({ products }: ComplianceStatusProps) {
     <div className="space-y-4 sm:space-y-6">
       <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3">
         <h2 className="text-lg sm:text-xl font-semibold text-gray-900">Compliance & Regulations</h2>
-        <Button className="bg-green hover:bg-green-hover text-white w-full sm:w-auto">
+        <Button className="bg-green-600 hover:bg-green-700 text-white w-full sm:w-auto">
           <Upload className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
           <span className="hidden sm:inline">Upload Documents</span>
           <span className="sm:hidden">Upload</span>

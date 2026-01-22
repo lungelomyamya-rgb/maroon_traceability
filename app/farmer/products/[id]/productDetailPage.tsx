@@ -106,7 +106,7 @@ export default function ProductDetailPage() {
           <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
             <Button 
               onClick={() => setShowEventForm(!showEventForm)}
-              className="bg-green hover:bg-green-hover text-white shadow-lg w-full sm:w-auto"
+              className="bg-green-600 hover:bg-green-700 text-white shadow-lg w-full sm:w-auto"
               size="lg"
             >
               <Plus className="h-4 w-4 mr-2" />
