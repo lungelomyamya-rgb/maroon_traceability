@@ -118,12 +118,12 @@ export default function Marketplace() {
           <div className="w-full px-3 sm:px-4 lg:px-8">
             <div className="flex justify-between h-14 sm:h-16 items-center">
               <div className="flex justify-between h-14 sm:h-16 items-center">
-                <div className="flex items-center flex-1 min-w-0">
+                <div className="flex items-center gap-2 flex-1 min-w-0">
                   <div className="flex-shrink-0 flex items-center">
                     <img 
                       src={getAssetPath("/images/lwandleMoringaBakery.png")} 
                       alt="Lwandle Moringa Bakery Logo"
-                      className="h-10 w-10 sm:h-12 sm:w-12 mr-4 rounded-lg"
+                      className="h-10 w-10 sm:h-12 sm:w-12 mr-2 rounded-lg"
                     />
                     <div className="block">
                       <h1 className="text-lg sm:text-xl lg:text-2xl font-bold text-gray-900 truncate">Lwandle Moringa</h1>
