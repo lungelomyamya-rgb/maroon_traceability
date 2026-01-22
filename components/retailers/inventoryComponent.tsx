@@ -448,13 +448,15 @@ export default function InventoryComponent() {
                   {/* Stock Status */}
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
-                      <span className="font-medium text-sm sm:text-base">{item.currentStock}</span>
-                      <span className="text-xs text-gray-500">/ {item.maxStockLevel}</span>
+                      <span className="font-medium text-sm sm:text-base leading-tight">{item.currentStock}</span>
+                      <span className="text-xs text-gray-500 leading-tight">/ {item.maxStockLevel}</span>
                       {getStockStatusIcon(item)}
                     </div>
-                    <Badge className={`${getStatusColor(item.status)} text-xs`}>
-                      {item.status}
-                    </Badge>
+                    <div className="flex items-center">
+                      <Badge className={`${getStatusColor(item.status)} text-xs`}>
+                        {item.status}
+                      </Badge>
+                    </div>
                   </div>
 
                   {/* Details Grid */}
