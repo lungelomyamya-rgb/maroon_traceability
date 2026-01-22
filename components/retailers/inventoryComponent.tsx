@@ -399,8 +399,8 @@ export default function InventoryComponent() {
                       </div>
                     </td>
                     <td className="p-3">
-                      <Badge className={getStatusColor(item.status)}>
-                        {item.status}
+                      <Badge className={`${getStatusColor(item.status)} text-xs px-1.5 py-0.5`}>
+                        {item.status.replace('-', ' ').charAt(0).toUpperCase() + item.status.slice(1).replace('-', ' ')}
                       </Badge>
                     </td>
                     <td className="p-3">
@@ -453,7 +453,7 @@ export default function InventoryComponent() {
                       {getStockStatusIcon(item)}
                     </div>
                     <div className="flex items-center">
-                      <Badge className={`${getStatusColor(item.status)} text-xs px-2 py-1`}>
+                      <Badge className={`${getStatusColor(item.status)} text-xs px-1.5 py-0.5`}>
                         {item.status}
                       </Badge>
                     </div>
