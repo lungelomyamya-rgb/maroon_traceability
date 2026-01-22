@@ -263,7 +263,7 @@ export default function InventoryComponent() {
         </div>
 
         {/* Summary Cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-6 sm:mb-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-4 lg:gap-6 mb-6 sm:mb-8">
           <Card className="p-4 sm:p-6">
             <div className="flex items-center justify-between">
               <div>
@@ -271,7 +271,7 @@ export default function InventoryComponent() {
                 <p className="text-xl sm:text-2xl font-bold text-gray-900">{inventory.length}</p>
               </div>
               <div className="p-2 sm:p-3 bg-blue-100 rounded-lg">
-                <Package className="h-5 w-5 text-blue-600" />
+                <Package className="h-5 w-5 sm:h-6 sm:w-6 lg:h-8 lg:w-10 text-blue-600" />
               </div>
             </div>
           </Card>
@@ -283,7 +283,7 @@ export default function InventoryComponent() {
                 <p className="text-xl sm:text-2xl font-bold text-orange-600">{getLowStockItems().length}</p>
               </div>
               <div className="p-2 sm:p-3 bg-orange-100 rounded-lg">
-                <TrendingDown className="h-5 w-5 text-orange-600" />
+                <TrendingDown className="h-5 w-5 sm:h-6 sm:w-6 lg:h-8 lg:w-10 text-orange-600" />
               </div>
             </div>
           </Card>
@@ -295,7 +295,7 @@ export default function InventoryComponent() {
                 <p className="text-xl sm:text-2xl font-bold text-red-600">{getOutOfStockItems().length}</p>
               </div>
               <div className="p-2 sm:p-3 bg-red-100 rounded-lg">
-                <BarChart3 className="h-5 w-5 text-red-600" />
+                <BarChart3 className="h-5 w-5 sm:h-6 sm:w-6 lg:h-8 lg:w-10 text-red-600" />
               </div>
             </div>
           </Card>
@@ -307,7 +307,7 @@ export default function InventoryComponent() {
                 <p className="text-xl sm:text-2xl font-bold text-green-600">R{inventory.reduce((sum, item) => sum + (item.currentStock * item.unitPrice), 0).toLocaleString()}</p>
               </div>
               <div className="p-2 sm:p-3 bg-green-100 rounded-lg">
-                <TrendingUp className="h-5 w-5 text-green-600" />
+                <TrendingUp className="h-5 w-5 sm:h-6 sm:w-6 lg:h-8 lg:w-10 text-green-600" />
               </div>
             </div>
           </Card>
