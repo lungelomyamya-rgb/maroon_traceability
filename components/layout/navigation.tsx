@@ -64,6 +64,7 @@ export function Navigation() {
   const isLogisticsPage = cleanPathname.startsWith('/logistics');
   const isInspectorPage = cleanPathname.startsWith('/inspector');
   const isPackagingPage = cleanPathname.startsWith('/packaging');
+  const isSapsPage = cleanPathname.startsWith('/saps');
 
   // Logistics-specific navigation items
   const getLogisticsNavigationItems = () => {
@@ -142,6 +143,7 @@ export function Navigation() {
     { name: 'Packaging', href: '/packaging' },
     { name: 'Retailer', href: '/retailer' },
     { name: 'Inspector', href: '/inspector' },
+    { name: 'SAPS', href: '/saps' },
   ];
 
   return (
@@ -172,6 +174,9 @@ export function Navigation() {
               )}
               {currentUser?.role === 'retailer' && (
                 <div className="text-sm text-indigo-600 font-medium">Retailer Portal</div>
+              )}
+              {currentUser?.role === 'saps' && (
+                <div className="text-sm text-blue-800 font-medium">SAPS Portal</div>
               )}
             </div>
             {/* Mobile Title - Logo only */}
@@ -245,7 +250,8 @@ export function Navigation() {
                           (currentUser?.role === 'logistics' && role.name === 'Logistics') ||
                           (currentUser?.role === 'inspector' && role.name === 'Inspector') ||
                           (currentUser?.role === 'packaging' && role.name === 'Packaging') ||
-                          (currentUser?.role === 'retailer' && role.name === 'Retailer')
+                          (currentUser?.role === 'retailer' && role.name === 'Retailer') ||
+                          (currentUser?.role === 'saps' && role.name === 'SAPS')
                             ? 'bg-gray-100' : ''
                         }`}
                       >
@@ -255,7 +261,8 @@ export function Navigation() {
                           (currentUser?.role === 'logistics' && role.name === 'Logistics') ||
                           (currentUser?.role === 'inspector' && role.name === 'Inspector') ||
                           (currentUser?.role === 'packaging' && role.name === 'Packaging') ||
-                          (currentUser?.role === 'retailer' && role.name === 'Retailer')) && (
+                          (currentUser?.role === 'retailer' && role.name === 'Retailer') ||
+                          (currentUser?.role === 'saps' && role.name === 'SAPS')) && (
                           <span className="text-xs text-gray-500 ml-2">(Current)</span>
                         )}
                       </button>
@@ -328,7 +335,8 @@ export function Navigation() {
                             (currentUser?.role === 'logistics' && role.name === 'Logistics') ||
                             (currentUser?.role === 'inspector' && role.name === 'Inspector') ||
                             (currentUser?.role === 'packaging' && role.name === 'Packaging') ||
-                            (currentUser?.role === 'retailer' && role.name === 'Retailer')
+                            (currentUser?.role === 'retailer' && role.name === 'Retailer') ||
+                            (currentUser?.role === 'saps' && role.name === 'SAPS')
                               ? 'bg-gray-100' : ''
                           }`}
                         >
@@ -338,7 +346,8 @@ export function Navigation() {
                             (currentUser?.role === 'logistics' && role.name === 'Logistics') ||
                             (currentUser?.role === 'inspector' && role.name === 'Inspector') ||
                             (currentUser?.role === 'packaging' && role.name === 'Packaging') ||
-                            (currentUser?.role === 'retailer' && role.name === 'Retailer')) && (
+                            (currentUser?.role === 'retailer' && role.name === 'Retailer') ||
+                            (currentUser?.role === 'saps' && role.name === 'SAPS')) && (
                             <span className="text-xs text-gray-500">(Current)</span>
                           )}
                         </button>

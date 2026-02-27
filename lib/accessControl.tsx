@@ -138,6 +138,13 @@ class AccessControlManager {
         level: 3
       },
       {
+        id: 'saps',
+        name: 'saps' as UserRole,
+        permissions: ['product.read', 'product.verify', 'blockchain.read', 'blockchain.verify', 'analytics.read', 'analytics.export'],
+        description: 'Law enforcement with roadside inspection and asset recovery capabilities',
+        level: 3
+      },
+      {
         id: 'admin',
         name: 'admin' as UserRole,
         permissions: Array.from(this.permissions.keys()),

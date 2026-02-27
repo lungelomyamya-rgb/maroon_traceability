@@ -72,5 +72,15 @@ export const DEMO_USERS: User[] = [
       canCreate: false,
       canVerify: true
     }
+  },
+  {
+    id: 'user_8',
+    name: 'Frank SAPS Officer',
+    email: 'frank@saps.com',
+    role: 'saps',
+    permissions: {
+      canCreate: false,
+      canVerify: true
+    }
   }
 ];

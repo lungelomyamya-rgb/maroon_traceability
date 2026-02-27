@@ -9,7 +9,8 @@ export const USER_ROLES = [
   'retailer',
   'public',
   'government',
-  'admin'
+  'admin',
+  'saps'
 ] as const;
 
 export type UserRole = typeof USER_ROLES[number];
@@ -137,5 +138,15 @@ export const ROLE_PERMISSIONS: Record<UserRole, {
     icon: '👁️',
     color: 'role-public',
     IconComponent: Eye,
+  },
+  saps: {
+    canCreate: false,
+    canVerify: true,
+    canView: true,
+    allowedEvents: ['roadside-inspection', 'asset-recovery', 'scan-verification', 'theft-report', 'inspection-log'],
+    displayName: 'SAPS Officer',
+    icon: '🚔',
+    color: 'role-saps',
+    IconComponent: Shield,
   },
 };

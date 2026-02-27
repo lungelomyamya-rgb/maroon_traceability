@@ -85,6 +85,7 @@ export default function LoginPage() {
             logistics: 'Track and manage product shipments and delivery logistics',
             packaging: 'Handle product packaging, processing, and batch management',
             retailer: 'Sell products on marketplace and manage your e-commerce store',
+            saps: 'Perform roadside inspections and asset recovery operations',
             public: 'Browse marketplace and view complete product traceability'
           }).map(([role, description]) => (
             <div 
@@ -101,7 +102,8 @@ export default function LoginPage() {
                      role === 'inspector' ? '🔍' : 
                      role === 'logistics' ? '🚚' : 
                      role === 'packaging' ? '📦' : 
-                     role === 'retailer' ? '🏪' : '👁️'}
+                     role === 'retailer' ? '🏪' : 
+                     role === 'saps' ? '🚔' : '👁️'}
                   </span>
                 </div>
                 <h3 className="text-sm sm:text-base lg:text-lg font-semibold text-gray-900 capitalize mb-1 sm:mb-2 text-center">{role}</h3>

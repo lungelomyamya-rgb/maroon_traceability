@@ -1,13 +1,13 @@
 // src/services/rolePermissionsService.ts
 // Role-based access control for Maroon Traceability events
 
-export type UserRole = 'farmer' | 'inspector' | 'logistics' | 'packaging' | 'retailer' | 'viewer' | 'admin';
+export type UserRole = 'farmer' | 'inspector' | 'logistics' | 'packaging' | 'retailer' | 'viewer' | 'admin' | 'saps';
 
 export interface EventType {
   id: string;
   name: string;
   description: string;
-  category: 'planting' | 'growth' | 'harvest' | 'quality' | 'logistics' | 'packaging';
+  category: 'planting' | 'growth' | 'harvest' | 'quality' | 'logistics' | 'packaging' | 'law-enforcement';
   requiredRole: UserRole;
   canEdit: UserRole[];
   canView: UserRole[];
@@ -191,6 +191,58 @@ class RolePermissionsService {
       canEdit: ['packaging', 'inspector', 'admin'],
       canView: ['farmer', 'inspector', 'logistics', 'packaging', 'viewer', 'admin'],
       attachmentsAllowed: true
+    },
+
+    // SAPS events
+    {
+      id: 'roadside-inspection',
+      name: 'Roadside Inspection',
+      description: 'Digital verification of livestock ownership during roadside stops',
+      category: 'law-enforcement',
+      requiredRole: 'saps',
+      canEdit: ['saps', 'admin'],
+      canView: ['saps', 'inspector', 'admin'],
+      attachmentsAllowed: true
+    },
+    {
+      id: 'asset-recovery',
+      name: 'Asset Recovery',
+      description: 'Recovery and documentation of stolen livestock assets',
+      category: 'law-enforcement',
+      requiredRole: 'saps',
+      canEdit: ['saps', 'admin'],
+      canView: ['saps', 'inspector', 'admin'],
+      attachmentsAllowed: true
+    },
+    {
+      id: 'scan-verification',
+      name: 'Scan Verification',
+      description: 'Verification of QR codes and IoT tags during inspections',
+      category: 'law-enforcement',
+      requiredRole: 'saps',
+      canEdit: ['saps', 'admin'],
+      canView: ['saps', 'inspector', 'admin'],
+      attachmentsAllowed: false
+    },
+    {
+      id: 'theft-report',
+      name: 'Theft Report',
+      description: 'Report and documentation of livestock theft incidents',
+      category: 'law-enforcement',
+      requiredRole: 'saps',
+      canEdit: ['saps', 'admin'],
+      canView: ['saps', 'inspector', 'admin'],
+      attachmentsAllowed: true
+    },
+    {
+      id: 'inspection-log',
+      name: 'Inspection Log',
+      description: 'Digital logging of all roadside inspection activities',
+      category: 'law-enforcement',
+      requiredRole: 'saps',
+      canEdit: ['saps', 'admin'],
+      canView: ['saps', 'inspector', 'admin'],
+      attachmentsAllowed: false
     }
   ];
 
@@ -278,6 +330,20 @@ class RolePermissionsService {
         canViewReports: true,
         canExportData: true,
         canManageSystem: true
+      }
+    },
+    {
+      role: 'saps',
+      permissions: {
+        canCreateEvents: ['roadside-inspection', 'asset-recovery', 'inspection-log'],
+        canEditEvents: ['roadside-inspection', 'asset-recovery', 'inspection-log'],
+        canViewEvents: ['planting', 'seed-selection', 'fertiliser-application', 'growth-monitoring', 'harvest', 'quality-inspection', 'compliance-check', 'certification', 'collection', 'transport', 'delivery', 'packaging', 'batch-creation', 'quality-check', 'roadside-inspection', 'asset-recovery', 'scan-verification', 'theft-report', 'inspection-log'],
+        canDeleteEvents: ['inspection-log'],
+        canApproveEvents: [],
+        canManageUsers: false,
+        canViewReports: true,
+        canExportData: true,
+        canManageSystem: false
       }
     }
   ];
@@ -436,6 +502,13 @@ class RolePermissionsService {
         { name: 'User Management', href: '/admin/users' },
         { name: 'Reports', href: '/admin/reports' },
         { name: 'Settings', href: '/admin/settings' }
+      ],
+      saps: [
+        { name: 'Overview', href: '/saps' },
+        { name: 'Roadside Inspections', href: '/saps/inspections' },
+        { name: 'Asset Recovery', href: '/saps/recovery' },
+        { name: 'Theft Reports', href: '/saps/reports' },
+        { name: 'Heatmaps', href: '/saps/heatmaps' }
       ]
     };
 
