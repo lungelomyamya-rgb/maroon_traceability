@@ -4,7 +4,7 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useUser } from '@/contexts/userContext';
-import { EnhancedEventForm } from '@/components/logistics/eventForm';
+import { EventForm } from '@/components/logistics/eventForm';
 import { DashboardLayout } from '@/components/dashboard/dashboardLayout';
 import { Button } from '@/components/ui/button';
 import { Clock } from 'lucide-react';
@@ -54,13 +54,11 @@ export default function LogisticsEventsPage() {
         title="Logistics Events"
         subtitle="Record transport events, collections, and delivery activities"
       >
-        <EnhancedEventForm
+        <EventForm
           productId="PRD-2024-001"
-          onSubmit={async (data) => {
+          onSubmit={async (data: any) => {
             console.log('Enhanced event submitted:', data);
           }}
-          vehicles={vehicles}
-          drivers={drivers}
         />
       </DashboardLayout>
     </>

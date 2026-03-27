@@ -5,9 +5,9 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useUser } from '@/contexts/userContext';
 import { DashboardLayout } from '@/components/dashboard/dashboardLayout';
-import InventoryComponent from '../../../components/retailers/inventoryComponent';
+import { Inventory } from '../../../components/retailers/inventory';
 
-export default function Inventory() {
+export default function InventoryPage() {
   const { currentUser } = useUser();
   const router = useRouter();
 
@@ -51,7 +51,7 @@ export default function Inventory() {
         title="Inventory Management"
         description="Manage your stock levels and product availability"
       >
-        <InventoryComponent />
+        <Inventory />
       </DashboardLayout>
     </>
   );

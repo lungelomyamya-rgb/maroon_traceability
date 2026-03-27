@@ -10,58 +10,58 @@ interface BatchProcessingTableProps {
 export function BatchProcessingTable({ data, onRowClick }: BatchProcessingTableProps) {
   const columns = [
     { 
-      header: 'Batch ID', 
-      accessor: 'batchId',
+      key: 'batchId',
+      label: 'Batch ID',
       className: 'hidden sm:table-cell' // Hide on mobile, show on larger screens
     },
     { 
-      header: 'Product', 
-      accessor: 'product',
-      cell: ({ row }: { row: any }) => (
+      key: 'product',
+      label: 'Product',
+      render: (value: any, row: any) => (
         <div className="max-w-0 sm:max-w-none">
-          <div className="font-medium text-sm sm:text-base truncate">{row.original.product}</div>
-          <div className="text-xs text-gray-500 sm:hidden truncate">{row.original.batchCode}</div>
+          <div className="font-medium text-sm sm:text-base truncate">{row.product}</div>
+          <div className="text-xs text-gray-500 sm:hidden truncate">{row.batchCode}</div>
         </div>
       )
     },
     { 
-      header: 'Status', 
-      accessor: 'status',
-      cell: ({ row }: { row: any }) => (
+      key: 'status',
+      label: 'Status',
+      render: (value: any, row: any) => (
         <div className="flex items-center gap-2">
           <div className={`w-2 h-2 sm:w-3 sm:h-3 rounded-full ${
-            row.original.status === 'completed' ? 'bg-green-500' :
-            row.original.status === 'processing' ? 'bg-blue-500' :
-            row.original.status === 'pending' ? 'bg-yellow-500' : 'bg-gray-500'
+            row.status === 'completed' ? 'bg-green-500' :
+            row.status === 'processing' ? 'bg-blue-500' :
+            row.status === 'pending' ? 'bg-yellow-500' : 'bg-gray-500'
           }`}></div>
           <span className="text-xs sm:text-sm font-medium hidden sm:inline">
-            {row.original.status.replace('-', ' ').charAt(0).toUpperCase() + row.original.status.slice(1).replace('-', ' ')}
+            {row.status.replace('-', ' ').charAt(0).toUpperCase() + row.status.slice(1).replace('-', ' ')}
           </span>
           <span className="text-xs sm:hidden">{
-            row.original.status === 'completed' ? '✓' :
-            row.original.status === 'processing' ? '⏳' :
-            row.original.status === 'pending' ? '⏸' : '?'
+            row.status === 'completed' ? '✓' :
+            row.status === 'processing' ? '⏳' :
+            row.status === 'pending' ? '⏸' : '?'
           }</span>
         </div>
       )
     },
     { 
-      header: 'Created', 
-      accessor: 'createdAt',
+      key: 'createdAt',
+      label: 'Created',
       className: 'hidden sm:table-cell', // Hide on mobile, show on larger screens
-      cell: ({ row }: { row: any }) => (
+      render: (value: any, row: any) => (
         <div className="text-xs sm:text-sm text-gray-600">
-          {new Date(row.original.createdAt).toLocaleDateString()}
+          {new Date(row.createdAt).toLocaleDateString()}
         </div>
       )
     },
     {
-      header: 'Actions',
-      accessor: 'actions',
-      cell: ({ row }: { row: any }) => (
+      key: 'actions',
+      label: 'Actions',
+      render: (value: any, row: any) => (
         <div className="flex gap-1 sm:gap-2">
           <button
-            onClick={() => onRowClick?.(row.original)}
+            onClick={() => onRowClick?.(row)}
             className="p-1.5 sm:p-2 text-blue-600 hover:bg-blue-50 rounded transition-colors text-xs sm:text-sm"
           >
             View

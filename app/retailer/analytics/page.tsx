@@ -5,9 +5,9 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useUser } from '@/contexts/userContext';
 import { DashboardLayout } from '@/components/dashboard/dashboardLayout';
-import AnalyticsComponent from '../../../components/retailers/analyticsComponent';
+import { Analytics } from '../../../components/retailers/analytics';
 
-export default function Analytics() {
+export default function AnalyticsPage() {
   const { currentUser } = useUser();
   const router = useRouter();
 
@@ -51,7 +51,7 @@ export default function Analytics() {
         title="Sales Analytics"
         description="Track your business performance and insights"
       >
-        <AnalyticsComponent />
+        <Analytics />
       </DashboardLayout>
     </>
   );

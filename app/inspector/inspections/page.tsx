@@ -5,7 +5,7 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useUser } from '@/contexts/userContext';
 import { DashboardLayout } from '@/components/dashboard/dashboardLayout';
-import { QualityInspectionForm } from '@/components/inspector/qualityInspectionForm';
+import { QualityInspection } from '@/components/inspector/qualityInspection';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -294,7 +294,7 @@ export default function InspectorInspectionsPage() {
 
         {/* Inspection Form or List */}
         {(showNewForm || selectedInspection) ? (
-          <QualityInspectionForm
+          <QualityInspection
             productId={selectedInspection?.productId || "PRD-NEW-001"}
             onSubmit={handleInspectionSubmit}
             initialData={selectedInspection || undefined}

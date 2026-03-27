@@ -253,18 +253,18 @@ export default function SAPSReportsPage() {
               <DataTable
                 data={theftReports}
                 columns={[
-                  { header: 'Report ID', accessor: 'id' },
-                  { header: 'Date', accessor: 'date' },
-                  { header: 'Location', accessor: 'location' },
-                  { header: 'Livestock', accessor: 'livestock' },
-                  { header: 'Farmer', accessor: 'farmer' },
+                  { key: 'id', label: 'Report ID' },
+                  { key: 'date', label: 'Date' },
+                  { key: 'location', label: 'Location' },
+                  { key: 'livestock', label: 'Livestock' },
+                  { key: 'farmer', label: 'Farmer' },
                   {
-                    header: 'Status',
-                    accessor: 'status',
+                    key: 'status',
+                    label: 'Status',
                     render: (value: string) => getStatusBadge(value)
                   },
-                  { header: 'Value', accessor: 'value' },
-                  { header: 'Officer', accessor: 'officer' },
+                  { key: 'value', label: 'Value' },
+                  { key: 'officer', label: 'Officer' },
                 ]}
                 onRowClick={(row) => console.log('View report:', row.id)}
               />
@@ -288,16 +288,16 @@ export default function SAPSReportsPage() {
               <DataTable
                 data={inspectionReports}
                 columns={[
-                  { header: 'Inspection ID', accessor: 'id' },
-                  { header: 'Date', accessor: 'date' },
-                  { header: 'Location', accessor: 'location' },
-                  { header: 'Livestock', accessor: 'livestock' },
+                  { key: 'id', label: 'Inspection ID' },
+                  { key: 'date', label: 'Date' },
+                  { key: 'location', label: 'Location' },
+                  { key: 'livestock', label: 'Livestock' },
                   {
-                    header: 'Status',
-                    accessor: 'status',
+                    key: 'status',
+                    label: 'Status',
                     render: (value: string) => getStatusBadge(value)
                   },
-                  { header: 'Officer', accessor: 'officer' },
+                  { key: 'officer', label: 'Officer' },
                 ]}
                 onRowClick={(row) => console.log('View inspection:', row.id)}
               />

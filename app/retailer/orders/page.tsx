@@ -5,9 +5,9 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useUser } from '@/contexts/userContext';
 import { DashboardLayout } from '@/components/dashboard/dashboardLayout';
-import OrdersComponent from '../../../components/retailers/ordersComponent';
+import { Orders } from '../../../components/retailers/orders';
 
-export default function Orders() {
+export default function OrdersPage() {
   const { currentUser } = useUser();
   const router = useRouter();
 
@@ -51,7 +51,7 @@ export default function Orders() {
         title="Order Management"
         description="Process and track customer orders"
       >
-        <OrdersComponent />
+        <Orders />
       </DashboardLayout>
     </>
   );

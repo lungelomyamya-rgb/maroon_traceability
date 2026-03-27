@@ -1,6 +1,10 @@
 // src/types/index.ts
 import { VerificationStatus } from '@/services/verificationService';
 
+// Export common types
+export * from './common';
+export * from './user';
+
 export interface ProductEventPhoto {
   id: string;
   url: string;
@@ -18,7 +22,7 @@ export interface ProductEvent {
   location?: string;
   notes?: string;
   photos?: ProductEventPhoto[];
-  metadata?: Record<string, any>;
+  metadata?: Record<string, unknown>;
 }
 
 export interface Product {

@@ -5,9 +5,9 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useUser } from '@/contexts/userContext';
 import { DashboardLayout } from '@/components/dashboard/dashboardLayout';
-import ProductManagementComponent from '../../../components/retailers/productManagementComponent';
+import { ProductManagement as ProductManagementComponent } from '../../../components/retailers/productManagement';
 
-export default function ProductManagement() {
+export default function ProductManagementPage() {
   const { currentUser } = useUser();
   const router = useRouter();
 

@@ -1,16 +1,17 @@
 // src/components/ui/table.tsx
 import React from 'react';
 import { commonColors } from '@/lib/theme/colors';
+import type { TableColumn } from '@/types/common';
 
 interface TableProps {
   children: React.ReactNode;
   className?: string;
 }
 
-interface DataTableProps {
-  data: any[];
-  columns: any[];
-  onRowClick?: (row: any) => void;
+interface DataTableProps<T = unknown> {
+  data: T[];
+  columns: TableColumn<T>[];
+  onRowClick?: (row: T) => void;
   pageSize?: number;
   className?: string;
 }
@@ -23,7 +24,7 @@ export function Table({ children, className = '' }: TableProps) {
   );
 }
 
-export function DataTable({ data, columns, onRowClick, className = '', pageSize }: DataTableProps) {
+export function DataTable<T = unknown>({ data, columns, onRowClick, className = '', pageSize }: DataTableProps<T>) {
   return (
     <div className={`overflow-x-auto ${className}`}>
       <Table>
@@ -31,7 +32,7 @@ export function DataTable({ data, columns, onRowClick, className = '', pageSize 
           <tr>
             {columns.map((column, index) => (
               <th key={index} className={`px-6 py-3 text-left text-xs font-medium ${commonColors.gray500} uppercase tracking-wider`}>
-                {column.header}
+                {column.header || column.label}
               </th>
             ))}
           </tr>
@@ -45,7 +46,7 @@ export function DataTable({ data, columns, onRowClick, className = '', pageSize 
             >
               {columns.map((column, colIndex) => (
                 <td key={colIndex} className={`px-6 py-4 whitespace-nowrap text-sm ${commonColors.gray900}`}>
-                  {row[column.accessor]}
+                  {column.render ? column.render(row[column.key], row) : (column.accessor ? column.accessor(row) : String(row[column.key]))}
                 </td>
               ))}
             </tr>

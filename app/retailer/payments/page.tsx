@@ -5,7 +5,7 @@ import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useUser } from '@/contexts/userContext';
 import { DashboardLayout } from '@/components/dashboard/dashboardLayout';
-import PaymentProcessingComponent from '../../../components/retailers/paymentProcessingComponent';
+import { PaymentProcessing } from '../../../components/retailers/paymentProcessing';
 
 export default function PaymentProcessingPage() {
   const { currentUser } = useUser();
@@ -50,7 +50,7 @@ export default function PaymentProcessingPage() {
         title="Payment Processing"
         description="Manage payment gateways and transaction processing"
       >
-        <PaymentProcessingComponent />
+        <PaymentProcessing />
       </DashboardLayout>
     </>
   );

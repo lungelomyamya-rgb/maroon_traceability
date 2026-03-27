@@ -5,7 +5,7 @@ export interface AppError {
   timestamp: string;
   type: 'network' | 'validation' | 'blockchain' | 'auth' | 'unknown';
   message: string;
-  details?: any;
+  details?: Record<string, unknown>;
   stack?: string;
   recoverable: boolean;
 }
@@ -17,7 +17,7 @@ export class ErrorHandler {
   static createError(
     type: AppError['type'],
     message: string,
-    details?: any,
+    details?: Record<string, unknown>,
     recoverable: boolean = true
   ): AppError {
     const error: AppError = {

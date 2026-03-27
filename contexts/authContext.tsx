@@ -2,9 +2,10 @@
 'use client';
 
 import React, { createContext, useContext, useState, ReactNode } from 'react';
+import { User } from '@/types/user';
 
 interface AuthContextType {
-  user: any | null;
+  user: User | null;
   login: (email: string, password: string) => Promise<boolean>;
   logout: () => void;
   loading: boolean;
@@ -13,7 +14,7 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const [user, setUser] = useState<any>(null);
+  const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(false);
 
   const login = async (email: string, password: string): Promise<boolean> => {
@@ -21,7 +22,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     try {
       // Mock login logic
       if (email && password) {
-        setUser({ email, name: 'User' });
+        setUser({ 
+          id: '1',
+          email, 
+          name: 'User',
+          role: 'public' as const
+        });
         return true;
       }
       return false;

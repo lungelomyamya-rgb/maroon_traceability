@@ -5,7 +5,7 @@ import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useUser } from '@/contexts/userContext';
 import { DashboardLayout } from '@/components/dashboard/dashboardLayout';
-import ShippingIntegrationComponent from '../../../components/retailers/shippingIntegrationComponent';
+import { ShippingIntegration } from '../../../components/retailers/shippingIntegration';
 
 export default function ShippingIntegrationPage() {
   const { currentUser } = useUser();
@@ -50,7 +50,7 @@ export default function ShippingIntegrationPage() {
         title="Shipping Integration"
         description="Manage shipping providers and track deliveries"
       >
-        <ShippingIntegrationComponent />
+        <ShippingIntegration />
       </DashboardLayout>
     </>
   );

@@ -11,7 +11,7 @@ export interface AuditEvent {
   action: string;
   resource: string;
   resourceId?: string;
-  details: any;
+  details: Record<string, unknown>;
   ipAddress?: string;
   userAgent?: string;
   sessionId?: string;

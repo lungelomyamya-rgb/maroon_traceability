@@ -5,7 +5,7 @@ import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useUser } from '@/contexts/userContext';
 import { DashboardLayout } from '@/components/dashboard/dashboardLayout';
-import CustomerManagementComponent from '../../../components/retailers/customerManagementComponent';
+import { CustomerManagement } from '../../../components/retailers/customerManagement';
 
 export default function CustomerManagementPage() {
   const { currentUser } = useUser();
@@ -50,7 +50,7 @@ export default function CustomerManagementPage() {
         title="Customer Management"
         description="Manage customer relationships and communication"
       >
-        <CustomerManagementComponent />
+        <CustomerManagement />
       </DashboardLayout>
     </>
   );
