@@ -69,3 +69,5 @@ export function DashboardLayout({ children, title, subtitle, actions, welcomeMes
     </div>
   );
 }
+
+export { MetricsCard } from './metricsCard';

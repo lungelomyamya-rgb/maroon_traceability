@@ -156,7 +156,8 @@ export { default as LazyImage } from './components/LazyImage';
  * />
  * ```
  */
-export { default as KeyboardNavigation } from './components/KeyboardNavigation';
+// Export all components for convenience
+export * from './components';
 
 // ============================================================================
 // HOOK EXPORTS

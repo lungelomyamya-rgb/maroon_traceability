@@ -1,8 +1,8 @@
 // src/components/marketplace/lazyImage.tsx
 'use client';
 
-import { Loader2 } from 'lucide-react';
 import { useState, useRef, useEffect } from 'react';
+import { Loader2 } from 'lucide-react';
 
 interface LazyImageProps {
   src: string;
@@ -17,7 +17,7 @@ export default function LazyImage({
   alt, 
   className = '', 
   placeholder = '/images/placeholder.jpg',
-  fallback = '/images/image-not-found.jpg',
+  fallback = '/images/image-not-found.jpg'
 }: LazyImageProps) {
   const [isLoaded, setIsLoaded] = useState(false);
   const [isInView, setIsInView] = useState(false);
@@ -34,8 +34,8 @@ export default function LazyImage({
       },
       {
         threshold: 0.1,
-        rootMargin: '50px 0px',
-      },
+        rootMargin: '50px 0px'
+      }
     );
 
     if (imgRef.current) {

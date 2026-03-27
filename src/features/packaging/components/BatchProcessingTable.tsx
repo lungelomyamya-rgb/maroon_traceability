@@ -1,6 +1,5 @@
 // src/components/packaging/BatchProcessingTable.tsx
 import React from 'react';
-
 import { DataTable } from '@/components/ui/table';
 
 interface BatchProcessingTableProps {
@@ -13,7 +12,7 @@ export function BatchProcessingTable({ data, onRowClick }: BatchProcessingTableP
     { 
       key: 'batchId',
       label: 'Batch ID',
-      className: 'hidden sm:table-cell', // Hide on mobile, show on larger screens
+      className: 'hidden sm:table-cell' // Hide on mobile, show on larger screens
     },
     { 
       key: 'product',
@@ -23,7 +22,7 @@ export function BatchProcessingTable({ data, onRowClick }: BatchProcessingTableP
           <div className="font-medium text-sm sm:text-base truncate">{row.product}</div>
           <div className="text-xs text-gray-500 sm:hidden truncate">{row.batchCode}</div>
         </div>
-      ),
+      )
     },
     { 
       key: 'status',
@@ -32,19 +31,19 @@ export function BatchProcessingTable({ data, onRowClick }: BatchProcessingTableP
         <div className="flex items-center gap-2">
           <div className={`w-2 h-2 sm:w-3 sm:h-3 rounded-full ${
             row.status === 'completed' ? 'bg-green-500' :
-              row.status === 'processing' ? 'bg-blue-500' :
-                row.status === 'pending' ? 'bg-yellow-500' : 'bg-gray-500'
+            row.status === 'processing' ? 'bg-blue-500' :
+            row.status === 'pending' ? 'bg-yellow-500' : 'bg-gray-500'
           }`}></div>
           <span className="text-xs sm:text-sm font-medium hidden sm:inline">
             {row.status.replace('-', ' ').charAt(0).toUpperCase() + row.status.slice(1).replace('-', ' ')}
           </span>
           <span className="text-xs sm:hidden">{
             row.status === 'completed' ? '✓' :
-              row.status === 'processing' ? '⏳' :
-                row.status === 'pending' ? '⏸' : '?'
+            row.status === 'processing' ? '⏳' :
+            row.status === 'pending' ? '⏸' : '?'
           }</span>
         </div>
-      ),
+      )
     },
     { 
       key: 'createdAt',
@@ -54,7 +53,7 @@ export function BatchProcessingTable({ data, onRowClick }: BatchProcessingTableP
         <div className="text-xs sm:text-sm text-gray-600">
           {new Date(row.createdAt).toLocaleDateString()}
         </div>
-      ),
+      )
     },
     {
       key: 'actions',
@@ -68,7 +67,7 @@ export function BatchProcessingTable({ data, onRowClick }: BatchProcessingTableP
             View
           </button>
         </div>
-      ),
+      )
     },
   ];
 

@@ -1,11 +1,11 @@
 // src/components/marketplace/featuredProducts.tsx
 'use client';
 
+import { useState, useEffect } from 'react';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Product } from '@/constants/marketplaceData';
 import { Star, ShoppingCart, Leaf, Grid, List } from 'lucide-react';
-import { useState, useEffect } from 'react';
+import { Product } from '@/constants/marketplaceData';
 
 interface FeaturedProductsProps {
   products: Product[];
@@ -28,7 +28,7 @@ const ProductListItem = ({
   product, 
   addToCart, 
   cart,
-  router, 
+  router 
 }: { 
   product: Product;
   addToCart: (product: Product) => void;
@@ -41,16 +41,16 @@ const ProductListItem = ({
         <div className="w-full h-full flex items-center justify-center">
           <div className="text-3xl sm:text-4xl" role="img" aria-label={`${product.category} icon`}>
             {product.category === 'Powders' ? '🌿' :
-              product.category === 'Teas' ? '🍵' :
-                product.category === 'Supplements' ? '💊' :
-                  product.category === 'Oils' ? '🫒' :
-                    product.category === 'Seeds' ? '🌱' :
-                      product.category === 'Fresh' ? '🥬' :
-                        product.category === 'Poultry' ? '🐔' :
-                          product.category === 'Beef' ? '🥩' :
-                            product.category === 'Vegetables' ? '🥕' :
-                              product.category === 'Honey' ? '🍯' :
-                                product.category === 'Grains' ? '🌾' : '📦'}
+             product.category === 'Teas' ? '🍵' :
+             product.category === 'Supplements' ? '💊' :
+             product.category === 'Oils' ? '🫒' :
+             product.category === 'Seeds' ? '🌱' :
+             product.category === 'Fresh' ? '🥬' :
+             product.category === 'Poultry' ? '🐔' :
+             product.category === 'Beef' ? '🥩' :
+             product.category === 'Vegetables' ? '🥕' :
+             product.category === 'Honey' ? '🍯' :
+             product.category === 'Grains' ? '🌾' : '📦'}
           </div>
         </div>
       </div>
@@ -100,8 +100,8 @@ const ProductListItem = ({
               variant="outline" 
               className={`text-xs ${
                 product.quality.grade === 'A' ? 'border-green-600 text-green-600' :
-                  product.quality.grade === 'B' ? 'border-yellow-600 text-yellow-600' :
-                    'border-gray-600 text-gray-600'
+                product.quality.grade === 'B' ? 'border-yellow-600 text-yellow-600' :
+                'border-gray-600 text-gray-600'
               }`}
               aria-label={`Quality grade: ${product.quality.grade}`}
             >
@@ -209,8 +209,8 @@ export default function FeaturedProducts({ products, router, addToCart, cart }: 
         
         <div 
           className={viewMode === 'grid' 
-            ? 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-4 md:gap-5 lg:gap-6 px-2 sm:px-0' 
-            : 'flex flex-col gap-4 w-full px-2 sm:px-0'
+            ? "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-4 md:gap-5 lg:gap-6 px-2 sm:px-0" 
+            : "flex flex-col gap-4 w-full px-2 sm:px-0"
           } 
           role="list"
         >
@@ -221,127 +221,127 @@ export default function FeaturedProducts({ products, router, addToCart, cart }: 
                 className="overflow-hidden hover:shadow-xl transition-shadow group rounded-lg sm:rounded-xl md:rounded-2xl bg-white border border-gray-200 w-full"
                 role="listitem"
               >
-                <div className="relative">
-                  <div className="w-full h-32 sm:h-40 md:h-48 lg:h-56 bg-gradient-to-br from-green-100 to-green-200 flex items-center justify-center group-hover:scale-105 transition-transform duration-300 rounded-t-xl sm:rounded-t-2xl">
-                    <div className="text-center">
-                      <div className="text-2xl sm:text-3xl md:text-4xl mb-2" role="img" aria-label={`${product.category} icon`}>
-                        {product.category === 'Powders' ? '🌿' :
-                          product.category === 'Teas' ? '🍵' :
-                            product.category === 'Supplements' ? '💊' :
-                              product.category === 'Oils' ? '🫒' :
-                                product.category === 'Seeds' ? '🌱' :
-                                  product.category === 'Fresh' ? '🥬' :
-                                    product.category === 'Poultry' ? '🐔' :
-                                      product.category === 'Beef' ? '🥩' :
-                                        product.category === 'Vegetables' ? '🥕' :
-                                          product.category === 'Honey' ? '🍯' :
-                                            product.category === 'Grains' ? '🌾' : '📦'}
-                      </div>
-                      <p className="text-xs sm:text-sm text-green-700 font-medium">{product.category}</p>
+              <div className="relative">
+                <div className="w-full h-32 sm:h-40 md:h-48 lg:h-56 bg-gradient-to-br from-green-100 to-green-200 flex items-center justify-center group-hover:scale-105 transition-transform duration-300 rounded-t-xl sm:rounded-t-2xl">
+                  <div className="text-center">
+                    <div className="text-2xl sm:text-3xl md:text-4xl mb-2" role="img" aria-label={`${product.category} icon`}>
+                      {product.category === 'Powders' ? '🌿' :
+                       product.category === 'Teas' ? '🍵' :
+                       product.category === 'Supplements' ? '💊' :
+                       product.category === 'Oils' ? '🫒' :
+                       product.category === 'Seeds' ? '🌱' :
+                       product.category === 'Fresh' ? '🥬' :
+                       product.category === 'Poultry' ? '🐔' :
+                       product.category === 'Beef' ? '🥩' :
+                       product.category === 'Vegetables' ? '🥕' :
+                       product.category === 'Honey' ? '🍯' :
+                       product.category === 'Grains' ? '🌾' : '📦'}
                     </div>
-                  </div>
-                  {product.discount && (
-                    <Badge 
-                      className="absolute top-1 sm:top-2 right-1 sm:right-2 bg-red-600 text-xs"
-                      aria-label={`${product.discount}% discount`}
-                    >
-                    -{product.discount}%
-                    </Badge>
-                  )}
-                  <div className="absolute top-1 sm:top-2 left-1 sm:left-2">
-                    <Badge className="bg-green-600 text-white text-xs">
-                      <Leaf className="h-2 w-2 sm:h-3 sm:w-3 mr-1" aria-hidden="true" />
-                      <span className="text-xs">Organic</span>
-                    </Badge>
+                    <p className="text-xs sm:text-sm text-green-700 font-medium">{product.category}</p>
                   </div>
                 </div>
+                {product.discount && (
+                  <Badge 
+                    className="absolute top-1 sm:top-2 right-1 sm:right-2 bg-red-600 text-xs"
+                    aria-label={`${product.discount}% discount`}
+                  >
+                    -{product.discount}%
+                  </Badge>
+                )}
+                <div className="absolute top-1 sm:top-2 left-1 sm:left-2">
+                  <Badge className="bg-green-600 text-white text-xs">
+                    <Leaf className="h-2 w-2 sm:h-3 sm:w-3 mr-1" aria-hidden="true" />
+                    <span className="text-xs">Organic</span>
+                  </Badge>
+                </div>
+              </div>
               
-                <div className="p-3 sm:p-4">
-                  <h3 className="font-semibold text-gray-900 mb-2 text-sm sm:text-base line-clamp-1">
-                    {product.name}
-                  </h3>
-                  <div className="flex items-center gap-2 mb-2">
-                    <div className="flex items-center" role="img" aria-label={`Rating: ${product.farmer.rating} out of 5 stars`}>
-                      {[...Array(5)].map((_, i) => (
-                        <Star
-                          key={i}
-                          className={`h-3 w-3 sm:h-4 sm:w-4 ${
-                            i < Math.floor(product.farmer.rating)
-                              ? 'text-yellow-400 fill-current'
-                              : 'text-gray-300'
-                          }`}
-                          aria-hidden="true"
-                        />
-                      ))}
-                    </div>
-                    <span className="text-xs sm:text-sm text-gray-500">
-                    ({product.farmer.totalReviews})
-                    </span>
-                  </div>
-                
-                  <div className="flex items-center justify-between mb-3">
-                    <div>
-                      <div className="flex items-center gap-2">
-                        <span className="text-lg sm:text-xl font-bold text-gray-900">
-                        R{product.price.toFixed(2)}
-                        </span>
-                        {product.originalPrice && (
-                          <span className="text-xs sm:text-sm text-gray-500 line-through">
-                          R{product.originalPrice.toFixed(2)}
-                          </span>
-                        )}
-                      </div>
-                      <p className="text-xs text-gray-600">
-                      by {product.farmer.name} • {product.farmer.location}
-                      </p>
-                    </div>
-                  </div>
-
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-2">
-                      <Badge 
-                        variant="outline" 
-                        className={`text-xs ${
-                          product.quality.grade === 'A' ? 'border-green-600 text-green-600' :
-                            product.quality.grade === 'B' ? 'border-yellow-600 text-yellow-600' :
-                              'border-gray-600 text-gray-600'
+              <div className="p-3 sm:p-4">
+                <h3 className="font-semibold text-gray-900 mb-2 text-sm sm:text-base line-clamp-1">
+                  {product.name}
+                </h3>
+                <div className="flex items-center gap-2 mb-2">
+                  <div className="flex items-center" role="img" aria-label={`Rating: ${product.farmer.rating} out of 5 stars`}>
+                    {[...Array(5)].map((_, i) => (
+                      <Star
+                        key={i}
+                        className={`h-3 w-3 sm:h-4 sm:w-4 ${
+                          i < Math.floor(product.farmer.rating)
+                            ? 'text-yellow-400 fill-current'
+                            : 'text-gray-300'
                         }`}
-                        aria-label={`Quality grade: ${product.quality.grade}`}
-                      >
-                      Grade {product.quality.grade}
-                      </Badge>
-                      <span className="text-xs text-gray-500">
-                        {product.stockLevel} in stock
-                      </span>
-                    </div>
+                        aria-hidden="true"
+                      />
+                    ))}
                   </div>
-
-                  <div className="mt-3 flex gap-2">
-                    <Button 
-                      size="sm" 
-                      className="flex-1 text-xs sm:text-sm"
-                      onClick={() => router.push(`/marketplace/products/${product.id}`)}
-                      aria-label={`View details for ${product.name}`}
-                    >
-                    View Details
-                    </Button>
-                    <Button 
-                      size="sm" 
-                      variant="outline"
-                      className="text-xs sm:text-sm"
-                      onClick={() => addToCart(product)}
-                      aria-label={`Add ${product.name} to cart`}
-                    >
-                      <ShoppingCart className="h-3 w-3 sm:h-4 sm:w-4 mr-1" aria-hidden="true" />
-                      <span className="hidden sm:inline">Add</span>
-                      {cart.find(item => item.id === product.id) && (
-                        <span className="ml-1 text-xs bg-green-600 text-white rounded-full h-4 w-4 flex items-center justify-center">
-                          {cart.find(item => item.id === product.id)?.quantity}
+                  <span className="text-xs sm:text-sm text-gray-500">
+                    ({product.farmer.totalReviews})
+                  </span>
+                </div>
+                
+                <div className="flex items-center justify-between mb-3">
+                  <div>
+                    <div className="flex items-center gap-2">
+                      <span className="text-lg sm:text-xl font-bold text-gray-900">
+                        R{product.price.toFixed(2)}
+                      </span>
+                      {product.originalPrice && (
+                        <span className="text-xs sm:text-sm text-gray-500 line-through">
+                          R{product.originalPrice.toFixed(2)}
                         </span>
                       )}
-                    </Button>
+                    </div>
+                    <p className="text-xs text-gray-600">
+                      by {product.farmer.name} • {product.farmer.location}
+                    </p>
                   </div>
                 </div>
+
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <Badge 
+                      variant="outline" 
+                      className={`text-xs ${
+                        product.quality.grade === 'A' ? 'border-green-600 text-green-600' :
+                        product.quality.grade === 'B' ? 'border-yellow-600 text-yellow-600' :
+                        'border-gray-600 text-gray-600'
+                      }`}
+                      aria-label={`Quality grade: ${product.quality.grade}`}
+                    >
+                      Grade {product.quality.grade}
+                    </Badge>
+                    <span className="text-xs text-gray-500">
+                      {product.stockLevel} in stock
+                    </span>
+                  </div>
+                </div>
+
+                <div className="mt-3 flex gap-2">
+                  <Button 
+                    size="sm" 
+                    className="flex-1 text-xs sm:text-sm"
+                    onClick={() => router.push(`/marketplace/products/${product.id}`)}
+                    aria-label={`View details for ${product.name}`}
+                  >
+                    View Details
+                  </Button>
+                  <Button 
+                    size="sm" 
+                    variant="outline"
+                    className="text-xs sm:text-sm"
+                    onClick={() => addToCart(product)}
+                    aria-label={`Add ${product.name} to cart`}
+                  >
+                    <ShoppingCart className="h-3 w-3 sm:h-4 sm:w-4 mr-1" aria-hidden="true" />
+                    <span className="hidden sm:inline">Add</span>
+                    {cart.find(item => item.id === product.id) && (
+                      <span className="ml-1 text-xs bg-green-600 text-white rounded-full h-4 w-4 flex items-center justify-center">
+                        {cart.find(item => item.id === product.id)?.quantity}
+                      </span>
+                    )}
+                  </Button>
+                </div>
+              </div>
               </div>
             ) : (
               <ProductListItem 
@@ -351,7 +351,7 @@ export default function FeaturedProducts({ products, router, addToCart, cart }: 
                 cart={cart}
                 router={router}
               />
-            ),
+            )
           )}
         </div>
       </div>

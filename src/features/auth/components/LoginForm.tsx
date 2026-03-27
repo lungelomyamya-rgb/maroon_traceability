@@ -1,14 +1,13 @@
 'use client';
 
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-
-import { useUser } from '@/contexts/userContext';
 import { LoginCredentials } from '@/lib/auth';
 import { authService } from '@/lib/auth';
+import { useUser } from '@/contexts/userContext';
+import { useRouter } from 'next/navigation';
 
 // Form validation schema
 const loginSchema = z.object({
@@ -52,20 +51,20 @@ export function LoginForm({ onSuccess, onRegisterClick }: LoginFormProps) {
         } else {
           // Redirect based on role
           switch (response.user.role) {
-          case 'farmer':
-            router.push('/farmer');
-            break;
-          case 'inspector':
-            router.push('/inspector');
-            break;
-          case 'retailer':
-            router.push('/retailer');
-            break;
-          case 'admin':
-            router.push('/admin');
-            break;
-          default:
-            router.push('/dashboard');
+            case 'farmer':
+              router.push('/farmer');
+              break;
+            case 'inspector':
+              router.push('/inspector');
+              break;
+            case 'retailer':
+              router.push('/retailer');
+              break;
+            case 'admin':
+              router.push('/admin');
+              break;
+            default:
+              router.push('/dashboard');
           }
         }
       } else {

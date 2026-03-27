@@ -1,18 +1,18 @@
 // src/components/marketplace/searchAndFilter.tsx
 'use client';
 
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
+import { useState, useEffect } from 'react';
 import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Product } from '@/constants/marketplaceData';
 import { 
   Search, 
   Filter, 
   X,
-  SlidersHorizontal,
+  SlidersHorizontal
 } from 'lucide-react';
-import { useState, useEffect } from 'react';
+import { Product } from '@/constants/marketplaceData';
 
 interface SearchAndFilterProps {
   products: Product[];
@@ -31,7 +31,7 @@ export default function SearchAndFilter({ products, onFilter }: SearchAndFilterP
   const grades = ['all', 'A', 'B', 'C'];
 
   const applyFilters = () => {
-    const filtered = products.filter(product => {
+    let filtered = products.filter(product => {
       // Search filter
       const matchesSearch = searchTerm === '' || 
         product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -62,18 +62,18 @@ export default function SearchAndFilter({ products, onFilter }: SearchAndFilterP
     // Sort
     filtered.sort((a, b) => {
       switch (sortBy) {
-      case 'name':
-        return a.name.localeCompare(b.name);
-      case 'price-low':
-        return a.price - b.price;
-      case 'price-high':
-        return b.price - a.price;
-      case 'rating':
-        return b.farmer.rating - a.farmer.rating;
-      case 'discount':
-        return (b.discount || 0) - (a.discount || 0);
-      default:
-        return 0;
+        case 'name':
+          return a.name.localeCompare(b.name);
+        case 'price-low':
+          return a.price - b.price;
+        case 'price-high':
+          return b.price - a.price;
+        case 'rating':
+          return b.farmer.rating - a.farmer.rating;
+        case 'discount':
+          return (b.discount || 0) - (a.discount || 0);
+        default:
+          return 0;
       }
     });
 
@@ -299,8 +299,8 @@ export default function SearchAndFilter({ products, onFilter }: SearchAndFilterP
                 {priceRange !== 'all' && (
                   <Badge variant="secondary" className="flex items-center gap-1 px-3 py-1.5 text-xs bg-gray-100 hover:bg-gray-200 transition-colors">
                     Price: {priceRange === '0-50' ? 'R0-R50' :
-                      priceRange === '50-100' ? 'R50-R100' :
-                        priceRange === '100-200' ? 'R100-R200' : 'R200+'}
+                            priceRange === '50-100' ? 'R50-R100' :
+                            priceRange === '100-200' ? 'R100-R200' : 'R200+'}
                     <X 
                       className="h-3 w-3 cursor-pointer hover:text-red-600" 
                       onClick={() => setPriceRange('all')}

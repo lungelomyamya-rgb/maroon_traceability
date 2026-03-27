@@ -14,12 +14,10 @@ export default function KeyboardNavigation({
   containerRef, 
   items, 
   onSelect,
-  enabled = true, 
+  enabled = true 
 }: KeyboardNavigationProps) {
   useEffect(() => {
-    if (!enabled || !containerRef.current) {
-      return;
-    }
+    if (!enabled || !containerRef.current) return;
 
     const handleKeyDown = (event: KeyboardEvent) => {
       const { key } = event;
@@ -30,48 +28,46 @@ export default function KeyboardNavigation({
       }
 
       const container = containerRef.current;
-      if (!container) {
-        return;
-      }
+      if (!container) return;
 
       const focusableElements = container.querySelectorAll(
-        'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])',
+        'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
       ) as NodeListOf<HTMLElement>;
 
       const currentIndex = Array.from(focusableElements).findIndex(
-        element => element === document.activeElement,
+        element => element === document.activeElement
       );
 
       let nextIndex = -1;
 
       switch (key) {
-      case 'ArrowDown':
-      case 'ArrowRight':
-        event.preventDefault();
-        nextIndex = currentIndex < focusableElements.length - 1 ? currentIndex + 1 : 0;
-        break;
-      case 'ArrowUp':
-      case 'ArrowLeft':
-        event.preventDefault();
-        nextIndex = currentIndex > 0 ? currentIndex - 1 : focusableElements.length - 1;
-        break;
-      case 'Home':
-        event.preventDefault();
-        nextIndex = 0;
-        break;
-      case 'End':
-        event.preventDefault();
-        nextIndex = focusableElements.length - 1;
-        break;
-      case 'Enter':
-      case ' ':
-        if (currentIndex >= 0 && onSelect) {
+        case 'ArrowDown':
+        case 'ArrowRight':
           event.preventDefault();
-          onSelect(currentIndex);
-        }
-        return;
-      default:
-        return;
+          nextIndex = currentIndex < focusableElements.length - 1 ? currentIndex + 1 : 0;
+          break;
+        case 'ArrowUp':
+        case 'ArrowLeft':
+          event.preventDefault();
+          nextIndex = currentIndex > 0 ? currentIndex - 1 : focusableElements.length - 1;
+          break;
+        case 'Home':
+          event.preventDefault();
+          nextIndex = 0;
+          break;
+        case 'End':
+          event.preventDefault();
+          nextIndex = focusableElements.length - 1;
+          break;
+        case 'Enter':
+        case ' ':
+          if (currentIndex >= 0 && onSelect) {
+            event.preventDefault();
+            onSelect(currentIndex);
+          }
+          return;
+        default:
+          return;
       }
 
       if (nextIndex >= 0 && focusableElements[nextIndex]) {
@@ -98,7 +94,7 @@ export const useSkipLinks = () => {
       { href: '#main-content', text: 'Skip to main content' },
       { href: '#navigation', text: 'Skip to navigation' },
       { href: '#search', text: 'Skip to search' },
-      { href: '#footer', text: 'Skip to footer' },
+      { href: '#footer', text: 'Skip to footer' }
     ];
 
     // Create skip links container
@@ -126,16 +122,14 @@ export const useSkipLinks = () => {
 // Focus management hook
 export const useFocusManagement = (isOpen: boolean) => {
   useEffect(() => {
-    if (!isOpen) {
-      return;
-    }
+    if (!isOpen) return;
 
     // Store the element that had focus before modal opened
     const previousFocus = document.activeElement as HTMLElement;
 
     // Find all focusable elements within the modal
     const focusableElements = document.querySelectorAll(
-      'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])',
+      'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
     ) as NodeListOf<HTMLElement>;
 
     if (focusableElements.length > 0) {
@@ -145,9 +139,7 @@ export const useFocusManagement = (isOpen: boolean) => {
 
     // Trap focus within modal
     const handleTabKey = (e: KeyboardEvent) => {
-      if (e.key !== 'Tab') {
-        return;
-      }
+      if (e.key !== 'Tab') return;
 
       const firstElement = focusableElements[0];
       const lastElement = focusableElements[focusableElements.length - 1];

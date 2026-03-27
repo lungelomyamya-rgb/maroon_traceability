@@ -1,7 +1,15 @@
 // src/components/packaging/PackagingEventForm.tsx
 'use client';
 
+import { useState } from 'react';
+import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { z } from 'zod';
+import { Card } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
+import { Badge } from '@/components/ui/badge';
 import { 
   Package, 
   Calendar, 
@@ -12,28 +20,19 @@ import {
   AlertTriangle,
   Plus,
   X,
-  QrCode,
+  QrCode
 } from 'lucide-react';
-import { useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { z } from 'zod';
-
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import { Card } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
 import type { 
   PackagingType, 
   PackagingRecord, 
   PackagingEvent,
-  BatchStatus, 
+  BatchStatus 
 } from '@/types/packaging';
 import { 
   PACKAGING_TYPES, 
   BATCH_STATUS_COLORS, 
   generateBatchCode,
-  getUnitsForPackagingType, 
+  getUnitsForPackagingType 
 } from '@/types/packaging';
 
 const packagingEventSchema = z.object({
@@ -45,7 +44,7 @@ const packagingEventSchema = z.object({
   location: z.string().min(1, 'Location is required'),
   operator: z.string().min(1, 'Operator name is required'),
   packagingDate: z.string().min(1, 'Packaging date is required'),
-  notes: z.string().optional(),
+  notes: z.string().optional()
 });
 
 type PackagingEventFormData = z.infer<typeof packagingEventSchema>;
@@ -59,7 +58,7 @@ interface PackagingEventFormProps {
 export function PackagingEventForm({ 
   onSubmit, 
   initialData, 
-  existingRecord, 
+  existingRecord 
 }: PackagingEventFormProps) {
   const { register, handleSubmit, formState: { errors }, watch, setValue } = useForm<PackagingEventFormData>({
     resolver: zodResolver(packagingEventSchema),
@@ -67,8 +66,8 @@ export function PackagingEventForm({
       packagingDate: new Date().toISOString().slice(0, 16),
       unitOfMeasure: 'pieces',
       ...initialData,
-      ...existingRecord,
-    },
+      ...existingRecord
+    }
   });
 
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -98,9 +97,7 @@ export function PackagingEventForm({
 
   const handlePhotoUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const files = event.target.files;
-    if (!files) {
-      return;
-    }
+    if (!files) return;
 
     Array.from(files).forEach((file, index) => {
       const reader = new FileReader();

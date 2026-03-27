@@ -40,67 +40,11 @@
  * />
  * ```
  */
-export { PackagingDashboard } from './components/PackagingDashboard';
-
-/**
- * Packaging event form for batch processing events
- * @component PackagingEventForm
- * @example
- * ```typescript
- * <PackagingEventForm 
- *   productId="product-123"
- *   onSubmit={handleEventSubmit}
- *   batchNumber="BATCH-001"
- *   qualityChecks={qualityChecks}
- * />
- * ```
- */
-export { PackagingEventForm } from './components/PackagingEventForm';
-
-/**
- * Batch processing component with workflow management
- * @component BatchProcessing
- * @example
- * ```typescript
- * <BatchProcessing 
- *   batchId="batch-123"
- *   onProcessComplete={handleComplete}
- *   showProgress={true}
- *   autoStart={false}
- * />
- * ```
- */
-export { BatchProcessing } from './components/BatchProcessing';
-
-/**
- * Batch processing table with filtering and sorting
- * @component BatchProcessingTable
- * @example
- * ```typescript
- * <BatchProcessingTable 
- *   data={batchData}
- *   onRowClick={handleRowClick}
- *   showFilters={true}
- *   pageSize={10}
- * />
- * ```
- */
-export { BatchProcessingTable } from './components/BatchProcessingTable';
-
-/**
- * Inventory management component with stock tracking
- * @component Inventory
- * @example
- * ```typescript
- * <Inventory 
- *   onStockUpdate={handleStockUpdate}
- *   showLowStockAlerts={true}
- *   allowReorder={true}
- *   filterByCategory="all"
- * />
- * ```
- */
-export { default as Inventory } from './components/Inventory';
+import { PackagingDashboard as DashboardComp } from './components/PackagingDashboard';
+import { PackagingEventForm as EventFormComp } from './components/PackagingEventForm';
+import { BatchProcessing as BatchComp } from './components/BatchProcessing';
+import { BatchProcessingTable as TableComp } from './components/BatchProcessingTable';
+import { default as InventoryComp } from './components/Inventory';
 
 // ============================================================================
 // TYPE EXPORTS
@@ -196,11 +140,11 @@ import * as PackagingTypes from './types/packagingTypes';
  */
 export const packagingAPI = {
   // Core Components
-  PackagingDashboard,
-  PackagingEventForm,
-  BatchProcessing,
-  BatchProcessingTable,
-  Inventory,
+  DashboardComp,
+  EventFormComp,
+  BatchComp,
+  TableComp,
+  InventoryComp,
   
   // Types are exported separately for tree-shaking
   types: PackagingTypes,

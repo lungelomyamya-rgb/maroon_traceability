@@ -7,7 +7,7 @@ import {
   CheckCircle, 
   Award, 
   Leaf, 
-  Truck, 
+  Truck 
 } from 'lucide-react';
 
 interface HeroSectionProps {

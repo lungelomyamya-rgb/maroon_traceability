@@ -41,65 +41,9 @@
  * ```
  */
 export { DriverManagement } from './components/DriverManagement';
-
-/**
- * Enhanced event form for transport and logistics events
- * @component EnhancedEventForm
- * @example
- * ```typescript
- * <EnhancedEventForm 
- *   productId="product-123"
- *   onSubmit={handleEventSubmit}
- *   vehicles={availableVehicles}
- *   drivers={availableDrivers}
- * />
- * ```
- */
-export { EnhancedEventForm } from './components/EventForm';
-
-/**
- * Transport documentation component with PDF generation
- * @component TransportDocumentation
- * @example
- * ```typescript
- * <TransportDocumentation 
- *   transportId="transport-123"
- *   onGenerate={handleGenerate}
- *   showPreview={true}
- *   allowDownload={true}
- * />
- * ```
- */
+export { EventForm } from './components/EventForm';
 export { TransportDocumentation } from './components/TransportDocumentation';
-
-/**
- * Transport scheduling component with calendar view
- * @component TransportScheduling
- * @example
- * ```typescript
- * <TransportScheduling 
- *   onSchedule={handleSchedule}
- *   vehicles={vehicles}
- *   drivers={drivers}
- *   dateRange={dateRange}
- * />
- * ```
- */
 export { TransportScheduling } from './components/transportScheduling';
-
-/**
- * Vehicle management component with maintenance tracking
- * @component VehicleManagement
- * @example
- * ```typescript
- * <VehicleManagement 
- *   onVehicleSelect={handleVehicleSelect}
- *   showMaintenance={true}
- *   allowAssignment={true}
- *   filterByStatus="active"
- * />
- * ```
- */
 export { VehicleManagement } from './components/VehicleManagement';
 
 // ============================================================================
@@ -166,7 +110,7 @@ export type * from './types/logisticsInterfaces';
 // ============================================================================
 
 import { DriverManagement } from './components/DriverManagement';
-import { EnhancedEventForm } from './components/EventForm';
+import { EventForm } from './components/EventForm';
 import { TransportDocumentation } from './components/TransportDocumentation';
 import { TransportScheduling } from './components/transportScheduling';
 import { VehicleManagement } from './components/VehicleManagement';
@@ -198,7 +142,7 @@ import * as LogisticsTypes from './types/logisticsTypes';
 export const logisticsAPI = {
   // Core Components
   DriverManagement,
-  EnhancedEventForm,
+  EventForm,
   TransportDocumentation,
   TransportScheduling,
   VehicleManagement,

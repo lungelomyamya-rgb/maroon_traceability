@@ -1,6 +1,10 @@
 // src/components/packaging/PackagingDashboard.tsx
 'use client';
 
+import { useState, useEffect } from 'react';
+import { Card } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
 import { 
   Package, 
   QrCode, 
@@ -12,13 +16,8 @@ import {
   AlertTriangle,
   Plus,
   Eye,
-  Download,
+  Download
 } from 'lucide-react';
-import { useState, useEffect } from 'react';
-
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import { Card } from '@/components/ui/card';
 import type { PackagingRecord, BatchStatus } from '@/types/packaging';
 import { BATCH_STATUS_COLORS } from '@/types/packaging';
 
@@ -48,7 +47,7 @@ export function PackagingDashboard({ }: PackagingDashboardProps) {
         batchCode: 'BATCH-2024-CAR-STL-ABC',
         qrCodes: ['qr-data-1', 'qr-data-2'],
         createdAt: '2025-01-20T08:00:00Z',
-        updatedAt: '2025-01-20T10:30:00Z',
+        updatedAt: '2025-01-20T10:30:00Z'
       },
       {
         id: 'rec2',
@@ -65,7 +64,7 @@ export function PackagingDashboard({ }: PackagingDashboardProps) {
         batchCode: 'BATCH-2024-VAC-STL-DEF',
         qrCodes: ['qr-data-3'],
         createdAt: '2025-01-20T09:00:00Z',
-        updatedAt: '2025-01-20T09:00:00Z',
+        updatedAt: '2025-01-20T09:00:00Z'
       },
       {
         id: 'rec3',
@@ -82,8 +81,8 @@ export function PackagingDashboard({ }: PackagingDashboardProps) {
         batchCode: 'BATCH-2024-BUL-STL-GHI',
         qrCodes: [],
         createdAt: '2025-01-20T10:00:00Z',
-        updatedAt: '2025-01-20T10:00:00Z',
-      },
+        updatedAt: '2025-01-20T10:00:00Z'
+      }
     ];
 
     setTimeout(() => {
@@ -99,16 +98,16 @@ export function PackagingDashboard({ }: PackagingDashboardProps) {
     processing: records.filter(r => r.status === 'processing').length,
     totalQRs: records.reduce((sum, r) => sum + r.qrCodes.length, 0),
     todayEvents: records.filter(r => 
-      new Date(r.packagingDate).toDateString() === new Date().toDateString(),
-    ).length,
+      new Date(r.packagingDate).toDateString() === new Date().toDateString()
+    ).length
   };
 
   const getStatusIcon = (status: BatchStatus) => {
     switch (status) {
-    case 'completed': return <CheckCircle className="h-4 w-4" />;
-    case 'processing': return <Clock className="h-4 w-4" />;
-    case 'qc-pending': return <AlertTriangle className="h-4 w-4" />;
-    default: return <Package className="h-4 w-4" />;
+      case 'completed': return <CheckCircle className="h-4 w-4" />;
+      case 'processing': return <Clock className="h-4 w-4" />;
+      case 'qc-pending': return <AlertTriangle className="h-4 w-4" />;
+      default: return <Package className="h-4 w-4" />;
     }
   };
 
@@ -118,7 +117,7 @@ export function PackagingDashboard({ }: PackagingDashboardProps) {
       'vacuum-sealed': '🥫',
       'bulk-bag': '👜',
       'plastic-crate': '🗃️',
-      'glass-jar': '🫙',
+      'glass-jar': '🫙'
     };
     return icons[type] || '📦';
   };

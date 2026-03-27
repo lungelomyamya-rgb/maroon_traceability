@@ -1,15 +1,14 @@
 'use client';
 
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-
-import { UserRole } from '@/types/user';
-import { useUser } from '@/contexts/userContext';
 import { RegisterData } from '@/lib/auth';
 import { authService } from '@/lib/auth';
+import { useUser } from '@/contexts/userContext';
+import { useRouter } from 'next/navigation';
+import { UserRole } from '@/types/user';
 
 // Form validation schema
 const registerSchema = z.object({
@@ -20,8 +19,8 @@ const registerSchema = z.object({
   role: z.enum(['farmer', 'inspector', 'logistics', 'packaging', 'retailer', 'public', 'government', 'admin'] as const),
   address: z.string().optional(),
 }).refine((data) => data.password === data.confirmPassword, {
-  message: 'Passwords don\'t match',
-  path: ['confirmPassword'],
+  message: "Passwords don't match",
+  path: ["confirmPassword"],
 });
 
 type RegisterFormData = z.infer<typeof registerSchema>;
@@ -85,20 +84,20 @@ export function RegisterForm({ onSuccess, onLoginClick }: RegisterFormProps) {
         } else {
           // Redirect based on role
           switch (response.user.role) {
-          case 'farmer':
-            router.push('/farmer');
-            break;
-          case 'inspector':
-            router.push('/inspector');
-            break;
-          case 'retailer':
-            router.push('/retailer');
-            break;
-          case 'admin':
-            router.push('/admin');
-            break;
-          default:
-            router.push('/dashboard');
+            case 'farmer':
+              router.push('/farmer');
+              break;
+            case 'inspector':
+              router.push('/inspector');
+              break;
+            case 'retailer':
+              router.push('/retailer');
+              break;
+            case 'admin':
+              router.push('/admin');
+              break;
+            default:
+              router.push('/dashboard');
           }
         }
       } else {
