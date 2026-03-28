@@ -10,7 +10,7 @@
  * @example
  * ```tsx
  * // Import the main component
- * import { SeedVarietyTracker } from '@/components/farmer/seedVarietyTracker';
+ * import { SeedVarietyTracker } from './seedVarietyTracker';
  * 
  * // Import individual components
  * import { 
@@ -19,7 +19,7 @@
  *   VarietyList,
  *   VarietyDetails,
  *   useSeedVarietyTracker
- * } from '@/components/farmer/seedVarietyTracker';
+ * } from './seedVarietyTracker';
  * ```
  */
 

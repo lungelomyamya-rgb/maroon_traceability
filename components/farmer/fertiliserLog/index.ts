@@ -10,7 +10,7 @@
  * @example
  * ```tsx
  * // Import the main component
- * import { FertiliserLog } from '@/components/farmer/fertiliserLog';
+ * import { FertiliserLog } from './fertiliserLog';
  * 
  * // Import individual components
  * import { 
@@ -19,7 +19,7 @@
  *   FertiliserList,
  *   FertiliserForm,
  *   useFertiliserLog
- * } from '@/components/farmer/fertiliserLog';
+ * } from './fertiliserLog';
  * ```
  */
 
