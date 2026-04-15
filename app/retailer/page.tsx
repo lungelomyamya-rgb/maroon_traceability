@@ -1,24 +1,26 @@
 // src/app/retailer/page.tsx
 'use client';
 
-import { useEffect } from 'react';
-import { useRouter } from 'next/navigation';
-import { useUser } from '@/contexts/userContext';
-import { DashboardLayout } from '@/components/dashboard/dashboardLayout';
 import dynamic from 'next/dynamic';
+import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
+
+import { DashboardLayout } from '@/components/dashboard/DashboardLayout';
+import { useUser } from '@/contexts/userContext';
+
 
 // Prevent static generation
 export const dynamicConfig = 'force-dynamic';
 export const runtime = 'nodejs';
 
 // Dynamically import the enhanced retailer dashboard
-const EnhancedRetailerDashboard = dynamic(() => import('../../components/retailers/dashboard').then(mod => mod.RetailerDashboard), {
+const EnhancedRetailerDashboard = dynamic(() => import('@/src/features/Retailers/components/dashboard').then(mod => ({ default: mod.RetailerDashboard })), {
   loading: () => (
     <div className="flex items-center justify-center min-h-screen">
       <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-600"></div>
     </div>
   ),
-  ssr: false
+  ssr: false,
 });
 
 export default function RetailerPage() {

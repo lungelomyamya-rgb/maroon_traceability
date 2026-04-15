@@ -1,13 +1,14 @@
 // src/app/retailer/inventory/page.tsx
 'use client';
 
-import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { useUser } from '@/contexts/userContext';
-import { DashboardLayout } from '@/components/dashboard/dashboardLayout';
-import { Inventory } from '../../../components/retailers/inventory';
+import { useEffect } from 'react';
 
-export default function InventoryPage() {
+import { DashboardLayout } from '@/components/dashboard/DashboardLayout';
+import { useUser } from '@/contexts/userContext';
+import { Inventory as InventoryComponent } from '@/src/features/Retailers/components/inventoryComponent';
+
+export default function Inventory() {
   const { currentUser } = useUser();
   const router = useRouter();
 
@@ -51,7 +52,7 @@ export default function InventoryPage() {
         title="Inventory Management"
         description="Manage your stock levels and product availability"
       >
-        <Inventory />
+        <InventoryComponent />
       </DashboardLayout>
     </>
   );

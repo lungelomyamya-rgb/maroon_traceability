@@ -1,11 +1,10 @@
 // src/components/marketplace/qRScannerSection.tsx
 'use client';
 
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
+import { Button } from '@/src/features/shared/ui/button';
 import { CheckCircle, AlertCircle, QrCode } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 
 export default function QRScannerSection() {
   const router = useRouter();
@@ -25,7 +24,6 @@ export default function QRScannerSection() {
 
     // Navigate to trace page after 2 seconds
     setTimeout(() => {
-      console.log('Navigating to trace page for:', mockInput);
       router.push(`/trace/${mockInput}`);
       setScanResult('');
       setMockInput('');
@@ -101,7 +99,7 @@ export default function QRScannerSection() {
                     className="flex-1 px-3 sm:px-4 py-2 sm:py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent text-sm sm:text-base md:text-lg"
                     autoFocus
                     aria-label="Product ID or QR code input"
-                    aria-describedby={error ? "error-message" : undefined}
+                    aria-describedby={error ? 'error-message' : undefined}
                   />
                   <Button
                     variant="outline"

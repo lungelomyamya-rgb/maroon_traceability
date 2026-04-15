@@ -26,7 +26,9 @@ export class RealtimeService {
   }
 
   private startMockActivity() {
-    if (this.isRunning) return;
+    if (this.isRunning) {
+      return;
+    }
     
     this.isRunning = true;
     this.mockInterval = setInterval(() => {
@@ -49,68 +51,71 @@ export class RealtimeService {
       'blockchain_update',
       'new_product',
       'quality_check',
-      'shipment_update'
+      'shipment_update',
     ];
 
     const eventType = eventTypes[Math.floor(Math.random() * eventTypes.length)];
-    let mockData: any;
+    let mockData: unknown;
 
     switch (eventType) {
-      case 'product_update':
-        mockData = {
-          productId: `PRD-2024-${String(Math.floor(Math.random() * 999) + 1).padStart(3, '0')}`,
-          status: Math.random() > 0.5 ? 'verified' : 'pending',
-          timestamp: new Date().toISOString()
-        };
-        break;
+    case 'product_update':
+      mockData = {
+        productId: `PRD-2024-${String(Math.floor(Math.random() * 999) + 1).padStart(3, '0')}`,
+        status: Math.random() > 0.5 ? 'verified' : 'pending',
+        timestamp: new Date().toISOString(),
+      };
+      break;
 
-      case 'verification_update':
-        mockData = {
-          productId: `PRD-2024-${String(Math.floor(Math.random() * 999) + 1).padStart(3, '0')}`,
-          verificationCount: Math.floor(Math.random() * 10) + 1,
-          verifiedBy: ['Inspector', 'Retailer', 'Consumer'][Math.floor(Math.random() * 3)],
-          timestamp: new Date().toISOString()
-        };
-        break;
+    case 'verification_update':
+      mockData = {
+        productId: `PRD-2024-${String(Math.floor(Math.random() * 999) + 1).padStart(3, '0')}`,
+        verificationCount: Math.floor(Math.random() * 10) + 1,
+        verifiedBy: ['Inspector', 'Retailer', 'Consumer'][Math.floor(Math.random() * 3)],
+        timestamp: new Date().toISOString(),
+      };
+      break;
 
-      case 'blockchain_update':
-        mockData = {
-          blockNumber: Math.floor(Math.random() * 100000) + 1700000,
-          transactionCount: Math.floor(Math.random() * 50) + 1,
-          timestamp: new Date().toISOString()
-        };
-        break;
+    case 'blockchain_update':
+      mockData = {
+        transactionHash: `0x${Array.from({ length: 64 }, () => 
+          Math.floor(Math.random() * 16).toString(16),
+        ).join('')}`,
+        blockNumber: Math.floor(Math.random() * 1000000),
+        timestamp: new Date().toISOString(),
+      };
+      break;
 
-      case 'new_product':
-        const products = ['Organic Apples', 'Free Range Eggs', 'Artisanal Cheese', 'Fresh Vegetables', 'Grass-fed Beef'];
-        mockData = {
-          productId: `PRD-2024-${String(Math.floor(Math.random() * 999) + 1).padStart(3, '0')}`,
-          productName: products[Math.floor(Math.random() * products.length)],
-          farmer: ['Green Valley Farm', 'Sunny Acres', 'Happy Farms', 'Organic Haven'][Math.floor(Math.random() * 4)],
-          timestamp: new Date().toISOString()
-        };
-        break;
+    case 'new_product': {
+      const products = ['Organic Apples', 'Free Range Eggs', 'Artisanal Cheese', 'Fresh Vegetables', 'Grass-fed Beef'];
+      mockData = {
+        productId: `PRD-2024-${String(Math.floor(Math.random() * 999) + 1).padStart(3, '0')}`,
+        productName: products[Math.floor(Math.random() * products.length)],
+        farmer: ['Green Valley Farm', 'Sunny Acres', 'Happy Farms', 'Organic Haven'][Math.floor(Math.random() * 4)],
+        timestamp: new Date().toISOString(),
+      };
+      break;
+    }
 
-      case 'quality_check':
-        mockData = {
-          productId: `PRD-2024-${String(Math.floor(Math.random() * 999) + 1).padStart(3, '0')}`,
-          quality: ['Grade A+', 'Grade A', 'Grade B'][Math.floor(Math.random() * 3)],
-          inspector: ['John Smith', 'Jane Doe', 'Mike Johnson'][Math.floor(Math.random() * 3)],
-          timestamp: new Date().toISOString()
-        };
-        break;
+    case 'quality_check':
+      mockData = {
+        productId: `PRD-2024-${String(Math.floor(Math.random() * 999) + 1).padStart(3, '0')}`,
+        quality: ['Grade A+', 'Grade A', 'Grade B'][Math.floor(Math.random() * 3)],
+        inspector: ['John Smith', 'Jane Doe', 'Mike Johnson'][Math.floor(Math.random() * 3)],
+        timestamp: new Date().toISOString(),
+      };
+      break;
 
-      case 'shipment_update':
-        mockData = {
-          productId: `PRD-2024-${String(Math.floor(Math.random() * 999) + 1).padStart(3, '0')}`,
-          status: ['In Transit', 'Delivered', 'Processing'][Math.floor(Math.random() * 3)],
-          location: ['Cape Town', 'Johannesburg', 'Durban', 'Pretoria'][Math.floor(Math.random() * 4)],
-          timestamp: new Date().toISOString()
-        };
-        break;
+    case 'shipment_update':
+      mockData = {
+        productId: `PRD-2024-${String(Math.floor(Math.random() * 999) + 1).padStart(3, '0')}`,
+        status: ['In Transit', 'Delivered', 'Processing'][Math.floor(Math.random() * 3)],
+        location: ['Cape Town', 'Johannesburg', 'Durban', 'Pretoria'][Math.floor(Math.random() * 4)],
+        timestamp: new Date().toISOString(),
+      };
+      break;
 
-      default:
-        mockData = { message: 'Mock event', timestamp: new Date().toISOString() };
+    default:
+      mockData = { message: 'Mock event', timestamp: new Date().toISOString() };
     }
 
     this.emit(eventType, mockData);
@@ -121,14 +126,21 @@ export class RealtimeService {
       this.listeners.set(eventType, []);
     }
     
-    const callbacks = this.listeners.get(eventType)!;
+    let callbacks = this.listeners.get(eventType);
+    if (!callbacks) {
+      callbacks = [];
+      this.listeners.set(eventType, callbacks);
+    }
     callbacks.push(callback);
 
     // Return unsubscribe function
     return () => {
-      const index = callbacks.indexOf(callback);
-      if (index > -1) {
-        callbacks.splice(index, 1);
+      const currentCallbacks = this.listeners.get(eventType);
+      if (currentCallbacks) {
+        const index = currentCallbacks.indexOf(callback);
+        if (index > -1) {
+          currentCallbacks.splice(index, 1);
+        }
       }
     };
   }
@@ -151,7 +163,7 @@ export class RealtimeService {
   }
 
   // Generate specific events for testing
-  generateTestEvent(eventType: string, customData?: any) {
+  generateTestEvent(eventType: string, customData?: unknown) {
     if (customData) {
       this.emit(eventType, customData);
     } else {
@@ -163,7 +175,7 @@ export class RealtimeService {
     const event: RealtimeEvent = {
       type: eventType,
       data,
-      timestamp: Date.now()
+      timestamp: Date.now(),
     };
 
     // Send to specific listeners

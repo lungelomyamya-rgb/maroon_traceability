@@ -1,20 +1,18 @@
 // src/app/products/page.tsx
 'use client';
 
-import { useState } from 'react';
-import { Button } from '@/components/ui/button';
-import { Card } from '@/components/cards';
-import { Plus, Search, Filter } from 'lucide-react';
-import { getAssetPath } from '@/lib/utils/assetPath';
 import { Package, Layers, Shield } from 'lucide-react';
-import { textColors, commonColors } from '@/lib/theme/colors';
-import { DashboardLayout } from '@/components/dashboard/dashboardLayout';
-import { ErrorBoundary } from '@/components/errorBoundary';
-import { ProductCategory } from '@/types/product';
-import { CATEGORY_COLORS } from '@/lib/constants';
 import { useRouter } from 'next/navigation';
-import { useEffect } from 'react';
-import { InfoText, SectionTitle } from '@/components/ui/typography';
+import { useState, useEffect } from 'react';
+
+import { DashboardLayout } from '@/components/dashboard/DashboardLayout';
+import { CATEGORY_COLORS } from '@/lib/constants';
+import { textColors, commonColors } from '@/lib/theme/colors';
+import { getAssetPath } from '@/lib/utils/assetPath';
+import { ErrorBoundary } from '@/src/features/shared/errorBoundary';
+import { Button } from '@/src/features/shared/ui/button';
+import { InfoText, SectionTitle } from '@/src/features/shared/ui/typography';
+import { ProductCategory } from '@/types/product';
 
 // Mock public products data
 const mockPublicProducts = [
@@ -29,7 +27,7 @@ const mockPublicProducts = [
     status: 'verified',
     price: 45.99,
     image: getAssetPath('/images/maroonLogo.png'),
-    description: 'Fresh organic apples grown without pesticides'
+    description: 'Fresh organic apples grown without pesticides',
   },
   {
     id: 'PRD-2024-002',
@@ -42,7 +40,7 @@ const mockPublicProducts = [
     status: 'verified',
     price: 28.50,
     image: getAssetPath('/images/maroonLogo.png'),
-    description: 'Farm-fresh eggs from free-range chickens'
+    description: 'Farm-fresh eggs from free-range chickens',
   },
   {
     id: 'PRD-2024-003',
@@ -55,7 +53,7 @@ const mockPublicProducts = [
     status: 'verified',
     price: 32.75,
     image: getAssetPath('/images/maroonLogo.png'),
-    description: 'Premium heirloom tomatoes with rich flavor'
+    description: 'Premium heirloom tomatoes with rich flavor',
   },
   {
     id: 'PRD-2024-004',
@@ -68,7 +66,7 @@ const mockPublicProducts = [
     status: 'verified',
     price: 89.99,
     image: getAssetPath('/images/maroonLogo.png'),
-    description: 'Handcrafted artisan cheese from grass-fed cows'
+    description: 'Handcrafted artisan cheese from grass-fed cows',
   },
   {
     id: 'PRD-2024-005',
@@ -81,7 +79,7 @@ const mockPublicProducts = [
     status: 'verified',
     price: 65.00,
     image: getAssetPath('/images/maroonLogo.png'),
-    description: 'Pure wild honey from remote mountain regions'
+    description: 'Pure wild honey from remote mountain regions',
   },
   {
     id: 'PRD-2024-006',
@@ -94,14 +92,14 @@ const mockPublicProducts = [
     status: 'verified',
     price: 18.99,
     image: getAssetPath('/images/maroonLogo.png'),
-    description: 'Fresh organic spinach rich in nutrients'
-  }
+    description: 'Fresh organic spinach rich in nutrients',
+  },
 ];
 
 function ProductsContent() {
   const [isClient, setIsClient] = useState(false);
-  const [products, setProducts] = useState(mockPublicProducts);
-  const [selectedCategory, setSelectedCategory] = useState<ProductCategory | 'all'>('all');
+  const [products, _setProducts] = useState(mockPublicProducts);
+  const [selectedCategory, _setSelectedCategory] = useState<ProductCategory | 'all'>('all');
   const router = useRouter();
 
   useEffect(() => {
@@ -123,8 +121,7 @@ function ProductsContent() {
     ? products 
     : products.filter(product => product.category === selectedCategory);
 
-  const categories = Array.from(new Set(products.map(p => p.category)));
-
+  
   const handleViewTrace = (productId: string) => {
     router.push(`/public-access/trace/${productId}`);
   };
@@ -177,7 +174,7 @@ function ProductsContent() {
               'Dairy': '🥛',
               'Other': '🍯',
               'Meat': '🥩',
-              'Grains': '🌾'
+              'Grains': '🌾',
             };
             
             const categoryIcon = categoryIcons[product.category] || '📦';

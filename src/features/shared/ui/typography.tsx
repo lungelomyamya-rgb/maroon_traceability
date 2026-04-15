@@ -1,5 +1,6 @@
 // src/components/ui/typography.tsx
 import React from 'react';
+
 import { commonColors } from '@/lib/theme/colors';
 
 interface TypographyProps {

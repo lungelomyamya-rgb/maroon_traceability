@@ -1,11 +1,7 @@
 // src/components/ui/toaster.tsx
 import React from 'react';
-import { commonColors } from '@/lib/theme/colors';
 
-interface ToastProps {
-  message: string;
-  type?: 'success' | 'error' | 'info' | 'warning';
-}
+import { commonColors } from '@/lib/theme/colors';
 
 export function Toaster() {
   return (

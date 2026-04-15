@@ -51,7 +51,7 @@ class RolePermissionsService {
       requiredRole: 'farmer',
       canEdit: ['farmer', 'admin'],
       canView: ['farmer', 'inspector', 'logistics', 'packaging', 'viewer', 'admin'],
-      attachmentsAllowed: true
+      attachmentsAllowed: true,
     },
     {
       id: 'seed-selection',
@@ -61,7 +61,7 @@ class RolePermissionsService {
       requiredRole: 'farmer',
       canEdit: ['farmer', 'admin'],
       canView: ['farmer', 'inspector', 'logistics', 'packaging', 'viewer', 'admin'],
-      attachmentsAllowed: true
+      attachmentsAllowed: true,
     },
     {
       id: 'fertiliser-application',
@@ -71,7 +71,7 @@ class RolePermissionsService {
       requiredRole: 'farmer',
       canEdit: ['farmer', 'admin'],
       canView: ['farmer', 'inspector', 'logistics', 'packaging', 'viewer', 'admin'],
-      attachmentsAllowed: true
+      attachmentsAllowed: true,
     },
     {
       id: 'growth-monitoring',
@@ -81,7 +81,7 @@ class RolePermissionsService {
       requiredRole: 'farmer',
       canEdit: ['farmer', 'admin'],
       canView: ['farmer', 'inspector', 'logistics', 'packaging', 'viewer', 'admin'],
-      attachmentsAllowed: true
+      attachmentsAllowed: true,
     },
     {
       id: 'harvest',
@@ -91,7 +91,7 @@ class RolePermissionsService {
       requiredRole: 'farmer',
       canEdit: ['farmer', 'admin'],
       canView: ['farmer', 'inspector', 'logistics', 'packaging', 'viewer', 'admin'],
-      attachmentsAllowed: true
+      attachmentsAllowed: true,
     },
 
     // Inspector events
@@ -104,7 +104,7 @@ class RolePermissionsService {
       canEdit: ['inspector', 'admin'],
       canView: ['farmer', 'inspector', 'logistics', 'packaging', 'viewer', 'admin'],
       requiresApproval: false,
-      attachmentsAllowed: true
+      attachmentsAllowed: true,
     },
     {
       id: 'compliance-check',
@@ -115,7 +115,7 @@ class RolePermissionsService {
       canEdit: ['inspector', 'admin'],
       canView: ['farmer', 'inspector', 'logistics', 'packaging', 'viewer', 'admin'],
       requiresApproval: true,
-      attachmentsAllowed: true
+      attachmentsAllowed: true,
     },
     {
       id: 'certification',
@@ -126,7 +126,7 @@ class RolePermissionsService {
       canEdit: ['inspector', 'admin'],
       canView: ['farmer', 'inspector', 'logistics', 'packaging', 'viewer', 'admin'],
       requiresApproval: true,
-      attachmentsAllowed: true
+      attachmentsAllowed: true,
     },
 
     // Logistics events
@@ -138,7 +138,7 @@ class RolePermissionsService {
       requiredRole: 'logistics',
       canEdit: ['logistics', 'admin'],
       canView: ['farmer', 'inspector', 'logistics', 'packaging', 'viewer', 'admin'],
-      attachmentsAllowed: true
+      attachmentsAllowed: true,
     },
     {
       id: 'transport',
@@ -148,7 +148,7 @@ class RolePermissionsService {
       requiredRole: 'logistics',
       canEdit: ['logistics', 'admin'],
       canView: ['farmer', 'inspector', 'logistics', 'packaging', 'viewer', 'admin'],
-      attachmentsAllowed: true
+      attachmentsAllowed: true,
     },
     {
       id: 'delivery',
@@ -158,7 +158,7 @@ class RolePermissionsService {
       requiredRole: 'logistics',
       canEdit: ['logistics', 'admin'],
       canView: ['farmer', 'inspector', 'logistics', 'packaging', 'viewer', 'admin'],
-      attachmentsAllowed: true
+      attachmentsAllowed: true,
     },
 
     // Packaging events
@@ -170,7 +170,7 @@ class RolePermissionsService {
       requiredRole: 'packaging',
       canEdit: ['packaging', 'admin'],
       canView: ['farmer', 'inspector', 'logistics', 'packaging', 'viewer', 'admin'],
-      attachmentsAllowed: true
+      attachmentsAllowed: true,
     },
     {
       id: 'batch-creation',
@@ -180,7 +180,7 @@ class RolePermissionsService {
       requiredRole: 'packaging',
       canEdit: ['packaging', 'admin'],
       canView: ['farmer', 'inspector', 'logistics', 'packaging', 'viewer', 'admin'],
-      attachmentsAllowed: true
+      attachmentsAllowed: true,
     },
     {
       id: 'quality-check',
@@ -190,7 +190,7 @@ class RolePermissionsService {
       requiredRole: 'packaging',
       canEdit: ['packaging', 'inspector', 'admin'],
       canView: ['farmer', 'inspector', 'logistics', 'packaging', 'viewer', 'admin'],
-      attachmentsAllowed: true
+      attachmentsAllowed: true,
     },
 
     // SAPS events
@@ -202,7 +202,7 @@ class RolePermissionsService {
       requiredRole: 'saps',
       canEdit: ['saps', 'admin'],
       canView: ['saps', 'inspector', 'admin'],
-      attachmentsAllowed: true
+      attachmentsAllowed: true,
     },
     {
       id: 'asset-recovery',
@@ -212,7 +212,7 @@ class RolePermissionsService {
       requiredRole: 'saps',
       canEdit: ['saps', 'admin'],
       canView: ['saps', 'inspector', 'admin'],
-      attachmentsAllowed: true
+      attachmentsAllowed: true,
     },
     {
       id: 'scan-verification',
@@ -222,7 +222,7 @@ class RolePermissionsService {
       requiredRole: 'saps',
       canEdit: ['saps', 'admin'],
       canView: ['saps', 'inspector', 'admin'],
-      attachmentsAllowed: false
+      attachmentsAllowed: false,
     },
     {
       id: 'theft-report',
@@ -232,7 +232,7 @@ class RolePermissionsService {
       requiredRole: 'saps',
       canEdit: ['saps', 'admin'],
       canView: ['saps', 'inspector', 'admin'],
-      attachmentsAllowed: true
+      attachmentsAllowed: true,
     },
     {
       id: 'inspection-log',
@@ -242,8 +242,8 @@ class RolePermissionsService {
       requiredRole: 'saps',
       canEdit: ['saps', 'admin'],
       canView: ['saps', 'inspector', 'admin'],
-      attachmentsAllowed: false
-    }
+      attachmentsAllowed: false,
+    },
   ];
 
   // Role permissions configuration
@@ -259,8 +259,8 @@ class RolePermissionsService {
         canManageUsers: false,
         canViewReports: true,
         canExportData: true,
-        canManageSystem: false
-      }
+        canManageSystem: false,
+      },
     },
     {
       role: 'inspector',
@@ -273,8 +273,8 @@ class RolePermissionsService {
         canManageUsers: false,
         canViewReports: true,
         canExportData: true,
-        canManageSystem: false
-      }
+        canManageSystem: false,
+      },
     },
     {
       role: 'logistics',
@@ -287,8 +287,8 @@ class RolePermissionsService {
         canManageUsers: false,
         canViewReports: true,
         canExportData: true,
-        canManageSystem: false
-      }
+        canManageSystem: false,
+      },
     },
     {
       role: 'packaging',
@@ -301,8 +301,8 @@ class RolePermissionsService {
         canManageUsers: false,
         canViewReports: true,
         canExportData: true,
-        canManageSystem: false
-      }
+        canManageSystem: false,
+      },
     },
     {
       role: 'viewer',
@@ -315,8 +315,8 @@ class RolePermissionsService {
         canManageUsers: false,
         canViewReports: true,
         canExportData: false,
-        canManageSystem: false
-      }
+        canManageSystem: false,
+      },
     },
     {
       role: 'admin',
@@ -329,8 +329,8 @@ class RolePermissionsService {
         canManageUsers: true,
         canViewReports: true,
         canExportData: true,
-        canManageSystem: true
-      }
+        canManageSystem: true,
+      },
     },
     {
       role: 'saps',
@@ -343,9 +343,9 @@ class RolePermissionsService {
         canManageUsers: false,
         canViewReports: true,
         canExportData: true,
-        canManageSystem: false
-      }
-    }
+        canManageSystem: false,
+      },
+    },
   ];
 
   // Public methods
@@ -355,48 +355,58 @@ class RolePermissionsService {
 
   getEventTypesForRole(role: UserRole): EventType[] {
     return this.eventTypes.filter(eventType => 
-      eventType.canView.includes(role)
+      eventType.canView.includes(role),
     );
   }
 
   getCreatableEventTypes(role: UserRole): EventType[] {
     return this.eventTypes.filter(eventType => 
       eventType.requiredRole === role || 
-      (role === 'admin' && eventType.requiredRole !== 'admin')
+      (role === 'admin' && eventType.requiredRole !== 'admin'),
     );
   }
 
   canCreateEvent(role: UserRole, eventTypeId: string): boolean {
     const eventType = this.eventTypes.find(et => et.id === eventTypeId);
-    if (!eventType) return false;
+    if (!eventType) {
+      return false;
+    }
     
     return eventType.requiredRole === role || role === 'admin';
   }
 
   canEditEvent(role: UserRole, eventTypeId: string): boolean {
     const eventType = this.eventTypes.find(et => et.id === eventTypeId);
-    if (!eventType) return false;
+    if (!eventType) {
+      return false;
+    }
     
     return eventType.canEdit.includes(role) || role === 'admin';
   }
 
   canViewEvent(role: UserRole, eventTypeId: string): boolean {
     const eventType = this.eventTypes.find(et => et.id === eventTypeId);
-    if (!eventType) return false;
+    if (!eventType) {
+      return false;
+    }
     
     return eventType.canView.includes(role) || role === 'admin';
   }
 
   canDeleteEvent(role: UserRole, eventTypeId: string): boolean {
     const permission = this.rolePermissions.find(p => p.role === role);
-    if (!permission) return false;
+    if (!permission) {
+      return false;
+    }
     
     return permission.permissions.canDeleteEvents.includes(eventTypeId) || role === 'admin';
   }
 
   canApproveEvent(role: UserRole, eventTypeId: string): boolean {
     const eventType = this.eventTypes.find(et => et.id === eventTypeId);
-    if (!eventType) return false;
+    if (!eventType) {
+      return false;
+    }
     
     return Boolean(eventType.requiresApproval) &&
            (eventType.canEdit.includes(role) || role === 'admin');
@@ -408,7 +418,9 @@ class RolePermissionsService {
 
   hasPermission(role: UserRole, permission: keyof Permission['permissions']): boolean {
     const rolePerm = this.rolePermissions.find(p => p.role === role);
-    if (!rolePerm) return false;
+    if (!rolePerm) {
+      return false;
+    }
     
     return Boolean(rolePerm.permissions[permission]);
   }
@@ -418,7 +430,7 @@ class RolePermissionsService {
     if (!this.canCreateEvent(role, eventTypeId)) {
       return {
         valid: false,
-        message: `Your role (${role}) is not authorized to create ${eventTypeId} events`
+        message: `Your role (${role}) is not authorized to create ${eventTypeId} events`,
       };
     }
     
@@ -429,7 +441,7 @@ class RolePermissionsService {
     if (!this.canEditEvent(role, eventTypeId)) {
       return {
         valid: false,
-        message: `Your role (${role}) is not authorized to edit ${eventTypeId} events`
+        message: `Your role (${role}) is not authorized to edit ${eventTypeId} events`,
       };
     }
     
@@ -440,7 +452,7 @@ class RolePermissionsService {
   getEventsByCategory(role: UserRole, category: EventType['category']): EventType[] {
     return this.eventTypes.filter(eventType => 
       eventType.category === category && 
-      eventType.canView.includes(role)
+      eventType.canView.includes(role),
     );
   }
 
@@ -458,13 +470,13 @@ class RolePermissionsService {
         { name: 'Fertiliser Logs', href: '/farmer/fertiliser' },
         { name: 'Seed Varieties', href: '/farmer/seeds' },
         { name: 'Products', href: '/farmer/products' },
-        { name: 'Compliance', href: '/farmer/compliance' }
+        { name: 'Compliance', href: '/farmer/compliance' },
       ],
       inspector: [
         { name: 'Overview', href: '/inspector' },
         { name: 'Inspections', href: '/inspector/inspections' },
         { name: 'Verification', href: '/inspector/verification' },
-        { name: 'Reports', href: '/inspector/reports' }
+        { name: 'Reports', href: '/inspector/reports' },
       ],
       logistics: [
         { name: 'Overview', href: '/logistics' },
@@ -473,7 +485,7 @@ class RolePermissionsService {
         { name: 'Scheduling', href: '/logistics/scheduling' },
         { name: 'Order Tracking', href: '/logistics/order-tracking' },
         { name: 'Documentation', href: '/logistics/documentation' },
-        { name: 'Events', href: '/logistics/events' }
+        { name: 'Events', href: '/logistics/events' },
       ],
       packaging: [
         { name: 'Overview', href: '/packaging' },
@@ -481,7 +493,7 @@ class RolePermissionsService {
         { name: 'Inventory', href: '/packaging/inventory' },
         { name: 'Quality Check', href: '/packaging/quality-check' },
         { name: 'QR Generation', href: '/packaging/qr-generation' },
-        { name: 'Reports', href: '/packaging/reports' }
+        { name: 'Reports', href: '/packaging/reports' },
       ],
       retailer: [
         { name: 'Overview', href: '/retailer' },
@@ -491,25 +503,25 @@ class RolePermissionsService {
         { name: 'Inventory', href: '/retailer/inventory' },
         { name: 'Shipping', href: '/retailer/shipping' },
         { name: 'Payments', href: '/retailer/payments' },
-        { name: 'Analytics', href: '/retailer/analytics' }
+        { name: 'Analytics', href: '/retailer/analytics' },
       ],
       viewer: [
         { name: 'Products', href: '/products' },
-        { name: 'Public Access', href: '/public-access' }
+        { name: 'Public Access', href: '/public-access' },
       ],
       admin: [
         { name: 'System Admin', href: '/admin' },
         { name: 'User Management', href: '/admin/users' },
         { name: 'Reports', href: '/admin/reports' },
-        { name: 'Settings', href: '/admin/settings' }
+        { name: 'Settings', href: '/admin/settings' },
       ],
       saps: [
         { name: 'Overview', href: '/saps' },
         { name: 'Roadside Inspections', href: '/saps/inspections' },
         { name: 'Asset Recovery', href: '/saps/recovery' },
         { name: 'Theft Reports', href: '/saps/reports' },
-        { name: 'Heatmaps', href: '/saps/heatmaps' }
-      ]
+        { name: 'Heatmaps', href: '/saps/heatmaps' },
+      ],
     };
 
     return [...baseItems, ...(roleSpecificItems[role] || [])];

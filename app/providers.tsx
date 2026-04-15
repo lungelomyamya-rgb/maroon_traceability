@@ -1,40 +1,68 @@
 // src/app/providers.tsx
 'use client';
 
-import { ThemeProvider as NextThemesProvider } from 'next-themes';
-import { AuthProvider } from '@/contexts/authContext';
-import { UserProvider } from '@/contexts/userContext';
-import { ProductProvider } from '@/contexts/productContext';
-import { ErrorBoundary } from '@/components/errorBoundary';
-import { EventLogsProvider } from '@/contexts/eventLogsContext';
-import { SearchProvider } from '@/contexts/search-context';
+import React, { createContext, useContext, useEffect, useState } from 'react';
 
-import React from 'react';
+import { AuthProvider } from '@/contexts/authContext';
+import { EventLogsProvider } from '@/contexts/eventLogsContext';
+import { ProductProvider } from '@/contexts/productContext';
+import { SearchProvider } from '@/contexts/search-context';
+import { UserProvider } from '@/contexts/userContext';
+import { ErrorBoundary } from '@/src/features/shared/errorBoundary';
+
+// Theme context to replace next-themes
+interface ThemeContextType {
+  theme: 'light' | 'dark';
+  setTheme: (theme: 'light' | 'dark') => void;
+}
+
+const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 function ThemeProvider({ children }: { children: React.ReactNode }) {
-  const [mounted, setMounted] = React.useState(false);
+  const [theme, setTheme] = useState<'light' | 'dark'>('light');
+  const [mounted, setMounted] = useState(false);
 
-  React.useEffect(() => {
+  useEffect(() => {
+    // Load theme from localStorage
+    const savedTheme = localStorage.getItem('maroon-theme') as 'light' | 'dark' | null;
+    if (savedTheme) {
+      setTheme(savedTheme);
+    }
     setMounted(true);
   }, []);
 
-  // Prevent hydration mismatch by not rendering until mounted
-  if (!mounted) {
-    return <>{children}</>;
-  }
+  useEffect(() => {
+    // Apply theme to document
+    if (mounted) {
+      const root = document.documentElement;
+      if (theme === 'dark') {
+        root.classList.add('dark');
+      } else {
+        root.classList.remove('dark');
+      }
+    }
+  }, [theme, mounted]);
 
-  return (
-    <NextThemesProvider
-      attribute="class"
-      defaultTheme="light"
-      enableSystem
-      disableTransitionOnChange
-      storageKey="maroon-theme"
-    >
-      {children}
-    </NextThemesProvider>
-  );
+  useEffect(() => {
+    // Save theme to localStorage
+    localStorage.setItem('maroon-theme', theme);
+  }, [theme]);
+
+  const value = {
+    theme,
+    setTheme,
+  };
+
+  return <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>;
 }
+
+export const useTheme = () => {
+  const context = useContext(ThemeContext);
+  if (context === undefined) {
+    throw new Error('useTheme must be used within a ThemeProvider');
+  }
+  return context;
+};
 
 export function Providers({ children }: { children: React.ReactNode }) {
   return (

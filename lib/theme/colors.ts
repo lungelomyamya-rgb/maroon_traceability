@@ -170,7 +170,7 @@ export const cardColors = {
     text: 'text-card-purple',
     border: 'border-card-purple/20',
     icon: 'text-card-purple',
-  }
+  },
 };
 
 // Status colors for badges and indicators
@@ -306,7 +306,7 @@ export const textColors = {
   success: 'text-success',
   warning: 'text-warning',
   error: 'text-error',
-  info: 'text-info'
+  info: 'text-info',
 };
 
 // Background colors
@@ -318,7 +318,7 @@ export const bgColors = {
   error: 'bg-card-neutral-light',
   neutral: 'bg-card-neutral-light',
   white: 'bg-white',
-  muted: 'bg-gray-50'
+  muted: 'bg-gray-50',
 };
 
 // Border colors
@@ -329,7 +329,7 @@ export const borderColors = {
   warning: 'border-card-orange/20',
   error: 'border-card-neutral/20',
   neutral: 'border-card-neutral/20',
-  default: 'border-gray-200'
+  default: 'border-gray-200',
 };
 
 // Common hardcoded colors that should be used consistently
@@ -401,7 +401,7 @@ export const chartColors = {
   purple: '#8b5cf6',
   purpleDark: '#7c3aed',
   gray: '#666666',
-  pieDefault: '#8884d8'
+  pieDefault: '#8884d8',
 };
 
 // Helper function to get banner gradient

@@ -1,14 +1,16 @@
 // src/app/packaging/reports/page.tsx
 'use client';
 
-import { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { useUser } from '@/contexts/userContext';
-import { DashboardLayout } from '@/components/dashboard/dashboardLayout';
-import { Card } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
 import { BarChart3, Download, Calendar, Filter, Search, Package, TrendingUp, AlertTriangle, PieChart, Activity, Clock, Eye } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
+
+import { DashboardLayout } from '@/components/dashboard/DashboardLayout';
+import { useUser } from '@/contexts/userContext';
+import { Badge } from '@/src/features/shared/ui/badge';
+import { Button } from '@/src/features/shared/ui/button';
+import { Card } from '@/src/features/shared/ui/card';
+
 
 export default function ReportsPage() {
   const { currentUser } = useUser();
@@ -50,7 +52,7 @@ export default function ReportsPage() {
       completedBatches: 12,
       pendingQC: 3,
       totalQRs: 45,
-      efficiency: 80
+      efficiency: 80,
     },
     {
       id: 'rpt2',
@@ -60,7 +62,7 @@ export default function ReportsPage() {
       completedBatches: 78,
       pendingQC: 7,
       totalQRs: 234,
-      efficiency: 91.8
+      efficiency: 91.8,
     },
     {
       id: 'rpt3',
@@ -70,8 +72,8 @@ export default function ReportsPage() {
       completedBatches: 295,
       pendingQC: 25,
       totalQRs: 890,
-      efficiency: 92.2
-    }
+      efficiency: 92.2,
+    },
   ];
 
   // Mock analytics data
@@ -80,7 +82,7 @@ export default function ReportsPage() {
     { name: 'Vacuum Sealed', value: 25, color: 'bg-green-500' },
     { name: 'Bulk Bag', value: 15, color: 'bg-yellow-500' },
     { name: 'Plastic Crate', value: 10, color: 'bg-purple-500' },
-    { name: 'Others', value: 5, color: 'bg-gray-500' }
+    { name: 'Others', value: 5, color: 'bg-gray-500' },
   ];
 
   const efficiencyTrend = [
@@ -90,7 +92,7 @@ export default function ReportsPage() {
     { day: 'Thu', efficiency: 87 },
     { day: 'Fri', efficiency: 91 },
     { day: 'Sat', efficiency: 94 },
-    { day: 'Sun', efficiency: 89 }
+    { day: 'Sun', efficiency: 89 },
   ];
 
   const topProducts = [
@@ -98,7 +100,7 @@ export default function ReportsPage() {
     { name: 'Fresh Pears Vacuum Sealed', batches: 32, efficiency: 88 },
     { name: 'Mixed Citrus Bulk', batches: 28, efficiency: 92 },
     { name: 'Premium Tomatoes', batches: 22, efficiency: 85 },
-    { name: 'Exotic Mangoes', batches: 18, efficiency: 90 }
+    { name: 'Exotic Mangoes', batches: 18, efficiency: 90 },
   ];
 
   const recentActivities = [
@@ -107,39 +109,39 @@ export default function ReportsPage() {
       type: 'batch_completed',
       description: 'Batch BATCH-2024-CAR-STL-ABC completed',
       timestamp: '2025-01-20T10:30:00Z',
-      user: 'John Smith'
+      user: 'John Smith',
     },
     {
       id: 'act2',
       type: 'qr_generated',
       description: '25 QR codes generated for Fresh Pears',
       timestamp: '2025-01-20T09:15:00Z',
-      user: 'Maria Chen'
+      user: 'Maria Chen',
     },
     {
       id: 'act3',
       type: 'low_stock_alert',
       description: 'Mixed Citrus Bulk running low',
       timestamp: '2025-01-20T08:45:00Z',
-      user: 'System'
-    }
+      user: 'System',
+    },
   ];
 
   const getActivityIcon = (type: string) => {
     switch (type) {
-      case 'batch_completed': return <Package className="h-4 w-4" />;
-      case 'qr_generated': return <Download className="h-4 w-4" />;
-      case 'low_stock_alert': return <AlertTriangle className="h-4 w-4" />;
-      default: return <Calendar className="h-4 w-4" />;
+    case 'batch_completed': return <Package className="h-4 w-4" />;
+    case 'qr_generated': return <Download className="h-4 w-4" />;
+    case 'low_stock_alert': return <AlertTriangle className="h-4 w-4" />;
+    default: return <Calendar className="h-4 w-4" />;
     }
   };
 
   const getActivityColor = (type: string) => {
     switch (type) {
-      case 'batch_completed': return 'bg-green-100 text-green-800';
-      case 'qr_generated': return 'bg-blue-100 text-blue-800';
-      case 'low_stock_alert': return 'bg-red-100 text-red-800';
-      default: return 'bg-gray-100 text-gray-800';
+    case 'batch_completed': return 'bg-green-100 text-green-800';
+    case 'qr_generated': return 'bg-blue-100 text-blue-800';
+    case 'low_stock_alert': return 'bg-red-100 text-red-800';
+    default: return 'bg-gray-100 text-gray-800';
     }
   };
 
@@ -302,7 +304,7 @@ export default function ReportsPage() {
                       <div 
                         className={`h-2 sm:h-3 rounded-full ${
                           day.efficiency >= 90 ? 'bg-green-500' : 
-                          day.efficiency >= 80 ? 'bg-yellow-500' : 'bg-red-500'
+                            day.efficiency >= 80 ? 'bg-yellow-500' : 'bg-red-500'
                         }`}
                         style={{ width: `${day.efficiency}%` }}
                       ></div>
@@ -311,7 +313,7 @@ export default function ReportsPage() {
                   </div>
                   <div className="sm:hidden text-xs text-gray-500">
                     {day.efficiency >= 90 ? 'Excellent' : 
-                     day.efficiency >= 80 ? 'Good' : 'Needs Improvement'}
+                      day.efficiency >= 80 ? 'Good' : 'Needs Improvement'}
                   </div>
                 </div>
               ))}
@@ -340,13 +342,13 @@ export default function ReportsPage() {
                         <p className="text-xs sm:text-xs lg:text-sm text-gray-500">{product.batches} batches</p>
                       </div>
                     </div>
-                  <div className="text-right">
-                    <div className="flex items-center gap-1">
-                      <span className="text-lg sm:text-xl lg:text-2xl xl:text-3xl font-bold text-green-600">{product.efficiency}%</span>
-                      <span className="text-xs sm:text-sm lg:text-base text-gray-500">efficiency</span>
+                    <div className="text-right">
+                      <div className="flex items-center gap-1">
+                        <span className="text-lg sm:text-xl lg:text-2xl xl:text-3xl font-bold text-green-600">{product.efficiency}%</span>
+                        <span className="text-xs sm:text-sm lg:text-base text-gray-500">efficiency</span>
+                      </div>
                     </div>
                   </div>
-                </div>
                   <div className="flex gap-2 mt-3 sm:mt-4">
                     <Button variant="outline" size="sm" className="flex-1 text-xs sm:text-sm">
                       <Eye className="h-3 w-3 sm:h-4 sm:w-4 mr-1" />

@@ -1,13 +1,14 @@
 // src/app/logistics/vehicles/page.tsx
 'use client';
 
-import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
+
+import { DashboardLayout } from '@/components/dashboard/DashboardLayout';
 import { useUser } from '@/contexts/userContext';
-import { DashboardLayout } from '@/components/dashboard/dashboardLayout';
-import { Button } from '@/components/ui/button';
-import { VehicleManagement } from '@/components/logistics/vehicleManagement';
-import { Truck, Package } from 'lucide-react';
+import { VehicleManagement } from '@/src/features/Logistics';
+import { Button } from '@/src/features/shared/ui/button';
+
 
 export default function LogisticsVehiclesPage() {
   const { currentUser } = useUser();
@@ -44,7 +45,7 @@ export default function LogisticsVehiclesPage() {
       
       <DashboardLayout
         title="Vehicle Management"
-        subtitle="Manage vehicle fleet, maintenance schedules, and registration"
+        subtitle="Manage fleet vehicles and maintenance schedules"
       >
         <VehicleManagement />
       </DashboardLayout>

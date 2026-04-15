@@ -1,10 +1,11 @@
 // src/app/verification-pending/page.tsx
 'use client';
 
-import { Card } from '@/components/ui/card';
 import { CheckCircle, Clock, Mail } from 'lucide-react';
-import { Button } from '@/components/ui/button';
 import { useRouter } from 'next/navigation';
+
+import { Button } from '@/src/features/shared/ui/button';
+import { Card } from '@/src/features/shared/ui/card';
 
 export default function VerificationPendingPage() {
   const router = useRouter();

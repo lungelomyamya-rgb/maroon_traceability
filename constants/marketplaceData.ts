@@ -78,20 +78,20 @@ export const mockProducts: Product[] = [
       rating: 4.8,
       totalReviews: 156,
       yearsExperience: 12,
-      certifications: ['Organic Certified', 'Fair Trade', 'Sustainable Farming']
+      certifications: ['Organic Certified', 'Fair Trade', 'Sustainable Farming'],
     },
     quality: {
       grade: 'A',
       certifications: ['ISO 9001', 'HACCP', 'Organic Standard'],
       inspectionDate: '2024-01-15',
-      inspector: 'Dr. Sarah Chen'
+      inspector: 'Dr. Sarah Chen',
     },
     sustainability: {
       organic: true,
       fairTrade: true,
       carbonFootprint: 2.3,
       waterUsage: 450,
-      practices: ['Drip Irrigation', 'Solar Powered', 'Zero Waste Processing']
+      practices: ['Drip Irrigation', 'Solar Powered', 'Zero Waste Processing'],
     },
     images: ['/maroon_traceability/images/moringa-powder.jpg'],
     reviews: [
@@ -103,8 +103,8 @@ export const mockProducts: Product[] = [
         comment: 'Excellent quality! Very fresh and potent. I use it daily in my morning smoothie.',
         date: '2024-01-20',
         verified: true,
-        helpful: 23
-      }
+        helpful: 23,
+      },
     ],
     traceabilityUrl: '/trace/prod1',
     marketplaceUrl: '/marketplace/products/prod1',
@@ -117,14 +117,14 @@ export const mockProducts: Product[] = [
       weight: 0.3,
       dimensions: { length: 15, width: 10, height: 5 },
       options: ['Standard', 'Express', 'International'],
-      freeShipping: true
+      freeShipping: true,
     },
     nutrition: {
       calories: 25,
       protein: 2.5,
       vitamins: ['Vitamin C', 'Vitamin A', 'Vitamin E', 'Calcium', 'Iron'],
-      allergens: []
-    }
+      allergens: [],
+    },
   },
   {
     id: 'prod2',
@@ -139,20 +139,20 @@ export const mockProducts: Product[] = [
       rating: 4.6,
       totalReviews: 89,
       yearsExperience: 8,
-      certifications: ['Organic Certified', 'Rainforest Alliance']
+      certifications: ['Organic Certified', 'Rainforest Alliance'],
     },
     quality: {
       grade: 'A',
       certifications: ['ISO 9001', 'Organic Standard'],
       inspectionDate: '2024-01-10',
-      inspector: 'Dr. James Wilson'
+      inspector: 'Dr. James Wilson',
     },
     sustainability: {
       organic: true,
       fairTrade: false,
       carbonFootprint: 1.8,
       waterUsage: 320,
-      practices: ['Natural Drying', 'Biodegradable Packaging']
+      practices: ['Natural Drying', 'Biodegradable Packaging'],
     },
     images: ['/maroon_traceability/images/moringa-tea.jpg'],
     reviews: [],
@@ -167,8 +167,8 @@ export const mockProducts: Product[] = [
       weight: 0.1,
       dimensions: { length: 12, width: 8, height: 4 },
       options: ['Standard', 'Express'],
-      freeShipping: true
-    }
+      freeShipping: true,
+    },
   },
   {
     id: 'prod3',
@@ -183,20 +183,20 @@ export const mockProducts: Product[] = [
       rating: 4.7,
       totalReviews: 124,
       yearsExperience: 15,
-      certifications: ['GMP Certified', 'Organic Certified']
+      certifications: ['GMP Certified', 'Organic Certified'],
     },
     quality: {
       grade: 'A',
       certifications: ['GMP', 'ISO 9001', 'Organic Standard'],
       inspectionDate: '2024-01-18',
-      inspector: 'Dr. Lisa Anderson'
+      inspector: 'Dr. Lisa Anderson',
     },
     sustainability: {
       organic: true,
       fairTrade: true,
       carbonFootprint: 3.1,
       waterUsage: 580,
-      practices: ['GMP Processing', 'Recyclable Packaging', 'Renewable Energy']
+      practices: ['GMP Processing', 'Recyclable Packaging', 'Renewable Energy'],
     },
     images: ['/maroon_traceability/images/moringa-capsules.jpg'],
     reviews: [],
@@ -211,8 +211,8 @@ export const mockProducts: Product[] = [
       weight: 0.15,
       dimensions: { length: 10, width: 6, height: 3 },
       options: ['Standard', 'Express', 'International'],
-      freeShipping: false
-    }
+      freeShipping: false,
+    },
   },
   {
     id: 'prod4',
@@ -229,20 +229,20 @@ export const mockProducts: Product[] = [
       rating: 4.9,
       totalReviews: 203,
       yearsExperience: 10,
-      certifications: ['Organic Certified', 'Cold Pressed', 'Non-GMO']
+      certifications: ['Organic Certified', 'Cold Pressed', 'Non-GMO'],
     },
     quality: {
       grade: 'A',
       certifications: ['ISO 9001', 'Cold Pressed Standard', 'Organic Standard'],
       inspectionDate: '2024-01-22',
-      inspector: 'Dr. Michael Roberts'
+      inspector: 'Dr. Michael Roberts',
     },
     sustainability: {
       organic: true,
       fairTrade: true,
       carbonFootprint: 1.5,
       waterUsage: 280,
-      practices: ['Cold Press Extraction', 'Glass Bottling', 'Solar Powered Facility']
+      practices: ['Cold Press Extraction', 'Glass Bottling', 'Solar Powered Facility'],
     },
     images: ['/maroon_traceability/images/moringa-oil.jpg'],
     reviews: [],
@@ -257,8 +257,8 @@ export const mockProducts: Product[] = [
       weight: 0.15,
       dimensions: { length: 8, width: 6, height: 12 },
       options: ['Standard', 'Express'],
-      freeShipping: true
-    }
+      freeShipping: true,
+    },
   },
   {
     id: 'prod5',
@@ -275,20 +275,20 @@ export const mockProducts: Product[] = [
       rating: 4.5,
       totalReviews: 87,
       yearsExperience: 20,
-      certifications: ['Heirloom Seeds', 'Organic Certified']
+      certifications: ['Heirloom Seeds', 'Organic Certified'],
     },
     quality: {
       grade: 'A',
       certifications: ['Seed Certification', 'ISO 9001'],
       inspectionDate: '2024-01-25',
-      inspector: 'Dr. Susan Williams'
+      inspector: 'Dr. Susan Williams',
     },
     sustainability: {
       organic: true,
       fairTrade: false,
       carbonFootprint: 0.8,
       waterUsage: 150,
-      practices: ['Heirloom Varieties', 'Natural Processing', 'Biodegradable Packaging']
+      practices: ['Heirloom Varieties', 'Natural Processing', 'Biodegradable Packaging'],
     },
     images: ['/maroon_traceability/images/moringa-seeds.jpg'],
     reviews: [],
@@ -303,8 +303,8 @@ export const mockProducts: Product[] = [
       weight: 0.6,
       dimensions: { length: 15, width: 10, height: 3 },
       options: ['Standard', 'Express'],
-      freeShipping: true
-    }
+      freeShipping: true,
+    },
   },
   {
     id: 'prod6',
@@ -321,20 +321,20 @@ export const mockProducts: Product[] = [
       rating: 4.7,
       totalReviews: 156,
       yearsExperience: 6,
-      certifications: ['Organic Certified', 'Fresh Produce Standard']
+      certifications: ['Organic Certified', 'Fresh Produce Standard'],
     },
     quality: {
       grade: 'A',
       certifications: ['Fresh Produce', 'Organic Standard'],
       inspectionDate: '2024-01-28',
-      inspector: 'Dr. James Wilson'
+      inspector: 'Dr. James Wilson',
     },
     sustainability: {
       organic: true,
       fairTrade: true,
       carbonFootprint: 0.5,
       waterUsage: 80,
-      practices: ['Daily Harvest', 'Natural Washing', 'Rapid Cooling']
+      practices: ['Daily Harvest', 'Natural Washing', 'Rapid Cooling'],
     },
     images: ['/maroon_traceability/images/fresh-moringa.jpg'],
     reviews: [],
@@ -349,8 +349,8 @@ export const mockProducts: Product[] = [
       weight: 0.3,
       dimensions: { length: 20, width: 15, height: 5 },
       options: ['Express', 'Same Day'],
-      freeShipping: false
-    }
+      freeShipping: false,
+    },
   },
   {
     id: 'prod7',
@@ -367,20 +367,20 @@ export const mockProducts: Product[] = [
       rating: 4.8,
       totalReviews: 298,
       yearsExperience: 12,
-      certifications: ['Free Range Certified', 'Animal Welfare Approved']
+      certifications: ['Free Range Certified', 'Animal Welfare Approved'],
     },
     quality: {
       grade: 'A',
       certifications: ['Animal Welfare', 'Food Safety'],
       inspectionDate: '2024-01-30',
-      inspector: 'Dr. Lisa Anderson'
+      inspector: 'Dr. Lisa Anderson',
     },
     sustainability: {
       organic: true,
       fairTrade: true,
       carbonFootprint: 2.1,
       waterUsage: 420,
-      practices: ['Free Range', 'Moringa Feed', 'Humane Treatment']
+      practices: ['Free Range', 'Moringa Feed', 'Humane Treatment'],
     },
     images: ['/maroon_traceability/images/fresh-eggs.jpg'],
     reviews: [],
@@ -395,8 +395,8 @@ export const mockProducts: Product[] = [
       weight: 1.2,
       dimensions: { length: 25, width: 20, height: 8 },
       options: ['Express', 'Cool Chain'],
-      freeShipping: false
-    }
+      freeShipping: false,
+    },
   },
   {
     id: 'prod8',
@@ -413,20 +413,20 @@ export const mockProducts: Product[] = [
       rating: 4.9,
       totalReviews: 412,
       yearsExperience: 18,
-      certifications: ['Organic Honey', 'Bee Friendly']
+      certifications: ['Organic Honey', 'Bee Friendly'],
     },
     quality: {
       grade: 'A',
       certifications: ['Honey Standard', 'Organic Certification'],
       inspectionDate: '2024-02-02',
-      inspector: 'Dr. Sarah Chen'
+      inspector: 'Dr. Sarah Chen',
     },
     sustainability: {
       organic: true,
       fairTrade: true,
       carbonFootprint: 1.2,
       waterUsage: 90,
-      practices: ['Sustainable Beekeeping', 'Natural Infusion', 'Glass Packaging']
+      practices: ['Sustainable Beekeeping', 'Natural Infusion', 'Glass Packaging'],
     },
     images: ['/maroon_traceability/images/moringa-honey.jpg'],
     reviews: [],
@@ -441,9 +441,9 @@ export const mockProducts: Product[] = [
       weight: 0.7,
       dimensions: { length: 12, width: 8, height: 8 },
       options: ['Standard', 'Express'],
-      freeShipping: true
-    }
-  }
+      freeShipping: true,
+    },
+  },
 ];
 
 export const categories = [
@@ -457,7 +457,7 @@ export const categories = [
   'Beef', 
   'Vegetables', 
   'Honey', 
-  'Grains'
+  'Grains',
 ];
 
 export const featuredProducts = mockProducts.filter(product => product.discount);
@@ -466,21 +466,21 @@ export const trustSignals = [
   {
     icon: 'CheckCircle',
     title: 'Verified Farmers',
-    description: 'All farmers are verified and certified'
+    description: 'All farmers are verified and certified',
   },
   {
     icon: 'Award',
     title: 'Quality Inspected',
-    description: 'Products undergo rigorous quality checks'
+    description: 'Products undergo rigorous quality checks',
   },
   {
     icon: 'Leaf',
     title: 'Sustainably Grown',
-    description: 'Environmentally friendly farming practices'
+    description: 'Environmentally friendly farming practices',
   },
   {
     icon: 'Truck',
     title: 'Fresh Delivery',
-    description: 'Fast and reliable delivery nationwide'
-  }
+    description: 'Fast and reliable delivery nationwide',
+  },
 ];

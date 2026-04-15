@@ -1,13 +1,14 @@
 // src/app/retailer/orders/page.tsx
 'use client';
 
-import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { useUser } from '@/contexts/userContext';
-import { DashboardLayout } from '@/components/dashboard/dashboardLayout';
-import { Orders } from '../../../components/retailers/orders';
+import { useEffect } from 'react';
 
-export default function OrdersPage() {
+import { DashboardLayout } from '@/components/dashboard/DashboardLayout';
+import { useUser } from '@/contexts/userContext';
+import { Orders as OrdersComponent } from '@/src/features/Retailers/components/ordersComponent';
+
+export default function Orders() {
   const { currentUser } = useUser();
   const router = useRouter();
 
@@ -51,7 +52,7 @@ export default function OrdersPage() {
         title="Order Management"
         description="Process and track customer orders"
       >
-        <Orders />
+        <OrdersComponent />
       </DashboardLayout>
     </>
   );

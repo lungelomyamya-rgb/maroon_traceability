@@ -1,18 +1,17 @@
 // src/components/marketplace/searchAndFilter.tsx
 'use client';
 
-import { useState, useEffect } from 'react';
-import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Product } from '@/constants/marketplaceData';
+import { Badge } from '@/src/features/shared/ui/badge';
+import { Button } from '@/src/features/shared/ui/button';
+import { Input } from '@/src/features/shared/ui/input';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/src/features/shared/ui/select';
 import { 
   Search, 
-  Filter, 
   X,
-  SlidersHorizontal
+  SlidersHorizontal,
 } from 'lucide-react';
-import { Product } from '@/constants/marketplaceData';
+import { useState, useEffect, useCallback } from 'react';
 
 interface SearchAndFilterProps {
   products: Product[];
@@ -30,8 +29,8 @@ export default function SearchAndFilter({ products, onFilter }: SearchAndFilterP
   const categories = ['all', ...Array.from(new Set(products.map(p => p.category)))];
   const grades = ['all', 'A', 'B', 'C'];
 
-  const applyFilters = () => {
-    let filtered = products.filter(product => {
+  const applyFilters = useCallback(() => {
+    const filtered = products.filter(product => {
       // Search filter
       const matchesSearch = searchTerm === '' || 
         product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -62,23 +61,23 @@ export default function SearchAndFilter({ products, onFilter }: SearchAndFilterP
     // Sort
     filtered.sort((a, b) => {
       switch (sortBy) {
-        case 'name':
-          return a.name.localeCompare(b.name);
-        case 'price-low':
-          return a.price - b.price;
-        case 'price-high':
-          return b.price - a.price;
-        case 'rating':
-          return b.farmer.rating - a.farmer.rating;
-        case 'discount':
-          return (b.discount || 0) - (a.discount || 0);
-        default:
-          return 0;
+      case 'name':
+        return a.name.localeCompare(b.name);
+      case 'price-low':
+        return a.price - b.price;
+      case 'price-high':
+        return b.price - a.price;
+      case 'rating':
+        return b.farmer.rating - a.farmer.rating;
+      case 'discount':
+        return (b.discount || 0) - (a.discount || 0);
+      default:
+        return 0;
       }
     });
 
     onFilter(filtered);
-  };
+  }, [searchTerm, selectedCategory, selectedGrade, priceRange, sortBy, products, onFilter]);
 
   const clearFilters = () => {
     setSearchTerm('');
@@ -95,7 +94,7 @@ export default function SearchAndFilter({ products, onFilter }: SearchAndFilterP
   // Apply filters whenever filter values change
   useEffect(() => {
     applyFilters();
-  }, [searchTerm, selectedCategory, selectedGrade, priceRange, sortBy, products]);
+  }, [searchTerm, selectedCategory, selectedGrade, priceRange, sortBy, products, applyFilters]);
 
   return (
     <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4 sm:p-6 mb-6">
@@ -299,8 +298,8 @@ export default function SearchAndFilter({ products, onFilter }: SearchAndFilterP
                 {priceRange !== 'all' && (
                   <Badge variant="secondary" className="flex items-center gap-1 px-3 py-1.5 text-xs bg-gray-100 hover:bg-gray-200 transition-colors">
                     Price: {priceRange === '0-50' ? 'R0-R50' :
-                            priceRange === '50-100' ? 'R50-R100' :
-                            priceRange === '100-200' ? 'R100-R200' : 'R200+'}
+                      priceRange === '50-100' ? 'R50-R100' :
+                        priceRange === '100-200' ? 'R100-R200' : 'R200+'}
                     <X 
                       className="h-3 w-3 cursor-pointer hover:text-red-600" 
                       onClick={() => setPriceRange('all')}

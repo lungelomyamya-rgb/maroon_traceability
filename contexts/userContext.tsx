@@ -1,4 +1,5 @@
 // src/contexts/userContext.tsx
+// import { useRouter } from 'next/navigation'; // unused
 import { createContext, 
   useContext, 
   useState, 
@@ -6,11 +7,13 @@ import { createContext,
   useCallback, 
   useEffect, 
   useMemo } from 'react';
+
+import { DEMO_USERS } from '@/constants/users';
 import { User, UserRole, UserContextType } from '@/types/user';
 import { ROLE_PERMISSIONS } from '@/types/user';
-import { useRouter } from 'next/navigation';
+
 import { authService } from '../lib/auth';
-import { DEMO_USERS } from '@/constants/users';
+
 
 // Create the context with the correct type
 export const UserContext = createContext<UserContextType | undefined>(undefined);
@@ -18,7 +21,7 @@ export const UserContext = createContext<UserContextType | undefined>(undefined)
 export function UserProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
-  const router = useRouter();
+  // const router = useRouter(); // unused
 
   const currentUser = user; // Alias for compatibility
 
@@ -37,15 +40,17 @@ export function UserProvider({ children }: { children: ReactNode }) {
 
   const updateUserRole = useCallback((role: UserRole) => {
     setUser(prevUser => {
-      if (!prevUser) return null;
+      if (!prevUser) {
+        return null;
+      }
       return {
         ...prevUser,
         role,
         permissions: {
           canCreate: ROLE_PERMISSIONS[role].canCreate,
           canVerify: ROLE_PERMISSIONS[role].canVerify,
-          canView: ROLE_PERMISSIONS[role].canView
-        }
+          canView: ROLE_PERMISSIONS[role].canView,
+        },
       };
     });
   }, []);
@@ -60,8 +65,8 @@ export function UserProvider({ children }: { children: ReactNode }) {
         permissions: {
           canCreate: ROLE_PERMISSIONS[currentUser.role].canCreate,
           canVerify: ROLE_PERMISSIONS[currentUser.role].canVerify,
-          canView: ROLE_PERMISSIONS[currentUser.role].canView
-        }
+          canView: ROLE_PERMISSIONS[currentUser.role].canView,
+        },
       };
       setUser(userWithPermissions);
     } else {
@@ -78,10 +83,11 @@ export function UserProvider({ children }: { children: ReactNode }) {
     user,
     currentUser,
     setUser,
+    setUserWithPersistence,
     updateUserRole,
     switchUser,
-    loading
-  }), [user, loading, updateUserRole, switchUser]);
+    loading,
+  }), [user, loading, updateUserRole, switchUser, currentUser, setUserWithPersistence]);
 
   return (
     <UserContext.Provider value={contextValue}>

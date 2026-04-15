@@ -1,5 +1,5 @@
 // src/types/user.ts
-import { LucideIcon, User as UserIcon, Briefcase, Shield, UserCheck, Users, Package, Truck, Eye } from 'lucide-react';
+import { LucideIcon, Briefcase, Shield, UserCheck, Users, Package, Truck, Eye } from 'lucide-react';
 
 export const USER_ROLES = [
   'farmer',

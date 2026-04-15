@@ -1,7 +1,7 @@
 // src/features/auth/hooks/useAuth.ts
 // Authentication hook for auth feature
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 
 import type { User, UserRole } from '../types/userTypes';
 

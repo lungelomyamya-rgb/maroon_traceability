@@ -8,7 +8,7 @@ interface DocumentUploadProps {
   accept?: string;
   multiple?: boolean;
   onUpload?: (files: File[]) => void;
-  documentTypes?: any[];
+  documentTypes?: DocumentType[];
   className?: string;
 }
 

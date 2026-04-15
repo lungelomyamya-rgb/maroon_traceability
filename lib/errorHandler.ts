@@ -18,7 +18,7 @@ export class ErrorHandler {
     type: AppError['type'],
     message: string,
     details?: Record<string, unknown>,
-    recoverable: boolean = true
+    recoverable: boolean = true,
   ): AppError {
     const error: AppError = {
       id: `error_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
@@ -37,7 +37,7 @@ export class ErrorHandler {
   static handleAsyncError(
     error: unknown,
     type: AppError['type'] = 'unknown',
-    context?: string
+    context?: string,
   ): AppError {
     const message = error instanceof Error ? error.message : 'Unknown error occurred';
     const details = {
@@ -114,25 +114,25 @@ export class ErrorHandler {
 
   static getUserMessage(error: AppError): string {
     switch (error.type) {
-      case 'network':
-        return 'Connection issue. Please check your internet connection and try again.';
-      case 'validation':
-        return 'Please check your input and try again.';
-      case 'blockchain':
-        return 'Blockchain operation failed. Please try again later.';
-      case 'auth':
-        return 'Authentication required. Please log in again.';
-      default:
-        return 'An unexpected error occurred. Please try again.';
+    case 'network':
+      return 'Connection issue. Please check your internet connection and try again.';
+    case 'validation':
+      return 'Please check your input and try again.';
+    case 'blockchain':
+      return 'Blockchain operation failed. Please try again later.';
+    case 'auth':
+      return 'Authentication required. Please log in again.';
+    default:
+      return 'An unexpected error occurred. Please try again.';
     }
   }
 }
 
 // Utility function for wrapping async operations
-export function withErrorHandling<T extends (...args: any[]) => Promise<any>>(
+export function withErrorHandling<T extends (...args: unknown[]) => Promise<unknown>>(
   operation: T,
   errorType: AppError['type'] = 'unknown',
-  context?: string
+  context?: string,
 ): T {
   return (async (...args: Parameters<T>) => {
     try {

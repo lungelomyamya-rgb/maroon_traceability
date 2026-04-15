@@ -1,4 +1,5 @@
 // src/pages/_app.js
+/* global window */
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 

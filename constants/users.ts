@@ -1,6 +1,6 @@
 // src/constants/users.ts
 
-import { User, UserRole } from '@/types/user';
+import { User } from '@/types/user';
 
 export const DEMO_USERS: User[] = [
   {
@@ -10,8 +10,8 @@ export const DEMO_USERS: User[] = [
     role: 'farmer',
     permissions: {
       canCreate: true,
-      canVerify: false
-    }
+      canVerify: false,
+    },
   },
   {
     id: 'user_2',
@@ -20,8 +20,8 @@ export const DEMO_USERS: User[] = [
     role: 'inspector',
     permissions: {
       canCreate: false,
-      canVerify: true
-    }
+      canVerify: true,
+    },
   },
   {
     id: 'user_3',
@@ -30,8 +30,8 @@ export const DEMO_USERS: User[] = [
     role: 'retailer',
     permissions: {
       canCreate: false,
-      canVerify: true
-    }
+      canVerify: true,
+    },
   },
   {
     id: 'user_4',
@@ -40,8 +40,8 @@ export const DEMO_USERS: User[] = [
     role: 'logistics',
     permissions: {
       canCreate: false,
-      canVerify: false
-    }
+      canVerify: false,
+    },
   },
   {
     id: 'user_5',
@@ -50,8 +50,8 @@ export const DEMO_USERS: User[] = [
     role: 'packaging',
     permissions: {
       canCreate: true,
-      canVerify: false
-    }
+      canVerify: false,
+    },
   },
   {
     id: 'user_6',
@@ -60,8 +60,8 @@ export const DEMO_USERS: User[] = [
     role: 'public',
     permissions: {
       canCreate: false,
-      canVerify: false
-    }
+      canVerify: false,
+    },
   },
   {
     id: 'user_7',
@@ -70,8 +70,8 @@ export const DEMO_USERS: User[] = [
     role: 'government',
     permissions: {
       canCreate: false,
-      canVerify: true
-    }
+      canVerify: true,
+    },
   },
   {
     id: 'user_8',
@@ -80,7 +80,7 @@ export const DEMO_USERS: User[] = [
     role: 'saps',
     permissions: {
       canCreate: false,
-      canVerify: true
-    }
-  }
+      canVerify: true,
+    },
+  },
 ];

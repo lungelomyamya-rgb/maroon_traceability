@@ -233,15 +233,15 @@ export type { Product } from './types/marketplaceData';
 // IMPORTS FOR API OBJECT
 // ============================================================================
 
-import Marketplace from './components/Marketplace';
-import HeroSection from './components/HeroSection';
-import FeaturedProducts from './components/FeaturedProducts';
 import Categories from './components/Categories';
-import TrustSignals from './components/TrustSignals';
+import FeaturedProducts from './components/FeaturedProducts';
+import HeroSection from './components/HeroSection';
+import KeyboardNavigation from './components/KeyboardNavigation';
+import LazyImage from './components/LazyImage';
+import Marketplace from './components/Marketplace';
 import QRScannerSection from './components/QRScannerSection';
 import SearchAndFilter from './components/SearchAndFilter';
-import LazyImage from './components/LazyImage';
-import KeyboardNavigation from './components/KeyboardNavigation';
+import TrustSignals from './components/TrustSignals';
 import { useCart } from './hooks/useCart';
 import { useScrollToTop } from './hooks/useScrollToTop';
 
@@ -321,3 +321,10 @@ export const MARKETPLACE_FEATURE = {
  * ```
  */
 export { default } from './components/Marketplace';
+
+/**
+ * Marketplace page wrapper component
+ * @component MarketplacePage
+ * @description Simple wrapper for marketplace page that follows feature-first architecture
+ */
+export { MarketplacePage } from './MarketplacePage';

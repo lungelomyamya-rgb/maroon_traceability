@@ -52,9 +52,9 @@ export function Card({ children, className = '', variant = 'default', title, des
             {badge && (
               <span className={`px-2 py-1 text-xs font-medium rounded-full ${
                 badge.variant === 'destructive' ? 'bg-red-100 text-red-800' :
-                badge.variant === 'success' ? 'bg-green-100 text-green-800' :
-                badge.variant === 'warning' ? 'bg-yellow-100 text-yellow-800' :
-                'bg-gray-100 text-gray-800'
+                  badge.variant === 'success' ? 'bg-green-100 text-green-800' :
+                    badge.variant === 'warning' ? 'bg-yellow-100 text-yellow-800' :
+                      'bg-gray-100 text-gray-800'
               }`}>
                 {badge.text}
               </span>

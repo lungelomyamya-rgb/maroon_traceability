@@ -1,8 +1,9 @@
 'use client';
 
-import { Card } from '@/components/ui/card';
-import { PageTitle } from '@/components/ui/typography';
 import { BarChart, Filter, Download, FileText } from 'lucide-react';
+
+import { Card } from '@/src/features/shared/ui/card';
+import { PageTitle } from '@/src/features/shared/ui/typography';
 
 export default function ReportsPage() {
   return (

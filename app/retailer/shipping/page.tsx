@@ -1,35 +1,31 @@
 // src/app/retailer/shipping/page.tsx
 'use client';
 
-import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { useUser } from '@/contexts/userContext';
-import { DashboardLayout } from '@/components/dashboard/dashboardLayout';
-import { ShippingIntegration } from '../../../components/retailers/shippingIntegration';
+import { useEffect } from 'react';
 
-export default function ShippingIntegrationPage() {
+import { DashboardLayout } from '@/components/dashboard/DashboardLayout';
+import { useUser } from '@/contexts/userContext';
+import { ShippingIntegration } from '@/src/features/Retailers/components';
+import { Button } from '@/src/features/shared/ui/button';
+
+
+export default function RetailerShippingPage() {
   const { currentUser } = useUser();
   const router = useRouter();
 
   useEffect(() => {
     // Redirect if user doesn't have retailer role
-    const timer = setTimeout(() => {
-      if (currentUser?.role !== 'retailer') {
-        router.push('/unauthorized');
-        return;
-      }
-    }, 200);
-
-    return () => clearTimeout(timer);
+    if (currentUser?.role !== 'retailer') {
+      router.push('/unauthorized');
+      return;
+    }
   }, [currentUser, router]);
 
   if (!currentUser || currentUser.role !== 'retailer') {
     return (
       <div className="flex items-center justify-center min-h-screen">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary mx-auto mb-4"></div>
-          <p className="text-gray-600">Checking authentication...</p>
-        </div>
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-primary"></div>
       </div>
     );
   }
@@ -38,17 +34,18 @@ export default function ShippingIntegrationPage() {
     <>
       {/* Back Button Above DashboardLayout */}
       <div className="px-4 sm:px-6 lg:px-8 pt-4">
-        <button
+        <Button
+          variant="outline"
           onClick={() => router.push('/retailer')}
           className="inline-flex items-center gap-2 text-sm"
         >
           Back
-        </button>
+        </Button>
       </div>
       
       <DashboardLayout
         title="Shipping Integration"
-        description="Manage shipping providers and track deliveries"
+        subtitle="Manage shipping and delivery logistics"
       >
         <ShippingIntegration />
       </DashboardLayout>

@@ -17,10 +17,15 @@ interface PhotoRecord {
 interface SyncQueueItem {
   id: string;
   type: 'photo' | 'event';
-  data: any;
+  data: unknown;
   timestamp: number;
   retryCount: number;
   maxRetries: number;
+}
+
+interface EventData {
+  id?: string;
+  [key: string]: unknown;
 }
 
 class IndexedDBService {
@@ -70,18 +75,24 @@ class IndexedDBService {
 
   // Photo Management
   async savePhoto(photo: Omit<PhotoRecord, 'id' | 'syncStatus'>): Promise<string> {
-    if (!this.db) await this.init();
+    if (!this.db) {
+      await this.init();
+    }
     
     const id = `photo_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
     const photoRecord: PhotoRecord = {
       ...photo,
       id,
       syncStatus: 'pending',
-      timestamp: Date.now()
+      timestamp: Date.now(),
     };
 
     return new Promise((resolve, reject) => {
-      const transaction = this.db!.transaction(['photos'], 'readwrite');
+      if (!this.db) {
+        reject(new Error('Database not initialized'));
+        return;
+      }
+      const transaction = this.db.transaction(['photos'], 'readwrite');
       const store = transaction.objectStore('photos');
       const request = store.add(photoRecord);
 
@@ -93,7 +104,7 @@ class IndexedDBService {
           data: photoRecord,
           timestamp: Date.now(),
           retryCount: 0,
-          maxRetries: 3
+          maxRetries: 3,
         });
         resolve(id);
       };
@@ -102,10 +113,16 @@ class IndexedDBService {
   }
 
   async getPhotosByEvent(eventId: string): Promise<PhotoRecord[]> {
-    if (!this.db) await this.init();
+    if (!this.db) {
+      await this.init();
+    }
     
     return new Promise((resolve, reject) => {
-      const transaction = this.db!.transaction(['photos'], 'readonly');
+      if (!this.db) {
+        reject(new Error('Database not initialized'));
+        return;
+      }
+      const transaction = this.db.transaction(['photos'], 'readonly');
       const store = transaction.objectStore('photos');
       const index = store.index('eventId');
       const request = index.getAll(eventId);
@@ -116,10 +133,16 @@ class IndexedDBService {
   }
 
   async getPhotosByProduct(productId: string): Promise<PhotoRecord[]> {
-    if (!this.db) await this.init();
+    if (!this.db) {
+      await this.init();
+    }
     
     return new Promise((resolve, reject) => {
-      const transaction = this.db!.transaction(['photos'], 'readonly');
+      if (!this.db) {
+        reject(new Error('Database not initialized'));
+        return;
+      }
+      const transaction = this.db.transaction(['photos'], 'readonly');
       const store = transaction.objectStore('photos');
       const index = store.index('productId');
       const request = index.getAll(productId);
@@ -130,10 +153,16 @@ class IndexedDBService {
   }
 
   async getPendingPhotos(): Promise<PhotoRecord[]> {
-    if (!this.db) await this.init();
+    if (!this.db) {
+      await this.init();
+    }
     
     return new Promise((resolve, reject) => {
-      const transaction = this.db!.transaction(['photos'], 'readonly');
+      if (!this.db) {
+        reject(new Error('Database not initialized'));
+        return;
+      }
+      const transaction = this.db.transaction(['photos'], 'readonly');
       const store = transaction.objectStore('photos');
       const index = store.index('syncStatus');
       const request = index.getAll('pending');
@@ -144,10 +173,16 @@ class IndexedDBService {
   }
 
   async updatePhotoSyncStatus(photoId: string, status: PhotoRecord['syncStatus'], errorMessage?: string): Promise<void> {
-    if (!this.db) await this.init();
+    if (!this.db) {
+      await this.init();
+    }
     
     return new Promise((resolve, reject) => {
-      const transaction = this.db!.transaction(['photos'], 'readwrite');
+      if (!this.db) {
+        reject(new Error('Database not initialized'));
+        return;
+      }
+      const transaction = this.db.transaction(['photos'], 'readwrite');
       const store = transaction.objectStore('photos');
       const getRequest = store.get(photoId);
 
@@ -174,10 +209,16 @@ class IndexedDBService {
 
   // Sync Queue Management
   private async addToSyncQueue(item: SyncQueueItem): Promise<void> {
-    if (!this.db) await this.init();
+    if (!this.db) {
+      await this.init();
+    }
     
     return new Promise((resolve, reject) => {
-      const transaction = this.db!.transaction(['syncQueue'], 'readwrite');
+      if (!this.db) {
+        reject(new Error('Database not initialized'));
+        return;
+      }
+      const transaction = this.db.transaction(['syncQueue'], 'readwrite');
       const store = transaction.objectStore('syncQueue');
       const request = store.add(item);
 
@@ -187,10 +228,16 @@ class IndexedDBService {
   }
 
   async getSyncQueue(): Promise<SyncQueueItem[]> {
-    if (!this.db) await this.init();
+    if (!this.db) {
+      await this.init();
+    }
     
     return new Promise((resolve, reject) => {
-      const transaction = this.db!.transaction(['syncQueue'], 'readonly');
+      if (!this.db) {
+        reject(new Error('Database not initialized'));
+        return;
+      }
+      const transaction = this.db.transaction(['syncQueue'], 'readonly');
       const store = transaction.objectStore('syncQueue');
       const request = store.getAll();
 
@@ -200,10 +247,16 @@ class IndexedDBService {
   }
 
   async removeFromSyncQueue(itemId: string): Promise<void> {
-    if (!this.db) await this.init();
+    if (!this.db) {
+      await this.init();
+    }
     
     return new Promise((resolve, reject) => {
-      const transaction = this.db!.transaction(['syncQueue'], 'readwrite');
+      if (!this.db) {
+        reject(new Error('Database not initialized'));
+        return;
+      }
+      const transaction = this.db.transaction(['syncQueue'], 'readwrite');
       const store = transaction.objectStore('syncQueue');
       const request = store.delete(itemId);
 
@@ -213,18 +266,24 @@ class IndexedDBService {
   }
 
   // Event Management (for offline event creation)
-  async saveEvent(event: any): Promise<string> {
-    if (!this.db) await this.init();
+  async saveEvent(event: EventData): Promise<string> {
+    if (!this.db) {
+      await this.init();
+    }
     
     const eventWithSync = {
       ...event,
       id: event.id || `event_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
       syncStatus: 'pending' as const,
-      timestamp: Date.now()
+      timestamp: Date.now(),
     };
 
     return new Promise((resolve, reject) => {
-      const transaction = this.db!.transaction(['events'], 'readwrite');
+      if (!this.db) {
+        reject(new Error('Database not initialized'));
+        return;
+      }
+      const transaction = this.db.transaction(['events'], 'readwrite');
       const store = transaction.objectStore('events');
       const request = store.add(eventWithSync);
 
@@ -236,7 +295,7 @@ class IndexedDBService {
           data: eventWithSync,
           timestamp: Date.now(),
           retryCount: 0,
-          maxRetries: 3
+          maxRetries: 3,
         });
         resolve(eventWithSync.id);
       };
@@ -246,10 +305,16 @@ class IndexedDBService {
 
   // Storage Management
   async getStorageUsage(): Promise<{ used: number; available: number; photos: number }> {
-    if (!this.db) await this.init();
+    if (!this.db) {
+      await this.init();
+    }
     
     return new Promise((resolve, reject) => {
-      const transaction = this.db!.transaction(['photos'], 'readonly');
+      if (!this.db) {
+        reject(new Error('Database not initialized'));
+        return;
+      }
+      const transaction = this.db.transaction(['photos'], 'readonly');
       const store = transaction.objectStore('photos');
       const request = store.getAll();
 
@@ -266,7 +331,7 @@ class IndexedDBService {
         const estimated = {
           used: totalSize,
           available: 50 * 1024 * 1024, // 50MB estimated
-          photos: photos.length
+          photos: photos.length,
         };
         resolve(estimated);
       };
@@ -276,12 +341,18 @@ class IndexedDBService {
 
   // Cleanup
   async cleanupOldPhotos(daysOld: number = 30): Promise<number> {
-    if (!this.db) await this.init();
+    if (!this.db) {
+      await this.init();
+    }
     
     const cutoffTime = Date.now() - (daysOld * 24 * 60 * 60 * 1000);
     
     return new Promise((resolve, reject) => {
-      const transaction = this.db!.transaction(['photos'], 'readwrite');
+      if (!this.db) {
+        reject(new Error('Database not initialized'));
+        return;
+      }
+      const transaction = this.db.transaction(['photos'], 'readwrite');
       const store = transaction.objectStore('photos');
       const index = store.index('timestamp');
       const request = index.openCursor(IDBKeyRange.upperBound(cutoffTime));

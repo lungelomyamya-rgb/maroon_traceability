@@ -1,14 +1,16 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { MapPin, AlertTriangle, Eye } from 'lucide-react';
 import { useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
+
+import { DashboardLayout } from '@/components/dashboard/DashboardLayout';
 import { useUser } from '@/contexts/userContext';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { DashboardLayout } from '@/components/dashboard/dashboardLayout';
-import { MapPin, AlertTriangle, TrendingUp, Eye, Filter, RefreshCw, Shield, Activity, ArrowLeft } from 'lucide-react';
+import { Badge } from '@/src/features/shared/ui/badge';
+import { Button } from '@/src/features/shared/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/src/features/shared/ui/card';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/src/features/shared/ui/select';
+
 
 export default function SAPSHeatmapsPage() {
   const router = useRouter();
@@ -68,36 +70,36 @@ export default function SAPSHeatmapsPage() {
       thefts: 45,
       risk: 'high',
       coordinates: '-33.9608, 25.6022',
-      trend: '+12%'
+      trend: '+12%',
     },
     {
       province: 'KwaZulu-Natal',
       thefts: 38,
       risk: 'high',
       coordinates: '-28.5306, 30.8958',
-      trend: '+8%'
+      trend: '+8%',
     },
     {
       province: 'Free State',
       thefts: 29,
       risk: 'medium',
       coordinates: '-28.4541, 26.7968',
-      trend: '+5%'
+      trend: '+5%',
     },
     {
       province: 'Limpopo',
       thefts: 22,
       risk: 'medium',
       coordinates: '-23.4013, 29.4179',
-      trend: '+15%'
+      trend: '+15%',
     },
     {
       province: 'North West',
       thefts: 18,
       risk: 'low',
       coordinates: '-26.6639, 25.9442',
-      trend: '-3%'
-    }
+      trend: '-3%',
+    },
   ];
 
   const activeAlerts = [
@@ -107,7 +109,7 @@ export default function SAPSHeatmapsPage() {
       location: 'N3 Highway, Johannesburg',
       livestock: 'Cattle transport',
       timestamp: '2024-01-15 14:30',
-      status: 'active'
+      status: 'active',
     },
     {
       id: 'ALERT-2024-002',
@@ -115,7 +117,7 @@ export default function SAPSHeatmapsPage() {
       location: 'R61, Bloemfontein',
       livestock: 'Sheep herd',
       timestamp: '2024-01-15 11:15',
-      status: 'investigating'
+      status: 'investigating',
     },
     {
       id: 'ALERT-2024-003',
@@ -123,33 +125,33 @@ export default function SAPSHeatmapsPage() {
       location: 'N2 Highway, Port Elizabeth',
       livestock: 'Goat transport',
       timestamp: '2024-01-14 16:45',
-      status: 'monitoring'
-    }
+      status: 'monitoring',
+    },
   ];
 
   const getRiskColor = (risk: string) => {
     switch (risk) {
-      case 'high':
-        return 'bg-red-100 text-red-800 border-red-200';
-      case 'medium':
-        return 'bg-yellow-100 text-yellow-800 border-yellow-200';
-      case 'low':
-        return 'bg-green-100 text-green-800 border-green-200';
-      default:
-        return 'bg-gray-100 text-gray-800 border-gray-200';
+    case 'high':
+      return 'bg-red-100 text-red-800 border-red-200';
+    case 'medium':
+      return 'bg-yellow-100 text-yellow-800 border-yellow-200';
+    case 'low':
+      return 'bg-green-100 text-green-800 border-green-200';
+    default:
+      return 'bg-gray-100 text-gray-800 border-gray-200';
     }
   };
 
   const getAlertColor = (status: string) => {
     switch (status) {
-      case 'active':
-        return 'bg-red-100 text-red-800 border-red-200';
-      case 'investigating':
-        return 'bg-yellow-100 text-yellow-800 border-yellow-200';
-      case 'monitoring':
-        return 'bg-blue-100 text-blue-800 border-blue-200';
-      default:
-        return 'bg-gray-100 text-gray-800 border-gray-200';
+    case 'active':
+      return 'bg-red-100 text-red-800 border-red-200';
+    case 'investigating':
+      return 'bg-yellow-100 text-yellow-800 border-yellow-200';
+    case 'monitoring':
+      return 'bg-blue-100 text-blue-800 border-blue-200';
+    default:
+      return 'bg-gray-100 text-gray-800 border-gray-200';
     }
   };
 
@@ -280,7 +282,7 @@ export default function SAPSHeatmapsPage() {
                     <div className="flex-shrink-0">
                       <AlertTriangle className={`w-6 h-6 sm:w-8 sm:h-8 ${
                         alert.status === 'active' ? 'text-red-600' :
-                        alert.status === 'investigating' ? 'text-yellow-600' : 'text-blue-600'
+                          alert.status === 'investigating' ? 'text-yellow-600' : 'text-blue-600'
                       }`} />
                     </div>
                     <div>

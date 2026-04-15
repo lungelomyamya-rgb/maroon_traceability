@@ -1,10 +1,11 @@
 // src/app/unauthorized/page.tsx
 'use client';
 
-import { Button } from '@/components/ui/button';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
+
 import { commonColors } from '@/lib/theme/colors';
+import { Button } from '@/src/features/shared/ui/button';
 
 export default function UnauthorizedPage() {
   const router = useRouter();

@@ -1,11 +1,24 @@
 // src/lib/mockDb.ts
 
+interface MockProduct {
+  id: string;
+  createdAt: string;
+  [key: string]: unknown;
+}
+
+interface MockEvent {
+  id: string;
+  type: string;
+  data: unknown;
+  timestamp: string;
+}
+
 // Mock database for demo purposes
 export const mockDb = {
-  products: [] as any[],
-  events: [] as any[],
+  products: [] as MockProduct[],
+  events: [] as MockEvent[],
   
-  async createProduct(productData: any) {
+  async createProduct(productData: Record<string, unknown>) {
     const product = {
       id: `product_${Date.now()}`,
       ...productData,
@@ -23,7 +36,7 @@ export const mockDb = {
     return this.products;
   },
 
-  async queueEvent(eventType: string, eventData: any) {
+  async queueEvent(eventType: string, eventData: Record<string, unknown>) {
     const event = {
       id: `event_${Date.now()}`,
       type: eventType,
@@ -34,7 +47,7 @@ export const mockDb = {
     return event;
   },
 
-  async createEvent(eventData: any) {
+  async createEvent(eventData: { type: string; [key: string]: unknown }) {
     const event = {
       id: `event_${Date.now()}`,
       type: eventData.type,
@@ -43,5 +56,5 @@ export const mockDb = {
     };
     this.events.push(event);
     return event;
-  }
+  },
 };

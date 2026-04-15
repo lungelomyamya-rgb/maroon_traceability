@@ -1,16 +1,17 @@
 // src/components/marketplace/Categories.tsx
 'use client';
 
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
+import { Button } from '@/src/features/shared/ui/button';
 import { Grid3X3 } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import React from 'react';
 
 interface CategoriesProps {
   categories: string[];
-  router: any;
 }
 
-export default function Categories({ categories, router }: CategoriesProps) {
+const Categories = React.memo(function Categories({ categories }: CategoriesProps) {
+  const router = useRouter();
   const handleCategoryClick = (category: string) => {
     router.push(`/marketplace/products?category=${encodeURIComponent(category)}`);
   };
@@ -42,16 +43,16 @@ export default function Categories({ categories, router }: CategoriesProps) {
             >
               <div className="text-xl sm:text-2xl md:text-3xl lg:text-4xl group-hover:scale-110 transition-transform" role="img" aria-label={`${category} icon`}>
                 {category === 'Powders' ? '🌿' :
-                 category === 'Teas' ? '🍵' :
-                 category === 'Supplements' ? '💊' :
-                 category === 'Oils' ? '🫒' :
-                 category === 'Seeds' ? '🌱' :
-                 category === 'Fresh' ? '🥬' :
-                 category === 'Poultry' ? '🐔' :
-                 category === 'Beef' ? '🥩' :
-                 category === 'Vegetables' ? '🥕' :
-                 category === 'Honey' ? '🍯' :
-                 category === 'Grains' ? '🌾' : '📦'}
+                  category === 'Teas' ? '🍵' :
+                    category === 'Supplements' ? '💊' :
+                      category === 'Oils' ? '🫒' :
+                        category === 'Seeds' ? '🌱' :
+                          category === 'Fresh' ? '🥬' :
+                            category === 'Poultry' ? '🐔' :
+                              category === 'Beef' ? '🥩' :
+                                category === 'Vegetables' ? '🥕' :
+                                  category === 'Honey' ? '🍯' :
+                                    category === 'Grains' ? '🌾' : '📦'}
               </div>
               <span className="text-xs sm:text-sm font-medium text-gray-700 group-hover:text-green-700">
                 {category}
@@ -73,4 +74,6 @@ export default function Categories({ categories, router }: CategoriesProps) {
       </div>
     </section>
   );
-}
+});
+
+export default Categories;

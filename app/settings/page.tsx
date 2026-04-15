@@ -1,10 +1,11 @@
 'use client';
 
-import { Card } from '@/components/ui/card';
-import { PageTitle } from '@/components/ui/typography';
 import { Settings, User, Bell, Shield, Database } from 'lucide-react';
+
 import { useUser } from '@/contexts/userContext';
-import { Button } from '@/components/ui/button';
+import { Button } from '@/src/features/shared/ui/button';
+import { Card } from '@/src/features/shared/ui/card';
+import { PageTitle } from '@/src/features/shared/ui/typography';
 
 export default function SettingsPage() {
   const { currentUser: user } = useUser();

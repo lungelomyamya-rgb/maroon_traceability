@@ -1,14 +1,13 @@
 'use client';
 
-import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { useUser } from '@/contexts/userContext';
-import { textColors } from '@/lib/theme/colors';
+import { useEffect } from 'react';
 import { useState } from 'react';
-import { UserRole } from '@/types/user';
+
 import { DEMO_USERS } from '@/constants/users';
-import { PermissionService } from '@/services/permissionService';
+import { useUser } from '@/contexts/userContext';
 import { getAssetPath } from '@/lib/utils/assetPath';
+import { UserRole } from '@/types/user';
 
 // Prevent static generation
 export const dynamic = 'force-dynamic';
@@ -16,7 +15,7 @@ export const runtime = 'nodejs';
 
 export default function LoginPage() {
   const router = useRouter();
-  const { currentUser, switchUser } = useUser();
+  const { switchUser } = useUser();
   const [isLoading, setIsLoading] = useState(false);
   const [selectedRole, setSelectedRole] = useState<UserRole | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -28,14 +27,16 @@ export default function LoginPage() {
 
   // Handle user selection and navigation
   const handleUserSelect = async (role: UserRole) => {
-    if (isLoading) return;
+    if (isLoading) {
+      return;
+    }
 
     try {
       setSelectedRole(role);
       setIsLoading(true);
       
       // Update user context first, then navigate
-      const user = DEMO_USERS.find((u: any) => u.role === role);
+      const user = DEMO_USERS.find((u) => u.role === role);
       if (user) {
         switchUser(user.id);
         // Use router for proper navigation and wait a bit for context to update
@@ -59,7 +60,7 @@ export default function LoginPage() {
       <div className="max-w-4xl mx-auto px-2 sm:px-4 lg:px-8">
         <div className="text-center mb-8 sm:mb-10 lg:mb-12">
           <div className="flex justify-center items-center mb-4 sm:mb-6">
-            <img src={getAssetPath("/images/maroonLogo.png")} alt="MAROON" className="h-10 sm:h-12 lg:h-16 w-10 sm:w-12 lg:w-16 mr-2 sm:mr-4" />
+            <img src={getAssetPath('/images/maroonLogo.png')} alt="MAROON" className="h-10 sm:h-12 lg:h-16 w-10 sm:w-12 lg:w-16 mr-2 sm:mr-4" />
             <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight text-gray-900">
               Maroon Traceability
             </h1>
@@ -86,7 +87,7 @@ export default function LoginPage() {
             packaging: 'Handle product packaging, processing, and batch management',
             retailer: 'Sell products on marketplace and manage your e-commerce store',
             saps: 'Perform roadside inspections and asset recovery operations',
-            public: 'Browse marketplace and view complete product traceability'
+            public: 'Browse marketplace and view complete product traceability',
           }).map(([role, description]) => (
             <div 
               key={role} 
@@ -99,11 +100,11 @@ export default function LoginPage() {
                 <div className="w-8 sm:w-10 lg:w-12 h-8 sm:h-10 lg:h-12 bg-blue-600 rounded-lg flex items-center justify-center mb-2 sm:mb-3 mx-auto">
                   <span className="text-white text-sm sm:text-base lg:text-lg font-bold">
                     {role === 'farmer' ? '👨‍🌾' : 
-                     role === 'inspector' ? '🔍' : 
-                     role === 'logistics' ? '🚚' : 
-                     role === 'packaging' ? '📦' : 
-                     role === 'retailer' ? '🏪' : 
-                     role === 'saps' ? '🚔' : '👁️'}
+                      role === 'inspector' ? '🔍' : 
+                        role === 'logistics' ? '🚚' : 
+                          role === 'packaging' ? '📦' : 
+                            role === 'retailer' ? '🏪' : 
+                              role === 'saps' ? '🚔' : '👁️'}
                   </span>
                 </div>
                 <h3 className="text-sm sm:text-base lg:text-lg font-semibold text-gray-900 capitalize mb-1 sm:mb-2 text-center">{role}</h3>

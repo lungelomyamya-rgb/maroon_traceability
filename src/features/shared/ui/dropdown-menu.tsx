@@ -3,21 +3,22 @@ import React, { forwardRef } from 'react';
 
 interface DropdownMenuProps {
   children: React.ReactNode;
-  open?: boolean;
-  onOpenChange?: (open: boolean) => void;
+  _open?: boolean;
+  _onOpenChange?: (open: boolean) => void;
 }
 
 interface DropdownMenuTriggerProps {
   children: React.ReactNode;
-  asChild?: boolean;
+  _asChild?: boolean;
   onClick?: () => void;
+  className?: string;
 }
 
 interface DropdownMenuContentProps {
   children: React.ReactNode;
   className?: string;
   align?: 'start' | 'center' | 'end';
-  sideOffset?: number;
+  _sideOffset?: number;
   open?: boolean;
 }
 
@@ -27,16 +28,18 @@ interface DropdownMenuItemProps {
   className?: string;
 }
 
-export const DropdownMenu = forwardRef<HTMLDivElement, DropdownMenuProps>(({ children, open, onOpenChange }, ref) => {
+export const DropdownMenu = forwardRef<HTMLDivElement, DropdownMenuProps>(({ children, _open, _onOpenChange }, ref) => {
   return <div ref={ref} className="relative inline-block text-left">{children}</div>;
 });
 
-export function DropdownMenuTrigger({ children, asChild = false, onClick }: DropdownMenuTriggerProps) {
-  return <div onClick={onClick}>{children}</div>;
+export function DropdownMenuTrigger({ children, _asChild = false, onClick, className }: DropdownMenuTriggerProps) {
+  return <div onClick={onClick} className={className}>{children}</div>;
 }
 
-export function DropdownMenuContent({ children, className = '', align = 'end', sideOffset = 4, open = true }: DropdownMenuContentProps) {
-  if (!open) return null;
+export function DropdownMenuContent({ children, className = '', align = 'end', _sideOffset = 4, open }: DropdownMenuContentProps) {
+  if (!open) {
+    return null;
+  }
   
   const alignmentClasses = {
     start: 'origin-top-left left-0',
@@ -45,7 +48,7 @@ export function DropdownMenuContent({ children, className = '', align = 'end', s
   };
 
   return (
-    <div className={`absolute z-50 mt-2 w-56 rounded-md bg-popover border border-border shadow-md ${alignmentClasses[align]} ${className}`}>
+    <div className={`absolute z-50 mt-2 w-56 rounded-md bg-popover border border-border shadow-md ${alignmentClasses[align as keyof typeof alignmentClasses]} ${className}`}>
       <div className="py-1">{children}</div>
     </div>
   );

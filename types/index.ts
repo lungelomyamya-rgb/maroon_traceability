@@ -1,9 +1,75 @@
 // src/types/index.ts
 import { VerificationStatus } from '@/services/verificationService';
 
+import { JsonObject } from './common';
+
 // Export common types
 export * from './common';
 export * from './user';
+
+// Explicit re-exports to avoid conflicts
+export type { LoadingState, TableColumn, ApiResponse } from './common';
+export type { 
+  BaseComponentProps, 
+  SizeVariant, 
+  ColorVariant, 
+  StatusVariant,
+  LoadingState as UILoadingState,
+  FormFieldProps,
+  SelectOption,
+  SelectProps,
+  CheckboxProps,
+  SwitchProps,
+  ModalProps,
+  TableProps,
+  CardProps,
+  AlertProps,
+  BadgeProps,
+  AvatarProps,
+  ProgressProps,
+  SkeletonProps,
+  TooltipProps,
+  PopoverProps,
+  DropdownProps,
+  BreadcrumbItem,
+  BreadcrumbProps,
+  MenuItemProps,
+  MenuProps,
+  StepProps,
+  StepsProps,
+  TimelineItem,
+  TimelineProps,
+  UploadProps,
+  UploadFile,
+  Theme,
+} from './ui';
+
+export type {
+  BaseError,
+  NetworkError,
+  ValidationError,
+  AuthenticationError,
+  DatabaseError,
+  BusinessError,
+  ErrorResponse,
+  SuccessResponse,
+  ApiResponse as ApiResponseWrapper,
+  ErrorBoundaryProps,
+  ErrorContext,
+  ErrorHandlingConfig,
+  ErrorFactory,
+  ErrorUtils,
+  ErrorReportingService,
+  ErrorMetrics,
+  ErrorNotification,
+  ErrorToast,
+  ErrorTracker,
+  RecoveryStrategy,
+  ErrorRecoveryManager,
+  UseErrorBoundaryReturn,
+  UseErrorLoggerReturn,
+  UseErrorMonitoringReturn,
+} from './error-handling';
 
 export interface ProductEventPhoto {
   id: string;
@@ -22,7 +88,7 @@ export interface ProductEvent {
   location?: string;
   notes?: string;
   photos?: ProductEventPhoto[];
-  metadata?: Record<string, unknown>;
+  metadata?: JsonObject;
 }
 
 export interface Product {
@@ -41,13 +107,7 @@ export interface Product {
   batchNumber?: string;
   certifications?: string[];
   events?: ProductEvent[];
-  metadata?: {
-    imageUrl?: string;
-    qrCode?: string;
-    batchNumber?: string;
-    certifications?: string[];
-    [key: string]: any;
-  };
+  metadata?: JsonObject;
   farmerName?: string;
   createdAt?: string;
   updatedAt?: string;
@@ -59,10 +119,5 @@ export interface VerificationResult {
   status: VerificationStatus;
   timestamp: string;
   verifiedBy: string;
-  metadata: {
-    notes?: string;
-    location?: string;
-    verificationMethod: string;
-    [key: string]: any;
-  };
+  metadata: JsonObject;
 }

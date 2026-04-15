@@ -1,5 +1,5 @@
 // src/lib/documentTypes.ts
-import { type DocumentType } from '@/components/ui/document-upload';
+import { type DocumentType } from '@/src/features/shared/ui/document-upload';
 
 export const productCertificationDocs: { value: DocumentType; label: string }[] = [
   { value: 'certificate', label: 'Production Records' },

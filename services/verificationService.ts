@@ -31,16 +31,16 @@ export class VerificationService {
       verifiedBy: verifierId,
       verifiedAt: new Date().toISOString(),
       comments: 'Product verified successfully',
-      metadata: {}
+      metadata: {},
     };
   }
 
-  async getVerificationHistory(productId: string): Promise<VerificationResult[]> {
+  async getVerificationHistory(_productId: string): Promise<VerificationResult[]> {
     // Mock implementation
     return [];
   }
 
-  async checkVerificationStatus(productId: string): Promise<VerificationStatus> {
+  async checkVerificationStatus(_productId: string): Promise<VerificationStatus> {
     // Mock implementation
     return 'pending';
   }

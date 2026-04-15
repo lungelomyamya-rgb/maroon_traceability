@@ -46,7 +46,7 @@ export class PermissionService {
       packaging: '/packaging',
       retailer: '/retailer',
       farmer: '/farmer/dashboard',
-      viewer: '/viewer'
+      viewer: '/viewer',
     };
     return routes[role] || '/dashboard';
   }

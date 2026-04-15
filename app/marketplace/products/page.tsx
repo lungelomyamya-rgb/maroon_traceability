@@ -1,20 +1,10 @@
 // src/app/marketplace/products/page.tsx
 'use client';
 
-import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
-import Link from 'next/link';
-import { useUser } from '@/contexts/userContext';
-import { Button } from '@/components/ui/button';
-import { Card } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { Input } from '@/components/ui/input';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { 
   Search, 
   ShoppingCart, 
   Star, 
-  Filter, 
   Heart,
   MapPin,
   Shield,
@@ -22,15 +12,24 @@ import {
   Minus,
   Grid,
   List,
-  QrCode,
   Grid3X3,
   Package,
   Coffee,
   Leaf,
   Pill,
   Droplet,
-  Sprout
+  Sprout,
 } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import { useState, useEffect, useMemo } from 'react';
+
+import { useUser } from '@/contexts/userContext';
+import { Badge } from '@/src/features/shared/ui/badge';
+import { Button } from '@/src/features/shared/ui/button';
+import { Card } from '@/src/features/shared/ui/card';
+import { Input } from '@/src/features/shared/ui/input';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/src/features/shared/ui/select';
+
 
 interface Product {
   id: string;
@@ -67,7 +66,7 @@ export default function ProductsPage() {
   const [selectedCategory, setSelectedCategory] = useState('All');
 
   // Mock products data
-  const mockProducts: Product[] = [
+  const mockProducts: Product[] = useMemo(() => [
     {
       id: 'powder1',
       name: 'Premium Moringa Powder - 250g',
@@ -81,13 +80,13 @@ export default function ProductsPage() {
         location: 'Stellenbosch, Western Cape',
         verified: true,
         rating: 4.8,
-        totalReviews: 234
+        totalReviews: 234,
       },
       inStock: true,
       stockLevel: 156,
       soldCount: 892,
       reviews: 234,
-      image: '🌿'
+      image: '🌿',
     },
     {
       id: 'tea1',
@@ -100,13 +99,13 @@ export default function ProductsPage() {
         location: 'Franschhoek, Western Cape',
         verified: true,
         rating: 4.7,
-        totalReviews: 156
+        totalReviews: 156,
       },
       inStock: true,
       stockLevel: 234,
       soldCount: 678,
       reviews: 156,
-      image: '🍵'
+      image: '🍵',
     },
     {
       id: 'fresh1',
@@ -119,13 +118,13 @@ export default function ProductsPage() {
         location: 'Wellington, Western Cape',
         verified: true,
         rating: 4.5,
-        totalReviews: 98
+        totalReviews: 98,
       },
       inStock: true,
       stockLevel: 67,
       soldCount: 234,
       reviews: 98,
-      image: '🥬'
+      image: '🥬',
     },
     {
       id: 'supplement1',
@@ -138,13 +137,13 @@ export default function ProductsPage() {
         location: 'Cape Town, Western Cape',
         verified: true,
         rating: 4.6,
-        totalReviews: 189
+        totalReviews: 189,
       },
       inStock: true,
       stockLevel: 145,
       soldCount: 456,
       reviews: 189,
-      image: '💊'
+      image: '💊',
     },
     {
       id: 'oil1',
@@ -157,13 +156,13 @@ export default function ProductsPage() {
         location: 'Paarl, Western Cape',
         verified: true,
         rating: 4.9,
-        totalReviews: 267
+        totalReviews: 267,
       },
       inStock: true,
       stockLevel: 89,
       soldCount: 345,
       reviews: 267,
-      image: '🫒'
+      image: '🫒',
     },
     {
       id: 'seed1',
@@ -176,15 +175,15 @@ export default function ProductsPage() {
         location: 'Stellenbosch, Western Cape',
         verified: true,
         rating: 4.4,
-        totalReviews: 123
+        totalReviews: 123,
       },
       inStock: true,
       stockLevel: 234,
       soldCount: 567,
       reviews: 123,
-      image: '🌱'
-    }
-  ];
+      image: '🌱',
+    },
+  ], []);
 
   useEffect(() => {
     // Redirect if not logged in
@@ -202,11 +201,11 @@ export default function ProductsPage() {
     if (category) {
       setSelectedCategory(category.charAt(0).toUpperCase() + category.slice(1));
       const filtered = mockProducts.filter(product => 
-        product.category.toLowerCase() === category.toLowerCase()
+        product.category.toLowerCase() === category.toLowerCase(),
       );
       setFilteredProducts(filtered);
     }
-  }, [currentUser, router]);
+  }, [currentUser, router, mockProducts]);
 
   useEffect(() => {
     let filtered = products;
@@ -215,27 +214,27 @@ export default function ProductsPage() {
     if (searchTerm) {
       filtered = filtered.filter(product =>
         product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        product.description.toLowerCase().includes(searchTerm.toLowerCase())
+        product.description.toLowerCase().includes(searchTerm.toLowerCase()),
       );
     }
 
     // Apply sorting
     switch (sortBy) {
-      case 'price-low':
-        filtered.sort((a, b) => a.price - b.price);
-        break;
-      case 'price-high':
-        filtered.sort((a, b) => b.price - a.price);
-        break;
-      case 'rating':
-        filtered.sort((a, b) => b.farmer.rating - a.farmer.rating);
-        break;
-      case 'popularity':
-        filtered.sort((a, b) => b.soldCount - a.soldCount);
-        break;
-      default:
-        // Featured - keep original order
-        break;
+    case 'price-low':
+      filtered.sort((a, b) => a.price - b.price);
+      break;
+    case 'price-high':
+      filtered.sort((a, b) => b.price - a.price);
+      break;
+    case 'rating':
+      filtered.sort((a, b) => b.farmer.rating - a.farmer.rating);
+      break;
+    case 'popularity':
+      filtered.sort((a, b) => b.soldCount - a.soldCount);
+      break;
+    default:
+      // Featured - keep original order
+      break;
     }
 
     setFilteredProducts(filtered);
@@ -244,7 +243,7 @@ export default function ProductsPage() {
   const addToCart = (productId: string) => {
     setCart(prev => ({
       ...prev,
-      [productId]: (prev[productId] || 0) + 1
+      [productId]: (prev[productId] || 0) + 1,
     }));
   };
 
@@ -256,7 +255,7 @@ export default function ProductsPage() {
     } else {
       setCart(prev => ({
         ...prev,
-        [productId]: quantity
+        [productId]: quantity,
       }));
     }
   };
@@ -340,27 +339,27 @@ export default function ProductsPage() {
       </nav>
 
       {/* Floating Back Button - Top Corner */}
-        <button
-          onClick={() => router.back()}
-          className="fixed top-4 left-4 bg-white hover:bg-gray-100 text-gray-800 p-3 rounded-full shadow-lg border border-gray-300 transition-all duration-300 z-30"
-          aria-label="Go back to previous page"
+      <button
+        onClick={() => router.back()}
+        className="fixed top-4 left-4 bg-white hover:bg-gray-100 text-gray-800 p-3 rounded-full shadow-lg border border-gray-300 transition-all duration-300 z-30"
+        aria-label="Go back to previous page"
+      >
+        <svg 
+          xmlns="http://www.w3.org/2000/svg" 
+          width="20" 
+          height="20" 
+          viewBox="0 0 24 24" 
+          fill="none" 
+          stroke="currentColor" 
+          strokeWidth="2" 
+          strokeLinecap="round" 
+          strokeLinejoin="round"
+          className="h-4 w-4"
         >
-          <svg 
-            xmlns="http://www.w3.org/2000/svg" 
-            width="20" 
-            height="20" 
-            viewBox="0 0 24 24" 
-            fill="none" 
-            stroke="currentColor" 
-            strokeWidth="2" 
-            strokeLinecap="round" 
-            strokeLinejoin="round"
-            className="h-4 w-4"
-          >
-          </svg>
-        </button>
+        </svg>
+      </button>
 
-        {/* Main Content */}
+      {/* Main Content */}
       <div className="min-h-screen bg-gray-50">
         <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-8 py-8">
           {/* Back Button Inside Main Content */}
@@ -401,8 +400,8 @@ export default function ProductsPage() {
                   size="sm"
                   onClick={() => handleCategoryClick(category)}
                   className={category === selectedCategory
-                    ? "bg-green-600 hover:bg-green-700 text-white border-green-600 shadow-sm"
-                    : "border-gray-300 hover:border-green-400 hover:bg-green-50 transition-all duration-200"
+                    ? 'bg-green-600 hover:bg-green-700 text-white border-green-600 shadow-sm'
+                    : 'border-gray-300 hover:border-green-400 hover:bg-green-50 transition-all duration-200'
                   }
                 >
                   {category === 'All' && (
@@ -572,12 +571,12 @@ export default function ProductsPage() {
                             </Button>
                           )}
                           <Button 
-                            variant={wishlist.has(product.id) ? "default" : "outline"} 
+                            variant={wishlist.has(product.id) ? 'default' : 'outline'} 
                             size="sm"
                             onClick={() => toggleWishlist(product.id)}
-                            className={wishlist.has(product.id) ? "bg-red-50 border-red-200 text-red-600 hover:bg-red-100" : ""}
+                            className={wishlist.has(product.id) ? 'bg-red-50 border-red-200 text-red-600 hover:bg-red-100' : ''}
                           >
-                            <Heart className={`h-4 w-4 ${wishlist.has(product.id) ? "fill-current" : ""}`} />
+                            <Heart className={`h-4 w-4 ${wishlist.has(product.id) ? 'fill-current' : ''}`} />
                           </Button>
                         </div>
                       </div>

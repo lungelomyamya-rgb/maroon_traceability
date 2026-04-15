@@ -1,11 +1,12 @@
 // src/app/register/retailer/page.tsx
 'use client';
 
-import { Card } from '@/components/ui/card';
-import { DocumentUpload, type DocumentType } from '@/components/ui/document-upload';
-import { Button } from '@/components/ui/button';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+
+import { Button } from '@/src/features/shared/ui/button';
+import { Card } from '@/src/features/shared/ui/card';
+import { DocumentUpload, type DocumentType } from '@/src/features/shared/ui/document-upload';
 
 export default function RetailerRegistrationPage() {
   const router = useRouter();
@@ -32,7 +33,7 @@ export default function RetailerRegistrationPage() {
     const { name, value } = e.target;
     setFormData(prev => ({
       ...prev,
-      [name]: value
+      [name]: value,
     }));
   };
 
@@ -177,7 +178,7 @@ export default function RetailerRegistrationPage() {
                 </div>
 
                 <DocumentUpload 
-                  documentTypes={requiredDocuments}
+                  documentTypes={requiredDocuments.map(doc => doc.value)}
                   onUpload={(docs) => console.log('Uploaded docs:', docs)}
                 />
 

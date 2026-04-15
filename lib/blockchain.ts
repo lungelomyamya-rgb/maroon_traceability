@@ -1,6 +1,7 @@
 // src/lib/blockchain.ts
 import { BlockchainRecord } from '@/types/blockchain';
 import { CreateProduct } from '@/types/product';
+
 import { generateBlockHash, generateAddress, generateBlockId } from './utils';
 
 type TransactionParam = string | number | boolean | Record<string, unknown> | TransactionParam[];
@@ -8,7 +9,7 @@ type TransactionParam = string | number | boolean | Record<string, unknown> | Tr
 export function createBlockchainRecord(
   product: CreateProduct,
   currentRecordsLength: number,
-  farmerName: string = 'Current Farm'
+  farmerName: string = 'Current Farm',
 ): BlockchainRecord {
   return {
     id: generateBlockId(currentRecordsLength),
@@ -42,12 +43,12 @@ export const mockBlockchain = {
   async sendTransaction(method: string, params: TransactionParam[]) {
     console.log('Mock blockchain transaction:', { method, params });
     await new Promise(resolve => setTimeout(resolve, 1000)); // Simulate block time
-    
+
     // Simulate random failures (10% chance)
     if (Math.random() < 0.1) {
       throw new Error('Blockchain transaction failed (simulated)');
     }
-    
+
     return {
       hash: `0x${Math.random().toString(16).substr(2, 64)}`,
       blockNumber: Math.floor(Math.random() * 10000),

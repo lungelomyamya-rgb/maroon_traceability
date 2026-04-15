@@ -2,7 +2,8 @@
 
 import { BlockchainRecord } from '@/types/blockchain';
 import { CreateProduct } from '@/types/product';
-import { ErrorHandler, AppError } from '../lib/errorHandler';
+
+import { ErrorHandler } from '../lib/errorHandler';
 
 export interface BlockchainServiceConfig {
   network: 'mainnet' | 'testnet' | 'localhost';
@@ -53,12 +54,12 @@ export class BlockchainService {
   async createProductRecord(
     product: CreateProduct,
     farmerName: string,
-    farmerAddress: string
+    farmerAddress: string,
   ): Promise<BlockchainRecord> {
     if (!this.isInitialized) {
       throw ErrorHandler.handleBlockchainError(
         new Error('Blockchain service not initialized'),
-        'createProductRecord'
+        'createProductRecord',
       );
     }
 
@@ -108,12 +109,12 @@ export class BlockchainService {
 
   async verifyProduct(
     productId: string,
-    verifierRole: string
+    verifierRole: string,
   ): Promise<VerificationResult> {
     if (!this.isInitialized) {
       throw ErrorHandler.handleBlockchainError(
         new Error('Blockchain service not initialized'),
-        'verifyProduct'
+        'verifyProduct',
       );
     }
 
@@ -122,7 +123,7 @@ export class BlockchainService {
       if (!productId || !verifierRole) {
         throw ErrorHandler.handleValidationError(
           'Product ID and verifier role are required',
-          'verifyProduct'
+          'verifyProduct',
         );
       }
 
@@ -149,21 +150,17 @@ export class BlockchainService {
     }
   }
 
-  async getProductHistory(productId: string): Promise<BlockchainRecord[]> {
+  async getProductHistory(_productId: string): Promise<BlockchainRecord[]> {
     if (!this.isInitialized) {
       throw ErrorHandler.handleBlockchainError(
         new Error('Blockchain service not initialized'),
-        'getProductHistory'
+        'getProductHistory',
       );
     }
 
-    try {
-      // In a real implementation, this would query the blockchain
-      // For now, return empty array as placeholder
-      return [];
-    } catch (error) {
-      throw ErrorHandler.handleBlockchainError(error, 'getProductHistory');
-    }
+    // In a real implementation, this would query the blockchain
+    // For now, return empty array as placeholder
+    return [];
   }
 
   async getTransactionStatus(txHash: string): Promise<TransactionResult> {
@@ -184,40 +181,40 @@ export class BlockchainService {
   private validateProductData(
     product: CreateProduct,
     farmerName: string,
-    farmerAddress: string
+    farmerAddress: string,
   ): void {
     if (!product.name || product.name.trim().length < 2) {
       throw ErrorHandler.handleValidationError(
         'Product name must be at least 2 characters',
-        'name'
+        'name',
       );
     }
 
     if (!product.description || product.description.trim().length < 10) {
       throw ErrorHandler.handleValidationError(
         'Description must be at least 10 characters',
-        'description'
+        'description',
       );
     }
 
     if (!farmerName || farmerName.trim().length < 2) {
       throw ErrorHandler.handleValidationError(
         'Farmer name is required',
-        'farmerName'
+        'farmerName',
       );
     }
 
     if (!farmerAddress || !this.isValidAddress(farmerAddress)) {
       throw ErrorHandler.handleValidationError(
         'Invalid farmer address',
-        'farmerAddress'
+        'farmerAddress',
       );
     }
 
     if (!product.harvestDate) {
       throw ErrorHandler.handleValidationError(
         'Harvest date is required',
-        'harvestDate'
+        'harvestDate',
       );
     }
   }
@@ -236,19 +233,19 @@ export class BlockchainService {
 
   private generateMockBlockHash(): string {
     return '0x' + Array.from({ length: 64 }, () => 
-      Math.floor(Math.random() * 16).toString(16)
+      Math.floor(Math.random() * 16).toString(16),
     ).join('');
   }
 
   private generateMockTxHash(): string {
     return '0x' + Array.from({ length: 66 }, () => 
-      Math.floor(Math.random() * 16).toString(16)
+      Math.floor(Math.random() * 16).toString(16),
     ).join('');
   }
 
   private async simulateTransaction(
     operation: string,
-    data: any
+    _data: unknown,
   ): Promise<TransactionResult> {
     // Simulate network delay
     await new Promise(resolve => setTimeout(resolve, 200 + Math.random() * 800));
@@ -284,7 +281,7 @@ let blockchainService: BlockchainService | null = null;
 export function getBlockchainService(): BlockchainService {
   if (!blockchainService) {
     const config: BlockchainServiceConfig = {
-      network: process.env.NEXT_PUBLIC_BLOCKCHAIN_NETWORK as any || 'localhost',
+      network: (process.env.NEXT_PUBLIC_BLOCKCHAIN_NETWORK as 'mainnet' | 'testnet' | 'localhost') || 'localhost',
       contractAddress: process.env.NEXT_PUBLIC_CONTRACT_ADDRESS,
       rpcUrl: process.env.NEXT_PUBLIC_RPC_URL,
     };
@@ -299,4 +296,20 @@ export function getBlockchainService(): BlockchainService {
 export async function initializeBlockchainService(): Promise<void> {
   const service = getBlockchainService();
   await service.initialize();
+}
+
+// Compatibility function for existing code
+export async function createBlockchainRecord(
+  product: CreateProduct,
+  currentRecordsLength: number,
+  farmerName: string = 'Current Farm',
+): Promise<BlockchainRecord> {
+  const service = getBlockchainService();
+  await service.initialize();
+  
+  return await service.createProductRecord(
+    product,
+    farmerName,
+    `0x${Math.random().toString(16).substr(2, 40)}`, // Mock address
+  );
 }

@@ -1,30 +1,22 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { useUser } from '@/contexts/userContext';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { DataTable } from '@/components/ui/table';
-import { DashboardLayout } from '@/components/dashboard/dashboardLayout';
 import { 
-  Search, 
-  Filter, 
-  RefreshCw, 
-  Download, 
-  FileText, 
+  Filter,
   AlertTriangle, 
   CheckCircle, 
-  ArrowLeft, 
-  Calendar, 
-  MapPin, 
-  TrendingUp, 
-  Shield 
 } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
+
+import { DashboardLayout } from '@/components/dashboard/DashboardLayout';
+import { useUser } from '@/contexts/userContext';
+import { Button } from '@/src/features/shared/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/src/features/shared/ui/card';
+import { Input } from '@/src/features/shared/ui/input';
+import { Label } from '@/src/features/shared/ui/label';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/src/features/shared/ui/select';
+import { DataTable } from '@/src/features/shared/ui/table';
+
 
 export default function SAPSReportsPage() {
   const router = useRouter();
@@ -87,7 +79,7 @@ export default function SAPSReportsPage() {
       farmer: 'John Farmer',
       status: 'active',
       value: 'R75,000',
-      officer: 'Constable Mthembu'
+      officer: 'Constable Mthembu',
     },
     {
       id: 'THEFT-2024-044',
@@ -97,7 +89,7 @@ export default function SAPSReportsPage() {
       farmer: 'Sarah Shepherd',
       status: 'active',
       value: 'R24,000',
-      officer: 'Sergeant Nkosi'
+      officer: 'Sergeant Nkosi',
     },
     {
       id: 'THEFT-2024-043',
@@ -107,7 +99,7 @@ export default function SAPSReportsPage() {
       farmer: 'Mike Goat',
       status: 'recovered',
       value: 'R16,000',
-      officer: 'Constable Zulu'
+      officer: 'Constable Zulu',
     },
     {
       id: 'THEFT-2024-042',
@@ -117,8 +109,8 @@ export default function SAPSReportsPage() {
       farmer: 'Peter Pig',
       status: 'investigating',
       value: 'R45,000',
-      officer: 'Sergeant Molefe'
-    }
+      officer: 'Sergeant Molefe',
+    },
   ];
 
   const inspectionReports = [
@@ -128,7 +120,7 @@ export default function SAPSReportsPage() {
       location: 'N3 Highway',
       livestock: 'Cattle (12 head)',
       status: 'verified',
-      officer: 'Constable Mthembu'
+      officer: 'Constable Mthembu',
     },
     {
       id: 'INS-2024-002',
@@ -136,7 +128,7 @@ export default function SAPSReportsPage() {
       location: 'R61 Highway',
       livestock: 'Sheep (45 head)',
       status: 'flagged',
-      officer: 'Sergeant Nkosi'
+      officer: 'Sergeant Nkosi',
     },
     {
       id: 'INS-2024-003',
@@ -144,27 +136,11 @@ export default function SAPSReportsPage() {
       location: 'N2 Highway',
       livestock: 'Goats (28 head)',
       status: 'verified',
-      officer: 'Constable Zulu'
-    }
+      officer: 'Constable Zulu',
+    },
   ];
 
-  const getStatusBadge = (status: string) => {
-    switch (status) {
-      case 'active':
-        return <Badge variant="destructive">Active</Badge>;
-      case 'recovered':
-        return <Badge variant="default">Recovered</Badge>;
-      case 'investigating':
-        return <Badge variant="secondary">Investigating</Badge>;
-      case 'verified':
-        return <Badge variant="default">Verified</Badge>;
-      case 'flagged':
-        return <Badge variant="destructive">Flagged</Badge>;
-      default:
-        return <Badge variant="secondary">{status}</Badge>;
-    }
-  };
-
+  
   return (
     <DashboardLayout
       description="View and manage theft incident reports and inspection logs"
@@ -253,20 +229,16 @@ export default function SAPSReportsPage() {
               <DataTable
                 data={theftReports}
                 columns={[
-                  { key: 'id', label: 'Report ID' },
-                  { key: 'date', label: 'Date' },
-                  { key: 'location', label: 'Location' },
-                  { key: 'livestock', label: 'Livestock' },
-                  { key: 'farmer', label: 'Farmer' },
-                  {
-                    key: 'status',
-                    label: 'Status',
-                    render: (value: string) => getStatusBadge(value)
-                  },
-                  { key: 'value', label: 'Value' },
-                  { key: 'officer', label: 'Officer' },
+                  { header: 'Report ID', key: 'id', label: 'Report ID', accessor: (row: unknown) => (row as { id: string }).id },
+                  { header: 'Date', key: 'date', label: 'Date', accessor: (row: unknown) => (row as { date: string }).date },
+                  { header: 'Location', key: 'location', label: 'Location', accessor: (row: unknown) => (row as { location: string }).location },
+                  { header: 'Livestock', key: 'livestock', label: 'Livestock', accessor: (row: unknown) => (row as { livestock: string }).livestock },
+                  { header: 'Farmer', key: 'farmer', label: 'Farmer', accessor: (row: unknown) => (row as { farmer: string }).farmer },
+                  { header: 'Status', key: 'status', label: 'Status', accessor: (row: unknown) => (row as { status: string }).status },
+                  { header: 'Value', key: 'value', label: 'Value', accessor: (row: unknown) => (row as { value: string }).value },
+                  { header: 'Officer', key: 'officer', label: 'Officer', accessor: (row: unknown) => (row as { officer: string }).officer },
                 ]}
-                onRowClick={(row) => console.log('View report:', row.id)}
+                onRowClick={(row) => console.log('View report:', (row as { id: string }).id)}
               />
             </CardContent>
           </Card>
@@ -288,18 +260,14 @@ export default function SAPSReportsPage() {
               <DataTable
                 data={inspectionReports}
                 columns={[
-                  { key: 'id', label: 'Inspection ID' },
-                  { key: 'date', label: 'Date' },
-                  { key: 'location', label: 'Location' },
-                  { key: 'livestock', label: 'Livestock' },
-                  {
-                    key: 'status',
-                    label: 'Status',
-                    render: (value: string) => getStatusBadge(value)
-                  },
-                  { key: 'officer', label: 'Officer' },
+                  { header: 'Inspection ID', key: 'id', label: 'Inspection ID', accessor: (row: unknown) => (row as { id: string }).id },
+                  { header: 'Date', key: 'date', label: 'Date', accessor: (row: unknown) => (row as { date: string }).date },
+                  { header: 'Location', key: 'location', label: 'Location', accessor: (row: unknown) => (row as { location: string }).location },
+                  { header: 'Livestock', key: 'livestock', label: 'Livestock', accessor: (row: unknown) => (row as { livestock: string }).livestock },
+                  { header: 'Status', key: 'status', label: 'Status', accessor: (row: unknown) => (row as { status: string }).status },
+                  { header: 'Officer', key: 'officer', label: 'Officer', accessor: (row: unknown) => (row as { officer: string }).officer },
                 ]}
-                onRowClick={(row) => console.log('View inspection:', row.id)}
+                onRowClick={(row) => console.log('View inspection:', (row as { id: string }).id)}
               />
             </CardContent>
           </Card>

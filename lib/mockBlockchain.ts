@@ -14,5 +14,5 @@ export const mockBlockchain = {
     
     console.log(`Blockchain: ${method}`, params);
     return { success: true, txHash: `0x${Math.random().toString(16).substr(2, 64)}` };
-  }
+  },
 };

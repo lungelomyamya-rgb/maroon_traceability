@@ -17,7 +17,7 @@ export interface TimelineEvent {
   notes?: string;
   photos?: string[];
   status: 'completed' | 'pending' | 'failed';
-  data?: any;
+  data?: Record<string, unknown>;
 }
 
 interface TimelineProps {
@@ -191,7 +191,7 @@ export function Timeline({ events, showActions = false, onEventClick, compact = 
 }
 
 // Timeline component specifically for dashboard view details
-export function DashboardTimeline({ productId }: { productId: string }) {
+export function DashboardTimeline() {
   // Mock data - in real implementation, this would fetch from API
   const mockEvents: TimelineEvent[] = [
     {
@@ -271,8 +271,7 @@ export function DashboardTimeline({ productId }: { productId: string }) {
         events={mockEvents} 
         compact={false}
         showActions={true}
-        onEventClick={(event) => {
-          console.log('Event clicked:', event);
+        onEventClick={(_event) => {
           // Could open a modal with more details
         }}
       />

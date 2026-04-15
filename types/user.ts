@@ -1,5 +1,5 @@
 // src/types/user.ts
-import { LucideIcon, User as UserIcon, Briefcase, Shield, UserCheck, Users, Package, Truck, Eye } from 'lucide-react';
+import { LucideIcon, Briefcase, Shield, UserCheck, Users, Package, Truck, Eye } from 'lucide-react';
 
 export const USER_ROLES = [
   'farmer',
@@ -10,7 +10,7 @@ export const USER_ROLES = [
   'public',
   'government',
   'admin',
-  'saps'
+  'saps',
 ] as const;
 
 export type UserRole = typeof USER_ROLES[number];
@@ -44,6 +44,7 @@ export interface UserContextType {
     permissions?: User['permissions'];
   } | null;
   setUser: (user: User | null) => void;
+  setUserWithPersistence: (user: User | null) => void;
   updateUserRole: (role: UserRole) => void;
   switchUser: (userId: string) => void;
   loading: boolean;

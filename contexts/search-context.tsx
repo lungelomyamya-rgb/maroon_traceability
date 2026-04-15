@@ -6,7 +6,7 @@ import React, { createContext, useContext, useState, ReactNode } from 'react';
 interface SearchContextType {
   query: string;
   setQuery: (query: string) => void;
-  results: any[];
+  results: unknown[];
   isSearching: boolean;
 }
 
@@ -14,10 +14,10 @@ const SearchContext = createContext<SearchContextType | undefined>(undefined);
 
 export function SearchProvider({ children }: { children: ReactNode }) {
   const [query, setQuery] = useState('');
-  const [results, setResults] = useState<any[]>([]);
+  const [results, setResults] = useState<unknown[]>([]);
   const [isSearching, setIsSearching] = useState(false);
 
-  const value = { query, setQuery, results, isSearching };
+  const value = { query, setQuery, results, setResults, isSearching, setIsSearching };
 
   return (
     <SearchContext.Provider value={value}>

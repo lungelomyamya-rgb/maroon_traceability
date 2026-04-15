@@ -2,18 +2,31 @@
   "name": "maroon-traceability-demo",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "scripts": {
     "dev": "cross-env TURBOPACK=0 NODE_ENV=development next dev",
     "build": "cross-env TURBOPACK=0 next build",
     "build:export": "cross-env TURBOPACK=0 next build",
     "export": "next export",
     "start": "next start",
-    "lint": "next lint",
+    "lint": "eslint . --max-warnings 0",
+    "lint:fix": "eslint . --fix",
+    "lint:check": "eslint . --ext .ts,.tsx,.js,.jsx",
     "test": "jest",
     "test:watch": "jest --watch",
     "build-storybook": "storybook build",
     "type-check": "tsc --noEmit",
-    "type-check:watch": "tsc --noEmit --watch"
+    "type-check:watch": "tsc --noEmit --watch",
+    "build:analyze": "cross-env ANALYZE=true next build",
+    "build:production": "cross-env NODE_ENV=production next build",
+    "build:profile": "cross-env NODE_ENV=production next build --profile",
+    "clean": "rm -rf .next out dist",
+    "dev:turbo": "next dev --turbo",
+    "perf:analyze": "npm run build:analyze",
+    "perf:bundle": "webpack-bundle-analyzer .next/static/chunks/",
+    "perf:lighthouse": "lighthouse --output html --output-path ./lighthouse-report",
+    "perf:size": "size-limit --limit 244KB",
+    "perf:check": "npm run type-check && npm run lint && npm run build"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",
@@ -92,6 +105,12 @@
     "prettier-plugin-tailwindcss": "^0.7.2",
     "tailwindcss": "^4.1.18",
     "ts-jest": "^29.1.2",
-    "typescript": "^5.3.3"
+    "typescript": "^5.3.3",
+    "@next/bundle-analyzer": "^15.0.0",
+    "webpack-bundle-analyzer": "^4.10.1",
+    "lighthouse": "^12.0.0",
+    "size-limit": "^11.0.0",
+    "compression": "^1.7.4",
+    "zlib": "^1.0.5"
   }
 }

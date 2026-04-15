@@ -2,20 +2,20 @@
  * @fileoverview Traceability Feature - Blockchain-based product tracking
  * @version 1.0.0
  * @author Maroon Traceability Team
- * @description 
+ * @description
  * Complete traceability system including blockchain integration, QR code scanning,
  * product event tracking, and timeline visualization. All components are responsive,
  * accessible, and include comprehensive TypeScript support with real-time updates.
- * 
+ *
  * @example
  * ```typescript
  * import { Timeline, useTraceability, Product } from '@/features/traceability';
- * 
+ *
  * function App() {
  *   const { events, loading, error, scanQRCode } = useTraceability();
- *   
+ *
  *   return (
- *     <Timeline 
+ *     <Timeline
  *       events={events}
  *       onEventClick={handleEventClick}
  *       showActions={true}
@@ -35,7 +35,7 @@
  * @component Timeline
  * @example
  * ```typescript
- * <Timeline 
+ * <Timeline
  *   events={traceabilityEvents}
  *   onEventClick={handleEventClick}
  *   showActions={true}
@@ -56,12 +56,12 @@ export { Timeline, DashboardTimeline } from './components/Timeline';
  * @returns {Object} Traceability state and management functions
  * @example
  * ```typescript
- * const { 
- *   events, 
- *   loading, 
- *   error, 
+ * const {
+ *   events,
+ *   loading,
+ *   error,
  *   currentProduct,
- *   scanQRCode, 
+ *   scanQRCode,
  *   fetchTraceabilityData,
  *   clearError,
  *   resetTraceability
@@ -184,17 +184,6 @@ export type { BlockchainEvent } from './types/traceabilityTypes';
 
 import { Timeline, DashboardTimeline } from './components/Timeline';
 import { useTraceability } from './hooks/useTraceability';
-import type { TraceabilityState } from './hooks/useTraceability';
-import type {
-  Product,
-  ProductEvent,
-  TraceabilityQuery,
-  TraceabilityResponse,
-  BlockchainTransaction,
-  TransactionResponse,
-  SendTransactionParams,
-  BlockchainEvent
-} from './types/traceabilityTypes';
 
 // ============================================================================
 // PUBLIC API
@@ -203,15 +192,15 @@ import type {
 /**
  * Traceability Feature Public API
  * Provides clean, type-safe access to all traceability functionality
- * 
+ *
  * @namespace TraceabilityAPI
  * @example
  * ```typescript
  * import { traceabilityAPI } from '@/features/traceability';
- * 
+ *
  * // Use components and hooks
  * const { Timeline, useTraceability, Product } = traceabilityAPI;
- * 
+ *
  * // Render traceability timeline
  * <Timeline events={events} />
  * ```
@@ -220,10 +209,10 @@ export const traceabilityAPI = {
   // Core Components
   Timeline,
   DashboardTimeline,
-  
+
   // Hooks
   useTraceability,
-  
+
   // Types are exported separately for tree-shaking
 } as const;
 
@@ -259,7 +248,7 @@ export const TRACEABILITY_FEATURE = {
  * @example
  * ```typescript
  * import Timeline from '@/features/traceability';
- * 
+ *
  * <Timeline events={events} />
  * ```
  */

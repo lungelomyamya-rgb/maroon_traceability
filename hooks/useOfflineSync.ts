@@ -1,8 +1,9 @@
 // src/hooks/useOfflineSync.ts
 // Hook for managing offline sync operations
 
-import { useState, useEffect, useCallback } from 'react';
-import { indexedDBService, PhotoRecord, SyncQueueItem } from '@/services/indexedDBService';
+import { useState, useCallback } from 'react';
+
+import { indexedDBService, PhotoRecord } from '@/services/indexedDBService';
 
 interface SyncStatus {
   isOnline: boolean;
@@ -18,31 +19,8 @@ export function useOfflineSync() {
     queuedRequests: 0,
     lastSyncTime: null,
     isSyncing: false,
-    syncErrors: []
+    syncErrors: [],
   });
-
-  // Update online status
-  useEffect(() => {
-    const handleOnline = () => {
-      setSyncStatus(prev => ({ ...prev, isOnline: true }));
-      triggerSync();
-    };
-
-    const handleOffline = () => {
-      setSyncStatus(prev => ({ ...prev, isOnline: false }));
-    };
-
-    window.addEventListener('online', handleOnline);
-    window.addEventListener('offline', handleOffline);
-
-    // Initial sync queue count
-    updateQueueCount();
-
-    return () => {
-      window.removeEventListener('online', handleOnline);
-      window.removeEventListener('offline', handleOffline);
-    };
-  }, []);
 
   const updateQueueCount = useCallback(async () => {
     try {
@@ -54,32 +32,38 @@ export function useOfflineSync() {
   }, []);
 
   const triggerSync = useCallback(async () => {
-    if (!navigator.onLine || syncStatus.isSyncing) return;
+    if (!navigator.onLine || syncStatus.isSyncing) {
+      return;
+    }
 
     setSyncStatus(prev => ({ ...prev, isSyncing: true, syncErrors: [] }));
 
     try {
       const queue = await indexedDBService.getSyncQueue();
-      
+
       for (const item of queue) {
         try {
           if (item.type === 'photo') {
-            await syncPhoto(item.data);
+            // Type guard to ensure data is PhotoRecord
+            const photoData = item.data as PhotoRecord;
+            await syncPhoto(photoData);
           } else if (item.type === 'event') {
-            await syncEvent(item.data);
+            // Type guard to ensure data is EventData
+            const eventData = item.data as Record<string, unknown>;
+            await syncEvent(eventData);
           }
-          
+
           // Remove from queue after successful sync
           await indexedDBService.removeFromSyncQueue(item.id);
         } catch (error) {
           console.error(`Failed to sync item ${item.id}:`, error);
-          
+
           // Update retry count
           item.retryCount++;
           if (item.retryCount >= item.maxRetries) {
             setSyncStatus(prev => ({
               ...prev,
-              syncErrors: [...prev.syncErrors, `Failed to sync ${item.type} after ${item.maxRetries} attempts`]
+              syncErrors: [...prev.syncErrors, `Failed to sync ${item.type} after ${item.maxRetries} attempts`],
             }));
             await indexedDBService.removeFromSyncQueue(item.id);
           }
@@ -90,15 +74,15 @@ export function useOfflineSync() {
       setSyncStatus(prev => ({
         ...prev,
         lastSyncTime: Date.now(),
-        queuedRequests: 0
+        queuedRequests: 0,
       }));
-      
+
       await updateQueueCount();
     } catch (error) {
       console.error('Sync failed:', error);
       setSyncStatus(prev => ({
         ...prev,
-        syncErrors: [...prev.syncErrors, 'Sync operation failed']
+        syncErrors: [...prev.syncErrors, 'Sync operation failed'],
       }));
     } finally {
       setSyncStatus(prev => ({ ...prev, isSyncing: false }));
@@ -121,7 +105,7 @@ export function useOfflineSync() {
     });
   };
 
-  const syncEvent = async (eventData: any): Promise<void> => {
+  const syncEvent = async (_eventData: Record<string, unknown>): Promise<void> => {
     // Mock API call - in real implementation, this would send to server
     return new Promise((resolve, reject) => {
       setTimeout(() => {
@@ -135,17 +119,18 @@ export function useOfflineSync() {
     });
   };
 
-  const uploadPhoto = async (file: File, eventId: string, productId: string, metadata?: any): Promise<string> => {
+  const uploadPhoto = async (file: File, eventId: string, productId: string, metadata?: Record<string, unknown>): Promise<string> => {
     try {
       const photoId = await indexedDBService.savePhoto({
         eventId,
         productId,
         file,
-        ...metadata
+        timestamp: Date.now(),
+        ...metadata,
       });
 
       await updateQueueCount();
-      
+
       // Trigger sync if online
       if (navigator.onLine) {
         triggerSync();
@@ -177,6 +162,6 @@ export function useOfflineSync() {
     getPhotosByEvent,
     getPhotosByProduct,
     getStorageUsage,
-    updateQueueCount
+    updateQueueCount,
   };
 }

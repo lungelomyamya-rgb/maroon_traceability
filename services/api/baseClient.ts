@@ -12,7 +12,7 @@ export interface RequestConfig {
   url: string;
   method?: 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
   headers?: Record<string, string>;
-  body?: any;
+  body?: unknown;
   timeout?: number;
 }
 
@@ -20,7 +20,7 @@ export interface ResponseConfig {
   status?: number;
   statusText?: string;
   headers?: Record<string, string>;
-  data?: any;
+  data?: unknown;
 }
 
 export interface HttpClientError extends Error {
@@ -70,15 +70,15 @@ export class BaseHttpClient {
     return this.request<T>({ url, method: 'GET', ...config });
   }
 
-  async post<T = unknown>(url: string, data?: any, config?: Partial<RequestConfig>): Promise<T> {
+  async post<T = unknown>(url: string, data?: unknown, config?: Partial<RequestConfig>): Promise<T> {
     return this.request<T>({ url, method: 'POST', body: data, ...config });
   }
 
-  async put<T = unknown>(url: string, data?: any, config?: Partial<RequestConfig>): Promise<T> {
+  async put<T = unknown>(url: string, data?: unknown, config?: Partial<RequestConfig>): Promise<T> {
     return this.request<T>({ url, method: 'PUT', body: data, ...config });
   }
 
-  async patch<T = unknown>(url: string, data?: any, config?: Partial<RequestConfig>): Promise<T> {
+  async patch<T = unknown>(url: string, data?: unknown, config?: Partial<RequestConfig>): Promise<T> {
     return this.request<T>({ url, method: 'PATCH', body: data, ...config });
   }
 

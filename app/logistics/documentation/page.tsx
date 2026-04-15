@@ -1,13 +1,14 @@
 // src/app/logistics/documentation/page.tsx
 'use client';
 
-import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
+
+import { DashboardLayout } from '@/components/dashboard/DashboardLayout';
 import { useUser } from '@/contexts/userContext';
-import { TransportDocumentation } from '@/components/logistics/transportDocumentation';
-import { DashboardLayout } from '@/components/dashboard/dashboardLayout';
-import { Button } from '@/components/ui/button';
-import { FileText } from 'lucide-react';
+import { TransportDocumentation } from '@/src/features/Logistics';
+import { Button } from '@/src/features/shared/ui/button';
+
 
 export default function LogisticsDocumentationPage() {
   const { currentUser } = useUser();

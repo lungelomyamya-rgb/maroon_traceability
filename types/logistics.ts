@@ -33,15 +33,18 @@ export interface Driver {
   licenseExpiry: string;
   certifications: string[];
   status: DriverStatus;
-  currentVehicle?: string;
-  currentLocation?: {
-    lat: number;
-    lng: number;
-  };
   experience: number; // years
   rating: number; // 1-5
   totalDeliveries: number;
   onTimeDeliveryRate: number;
+  currentLocation?: {
+    lat: number;
+    lng: number;
+  } | undefined;
+  currentVehicle?: string | undefined;
+  lastMaintenance: string;
+  nextMaintenance: string;
+  insuranceExpiry: string;
 }
 
 export interface TransportSchedule {

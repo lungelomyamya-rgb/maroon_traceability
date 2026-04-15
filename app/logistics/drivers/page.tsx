@@ -1,13 +1,14 @@
 // src/app/logistics/drivers/page.tsx
 'use client';
 
-import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
+
+import { DashboardLayout } from '@/components/dashboard/DashboardLayout';
 import { useUser } from '@/contexts/userContext';
-import { DriverManagement } from '@/components/logistics/driverManagement';
-import { DashboardLayout } from '@/components/dashboard/dashboardLayout';
-import { Button } from '@/components/ui/button';
-import { Users } from 'lucide-react';
+import { DriverManagement } from '@/src/features/Logistics';
+import { Button } from '@/src/features/shared/ui/button';
+
 
 export default function LogisticsDriversPage() {
   const { currentUser } = useUser();

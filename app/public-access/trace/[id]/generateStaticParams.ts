@@ -7,6 +7,6 @@ export async function generateStaticParams() {
     { id: 'BLK004' },
     { id: 'sample-001' },
     { id: 'sample-002' },
-    { id: 'sample-003' }
+    { id: 'sample-003' },
   ];
 }

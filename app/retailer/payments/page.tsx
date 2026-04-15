@@ -1,11 +1,12 @@
 // src/app/retailer/payments/page.tsx
 'use client';
 
-import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
+
+import { DashboardLayout } from '@/components/dashboard/DashboardLayout';
 import { useUser } from '@/contexts/userContext';
-import { DashboardLayout } from '@/components/dashboard/dashboardLayout';
-import { PaymentProcessing } from '../../../components/retailers/paymentProcessing';
+import { PaymentProcessing as PaymentProcessingComponent } from '@/src/features/Retailers/components/paymentProcessingComponent';
 
 export default function PaymentProcessingPage() {
   const { currentUser } = useUser();
@@ -50,7 +51,7 @@ export default function PaymentProcessingPage() {
         title="Payment Processing"
         description="Manage payment gateways and transaction processing"
       >
-        <PaymentProcessing />
+        <PaymentProcessingComponent />
       </DashboardLayout>
     </>
   );

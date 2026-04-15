@@ -13,3 +13,11 @@ export { Toaster } from './toaster';
 export { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from './dropdown-menu';
 export { DocumentUpload } from './document-upload';
 export { ProductTitle, ProductDetail } from './typography';
+
+// New components
+export { Alert, AlertDescription, AlertTitle } from './alert';
+export { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from './dialog';
+export { Checkbox } from './checkbox';
+export { Switch } from './switch';
+export { Separator } from './separator';
+export { Avatar, AvatarImage, AvatarFallback } from './avatar';

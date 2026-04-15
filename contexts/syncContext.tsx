@@ -23,17 +23,19 @@ export function SyncProvider({ children }: { children: React.ReactNode }) {
   });
 
   useEffect(() => {
-    if (typeof window === 'undefined') return;
+    if (typeof window === 'undefined') {
+      return;
+    }
 
     const updateSyncStatus = () => {
-      setState(prev => ({
-        ...prev,
+      setState((prevState) => ({
+        ...prevState,
         isSyncing: true,
       }));
     };
 
     const handleSyncComplete = () => {
-      setState(prev => ({
+      setState(() => ({
         isSyncing: false,
         lastSync: new Date(),
         pendingChanges: 0, // This should be updated based on your actual queue

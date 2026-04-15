@@ -1,14 +1,6 @@
 // src/app/marketplace/cart/page.tsx
 'use client';
 
-import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
-import Link from 'next/link';
-import { useUser } from '@/contexts/userContext';
-import { Button } from '@/components/ui/button';
-import { Card } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { Input } from '@/components/ui/input';
 import { 
   ShoppingCart, 
   Plus, 
@@ -18,12 +10,20 @@ import {
   Truck,
   Shield,
   ChevronRight,
-  QrCode,
   User,
   MapPin,
   CheckCircle,
-  XCircle
+  XCircle,
 } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import { useState, useEffect } from 'react';
+
+import { useUser } from '@/contexts/userContext';
+import { Badge } from '@/src/features/shared/ui/badge';
+import { Button } from '@/src/features/shared/ui/button';
+import { Card } from '@/src/features/shared/ui/card';
+import { Input } from '@/src/features/shared/ui/input';
+
 
 interface CartItem {
   id: string;
@@ -54,7 +54,7 @@ const mockCartItems: CartItem[] = [
     image: '🌿',
     quantity: 2,
     inStock: true,
-    stockLevel: 156
+    stockLevel: 156,
   },
   {
     id: 'prod2',
@@ -66,8 +66,8 @@ const mockCartItems: CartItem[] = [
     image: '🍵',
     quantity: 1,
     inStock: true,
-    stockLevel: 89
-  }
+    stockLevel: 89,
+  },
 ];
 
 export default function CartPage() {
@@ -87,12 +87,14 @@ export default function CartPage() {
   }, [currentUser, router]);
 
   const updateQuantity = (id: string, newQuantity: number) => {
-    if (newQuantity < 1) return;
+    if (newQuantity < 1) {
+      return;
+    }
     
     setCartItems(items => 
       items.map(item => 
-        item.id === id ? { ...item, quantity: newQuantity } : item
-      )
+        item.id === id ? { ...item, quantity: newQuantity } : item,
+      ),
     );
   };
 
@@ -166,8 +168,8 @@ export default function CartPage() {
   }
 
   return (
-      <>
-        {/* Full-width Header - Separate from main content */}
+    <>
+      {/* Full-width Header - Separate from main content */}
       <nav className="bg-white shadow-sm border-b sticky top-0 z-50">
         <div className="w-full px-3 sm:px-4 lg:px-8">
           <div className="flex justify-between h-16 items-center">
@@ -181,147 +183,147 @@ export default function CartPage() {
         </div>
       </nav>
 
-        {/* Floating Back Button - Top Corner */}
-        <button
-          onClick={() => router.back()}
-          className="fixed top-4 left-4 bg-white hover:bg-gray-100 text-gray-800 p-3 rounded-full shadow-lg border border-gray-300 transition-all duration-300 z-30"
-          aria-label="Go back to previous page"
+      {/* Floating Back Button - Top Corner */}
+      <button
+        onClick={() => router.back()}
+        className="fixed top-4 left-4 bg-white hover:bg-gray-100 text-gray-800 p-3 rounded-full shadow-lg border border-gray-300 transition-all duration-300 z-30"
+        aria-label="Go back to previous page"
+      >
+        <svg 
+          xmlns="http://www.w3.org/2000/svg" 
+          width="20" 
+          height="20" 
+          viewBox="0 0 24 24" 
+          fill="none" 
+          stroke="currentColor" 
+          strokeWidth="2" 
+          strokeLinecap="round" 
+          strokeLinejoin="round"
+          className="h-4 w-4"
         >
-          <svg 
-            xmlns="http://www.w3.org/2000/svg" 
-            width="20" 
-            height="20" 
-            viewBox="0 0 24 24" 
-            fill="none" 
-            stroke="currentColor" 
-            strokeWidth="2" 
-            strokeLinecap="round" 
-            strokeLinejoin="round"
-            className="h-4 w-4"
-          >
-          </svg>
-        </button>
+        </svg>
+      </button>
 
       {/* Main Content */}
-        <div className="min-h-screen bg-gray-50">
-          <div className="max-w-4xl mx-auto px-3 sm:px-4 lg:px-8 py-6 sm:py-8 lg:py-12">
-            {/* Back Button Inside Main Content */}
-            <div className="mb-4">
-              <button
-                onClick={() => router.back()}
-                className="inline-flex items-center justify-center rounded-md font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none ring-offset-background border border-input hover:bg-accent hover:text-accent-foreground h-10 px-4 rounded-md text-sm sm:text-base"
-                aria-label="Go back to previous page"
-              >
+      <div className="min-h-screen bg-gray-50">
+        <div className="max-w-4xl mx-auto px-3 sm:px-4 lg:px-8 py-6 sm:py-8 lg:py-12">
+          {/* Back Button Inside Main Content */}
+          <div className="mb-4">
+            <button
+              onClick={() => router.back()}
+              className="inline-flex items-center justify-center rounded-md font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none ring-offset-background border border-input hover:bg-accent hover:text-accent-foreground h-10 px-4 rounded-md text-sm sm:text-base"
+              aria-label="Go back to previous page"
+            >
                 Back
-              </button>
-            </div>
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-3 sm:gap-4 lg:gap-6">
-              {/* Cart Items */}
-              <div className="lg:col-span-2 space-y-2 sm:space-y-3 lg:space-y-4">
-                {cartItems.map((item) => (
-                  <Card key={item.id} className="overflow-hidden hover:shadow-md transition-shadow duration-200">
-                    <div className="p-2 sm:p-3 lg:p-4">
-                      <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 lg:gap-6">
-                        {/* Product Image */}
-                        <div className="w-10 sm:w-12 lg:w-16 h-10 sm:h-12 lg:h-16 bg-gradient-to-br from-green-100 to-green-200 rounded-lg sm:rounded-xl flex items-center justify-center flex-shrink-0 shadow-sm">
-                          <span className="text-lg sm:text-xl lg:text-2xl">{item.image}</span>
-                        </div>
+            </button>
+          </div>
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-3 sm:gap-4 lg:gap-6">
+            {/* Cart Items */}
+            <div className="lg:col-span-2 space-y-2 sm:space-y-3 lg:space-y-4">
+              {cartItems.map((item) => (
+                <Card key={item.id} className="overflow-hidden hover:shadow-md transition-shadow duration-200">
+                  <div className="p-2 sm:p-3 lg:p-4">
+                    <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 lg:gap-6">
+                      {/* Product Image */}
+                      <div className="w-10 sm:w-12 lg:w-16 h-10 sm:h-12 lg:h-16 bg-gradient-to-br from-green-100 to-green-200 rounded-lg sm:rounded-xl flex items-center justify-center flex-shrink-0 shadow-sm">
+                        <span className="text-lg sm:text-xl lg:text-2xl">{item.image}</span>
+                      </div>
                         
-                        {/* Product Details */}
-                        <div className="flex-1">
-                          <div className="flex justify-between items-start mb-3">
-                            <div className="flex-1">
-                              <h3 className="font-semibold text-gray-900 mb-1 sm:mb-2 text-xs sm:text-sm lg:text-base">{item.name}</h3>
-                              <div className="flex flex-col sm:flex-row gap-1 sm:gap-2 lg:gap-4 text-xs sm:text-sm lg:text-base text-gray-600">
-                                <div className="flex items-center">
-                                  <User className="h-2 w-2 sm:h-3 sm:w-3 lg:h-4 lg:w-4 mr-0.5 sm:mr-1" />
-                                  {item.farmer}
-                                </div>
-                                <div className="flex items-center">
-                                  <MapPin className="h-2 w-2 sm:h-3 sm:w-3 lg:h-4 lg:w-4 mr-0.5 sm:mr-1" />
-                                  {item.location}
-                                </div>
+                      {/* Product Details */}
+                      <div className="flex-1">
+                        <div className="flex justify-between items-start mb-3">
+                          <div className="flex-1">
+                            <h3 className="font-semibold text-gray-900 mb-1 sm:mb-2 text-xs sm:text-sm lg:text-base">{item.name}</h3>
+                            <div className="flex flex-col sm:flex-row gap-1 sm:gap-2 lg:gap-4 text-xs sm:text-sm lg:text-base text-gray-600">
+                              <div className="flex items-center">
+                                <User className="h-2 w-2 sm:h-3 sm:w-3 lg:h-4 lg:w-4 mr-0.5 sm:mr-1" />
+                                {item.farmer}
                               </div>
+                              <div className="flex items-center">
+                                <MapPin className="h-2 w-2 sm:h-3 sm:w-3 lg:h-4 lg:w-4 mr-0.5 sm:mr-1" />
+                                {item.location}
+                              </div>
+                            </div>
+                          </div>
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={() => removeItem(item.id)}
+                            className="text-red-600 hover:text-red-700 hover:bg-red-50 transition-colors h-6 sm:h-8 lg:h-10 w-5 sm:w-6 lg:w-8 p-0"
+                          >
+                            <Trash2 className="h-3 w-3 sm:h-4 sm:w-4 lg:h-5 lg:w-5" />
+                          </Button>
+                        </div>
+                          
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center gap-2 sm:gap-3">
+                            <Button
+                              variant="outline"
+                              size="sm"
+                              onClick={() => updateQuantity(item.id, item.quantity - 1)}
+                              disabled={item.quantity <= 1}
+                              className="h-10 sm:h-12 lg:h-14 w-8 sm:w-10 lg:w-12 p-0"
+                            >
+                              <Minus className="h-3 w-3 sm:h-4 sm:w-4 lg:h-5 lg:w-5" />
+                            </Button>
+                            <div className="w-4 sm:w-6 lg:w-8 text-center">
+                              <span className="font-semibold text-sm sm:text-base lg:text-lg">{item.quantity}</span>
                             </div>
                             <Button
                               variant="outline"
                               size="sm"
-                              onClick={() => removeItem(item.id)}
-                              className="text-red-600 hover:text-red-700 hover:bg-red-50 transition-colors h-6 sm:h-8 lg:h-10 w-5 sm:w-6 lg:w-8 p-0"
+                              onClick={() => updateQuantity(item.id, item.quantity + 1)}
+                              disabled={item.quantity >= item.stockLevel}
+                              className="h-10 sm:h-12 lg:h-14 w-8 sm:w-10 lg:w-12 p-0"
                             >
-                              <Trash2 className="h-3 w-3 sm:h-4 sm:w-4 lg:h-5 lg:w-5" />
+                              <Plus className="h-3 w-3 sm:h-4 sm:w-4 lg:h-5 lg:w-5" />
                             </Button>
                           </div>
-                          
-                          <div className="flex items-center justify-between">
-                            <div className="flex items-center gap-2 sm:gap-3">
-                              <Button
-                                variant="outline"
-                                size="sm"
-                                onClick={() => updateQuantity(item.id, item.quantity - 1)}
-                                disabled={item.quantity <= 1}
-                                className="h-10 sm:h-12 lg:h-14 w-8 sm:w-10 lg:w-12 p-0"
-                              >
-                                <Minus className="h-3 w-3 sm:h-4 sm:w-4 lg:h-5 lg:w-5" />
-                              </Button>
-                              <div className="w-4 sm:w-6 lg:w-8 text-center">
-                                <span className="font-semibold text-sm sm:text-base lg:text-lg">{item.quantity}</span>
-                              </div>
-                              <Button
-                                variant="outline"
-                                size="sm"
-                                onClick={() => updateQuantity(item.id, item.quantity + 1)}
-                                disabled={item.quantity >= item.stockLevel}
-                                className="h-10 sm:h-12 lg:h-14 w-8 sm:w-10 lg:w-12 p-0"
-                              >
-                                <Plus className="h-3 w-3 sm:h-4 sm:w-4 lg:h-5 lg:w-5" />
-                              </Button>
-                            </div>
                             
-                            <div className="text-right">
-                              <div className="font-semibold text-sm sm:text-base lg:text-lg lg:text-xl text-gray-900 mb-0.5 sm:mb-1">
+                          <div className="text-right">
+                            <div className="font-semibold text-sm sm:text-base lg:text-lg lg:text-xl text-gray-900 mb-0.5 sm:mb-1">
                                 R{(item.price * item.quantity).toFixed(2)}
-                              </div>
-                              {item.originalPrice && (
-                                <div className="text-xs sm:text-sm lg:text-base text-gray-500 line-through mb-0.5 sm:mb-1">
+                            </div>
+                            {item.originalPrice && (
+                              <div className="text-xs sm:text-sm lg:text-base text-gray-500 line-through mb-0.5 sm:mb-1">
                                   R{(item.originalPrice * item.quantity).toFixed(2)}
-                                </div>
-                              )}
-                              {item.discount && (
-                                <Badge className="bg-red-100 text-red-800 text-xs">
+                              </div>
+                            )}
+                            {item.discount && (
+                              <Badge className="bg-red-100 text-red-800 text-xs">
                                   -{item.discount}% OFF
-                                </Badge>
-                              )}
-                            </div>
+                              </Badge>
+                            )}
                           </div>
+                        </div>
                           
-                          {/* Stock Status */}
-                          <div className="mt-1 sm:mt-2 pt-1 sm:pt-2 border-t">
-                            <div className="flex items-center gap-0.5 sm:gap-1 lg:gap-2 text-xs sm:text-sm lg:text-base">
-                              <span className={`text-xs sm:text-sm lg:text-base font-medium ${item.inStock ? 'text-green-600' : 'text-red-600'}`}>
-                                {item.inStock ? (
-                                  <>
-                                    <CheckCircle className="h-3 w-3 sm:h-4 sm:w-4 lg:h-5 lg:w-4 mr-0.5 sm:mr-1" />
-                                    {item.stockLevel} in stock
-                                  </>
-                                ) : (
-                                  <>
-                                    <XCircle className="h-3 w-3 sm:h-4 sm:w-4 lg:h-5 lg:w-4 mr-0.5 sm:mr-1" />
+                        {/* Stock Status */}
+                        <div className="mt-1 sm:mt-2 pt-1 sm:pt-2 border-t">
+                          <div className="flex items-center gap-0.5 sm:gap-1 lg:gap-2 text-xs sm:text-sm lg:text-base">
+                            <span className={`text-xs sm:text-sm lg:text-base font-medium ${item.inStock ? 'text-green-600' : 'text-red-600'}`}>
+                              {item.inStock ? (
+                                <>
+                                  <CheckCircle className="h-3 w-3 sm:h-4 sm:w-4 lg:h-5 lg:w-4 mr-0.5 sm:mr-1" />
+                                  {item.stockLevel} in stock
+                                </>
+                              ) : (
+                                <>
+                                  <XCircle className="h-3 w-3 sm:h-4 sm:w-4 lg:h-5 lg:w-4 mr-0.5 sm:mr-1" />
                                     Out of stock
-                                  </>
-                                )}
-                              </span>
-                              <span className="text-xs sm:text-sm text-gray-500">
-                                {item.inStock && `Only ${item.stockLevel} left`}
-                              </span>
-                            </div>
+                                </>
+                              )}
+                            </span>
+                            <span className="text-xs sm:text-sm text-gray-500">
+                              {item.inStock && `Only ${item.stockLevel} left`}
+                            </span>
                           </div>
                         </div>
                       </div>
                     </div>
-                  </Card>
-                ))}
-              </div>
+                  </div>
+                </Card>
+              ))}
+            </div>
 
             {/* Order Summary */}
             <div className="lg:col-span-1">

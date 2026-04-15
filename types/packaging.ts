@@ -1,4 +1,6 @@
 // src/types/packaging.ts
+import { JsonObject } from './common';
+
 export type PackagingType = 
   | 'cardboard-box'
   | 'plastic-crate'
@@ -52,7 +54,7 @@ export interface PackagingEvent {
   timestamp: string;
   operator: string;
   location: string;
-  details: Record<string, any>;
+  details: JsonObject;
   photos?: string[];
 }
 
@@ -62,71 +64,71 @@ export const PACKAGING_TYPES = {
     description: 'Standard corrugated cardboard packaging',
     icon: '📦',
     typicalUnits: ['boxes', 'pieces'] as string[],
-    defaultCapacity: 50
+    defaultCapacity: 50,
   },
   'plastic-crate': {
     label: 'Plastic Crate',
     description: 'Reusable plastic crate for transport',
     icon: '🗃️',
     typicalUnits: ['crates', 'pieces'] as string[],
-    defaultCapacity: 100
+    defaultCapacity: 100,
   },
   'wooden-crate': {
     label: 'Wooden Crate',
     description: 'Traditional wooden crate for bulk items',
     icon: '📦',
     typicalUnits: ['crates', 'pieces'] as string[],
-    defaultCapacity: 200
+    defaultCapacity: 200,
   },
   'vacuum-sealed': {
     label: 'Vacuum Sealed',
     description: 'Vacuum packaging for freshness',
     icon: '🥫',
     typicalUnits: ['packages', 'kg', 'lbs'] as string[],
-    defaultCapacity: 10
+    defaultCapacity: 10,
   },
   'bulk-bag': {
     label: 'Bulk Bag',
     description: 'Large bulk packaging bags',
     icon: '👜',
     typicalUnits: ['bags', 'kg', 'tons'] as string[],
-    defaultCapacity: 1000
+    defaultCapacity: 1000,
   },
   'paper-bag': {
     label: 'Paper Bag',
     description: 'Eco-friendly paper packaging',
     icon: '🛍️',
     typicalUnits: ['bags', 'pieces'] as string[],
-    defaultCapacity: 25
+    defaultCapacity: 25,
   },
   'plastic-pouch': {
     label: 'Plastic Pouch',
     description: 'Flexible plastic pouch packaging',
     icon: '🛍️',
     typicalUnits: ['pouches', 'pieces'] as string[],
-    defaultCapacity: 20
+    defaultCapacity: 20,
   },
   'glass-jar': {
     label: 'Glass Jar',
     description: 'Glass jar packaging for premium products',
     icon: '🫙',
     typicalUnits: ['jars', 'ml', 'oz'] as string[],
-    defaultCapacity: 500
+    defaultCapacity: 500,
   },
   'metal-can': {
     label: 'Metal Can',
     description: 'Metal can packaging for preservation',
     icon: '🥫',
     typicalUnits: ['cans', 'ml', 'oz'] as string[],
-    defaultCapacity: 400
+    defaultCapacity: 400,
   },
   'custom': {
     label: 'Custom Packaging',
     description: 'Specialized packaging solution',
     icon: '📋',
     typicalUnits: ['units', 'pieces', 'custom'] as string[],
-    defaultCapacity: 1
-  }
+    defaultCapacity: 1,
+  },
 } as const;
 
 export const BATCH_STATUS_COLORS = {
@@ -135,15 +137,13 @@ export const BATCH_STATUS_COLORS = {
   completed: 'bg-green-100 text-green-800',
   'qc-pending': 'bg-orange-100 text-orange-800',
   'qc-approved': 'bg-emerald-100 text-emerald-800',
-  shipped: 'bg-purple-100 text-purple-800'
+  shipped: 'bg-purple-100 text-purple-800',
 } as const;
 
 // Batch code generation utility
 export const generateBatchCode = (packagingType: PackagingType, location?: string): string => {
   const date = new Date();
   const year = date.getFullYear();
-  const month = String(date.getMonth() + 1).padStart(2, '0');
-  const day = String(date.getDate()).padStart(2, '0');
   
   const typeCode = PACKAGING_TYPES[packagingType].label.substring(0, 3).toUpperCase();
   const locationCode = location ? location.substring(0, 3).toUpperCase() : 'GEN';

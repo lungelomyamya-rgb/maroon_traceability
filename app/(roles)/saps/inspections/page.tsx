@@ -1,18 +1,21 @@
 'use client';
 
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Textarea } from '@/components/ui/textarea';
+import { Search, CheckCircle, XCircle } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import { useUser } from '@/contexts/userContext';
-import { AlertTriangle } from 'lucide-react';
-import { DashboardLayout } from '@/components/dashboard/dashboardLayout';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Search, CheckCircle, XCircle, Camera, MapPin, Clock, ArrowLeft } from 'lucide-react';
 import { useEffect, useState } from 'react';
+
+import { DashboardLayout } from '@/components/dashboard/DashboardLayout';
+import { useUser } from '@/contexts/userContext';
+import { Badge } from '@/src/features/shared/ui/badge';
+import { Button } from '@/src/features/shared/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/src/features/shared/ui/card';
+import { Input } from '@/src/features/shared/ui/input';
+import { Label } from '@/src/features/shared/ui/label';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/src/features/shared/ui/select';
+import { Textarea } from '@/src/features/shared/ui/textarea';
+
+
+
 
 export default function SAPSInspectionsPage() {
   const router = useRouter();
@@ -79,7 +82,7 @@ export default function SAPSInspectionsPage() {
       livestock: 'Cattle (12 head)',
       status: 'verified',
       timestamp: '2024-01-15 14:30',
-      officer: 'Constable Mthembu'
+      officer: 'Constable Mthembu',
     },
     {
       id: 'INS-2024-002',
@@ -87,7 +90,7 @@ export default function SAPSInspectionsPage() {
       livestock: 'Sheep (45 head)',
       status: 'flagged',
       timestamp: '2024-01-15 11:15',
-      officer: 'Sergeant Nkosi'
+      officer: 'Sergeant Nkosi',
     },
     {
       id: 'INS-2024-003',
@@ -95,8 +98,8 @@ export default function SAPSInspectionsPage() {
       livestock: 'Goats (28 head)',
       status: 'verified',
       timestamp: '2024-01-14 16:45',
-      officer: 'Constable Zulu'
-    }
+      officer: 'Constable Zulu',
+    },
   ];
 
   return (
@@ -138,7 +141,7 @@ export default function SAPSInspectionsPage() {
               </div>
               <div className="space-y-2">
                 <Label htmlFor="status">Inspection Status</Label>
-                <Select value={inspectionStatus} onValueChange={(value: any) => setInspectionStatus(value)}>
+                <Select value={inspectionStatus} onValueChange={(value: string) => setInspectionStatus(value as 'pending' | 'verified' | 'flagged')}>
                   <SelectTrigger>
                     <SelectValue />
                   </SelectTrigger>

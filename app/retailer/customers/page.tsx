@@ -1,11 +1,12 @@
 // src/app/retailer/customers/page.tsx
 'use client';
 
-import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
+
+import { DashboardLayout } from '@/components/dashboard/DashboardLayout';
 import { useUser } from '@/contexts/userContext';
-import { DashboardLayout } from '@/components/dashboard/dashboardLayout';
-import { CustomerManagement } from '../../../components/retailers/customerManagement';
+import { CustomerManagement as CustomerManagementComponent } from '@/src/features/Retailers/components/customerManagementComponent';
 
 export default function CustomerManagementPage() {
   const { currentUser } = useUser();
@@ -50,7 +51,7 @@ export default function CustomerManagementPage() {
         title="Customer Management"
         description="Manage customer relationships and communication"
       >
-        <CustomerManagement />
+        <CustomerManagementComponent />
       </DashboardLayout>
     </>
   );

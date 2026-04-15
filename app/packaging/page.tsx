@@ -1,15 +1,15 @@
 // src/app/packaging/page.tsx
 'use client';
 
-import { useEffect } from 'react';
+import { Package, QrCode, BarChart3, Box, CheckCircle } from 'lucide-react';
 import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
+
+import { DashboardLayout } from '@/components/dashboard/DashboardLayout';
 import { useUser } from '@/contexts/userContext';
-import { DashboardLayout } from '@/components/dashboard/dashboardLayout';
-import { PackagingDashboard } from '@/components/packaging/packagingDashboard';
-import { Card } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Package, QrCode, Calendar, BarChart3, Box, Search, CheckCircle } from 'lucide-react';
-import { useState } from 'react';
+import { Badge } from '@/src/features/shared/ui/badge';
+import { Card } from '@/src/features/shared/ui/card';
+
 
 export default function PackagingPage() {
   const { currentUser } = useUser();
@@ -44,7 +44,7 @@ export default function PackagingPage() {
       {/* Back Button Above DashboardLayout */}
       <div className="px-4 sm:px-6 lg:px-8 pt-4">
       </div>
-      
+
       <DashboardLayout
         description="Manage batch processing and packaging events"
       >
@@ -88,53 +88,153 @@ export default function PackagingPage() {
               <Package className="h-4 w-4 sm:h-5 sm:w-5 flex-shrink-0" />
               <div className="text-left flex-1 min-w-0">
                 <div className="font-medium text-sm sm:text-base">Batch Processing</div>
-                <div className="text-xs opacity-90 sm:block">Process new batches</div>
+                <div className="text-xs opacity-90">Process batches</div>
               </div>
             </button>
-            <button
-              onClick={() => router.push('/packaging/inventory')}
-              className="bg-blue-600 hover:bg-blue-700 text-white flex items-center gap-2 sm:gap-3 h-auto p-3 sm:p-4 rounded-lg font-medium transition-all hover:scale-105 active:scale-95 shadow-lg"
-            >
-              <Box className="h-4 w-4 sm:h-5 sm:w-5 flex-shrink-0" />
-              <div className="text-left flex-1 min-w-0">
-                <div className="font-medium text-sm sm:text-base">Inventory</div>
-                <div className="text-xs opacity-90 block">Manage stock levels</div>
-              </div>
-            </button>
-            <button
-              onClick={() => router.push('/packaging/quality-check')}
-              className="bg-red-600 hover:bg-red-700 text-white flex items-center gap-2 sm:gap-3 h-auto p-3 sm:p-4 rounded-lg font-medium transition-all hover:scale-105 active:scale-95 shadow-lg"
-            >
-              <CheckCircle className="h-4 w-4 sm:h-5 sm:w-5 flex-shrink-0" />
-              <div className="text-left flex-1 min-w-0">
-                <div className="font-medium text-sm sm:text-base">Quality Check</div>
-                <div className="text-xs opacity-90 block">Quality control</div>
-              </div>
-            </button>
+
             <button
               onClick={() => router.push('/packaging/qr-generation')}
-              className="bg-purple-600 hover:bg-purple-700 text-white flex items-center gap-2 sm:gap-3 h-auto p-3 sm:p-4 rounded-lg font-medium transition-all hover:scale-105 active:scale-95 shadow-lg"
+              className="bg-teal-600 hover:bg-teal-700 text-white flex items-center gap-2 sm:gap-3 h-auto p-3 sm:p-4 rounded-lg font-medium transition-all hover:scale-105 active:scale-95 shadow-lg"
             >
               <QrCode className="h-4 w-4 sm:h-5 sm:w-5 flex-shrink-0" />
               <div className="text-left flex-1 min-w-0">
                 <div className="font-medium text-sm sm:text-base">QR Generation</div>
-                <div className="text-xs opacity-90 block">Create QR codes</div>
+                <div className="text-xs opacity-90">Generate codes</div>
               </div>
             </button>
+
+            <button
+              onClick={() => router.push('/packaging/inventory')}
+              className="bg-cyan-600 hover:bg-cyan-700 text-white flex items-center gap-2 sm:gap-3 h-auto p-3 sm:p-4 rounded-lg font-medium transition-all hover:scale-105 active:scale-95 shadow-lg"
+            >
+              <Box className="h-4 w-4 sm:h-5 sm:w-5 flex-shrink-0" />
+              <div className="text-left flex-1 min-w-0">
+                <div className="font-medium text-sm sm:text-base">Inventory</div>
+                <div className="text-xs opacity-90">Track items</div>
+              </div>
+            </button>
+
+            <button
+              onClick={() => router.push('/packaging/quality-check')}
+              className="bg-blue-600 hover:bg-blue-700 text-white flex items-center gap-2 sm:gap-3 h-auto p-3 sm:p-4 rounded-lg font-medium transition-all hover:scale-105 active:scale-95 shadow-lg"
+            >
+              <CheckCircle className="h-4 w-4 sm:h-5 sm:w-5 flex-shrink-0" />
+              <div className="text-left flex-1 min-w-0">
+                <div className="font-medium text-sm sm:text-base">Quality Check</div>
+                <div className="text-xs opacity-90">Quality control</div>
+              </div>
+            </button>
+
             <button
               onClick={() => router.push('/packaging/reports')}
-              className="bg-orange-600 hover:bg-orange-700 text-white flex items-center gap-2 sm:gap-3 h-auto p-3 sm:p-4 rounded-lg font-medium transition-all hover:scale-105 active:scale-95 shadow-lg"
+              className="bg-indigo-600 hover:bg-indigo-700 text-white flex items-center gap-2 sm:gap-3 h-auto p-3 sm:p-4 rounded-lg font-medium transition-all hover:scale-105 active:scale-95 shadow-lg"
             >
               <BarChart3 className="h-4 w-4 sm:h-5 sm:w-5 flex-shrink-0" />
               <div className="text-left flex-1 min-w-0">
                 <div className="font-medium text-sm sm:text-base">Reports</div>
-                <div className="text-xs opacity-90 block">View analytics</div>
+                <div className="text-xs opacity-90">View analytics</div>
               </div>
             </button>
           </div>
 
-          {/* Main Dashboard */}
-          <PackagingDashboard />
+          {/* Overview Cards */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+            <Card className="p-4 sm:p-6">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-xs sm:text-sm font-medium text-gray-600">Active Batches</p>
+                  <p className="text-xl sm:text-2xl font-bold text-gray-900">12</p>
+                </div>
+                <div className="p-2 sm:p-3 bg-emerald-100 rounded-lg">
+                  <Package className="h-4 w-4 sm:h-6 sm:w-6 text-emerald-600" />
+                </div>
+              </div>
+            </Card>
+
+            <Card className="p-4 sm:p-6">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-xs sm:text-sm font-medium text-gray-600">QR Codes Generated</p>
+                  <p className="text-xl sm:text-2xl font-bold text-gray-900">248</p>
+                </div>
+                <div className="p-2 sm:p-3 bg-teal-100 rounded-lg">
+                  <QrCode className="h-4 w-4 sm:h-6 sm:w-6 text-teal-600" />
+                </div>
+              </div>
+            </Card>
+
+            <Card className="p-4 sm:p-6">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-xs sm:text-sm font-medium text-gray-600">Quality Checks</p>
+                  <p className="text-xl sm:text-2xl font-bold text-gray-900">95%</p>
+                </div>
+                <div className="p-2 sm:p-3 bg-blue-100 rounded-lg">
+                  <CheckCircle className="h-4 w-4 sm:h-6 sm:w-6 text-blue-600" />
+                </div>
+              </div>
+            </Card>
+
+            <Card className="p-4 sm:p-6">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-xs sm:text-sm font-medium text-gray-600">Inventory Items</p>
+                  <p className="text-xl sm:text-2xl font-bold text-gray-900">1,847</p>
+                </div>
+                <div className="p-2 sm:p-3 bg-cyan-100 rounded-lg">
+                  <Box className="h-4 w-4 sm:h-6 sm:w-6 text-cyan-600" />
+                </div>
+              </div>
+            </Card>
+          </div>
+
+          {/* Recent Activities */}
+          <Card title="Recent Activities" className="space-y-4">
+            <div className="flex flex-col sm:flex-row justify-between gap-4 p-4 bg-gray-50 rounded-lg">
+              <div className="flex items-start gap-3 sm:gap-4">
+                <div className="p-2 bg-emerald-100 rounded-lg flex-shrink-0">
+                  <Package className="h-4 w-4 sm:h-5 sm:w-5 text-emerald-600" />
+                </div>
+                <div className="min-w-0 flex-1">
+                  <p className="font-medium text-gray-900 text-sm sm:text-base truncate">Batch #BATCH-001</p>
+                  <p className="text-xs sm:text-sm text-gray-500">Processing completed • 2 hours ago</p>
+                </div>
+              </div>
+              <div className="text-right flex-shrink-0">
+                <Badge className="bg-green-100 text-green-800 text-xs">Completed</Badge>
+              </div>
+            </div>
+
+            <div className="flex flex-col sm:flex-row justify-between gap-4 p-4 bg-gray-50 rounded-lg">
+              <div className="flex items-start gap-3 sm:gap-4">
+                <div className="p-2 bg-teal-100 rounded-lg flex-shrink-0">
+                  <QrCode className="h-4 w-4 sm:h-5 sm:w-5 text-teal-600" />
+                </div>
+                <div className="min-w-0 flex-1">
+                  <p className="font-medium text-gray-900 text-sm sm:text-base truncate">QR Code Generation</p>
+                  <p className="text-xs sm:text-sm text-gray-500">50 codes generated • 4 hours ago</p>
+                </div>
+              </div>
+              <div className="text-right flex-shrink-0">
+                <Badge className="bg-blue-100 text-blue-800 text-xs">In Progress</Badge>
+              </div>
+            </div>
+
+            <div className="flex flex-col sm:flex-row justify-between gap-4 p-4 bg-gray-50 rounded-lg">
+              <div className="flex items-start gap-3 sm:gap-4">
+                <div className="p-2 bg-blue-100 rounded-lg flex-shrink-0">
+                  <CheckCircle className="h-4 w-4 sm:h-5 sm:w-5 text-blue-600" />
+                </div>
+                <div className="min-w-0 flex-1">
+                  <p className="font-medium text-gray-900 text-sm sm:text-base truncate">Quality Check</p>
+                  <p className="text-xs sm:text-sm text-gray-500">Batch #BATCH-002 passed • 6 hours ago</p>
+                </div>
+              </div>
+              <div className="text-right flex-shrink-0">
+                <Badge className="bg-green-100 text-green-800 text-xs">Passed</Badge>
+              </div>
+            </div>
+          </Card>
         </div>
       </DashboardLayout>
     </>

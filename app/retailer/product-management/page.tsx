@@ -1,13 +1,14 @@
 // src/app/retailer/product-management/page.tsx
 'use client';
 
-import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { useUser } from '@/contexts/userContext';
-import { DashboardLayout } from '@/components/dashboard/dashboardLayout';
-import { ProductManagement as ProductManagementComponent } from '../../../components/retailers/productManagement';
+import { useEffect } from 'react';
 
-export default function ProductManagementPage() {
+import { DashboardLayout } from '@/components/dashboard/DashboardLayout';
+import { useUser } from '@/contexts/userContext';
+import { ProductManagement as ProductManagementComponent } from '@/src/features/Retailers/components/productManagementComponent';
+
+export default function ProductManagement() {
   const { currentUser } = useUser();
   const router = useRouter();
 

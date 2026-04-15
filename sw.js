@@ -1,21 +1,20 @@
 // public/sw.js - Cache-free Service Worker for GitHub Pages
 // Completely avoids Cache API during installation to prevent addAll errors
 
-// Base path for GitHub Pages
-const BASE_PATH = '/maroon_traceability';
+/* global self, fetch, Response */
 
 // Simple in-memory cache for runtime use only
 const memoryCache = new Map();
 
 // Install event - absolutely no cache operations
-self.addEventListener('install', (event) => {
+self.addEventListener('install', () => {
   console.log('Service Worker installing...');
   // Do nothing - no Cache API usage at all
   self.skipWaiting();
 });
 
 // Activate event - absolutely no cache operations
-self.addEventListener('activate', (event) => {
+self.addEventListener('activate', () => {
   console.log('Service Worker activating...');
   // Do nothing - no Cache API usage at all
   self.clients.claim();

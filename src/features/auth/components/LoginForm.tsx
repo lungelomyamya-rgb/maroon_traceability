@@ -1,13 +1,12 @@
 'use client';
 
+import { useUser } from '@/contexts/userContext';
+import { authService } from '@/services/auth/auth';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { LoginCredentials } from '@/lib/auth';
-import { authService } from '@/lib/auth';
-import { useUser } from '@/contexts/userContext';
-import { useRouter } from 'next/navigation';
 
 // Form validation schema
 const loginSchema = z.object({
@@ -51,26 +50,26 @@ export function LoginForm({ onSuccess, onRegisterClick }: LoginFormProps) {
         } else {
           // Redirect based on role
           switch (response.user.role) {
-            case 'farmer':
-              router.push('/farmer');
-              break;
-            case 'inspector':
-              router.push('/inspector');
-              break;
-            case 'retailer':
-              router.push('/retailer');
-              break;
-            case 'admin':
-              router.push('/admin');
-              break;
-            default:
-              router.push('/dashboard');
+          case 'farmer':
+            router.push('/farmer');
+            break;
+          case 'inspector':
+            router.push('/inspector');
+            break;
+          case 'retailer':
+            router.push('/retailer');
+            break;
+          case 'admin':
+            router.push('/admin');
+            break;
+          default:
+            router.push('/dashboard');
           }
         }
       } else {
         setError(response.error || 'Login failed');
       }
-    } catch (error) {
+    } catch {
       setError('An unexpected error occurred');
     } finally {
       setIsLoading(false);
@@ -138,9 +137,15 @@ export function LoginForm({ onSuccess, onRegisterClick }: LoginFormProps) {
               Remember me
             </label>
           </div>
-          <a href="#" className="text-sm text-blue-600 hover:text-blue-500">
+          <button 
+            type="button"
+            className="text-sm text-blue-600 hover:text-blue-500"
+            onClick={() => {
+              // TODO: Implement forgot password functionality
+            }}
+          >
             Forgot password?
-          </a>
+          </button>
         </div>
 
         <button

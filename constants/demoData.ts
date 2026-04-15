@@ -88,7 +88,7 @@ export const AVAILABLE_CERTIFICATIONS = [
   'Local',
   'Natural',
   'Certified Humane',
-  'Rainforest Alliance'
+  'Rainforest Alliance',
 ];
 
 export const DEMO_USERS = [

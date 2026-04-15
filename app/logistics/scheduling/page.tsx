@@ -1,21 +1,18 @@
 // src/app/logistics/scheduling/page.tsx
 'use client';
 
-import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
+
+import { DashboardLayout } from '@/components/dashboard/DashboardLayout';
 import { useUser } from '@/contexts/userContext';
-import { TransportScheduling } from '@/components/logistics/transportScheduling';
-import { DashboardLayout } from '@/components/dashboard/dashboardLayout';
-import { Button } from '@/components/ui/button';
-import { Calendar } from 'lucide-react';
-import { Vehicle, Driver } from '@/types/logistics';
-import { mockVehicles, mockDrivers } from '@/constants/logisticsMockData';
+import { TransportScheduling } from '@/src/features/Logistics';
+import { Button } from '@/src/features/shared/ui/button';
+
 
 export default function LogisticsSchedulingPage() {
   const { currentUser } = useUser();
   const router = useRouter();
-  const [vehicles, setVehicles] = useState<Vehicle[]>([]);
-  const [drivers, setDrivers] = useState<Driver[]>([]);
 
   useEffect(() => {
     // Redirect if user doesn't have logistics role
@@ -23,10 +20,6 @@ export default function LogisticsSchedulingPage() {
       router.push('/unauthorized');
       return;
     }
-
-    // Load mock data from consolidated file
-    setVehicles(mockVehicles);
-    setDrivers(mockDrivers);
   }, [currentUser, router]);
 
   if (!currentUser || currentUser.role !== 'logistics') {
@@ -52,9 +45,9 @@ export default function LogisticsSchedulingPage() {
       
       <DashboardLayout
         title="Transport Scheduling"
-        subtitle="Schedule transports, manage routes, and optimize deliveries"
+        subtitle="Manage vehicle schedules and route planning"
       >
-        <TransportScheduling vehicles={vehicles} drivers={drivers} />
+        <TransportScheduling />
       </DashboardLayout>
     </>
   );

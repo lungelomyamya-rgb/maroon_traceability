@@ -4,8 +4,8 @@
 import { useCallback } from 'react';
 import React from 'react';
 
+// import { commonColors } from '@/lib/theme/colors'; // Commented out - unused
 import { UserRole } from '@/types/user';
-import { commonColors } from '@/lib/theme/colors';
 
 export interface Permission {
   id: string;
@@ -93,64 +93,64 @@ class AccessControlManager {
         name: 'farmer' as UserRole,
         permissions: ['product.create', 'product.read', 'product.update', 'blockchain.read'],
         description: 'Can create and manage their own products',
-        level: 1
+        level: 1,
       },
       {
         id: 'inspector',
         name: 'inspector' as UserRole,
         permissions: ['product.read', 'product.verify', 'blockchain.read', 'blockchain.verify'],
         description: 'Can verify products and view blockchain data',
-        level: 2
+        level: 2,
       },
       {
         id: 'logistics',
         name: 'logistics' as UserRole,
         permissions: ['product.read', 'blockchain.read'],
         description: 'Can view product information for logistics',
-        level: 1
+        level: 1,
       },
       {
         id: 'packaging',
         name: 'packaging' as UserRole,
         permissions: ['product.read', 'product.update', 'blockchain.read'],
         description: 'Can update product packaging information',
-        level: 2
+        level: 2,
       },
       {
         id: 'retailer',
         name: 'retailer' as UserRole,
         permissions: ['product.read', 'product.verify', 'blockchain.read', 'analytics.read'],
         description: 'Can verify products and view analytics',
-        level: 2
+        level: 2,
       },
       {
         id: 'public',
         name: 'public' as UserRole,
         permissions: ['product.read', 'blockchain.read'],
         description: 'Read-only access to products and blockchain',
-        level: 0
+        level: 0,
       },
       {
         id: 'government',
         name: 'government' as UserRole,
         permissions: ['product.read', 'product.verify', 'blockchain.read', 'blockchain.verify', 'analytics.read', 'analytics.export'],
         description: 'Government oversight with audit capabilities',
-        level: 3
+        level: 3,
       },
       {
         id: 'saps',
         name: 'saps' as UserRole,
         permissions: ['product.read', 'product.verify', 'blockchain.read', 'blockchain.verify', 'analytics.read', 'analytics.export'],
         description: 'Law enforcement with roadside inspection and asset recovery capabilities',
-        level: 3
+        level: 3,
       },
       {
         id: 'admin',
         name: 'admin' as UserRole,
         permissions: Array.from(this.permissions.keys()),
         description: 'Full system administration access',
-        level: 4
-      }
+        level: 4,
+      },
     ];
 
     roles.forEach(role => {
@@ -166,28 +166,28 @@ class AccessControlManager {
         action: 'update',
         requiredPermissions: ['product.update'],
         conditions: {
-          ownership: true
-        }
+          ownership: true,
+        },
       },
       {
         resource: 'product',
         action: 'delete',
         requiredPermissions: ['product.delete'],
         conditions: {
-          ownership: true
-        }
+          ownership: true,
+        },
       },
       // Admin-only rules
       {
         resource: 'system',
         action: 'admin',
-        requiredPermissions: ['system.admin']
+        requiredPermissions: ['system.admin'],
       },
       {
         resource: 'user',
         action: 'delete',
-        requiredPermissions: ['system.admin']
-      }
+        requiredPermissions: ['system.admin'],
+      },
     ];
 
     rules.forEach(rule => {
@@ -209,7 +209,7 @@ class AccessControlManager {
     return permissionIds.every(permissionId => this.hasPermission(userRole, permissionId));
   }
 
-  canAccessResource(userRole: UserRole, resource: string, action: string, context?: any): boolean {
+  canAccessResource(userRole: UserRole, resource: string, action: string, context?: Record<string, unknown>): boolean {
     const ruleKey = `${resource}:${action}`;
     const rule = this.accessRules.get(ruleKey);
     
@@ -236,14 +236,14 @@ class AccessControlManager {
       
       if (rule.conditions.status && context) {
         // Check if resource has allowed status
-        if (!rule.conditions.status.includes(context.status)) {
+        if (!rule.conditions.status.includes(context.status as string)) {
           return false;
         }
       }
       
       if (rule.conditions.department && context) {
         // Check department-based access
-        if (!rule.conditions.department.includes(context.department)) {
+        if (!rule.conditions.department.includes(context.department as string)) {
           return false;
         }
       }
@@ -263,7 +263,9 @@ class AccessControlManager {
 
   getPermissionsForRole(userRole: UserRole): Permission[] {
     const role = this.roles.get(userRole);
-    if (!role) return [];
+    if (!role) {
+      return [];
+    }
     
     return role.permissions
       .map(permissionId => this.permissions.get(permissionId))
@@ -279,7 +281,9 @@ class AccessControlManager {
     const current = this.roles.get(currentRole);
     const target = this.roles.get(targetRole);
     
-    if (!current || !target) return false;
+    if (!current || !target) {
+      return false;
+    }
     
     return target.level > current.level;
   }
@@ -298,16 +302,16 @@ class AccessControlManager {
     return this.getAllPermissions().filter(permission =>
       permission.name.toLowerCase().includes(lowerQuery) ||
       permission.description.toLowerCase().includes(lowerQuery) ||
-      permission.resource.toLowerCase().includes(lowerQuery)
+      permission.resource.toLowerCase().includes(lowerQuery),
     );
   }
 
   // Access validation helpers
-  validateProductAccess(userRole: UserRole, action: string, product?: any): boolean {
+  validateProductAccess(userRole: UserRole, action: string, product?: Record<string, unknown>): boolean {
     return this.canAccessResource(userRole, 'product', action, product);
   }
 
-  validateUserAccess(userRole: UserRole, action: string, targetUser?: any): boolean {
+  validateUserAccess(userRole: UserRole, action: string, targetUser?: Record<string, unknown>): boolean {
     return this.canAccessResource(userRole, 'user', action, targetUser);
   }
 
@@ -336,27 +340,37 @@ export const accessControl = AccessControlManager.getInstance();
 // React Hook for Access Control
 export const useAccessControl = (userRole?: UserRole) => {
   const checkPermission = useCallback((permissionId: string) => {
-    if (!userRole) return false;
+    if (!userRole) {
+      return false;
+    }
     return accessControl.hasPermission(userRole, permissionId);
   }, [userRole]);
 
   const checkAnyPermission = useCallback((permissionIds: string[]) => {
-    if (!userRole) return false;
+    if (!userRole) {
+      return false;
+    }
     return accessControl.hasAnyPermission(userRole, permissionIds);
   }, [userRole]);
 
   const checkAllPermissions = useCallback((permissionIds: string[]) => {
-    if (!userRole) return false;
+    if (!userRole) {
+      return false;
+    }
     return accessControl.hasAllPermissions(userRole, permissionIds);
   }, [userRole]);
 
-  const canAccess = useCallback((resource: string, action: string, context?: any) => {
-    if (!userRole) return false;
+  const canAccess = useCallback((resource: string, action: string, context?: Record<string, unknown>) => {
+    if (!userRole) {
+      return false;
+    }
     return accessControl.canAccessResource(userRole, resource, action, context);
   }, [userRole]);
 
   const getRolePermissions = useCallback(() => {
-    if (!userRole) return [];
+    if (!userRole) {
+      return [];
+    }
     return accessControl.getPermissionsForRole(userRole);
   }, [userRole]);
 
@@ -368,14 +382,14 @@ export const useAccessControl = (userRole?: UserRole) => {
     getRolePermissions,
     getRole: accessControl.getRole.bind(accessControl),
     getAllRoles: accessControl.getAllRoles.bind(accessControl),
-    getPermissionMatrix: accessControl.getPermissionMatrix.bind(accessControl)
+    getPermissionMatrix: accessControl.getPermissionMatrix.bind(accessControl),
   };
 };
 
 // Higher-Order Components for Access Control
 export const withPermissionCheck = <P extends object>(
   WrappedComponent: React.ComponentType<P>,
-  requiredPermissions: string[]
+  requiredPermissions: string[],
 ) => {
   return React.memo((props: P & { userRole?: UserRole }) => {
     const { userRole, ...restProps } = props;
@@ -400,7 +414,7 @@ export const withPermissionCheck = <P extends object>(
 
 export const withRoleCheck = <P extends object>(
   WrappedComponent: React.ComponentType<P>,
-  allowedRoles: UserRole[]
+  allowedRoles: UserRole[],
 ) => {
   return React.memo((props: P & { userRole?: UserRole }) => {
     const { userRole, ...restProps } = props;

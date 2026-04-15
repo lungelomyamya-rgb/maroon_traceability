@@ -1,16 +1,18 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { AlertTriangle, CheckCircle, MapPin, FileText, Camera } from 'lucide-react';
 import { useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
+
+import { DashboardLayout } from '@/components/dashboard/DashboardLayout';
 import { useUser } from '@/contexts/userContext';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Textarea } from '@/components/ui/textarea';
-import { DashboardLayout } from '@/components/dashboard/dashboardLayout';
-import { Shield, AlertTriangle, CheckCircle, MapPin, FileText, Camera, TrendingUp, ArrowLeft } from 'lucide-react';
+import { Badge } from '@/src/features/shared/ui/badge';
+import { Button } from '@/src/features/shared/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/src/features/shared/ui/card';
+import { Input } from '@/src/features/shared/ui/input';
+import { Label } from '@/src/features/shared/ui/label';
+import { Textarea } from '@/src/features/shared/ui/textarea';
+
 
 export default function SAPSRecoveryPage() {
   const router = useRouter();
@@ -72,7 +74,7 @@ export default function SAPSRecoveryPage() {
       location: 'Eastern Cape - Last seen near Port Elizabeth',
       reported: '2024-01-15 08:30',
       farmer: 'John Farmer',
-      value: 'R75,000'
+      value: 'R75,000',
     },
     {
       id: 'CASE-2024-044',
@@ -82,7 +84,7 @@ export default function SAPSRecoveryPage() {
       location: 'Free State - Moving towards Bloemfontein',
       reported: '2024-01-14 16:20',
       farmer: 'Sarah Shepherd',
-      value: 'R24,000'
+      value: 'R24,000',
     },
     {
       id: 'CASE-2024-043',
@@ -92,8 +94,8 @@ export default function SAPSRecoveryPage() {
       location: 'KwaZulu-Natal - Recovered at N3 checkpoint',
       reported: '2024-01-13 12:15',
       farmer: 'Mike Goat',
-      value: 'R16,000'
-    }
+      value: 'R16,000',
+    },
   ];
 
   const recoveryActions = [
@@ -101,26 +103,26 @@ export default function SAPSRecoveryPage() {
       title: 'Scan Recovered Asset',
       description: 'Verify ownership using QR code or IoT tag',
       icon: Camera,
-      action: () => console.log('Scan asset')
+      action: () => console.log('Scan asset'),
     },
     {
       title: 'Update Case Status',
       description: 'Mark case as recovered or update progress',
       icon: CheckCircle,
-      action: () => console.log('Update status')
+      action: () => console.log('Update status'),
     },
     {
       title: 'Generate Recovery Report',
       description: 'Create official recovery documentation',
       icon: FileText,
-      action: () => console.log('Generate report')
+      action: () => console.log('Generate report'),
     },
     {
       title: 'Notify Owner',
       description: 'Inform farmer of recovery status',
       icon: AlertTriangle,
-      action: () => console.log('Notify owner')
-    }
+      action: () => console.log('Notify owner'),
+    },
   ];
 
   return (
@@ -150,7 +152,7 @@ export default function SAPSRecoveryPage() {
             <div className="space-y-4">
               {activeCases.map((case_) => (
                 <div key={case_.id} className="border rounded-lg p-4 hover:bg-gray-50 cursor-pointer"
-                     onClick={() => setSelectedCase(case_.id)}>
+                  onClick={() => setSelectedCase(case_.id)}>
                   <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-3">
                     <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:gap-3">
                       <h3 className="font-semibold text-lg">{case_.id}</h3>

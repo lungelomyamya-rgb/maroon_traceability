@@ -1,11 +1,12 @@
 // src/app/marketplace/page.tsx
 'use client';
 
-import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
+
 import { useUser } from '@/contexts/userContext';
-import ErrorBoundary from '@/components/errorBoundary';
-import Marketplace from '../../components/marketplace/marketplace';
+import { MarketplacePage } from '@/src/features/marketplace';
+import ErrorBoundary from '@/src/features/shared/errorBoundary';
 
 export default function PublicPage() {
   const router = useRouter();
@@ -22,7 +23,7 @@ export default function PublicPage() {
 
   return (
     <ErrorBoundary>
-      <Marketplace />
+      <MarketplacePage />
     </ErrorBoundary>
   );
 }

@@ -1,5 +1,4 @@
 // In src/types/api.ts
-import { product } from './database';
 
 export interface ApiResponse<T> {
   success: boolean;

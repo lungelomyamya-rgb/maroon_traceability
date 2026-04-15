@@ -2,10 +2,11 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+
 import { fetchWithProxy } from '@/lib/api';
 
 interface ApiResponse {
-  [key: string]: any;
+  [key: string]: unknown;
 }
 
 export default function ProxyPage() {
@@ -21,7 +22,7 @@ export default function ProxyPage() {
       try {
         const apiUrl = process.env.NEXT_PUBLIC_API_ENDPOINT || 'YOUR_API_ENDPOINT';
         const result = await fetchWithProxy(apiUrl);
-        setData(result);
+        setData(result as unknown as ApiResponse);
       } catch (err) {
         const error = err as Error;
         setError(error.message || 'An error occurred');
@@ -33,8 +34,12 @@ export default function ProxyPage() {
     fetchData();
   }, []);
 
-  if (isLoading) return <div>Loading...</div>;
-  if (error) return <div className="text-red-500">Error: {error}</div>;
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+  if (error) {
+    return <div className="text-red-500">Error: {error}</div>;
+  }
 
   return (
     <div className="p-4">

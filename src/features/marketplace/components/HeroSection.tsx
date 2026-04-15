@@ -1,17 +1,23 @@
 // src/components/marketplace/HeroSection.tsx
 'use client';
 
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
+import { Badge } from '@/src/features/shared/ui/badge';
 import { 
   CheckCircle, 
   Award, 
   Leaf, 
-  Truck 
+  Truck, 
 } from 'lucide-react';
 
 interface HeroSectionProps {
-  router: any;
+  router: {
+    push: (path: string) => void;
+    back: () => void;
+    forward: () => void;
+    refresh: () => void;
+    replace: (path: string) => void;
+    prefetch: (path: string) => void;
+  };
 }
 
 export default function HeroSection({ router }: HeroSectionProps) {

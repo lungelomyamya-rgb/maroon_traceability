@@ -1,27 +1,28 @@
 // src/components/marketplace/marketplace.tsx
 'use client';
 
-import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+import ErrorBoundary from '@/components/errorBoundary';
+import { mockProducts, categories } from '@/constants/marketplaceData';
+import { Product } from '@/constants/marketplaceData';
 import { useUser } from '@/contexts/userContext';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
+import { getAssetPath } from '@/lib/utils/assetPath';
+import { Button } from '@/src/features/shared/ui/button';
 import { 
   ShoppingCart, 
   QrCode, 
-  ArrowUp
+  ArrowUp,
 } from 'lucide-react';
-import ErrorBoundary from '@/components/errorBoundary';
-import { useSkipLinks } from './KeyboardNavigation';
-import HeroSection from './HeroSection';
-import FeaturedProducts from './FeaturedProducts';
+import { useRouter } from 'next/navigation';
+import { useState, useEffect, useMemo } from 'react';
+
 import CategoriesComponent from './Categories';
-import TrustSignals from './TrustSignals';
+import FeaturedProducts from './FeaturedProducts';
+import HeroSection from './HeroSection';
+import { useSkipLinks } from './KeyboardNavigation';
 import QRScannerSection from './QRScannerSection';
 import SearchAndFilter from './SearchAndFilter';
-import { getAssetPath } from '@/lib/utils/assetPath';
-import { mockProducts, categories } from '@/constants/marketplaceData';
-import { Product } from '@/constants/marketplaceData';
+import TrustSignals from './TrustSignals';
+
 
 interface CartItem {
   id: string;
@@ -39,7 +40,7 @@ export default function Marketplace() {
   const [cart, setCart] = useState<CartItem[]>([]);
   const [showScrollTop, setShowScrollTop] = useState(false);
   const [filteredProducts, setFilteredProducts] = useState<Product[]>(mockProducts);
-  const products = mockProducts;
+  const products = useMemo(() => mockProducts, []);
 
   // Initialize skip links
   useSkipLinks();
@@ -71,7 +72,7 @@ export default function Marketplace() {
       setCart(cart.map(item => 
         item.id === product.id 
           ? { ...item, quantity: item.quantity + 1 }
-          : item
+          : item,
       ));
     } else {
       setCart([...cart, {
@@ -81,7 +82,7 @@ export default function Marketplace() {
         price: product.price,
         quantity: 1,
         image: product.images[0] || '/images/placeholder.jpg',
-        farmer: product.farmer.name
+        farmer: product.farmer.name,
       }]);
     }
   };
@@ -97,7 +98,7 @@ export default function Marketplace() {
       setCart(cart.map(item => 
         item.id === productId 
           ? { ...item, quantity }
-          : item
+          : item,
       ));
     }
   };
@@ -120,7 +121,7 @@ export default function Marketplace() {
               <div className="flex items-center gap-2 sm:gap-3 md:gap-4 lg:gap-6">
                 <div className="flex items-center flex-1 min-w-0">
                   <img 
-                    src={getAssetPath("/images/lwandleMoringaBakery.png")} 
+                    src={getAssetPath('/images/lwandleMoringaBakery.png')} 
                     alt="Lwandle Moringa Bakery Logo"
                     className="h-10 w-10 sm:h-12 sm:w-12 mr-2 rounded-lg"
                   />
@@ -217,7 +218,7 @@ export default function Marketplace() {
           <FeaturedProducts products={filteredProducts} router={router} addToCart={addToCart} cart={cart} />
 
           {/* Categories */}
-          <CategoriesComponent categories={categories} router={router} />
+          <CategoriesComponent categories={categories} />
 
           {/* Trust Signals */}
           <TrustSignals />

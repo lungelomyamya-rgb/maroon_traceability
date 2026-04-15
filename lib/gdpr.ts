@@ -67,8 +67,8 @@ class GDPRManager {
           dataSharing: 'We only share data with trusted partners when necessary for service delivery, and never sell your personal information.',
           userRights: 'You have the right to access, correct, delete, or restrict your personal data. Contact us to exercise these rights.',
           cookies: 'We use essential cookies for platform functionality and analytics cookies to improve our services.',
-          retention: 'We retain your data only as long as necessary to provide our services, unless required by law to retain it longer.'
-        }
+          retention: 'We retain your data only as long as necessary to provide our services, unless required by law to retain it longer.',
+        },
       };
       this.savePrivacyPolicy(defaultPolicy);
     }
@@ -84,7 +84,7 @@ class GDPRManager {
       consentType,
       version: '1.0',
       ipAddress: this.getClientIP(),
-      userAgent: typeof navigator !== 'undefined' ? navigator.userAgent : undefined
+      userAgent: typeof navigator !== 'undefined' ? navigator.userAgent : undefined,
     };
 
     const existingConsents = this.getConsents();
@@ -122,7 +122,7 @@ class GDPRManager {
   createDataSubjectRequest(
     type: DataSubjectRequest['type'],
     email: string,
-    details?: string
+    details?: string,
   ): DataSubjectRequest {
     const request: DataSubjectRequest = {
       id: `request_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
@@ -130,7 +130,7 @@ class GDPRManager {
       email,
       requestDate: new Date().toISOString(),
       status: 'pending',
-      details
+      details,
     };
 
     const existingRequests = this.getDataSubjectRequests();
@@ -166,20 +166,20 @@ class GDPRManager {
   }
 
   // Data Anonymization
-  anonymizeUserData(userData: any): any {
+  anonymizeUserData(userData: Record<string, unknown>): Record<string, unknown> {
     const anonymized = { ...userData };
     
     // Remove or hash personal identifiers
     if (anonymized.email) {
-      anonymized.email = this.hashEmail(anonymized.email);
+      anonymized.email = this.hashEmail(anonymized.email as string);
     }
     
     if (anonymized.name) {
-      anonymized.name = this.hashString(anonymized.name);
+      anonymized.name = this.hashString(anonymized.name as string);
     }
     
     if (anonymized.address) {
-      anonymized.address = this.hashString(anonymized.address);
+      anonymized.address = this.hashString(anonymized.address as string);
     }
     
     // Remove sensitive fields
@@ -235,11 +235,13 @@ class GDPRManager {
   }
 
   hasCookieConsent(): boolean {
-    if (typeof document === 'undefined') return false;
+    if (typeof document === 'undefined') {
+      return false;
+    }
     
     const cookies = document.cookie.split(';');
     const analyticsCookie = cookies.find(cookie => 
-      cookie.trim().startsWith('analytics_consent=')
+      cookie.trim().startsWith('analytics_consent='),
     );
     
     return analyticsCookie?.split('=')[1] === 'true';
@@ -275,7 +277,7 @@ class GDPRManager {
     pendingRequests: number;
     completedRequests: number;
     lastPolicyUpdate: string;
-  } {
+    } {
     const consents = this.getConsents();
     const requests = this.getDataSubjectRequests();
     const policy = this.getPrivacyPolicy();
@@ -290,12 +292,12 @@ class GDPRManager {
       consentBreakdown,
       pendingRequests: requests.filter(r => r.status === 'pending').length,
       completedRequests: requests.filter(r => r.status === 'completed').length,
-      lastPolicyUpdate: policy?.lastUpdated || 'Never'
+      lastPolicyUpdate: policy?.lastUpdated || 'Never',
     };
   }
 
   // Export Data (Right to Data Portability)
-  exportUserData(email: string): any {
+  exportUserData(email: string): Record<string, unknown> {
     // In a real implementation, this would collect all user data
     // For demo, we'll return a structured format
     const consents = this.getConsents();
@@ -306,7 +308,7 @@ class GDPRManager {
       consents: consents.filter(c => c.email === email),
       requests: requests.filter(r => r.email === email),
       exportDate: new Date().toISOString(),
-      format: 'JSON'
+      format: 'JSON',
     };
   }
 
@@ -383,6 +385,6 @@ export const useGDPR = () => {
     requestDataAccess,
     requestDataDeletion,
     getPrivacyPolicy: gdprManager.getPrivacyPolicy.bind(gdprManager),
-    generateComplianceReport: gdprManager.generateComplianceReport.bind(gdprManager)
+    generateComplianceReport: gdprManager.generateComplianceReport.bind(gdprManager),
   };
 };

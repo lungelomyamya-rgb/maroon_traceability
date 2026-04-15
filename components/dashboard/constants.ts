@@ -2,7 +2,7 @@
 
 export const CHART_COLORS = [
   '#3b82f6',
-  '#10b981', 
+  '#10b981',
   '#f59e0b',
   '#ef4444',
   '#6b7280',

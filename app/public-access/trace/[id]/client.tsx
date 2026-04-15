@@ -1,15 +1,15 @@
 // app/public-access/trace/[id]/client.tsx
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import { MapPin, Calendar, User, CheckCircle, Package, ArrowRight, Share2, Printer, QrCode } from 'lucide-react';
 import { useParams, useRouter } from 'next/navigation';
-import { Shield, MapPin, Calendar, User, CheckCircle, Package, ArrowRight, Share2, Printer, Smartphone, QrCode } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { DashboardLayout } from '@/components/dashboard/dashboardLayout';
-import { ErrorBoundary } from '@/components/errorBoundary';
+import React, { useEffect, useState } from 'react';
+
 import { formatDateTime } from '@/lib/utils';
-import { commonColors } from '@/lib/theme/colors';
 import { getAssetPath } from '@/lib/utils/assetPath';
+import { DashboardLayout } from '@/src/features/shared/dashboard/dashboardLayout';
+import { ErrorBoundary } from '@/src/features/shared/errorBoundary';
+import { Button } from '@/src/features/shared/ui/button';
 
 interface PublicTraceEvent {
   id: string;
@@ -22,7 +22,7 @@ interface PublicTraceEvent {
   notes: string;
   photos: string[];
   syncStatus: string;
-  data: any;
+  data: Record<string, unknown>;
 }
 
 const EVENT_CONFIG: Record<string, { icon: string; label: string; description: string }> = {
@@ -33,13 +33,28 @@ const EVENT_CONFIG: Record<string, { icon: string; label: string; description: s
   collection: { icon: '🚚', label: 'Collection', description: 'Collected for transport' },
   packaging: { icon: '📦', label: 'Packaging', description: 'Product packaged' },
   shipping: { icon: '🚢', label: 'Shipping', description: 'Product in transit' },
-  delivery: { icon: '🏪', label: 'Delivery', description: 'Delivered to retailer' }
+  delivery: { icon: '🏪', label: 'Delivery', description: 'Delivered to retailer' },
 };
 
 export default function PublicTraceClient() {
   const params = useParams();
   const router = useRouter();
-  const [product, setProduct] = useState<any>(null);
+  const [product, setProduct] = useState<{
+    id: string;
+    productName: string;
+    description: string;
+    category: string;
+    farmer: string;
+    location: string;
+    harvestDate: string;
+    certifications: string[];
+    status: string;
+    image?: string;
+    batchSize?: string;
+    blockHash?: string;
+    txHash?: string;
+    verifications?: number;
+  } | null>(null);
   const [events, setEvents] = useState<PublicTraceEvent[]>([]);
   const [loading, setLoading] = useState(true);
   const [shareUrl, setShareUrl] = useState('');
@@ -56,23 +71,23 @@ export default function PublicTraceClient() {
       const mockProduct = {
         id: productId,
         productName: productId === 'BLK001' ? 'Organic Apples' : 
-                     productId === 'BLK002' ? 'Free-Range Eggs' :
-                     productId === 'BLK003' ? 'Grass-Fed Beef' :
-                     productId === 'BLK004' ? 'Fresh Spinach' : 'Product',
-        description: `High-quality product from our certified farms, grown with sustainable practices and verified for quality and safety.`,
+          productId === 'BLK002' ? 'Free-Range Eggs' :
+            productId === 'BLK003' ? 'Grass-Fed Beef' :
+              productId === 'BLK004' ? 'Fresh Spinach' : 'Product',
+        description: 'High-quality product from our certified farms, grown with sustainable practices and verified for quality and safety.',
         category: productId === 'BLK001' ? 'Fruits' : 
-                  productId === 'BLK002' ? 'Poultry' :
-                  productId === 'BLK003' ? 'Beef' :
-                  productId === 'BLK004' ? 'Vegetables' : 'Other',
+          productId === 'BLK002' ? 'Poultry' :
+            productId === 'BLK003' ? 'Beef' :
+              productId === 'BLK004' ? 'Vegetables' : 'Other',
         farmer: productId === 'BLK001' ? 'Green Valley Farm' : 
-                productId === 'BLK002' ? 'Sunrise Poultry' :
-                productId === 'BLK003' ? 'Karoo Cattle Co.' :
-                productId === 'BLK004' ? 'Leafy Greens Farm' : 'Local Farm',
+          productId === 'BLK002' ? 'Sunrise Poultry' :
+            productId === 'BLK003' ? 'Karoo Cattle Co.' :
+              productId === 'BLK004' ? 'Leafy Greens Farm' : 'Local Farm',
         farmerAddress: '0x742d35Cc6634C0532925a3b8D1750B87B02B6C71',
         location: productId === 'BLK001' ? 'Stellenbosch, Western Cape' : 
-                  productId === 'BLK002' ? 'Robertson, Western Cape' :
-                  productId === 'BLK003' ? 'Graaff-Reinet, Eastern Cape' :
-                  productId === 'BLK004' ? 'Paarl, Western Cape' : 'South Africa',
+          productId === 'BLK002' ? 'Robertson, Western Cape' :
+            productId === 'BLK003' ? 'Graaff-Reinet, Eastern Cape' :
+              productId === 'BLK004' ? 'Paarl, Western Cape' : 'South Africa',
         harvestDate: '2025-09-10',
         certifications: ['Organic', 'Fair Trade', 'Non-GMO'],
         batchSize: '500kg',
@@ -97,7 +112,7 @@ export default function PublicTraceClient() {
           notes: 'Planted with organic seeds and sustainable farming practices',
           photos: [],
           syncStatus: 'synced',
-          data: {}
+          data: {},
         },
         {
           id: 'evt2',
@@ -110,7 +125,7 @@ export default function PublicTraceClient() {
           notes: 'Healthy growth observed, no pests detected',
           photos: [],
           syncStatus: 'synced',
-          data: {}
+          data: {},
         },
         {
           id: 'evt3',
@@ -123,7 +138,7 @@ export default function PublicTraceClient() {
           notes: 'Harvested at peak freshness, all quality standards met',
           photos: [],
           syncStatus: 'synced',
-          data: {}
+          data: {},
         },
         {
           id: 'evt4',
@@ -136,7 +151,7 @@ export default function PublicTraceClient() {
           notes: 'Passed all quality checks. Grade A+ quality.',
           photos: [],
           syncStatus: 'synced',
-          data: {}
+          data: {},
         },
         {
           id: 'evt5',
@@ -149,7 +164,7 @@ export default function PublicTraceClient() {
           notes: 'Collected for transport to packaging facility',
           photos: [],
           syncStatus: 'synced',
-          data: {}
+          data: {},
         },
         {
           id: 'evt6',
@@ -162,7 +177,7 @@ export default function PublicTraceClient() {
           notes: 'Packaged in certified materials, batch codes applied',
           photos: [],
           syncStatus: 'synced',
-          data: {}
+          data: {},
         },
         {
           id: 'evt7',
@@ -175,8 +190,8 @@ export default function PublicTraceClient() {
           notes: 'Delivered to retail location, ready for consumer purchase',
           photos: [],
           syncStatus: 'synced',
-          data: {}
-        }
+          data: {},
+        },
       ];
 
       setProduct(mockProduct);
@@ -191,9 +206,9 @@ export default function PublicTraceClient() {
         await navigator.share({
           title: `Product Trace: ${product?.productName}`,
           text: `Trace ${product?.productName} from ${product?.farmer} on the blockchain`,
-          url: shareUrl
+          url: shareUrl,
         });
-      } catch (error) {
+      } catch (_error) {
         navigator.clipboard.writeText(shareUrl);
         alert('Link copied to clipboard!');
       }
@@ -239,11 +254,11 @@ export default function PublicTraceClient() {
 
   const getProductIcon = (category: string) => {
     switch (category) {
-      case 'Fruits': return '🍎';
-      case 'Poultry': return '🥚';
-      case 'Beef': return '🥩';
-      case 'Vegetables': return '🥬';
-      default: return '📦';
+    case 'Fruits': return '🍎';
+    case 'Poultry': return '🥚';
+    case 'Beef': return '🥩';
+    case 'Vegetables': return '🥬';
+    default: return '📦';
     }
   };
 
@@ -286,7 +301,7 @@ export default function PublicTraceClient() {
           <div className="bg-white rounded-2xl shadow-xl overflow-hidden mb-8">
             <div className="bg-green-100 p-4 border-b relative h-32">
               <div className="absolute right-4 top-4 flex items-center justify-center">
-                <img src={getAssetPath("/images/maroonLogo.png")} alt="MAROON" className="h-20 w-20 opacity-80" />
+                <img src={getAssetPath('/images/maroonLogo.png')} alt="MAROON" className="h-20 w-20 opacity-80" />
               </div>
               <div className="relative z-10 flex items-center gap-4">
                 <div className="text-4xl">{getProductIcon(product.category)}</div>
@@ -420,7 +435,7 @@ export default function PublicTraceClient() {
           {/* Blockchain Verification */}
           <div className="bg-gradient-to-br from-gray-900 to-gray-800 rounded-2xl p-6 text-white mb-8">
             <h3 className="text-xl font-bold mb-4 flex items-center gap-2">
-              <img src={getAssetPath("/images/maroonLogo.png")} alt="MAROON" className="h-6 w-6 text-green-400" />
+              <img src={getAssetPath('/images/maroonLogo.png')} alt="MAROON" className="h-6 w-6 text-green-400" />
               Blockchain Verification
             </h3>
             <div className="space-y-2 text-sm font-mono">
@@ -435,7 +450,7 @@ export default function PublicTraceClient() {
           {/* Public Access Info */}
           <div className="bg-green-50 border border-green-200 rounded-lg p-4 mb-8">
             <div className="flex items-center gap-2 mb-2">
-              <img src={getAssetPath("/images/moringaPowder.png")} alt="MAROON" className="h-5 w-5 text-green-600" />
+              <img src={getAssetPath('/images/moringaPowder.png')} alt="MAROON" className="h-5 w-5 text-green-600" />
               <h4 className="font-semibold text-green-900">Public Access Information</h4>
             </div>
             <p className="text-sm text-green-800 mb-3">

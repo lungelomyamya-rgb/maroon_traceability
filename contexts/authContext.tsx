@@ -1,7 +1,14 @@
 // src/contexts/authContext.tsx
 'use client';
 
+// Global declaration for console
+declare const console: {
+  error: (message?: unknown, ...optionalParams: unknown[]) => void;
+  log: (message?: unknown, ...optionalParams: unknown[]) => void;
+};
+
 import React, { createContext, useContext, useState, ReactNode } from 'react';
+
 import { User } from '@/types/user';
 
 interface AuthContextType {
@@ -26,13 +33,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           id: '1',
           email, 
           name: 'User',
-          role: 'public' as const
+          role: 'public' as const,
         });
         return true;
       }
       return false;
     } catch (error) {
-      console.error('Login failed:', error);
+      if (typeof console !== 'undefined') {
+        console.error('Login failed:', error);
+      }
       return false;
     } finally {
       setLoading(false);

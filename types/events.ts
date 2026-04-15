@@ -14,7 +14,7 @@ export type EventType =
   | 'qr-generation'
   | 'retail-verification';
 
-  export interface EventData {
+export interface EventData {
   [key: string]: unknown; // Or define specific fields if known
 }
 

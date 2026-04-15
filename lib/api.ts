@@ -1,7 +1,8 @@
 // src/lib/api.ts
-import { mockDb } from './mockDb';
-import { mockBlockchain } from './mockBlockchain';
 import { productEvent } from '@/types/database';
+
+import { mockBlockchain } from './mockBlockchain';
+import { mockDb } from './mockDb';
 import { ProductFormData } from './validation';
 
 export async function fetchWithProxy(url: string, options?: RequestInit): Promise<Response> {

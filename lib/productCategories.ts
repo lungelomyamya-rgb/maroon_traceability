@@ -9,7 +9,7 @@ export const productCategories = [
   'Seafood',
   'Nuts',
   'Herbs',
-  'Spices'
+  'Spices',
 ] as const;
 
 export type productCategory = typeof productCategories[number];

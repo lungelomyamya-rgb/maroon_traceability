@@ -1,10 +1,12 @@
 // src/app/layout.tsx
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
+
 import './globals.css';
+import { ServiceWorkerRegistration } from '@/src/features/shared/service-worker-registration';
+import { ThemeToggle } from '@/src/features/shared/theme/ThemeToggle';
+
 import ClientLayout from './clientLayout';
-import { ServiceWorkerRegistration } from '@/components/service-worker-registration';
-import { ClientOnly } from '@/components/clientOnly';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -29,7 +31,10 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={inter.className}>
-        <ClientLayout>{children}</ClientLayout>
+        <ClientLayout>
+          {children}
+          <ThemeToggle />
+        </ClientLayout>
         <ServiceWorkerRegistration />
       </body>
     </html>

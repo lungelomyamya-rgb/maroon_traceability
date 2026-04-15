@@ -13,10 +13,21 @@ export interface CartItem {
   farmer: string;
 }
 
+export interface Product {
+  id: string;
+  name: string;
+  category: string;
+  price: number;
+  images: string[];
+  farmer: {
+    name: string;
+  };
+}
+
 export const useCart = () => {
   const [cart, setCart] = useState<CartItem[]>([]);
 
-  const addToCart = (product: any) => {
+  const addToCart = (product: Product) => {
     setCart(prevCart => {
       const existingItem = prevCart.find(item => item.id === product.id);
       if (existingItem) {
@@ -26,7 +37,15 @@ export const useCart = () => {
             : item,
         );
       }
-      return [...prevCart, { ...product, quantity: 1 }];
+      return [...prevCart, { 
+        id: product.id,
+        name: product.name,
+        category: product.category,
+        price: product.price,
+        image: product.images[0] || '/images/placeholder.jpg',
+        farmer: product.farmer.name,
+        quantity: 1,
+      }];
     });
   };
 

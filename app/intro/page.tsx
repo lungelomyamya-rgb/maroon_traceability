@@ -1,18 +1,17 @@
 'use client';
 
-import { useEffect } from 'react';
+import { ArrowRight, Shield, Smartphone, Lock, TrendingUp, Users, Award, BookOpen } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import { useUser } from '@/contexts/userContext';
-import { Button } from '@/components/ui/button';
-import { ArrowRight, Shield, Smartphone, QrCode, Lock, TrendingUp, Users, Award, BookOpen } from 'lucide-react';
-import { getAssetPath } from '@/lib/utils/assetPath';
+import { useEffect } from 'react';
 
-// Cache-busting timestamp
-const CACHE_BUST = Date.now();
+import { getAssetPath } from '@/lib/utils/assetPath';
+import { Button } from '@/src/features/shared/ui/button';
+
+// Static cache-busting (build-time)
+const CACHE_BUST = '1776109992452';
 
 export default function IntroPage() {
   const router = useRouter();
-  const { currentUser } = useUser();
 
   useEffect(() => {
     // Scroll to top when page loads

@@ -1,6 +1,8 @@
 // Manual Service Worker Unregistration Script
 // Copy this code to browser console and execute
 
+/* global navigator, caches, window */
+
 if ('serviceWorker' in navigator) {
   // Unregister all service workers
   navigator.serviceWorker.getRegistrations().then(function(registrations) {

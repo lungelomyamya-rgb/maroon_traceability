@@ -27,7 +27,7 @@ export class EventLogger {
       type,
       message,
       timestamp: Date.now(),
-      metadata
+      metadata,
     };
     
     this.logs.push(log);

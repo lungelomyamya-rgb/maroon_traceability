@@ -1,16 +1,6 @@
 // src/app/packaging/quality-check/page.tsx
 'use client';
 
-import { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { useUser } from '@/contexts/userContext';
-import { DashboardLayout } from '@/components/dashboard/dashboardLayout';
-import { Card } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { 
   CheckCircle, 
   AlertTriangle, 
@@ -20,12 +10,22 @@ import {
   Camera,
   Package,
   Scale,
-  Droplets,
   Thermometer,
   Search,
-  Filter,
-  Plus
+  Plus,
 } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
+
+import { DashboardLayout } from '@/components/dashboard/DashboardLayout';
+import { useUser } from '@/contexts/userContext';
+import { Badge } from '@/src/features/shared/ui/badge';
+import { Button } from '@/src/features/shared/ui/button';
+import { Card } from '@/src/features/shared/ui/card';
+import { Input } from '@/src/features/shared/ui/input';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/src/features/shared/ui/select';
+import { Textarea } from '@/src/features/shared/ui/textarea';
+
 
 interface QualityCheck {
   id: string;
@@ -91,7 +91,7 @@ export default function QualityCheckPage() {
       packagingIntegrity: 'excellent',
       visualInspection: 'Fresh appearance, vibrant color, no damage',
       notes: 'Quality meets all standards. Ready for distribution.',
-      photos: ['carrots-check1.jpg', 'carrots-check2.jpg']
+      photos: ['carrots-check1.jpg', 'carrots-check2.jpg'],
     },
     {
       id: 'qc2',
@@ -107,7 +107,7 @@ export default function QualityCheckPage() {
       packagingIntegrity: 'good',
       visualInspection: 'Some bruising detected, color good',
       notes: 'Requires re-sorting. Bruised apples to be removed.',
-      photos: ['apples-check1.jpg', 'apples-issue1.jpg']
+      photos: ['apples-check1.jpg', 'apples-issue1.jpg'],
     },
     {
       id: 'qc3',
@@ -123,8 +123,8 @@ export default function QualityCheckPage() {
       packagingIntegrity: 'excellent',
       visualInspection: 'Fresh, crisp leaves, no wilting',
       notes: 'Awaiting final inspection results.',
-      photos: ['lettuce-check1.jpg']
-    }
+      photos: ['lettuce-check1.jpg'],
+    },
   ];
 
   const filteredChecks = qualityChecks.filter(check => {
@@ -137,20 +137,20 @@ export default function QualityCheckPage() {
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'passed': return 'bg-green-100 text-green-800';
-      case 'failed': return 'bg-red-100 text-red-800';
-      case 'pending': return 'bg-yellow-100 text-yellow-800';
-      default: return 'bg-gray-100 text-gray-800';
+    case 'passed': return 'bg-green-100 text-green-800';
+    case 'failed': return 'bg-red-100 text-red-800';
+    case 'pending': return 'bg-yellow-100 text-yellow-800';
+    default: return 'bg-gray-100 text-gray-800';
     }
   };
 
   const getIntegrityColor = (integrity: string) => {
     switch (integrity) {
-      case 'excellent': return 'bg-green-100 text-green-800';
-      case 'good': return 'bg-blue-100 text-blue-800';
-      case 'fair': return 'bg-yellow-100 text-yellow-800';
-      case 'poor': return 'bg-red-100 text-red-800';
-      default: return 'bg-gray-100 text-gray-800';
+    case 'excellent': return 'bg-green-100 text-green-800';
+    case 'good': return 'bg-blue-100 text-blue-800';
+    case 'fair': return 'bg-yellow-100 text-yellow-800';
+    case 'poor': return 'bg-red-100 text-red-800';
+    default: return 'bg-gray-100 text-gray-800';
     }
   };
 

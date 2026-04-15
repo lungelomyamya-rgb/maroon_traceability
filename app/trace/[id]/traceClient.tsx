@@ -1,18 +1,17 @@
 // src/app/trace/[id]/traceClient.tsx
 'use client';
 
+import { MapPin, Calendar, User, CheckCircle, Package, ArrowRight } from 'lucide-react';
+import { useParams } from 'next/navigation';
 import React from 'react';
 import { useEffect, useState } from 'react';
-import { useParams } from 'next/navigation';
-import { productCategories } from '@/lib/productCategories';
-import { Shield, MapPin, Calendar, User, CheckCircle, Package, ArrowRight } from 'lucide-react';
-import { Product, ProductCategory } from '@/types/product';
-import type { BlockchainRecord } from '@/types/blockchain';
-import { ProductEvent, EVENT_CONFIG } from '@/types/events';
+
 import { CATEGORY_COLORS } from '@/lib/constants';
 import { formatDateTime } from '@/lib/utils';
-import { commonColors } from '@/lib/theme/colors';
 import { getAssetPath } from '@/lib/utils/assetPath';
+import type { BlockchainRecord } from '@/types/blockchain';
+import { ProductEvent, EVENT_CONFIG } from '@/types/events';
+import { ProductCategory } from '@/types/product';
 
 interface TraceClientProps {
   id: string;
@@ -23,9 +22,9 @@ type ProductWithCategory = Omit<BlockchainRecord, 'category'> & {
   category: keyof typeof CATEGORY_COLORS;
 };
 
-export default function TraceClient({ id }: TraceClientProps) {
-  const params = useParams();
-    const [product, setProduct] = useState<ProductWithCategory | null>(null);
+export default function TraceClient({ id: _id }: TraceClientProps) {
+  const _params = useParams();
+  const [product, setProduct] = useState<ProductWithCategory | null>(null);
   const [events, setEvents] = useState<ProductEvent[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -45,7 +44,7 @@ export default function TraceClient({ id }: TraceClientProps) {
     // For now, simulate loading
     setTimeout(() => {
       // Mock data based on product ID - replace with API call
-      const productId = params.id as string;
+      const productId = _params.id as string;
       let mockProduct;
       let mockEvents;
 
@@ -147,7 +146,7 @@ export default function TraceClient({ id }: TraceClientProps) {
             notes: 'Planted 1000 apple seedlings',
             photos: [],
             syncStatus: 'synced' as const,
-            data: {}
+            data: {},
           },
           {
             id: 'evt2',
@@ -160,7 +159,7 @@ export default function TraceClient({ id }: TraceClientProps) {
             notes: 'Healthy growth, no pests detected',
             photos: [],
             syncStatus: 'synced' as const,
-            data: {}
+            data: {},
           },
           {
             id: 'evt3',
@@ -173,7 +172,7 @@ export default function TraceClient({ id }: TraceClientProps) {
             notes: 'Harvested 500kg of organic apples',
             photos: [],
             syncStatus: 'synced' as const,
-            data: {}
+            data: {},
           },
           {
             id: 'evt4',
@@ -186,7 +185,7 @@ export default function TraceClient({ id }: TraceClientProps) {
             notes: 'Passed all quality checks. Grade A+',
             photos: [],
             syncStatus: 'synced' as const,
-            data: {}
+            data: {},
           },
           {
             id: 'evt5',
@@ -199,7 +198,7 @@ export default function TraceClient({ id }: TraceClientProps) {
             notes: 'Collected 500kg for transport',
             photos: [],
             syncStatus: 'synced' as const,
-            data: {}
+            data: {},
           },
         ];
       } else if (productId.includes('TOMATO') || productId.includes('002')) {
@@ -215,7 +214,7 @@ export default function TraceClient({ id }: TraceClientProps) {
             notes: 'Planted tomato seedlings in controlled environment',
             photos: [],
             syncStatus: 'synced' as const,
-            data: {}
+            data: {},
           },
           {
             id: 'evt2',
@@ -228,7 +227,7 @@ export default function TraceClient({ id }: TraceClientProps) {
             notes: 'Optimal growth conditions maintained',
             photos: [],
             syncStatus: 'synced' as const,
-            data: {}
+            data: {},
           },
           {
             id: 'evt3',
@@ -241,7 +240,7 @@ export default function TraceClient({ id }: TraceClientProps) {
             notes: 'Harvested 300kg of vine-ripened tomatoes',
             photos: [],
             syncStatus: 'synced' as const,
-            data: {}
+            data: {},
           },
           {
             id: 'evt4',
@@ -254,7 +253,7 @@ export default function TraceClient({ id }: TraceClientProps) {
             notes: 'Excellent quality, perfect ripeness',
             photos: [],
             syncStatus: 'synced' as const,
-            data: {}
+            data: {},
           },
         ];
       } else {
@@ -271,7 +270,7 @@ export default function TraceClient({ id }: TraceClientProps) {
             notes: 'Initial planting completed',
             photos: [],
             syncStatus: 'synced' as const,
-            data: {}
+            data: {},
           },
           {
             id: 'evt2',
@@ -284,7 +283,7 @@ export default function TraceClient({ id }: TraceClientProps) {
             notes: 'Product harvested successfully',
             photos: [],
             syncStatus: 'synced' as const,
-            data: {}
+            data: {},
           },
           {
             id: 'evt3',
@@ -297,7 +296,7 @@ export default function TraceClient({ id }: TraceClientProps) {
             notes: 'Quality inspection passed',
             photos: [],
             syncStatus: 'synced' as const,
-            data: {}
+            data: {},
           },
         ];
       }
@@ -306,7 +305,7 @@ export default function TraceClient({ id }: TraceClientProps) {
       setEvents(mockEvents);
       setLoading(false);
     }, 500);
-  }, [params.id]);
+  }, [_params.id]);
 
   if (loading) {
     return (
@@ -342,7 +341,7 @@ export default function TraceClient({ id }: TraceClientProps) {
         <div className="max-w-6xl mx-auto px-0.8 sm:px-1.2 lg:px-1.6 py-0.8 sm:py-1.6 lg:py-3.2">
           <div className="flex items-center gap-3">
             <div className="relative">
-              <img src={getAssetPath("/images/maroonLogo.png")} alt="MAROON" className="h-8 w-8 sm:h-10 sm:w-10 lg:h-12 lg:w-12" />
+              <img src={getAssetPath('/images/maroonLogo.png')} alt="MAROON" className="h-8 w-8 sm:h-10 sm:w-10 lg:h-12 lg:w-12" />
             </div>
             <div className="flex-1 min-w-0">
               <h1 className="text-base sm:text-lg lg:text-xl font-bold bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent truncate">Maroon Blockchain</h1>
@@ -519,7 +518,7 @@ export default function TraceClient({ id }: TraceClientProps) {
       {/* Blockchain Verification */}
       <div className="mt-6 sm:mt-8 bg-gradient-to-br from-gray-900 to-gray-800 rounded-2xl p-4 sm:p-6 text-white">
         <h3 className="text-lg sm:text-xl font-bold mb-3 sm:mb-4 flex items-center gap-2">
-          <img src={getAssetPath("/images/maroonLogo.png")} alt="MAROON" className="h-5 w-5 sm:h-6 sm:w-6 text-green-400" />
+          <img src={getAssetPath('/images/maroonLogo.png')} alt="MAROON" className="h-5 w-5 sm:h-6 sm:w-6 text-green-400" />
           Blockchain Verification
         </h3>
         <div className="space-y-1.5 sm:space-y-2 text-xs sm:text-sm font-mono">

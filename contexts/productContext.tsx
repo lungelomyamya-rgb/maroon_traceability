@@ -1,12 +1,19 @@
 // src/contexts/ProductContext.tsx
 'use client';
 
+// Global declaration for console
+declare const console: {
+  error: (message?: unknown, ...optionalParams: unknown[]) => void;
+  log: (message?: unknown, ...optionalParams: unknown[]) => void;
+};
+
 import React, { createContext, useContext, useState, ReactNode, useMemo } from 'react';
-import { BlockchainRecord } from '@/types/blockchain';
-import { CreateProduct, Product, ProductCategory, ProductStatus } from '@/types/product';
-import { BusinessMetrics } from '@/types/metrics';
-import { createBlockchainRecord, incrementVerification } from '@/lib/blockchain';
+
 import { INITIAL_METRICS } from '@/lib/constants';
+import { createBlockchainRecord } from '@/services/blockchainService'; // incrementVerification is unused
+import { BlockchainRecord } from '@/types/blockchain';
+import { BusinessMetrics } from '@/types/metrics';
+import { CreateProduct, Product, ProductCategory, ProductStatus } from '@/types/product';
 
 // Re-export ProductCategory for other components
 export { ProductCategory } from '@/types/product';
@@ -17,7 +24,7 @@ interface ProductContextType {
   selectedProduct: BlockchainRecord | null;
   selectedCategory: ProductCategory | 'All';
   searchQuery: string;
-  addProduct: (product: CreateProduct, farmerName?: string) => void;
+  addProduct: (product: CreateProduct, farmerName?: string) => Promise<void>;
   verifyProduct: (productId: string) => void;
   setSelectedProduct: (product: BlockchainRecord | null) => void;
   setSelectedCategory: (category: ProductCategory | 'All') => void;
@@ -130,7 +137,7 @@ export function ProductProvider({ children }: { children: ReactNode }) {
       verifications: record.verifications || 0,
       createdAt: record.timestamp ? new Date(record.timestamp).toISOString() : new Date().toISOString(),
       lastVerified: record.timestamp ? new Date(record.timestamp).toISOString() : null,
-      farmerName: record.farmer || 'Unknown Farmer'
+      farmerName: record.farmer || 'Unknown Farmer',
     }));
   }, [blockchainRecords]);
 
@@ -150,7 +157,7 @@ export function ProductProvider({ children }: { children: ReactNode }) {
         (record.productName?.toLowerCase().includes(query)) ||
         (record.farmer?.toLowerCase().includes(query)) ||
         (record.location?.toLowerCase().includes(query)) ||
-        (record.category?.toLowerCase().includes(query))
+        (record.category?.toLowerCase().includes(query)),
       );
     }
 
@@ -165,7 +172,7 @@ export function ProductProvider({ children }: { children: ReactNode }) {
     const allCategories: ProductCategory[] = [
       ProductCategory.FRUITS, ProductCategory.VEGETABLES, ProductCategory.BEEF, 
       ProductCategory.POULTRY, ProductCategory.PORK, ProductCategory.LAMB, 
-      ProductCategory.GOAT, ProductCategory.FISH
+      ProductCategory.GOAT, ProductCategory.FISH,
     ];
     allCategories.forEach(cat => {
       stats[cat] = 0;
@@ -202,7 +209,7 @@ export function ProductProvider({ children }: { children: ReactNode }) {
               };
             }
             return record;
-          })
+          }),
         );
 
         // Update business metrics
@@ -213,18 +220,23 @@ export function ProductProvider({ children }: { children: ReactNode }) {
         }));
 
         // Show success message
-        // In a real app, you might want to use a toast notification here
-        console.log(`Successfully verified product ${productId}`);
+        if (typeof console !== 'undefined') {
+          console.log(`Successfully verified product ${productId}`);
+        }
       } else {
-        console.error('Failed to verify product on the blockchain');
+        if (typeof console !== 'undefined') {
+          console.error('Failed to verify product on the blockchain');
+        }
       }
     } catch (error) {
-      console.error('Error verifying product:', error);
+      if (typeof console !== 'undefined') {
+        console.error('Error verifying product:', error);
+      }
     }
   };
 
-  const addProduct = (product: CreateProduct, farmerName?: string) => {
-    const newRecord = createBlockchainRecord(product, blockchainRecords.length, farmerName);
+  const addProduct = async (product: CreateProduct, farmerName?: string) => {
+    const newRecord = await createBlockchainRecord(product, blockchainRecords.length, farmerName);
     
     setBlockchainRecords((prev) => [...prev, newRecord]);
     setBusinessMetrics((prev) => ({

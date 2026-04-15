@@ -119,7 +119,7 @@ export const GRADE_CRITERIA: Record<Grade, GradeCriteria> = {
     sugarContentMin: 15,
     maxDefects: 0,
     description: 'Premium quality - perfect appearance and taste',
-    pricePremium: 25
+    pricePremium: 25,
   },
   'B': {
     grade: 'B',
@@ -131,7 +131,7 @@ export const GRADE_CRITERIA: Record<Grade, GradeCriteria> = {
     sugarContentMin: 13,
     maxDefects: 1,
     description: 'High quality - minor cosmetic imperfections',
-    pricePremium: 15
+    pricePremium: 15,
   },
   'C': {
     grade: 'C',
@@ -143,7 +143,7 @@ export const GRADE_CRITERIA: Record<Grade, GradeCriteria> = {
     sugarContentMin: 11,
     maxDefects: 2,
     description: 'Standard quality - suitable for processing',
-    pricePremium: 5
+    pricePremium: 5,
   },
   'D': {
     grade: 'D',
@@ -155,7 +155,7 @@ export const GRADE_CRITERIA: Record<Grade, GradeCriteria> = {
     sugarContentMin: 9,
     maxDefects: 3,
     description: 'Below average - mainly for industrial use',
-    pricePremium: 0
+    pricePremium: 0,
   },
   'E': {
     grade: 'E',
@@ -167,7 +167,7 @@ export const GRADE_CRITERIA: Record<Grade, GradeCriteria> = {
     sugarContentMin: 7,
     maxDefects: 4,
     description: 'Low quality - limited market value',
-    pricePremium: -10
+    pricePremium: -10,
   },
   'F': {
     grade: 'F',
@@ -179,8 +179,8 @@ export const GRADE_CRITERIA: Record<Grade, GradeCriteria> = {
     sugarContentMin: 0,
     maxDefects: 10,
     description: 'Reject quality - not suitable for sale',
-    pricePremium: -25
-  }
+    pricePremium: -25,
+  },
 };
 
 export const VERIFICATION_PROVIDERS = {
@@ -190,7 +190,7 @@ export const VERIFICATION_PROVIDERS = {
     website: 'https://www.sgs.co.za',
     services: ['Quality Inspection', 'Certification', 'Laboratory Testing'],
     contact: '+27 11 123 4567',
-    email: 'southafrica@sgs.com'
+    email: 'southafrica@sgs.com',
   },
   'bureau-veritas': {
     name: 'Bureau Veritas',
@@ -198,7 +198,7 @@ export const VERIFICATION_PROVIDERS = {
     website: 'https://www.bureauveritas.co.za',
     services: ['Inspection Services', 'Certification', 'Compliance'],
     contact: '+27 11 987 6543',
-    email: 'info@za.bureauveritas.com'
+    email: 'info@za.bureauveritas.com',
   },
   intertek: {
     name: 'Intertek',
@@ -206,8 +206,8 @@ export const VERIFICATION_PROVIDERS = {
     website: 'https://www.intertek.com',
     services: ['Quality Assurance', 'Testing', 'Inspection'],
     contact: '+27 11 555 0123',
-    email: 'africa@intertek.com'
-  }
+    email: 'africa@intertek.com',
+  },
 } as const;
 
 export const DEFECT_TYPES = [
@@ -222,7 +222,7 @@ export const DEFECT_TYPES = [
   'Rot',
   'Discoloration',
   'Pest Damage',
-  'Mechanical Damage'
+  'Mechanical Damage',
 ];
 
 export const INSPECTION_CATEGORIES = [
@@ -236,5 +236,5 @@ export const INSPECTION_CATEGORIES = [
   'Weight Verification',
   'Temperature Check',
   'Pesticide Residue',
-  'Microbial Testing'
+  'Microbial Testing',
 ];

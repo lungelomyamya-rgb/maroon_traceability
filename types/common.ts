@@ -54,7 +54,7 @@ export interface FormField {
 
 // Table types
 export interface TableColumn<T = unknown> {
-  key: keyof T;
+  key?: keyof T | string;
   label: string;
   header?: string;
   sortable?: boolean;

@@ -21,10 +21,10 @@ export const INITIAL_METRICS = {
     passRate: number;
   }>,
   systemUptime: Date.now(),
-  lastActivity: new Date().toISOString()
+  lastActivity: new Date().toISOString(),
 };
 
-export const CATEGORY_COLORS: Record<ProductCategory, { bg: string; text: string; icon: any }> = {
+export const CATEGORY_COLORS: Record<ProductCategory, { bg: string; text: string; icon: string }> = {
   [ProductCategory.FRUITS]: { bg: 'bg-green-100', text: 'text-green-800', icon: '🍎' },
   [ProductCategory.VEGETABLES]: { bg: 'bg-emerald-100', text: 'text-emerald-800', icon: '🥬' },
   [ProductCategory.BEEF]: { bg: 'bg-red-100', text: 'text-red-800', icon: '🥩' },

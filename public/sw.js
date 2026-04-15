@@ -1,4 +1,7 @@
 // public/sw.js
+
+/* global self, caches, fetch, Response, Request, URL */
+
 const CACHE_NAME = 'maroon-blockchain-v1';
 const OFFLINE_QUEUE = 'offline-queue';
 

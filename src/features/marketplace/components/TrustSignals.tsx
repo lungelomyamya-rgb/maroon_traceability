@@ -2,6 +2,7 @@
 'use client';
 
 import { CheckCircle, Award, Leaf, Truck, Shield, Users, Package } from 'lucide-react';
+import React from 'react';
 
 interface TrustSignal {
   icon: string;
@@ -13,52 +14,52 @@ const trustSignals: TrustSignal[] = [
   {
     icon: 'CheckCircle',
     title: 'Verified Farmers',
-    description: 'All farmers are verified and certified'
+    description: 'All farmers are verified and certified',
   },
   {
     icon: 'Award',
     title: 'Quality Inspected',
-    description: 'Products undergo rigorous quality checks'
+    description: 'Products undergo rigorous quality checks',
   },
   {
     icon: 'Leaf',
     title: 'Sustainably Grown',
-    description: 'Environmentally friendly farming practices'
+    description: 'Environmentally friendly farming practices',
   },
   {
     icon: 'Truck',
     title: 'Fresh Delivery',
-    description: 'Fast and reliable delivery nationwide'
+    description: 'Fast and reliable delivery nationwide',
   },
   {
     icon: 'Shield',
     title: 'Secure Payments',
-    description: 'Safe and secure payment processing'
+    description: 'Safe and secure payment processing',
   },
   {
     icon: 'Users',
     title: 'Customer Support',
-    description: 'Dedicated support for all customers'
-  }
+    description: 'Dedicated support for all customers',
+  },
 ];
 
-export default function TrustSignals() {
+const TrustSignals = React.memo(function TrustSignals() {
   const getIcon = (iconName: string) => {
     switch (iconName) {
-      case 'CheckCircle':
-        return <CheckCircle className="h-6 w-6 sm:h-8 sm:w-8 md:h-10 md:w-10 text-green-600" />;
-      case 'Award':
-        return <Award className="h-6 w-6 sm:h-8 sm:w-8 md:h-10 md:w-10 text-green-600" />;
-      case 'Leaf':
-        return <Leaf className="h-6 w-6 sm:h-8 sm:w-8 md:h-10 md:w-10 text-green-600" />;
-      case 'Truck':
-        return <Truck className="h-6 w-6 sm:h-8 sm:w-8 md:h-10 md:w-10 text-green-600" />;
-      case 'Shield':
-        return <Shield className="h-6 w-6 sm:h-8 sm:w-8 md:h-10 md:w-10 text-green-600" />;
-      case 'Users':
-        return <Users className="h-6 w-6 sm:h-8 sm:w-8 md:h-10 md:w-10 text-green-600" />;
-      default:
-        return <Package className="h-6 w-6 sm:h-8 sm:w-8 md:h-10 md:w-10 text-green-600" />;
+    case 'CheckCircle':
+      return <CheckCircle className="h-6 w-6 sm:h-8 sm:w-8 md:h-10 md:w-10 text-green-600" />;
+    case 'Award':
+      return <Award className="h-6 w-6 sm:h-8 sm:w-8 md:h-10 md:w-10 text-green-600" />;
+    case 'Leaf':
+      return <Leaf className="h-6 w-6 sm:h-8 sm:w-8 md:h-10 md:w-10 text-green-600" />;
+    case 'Truck':
+      return <Truck className="h-6 w-6 sm:h-8 sm:w-8 md:h-10 md:w-10 text-green-600" />;
+    case 'Shield':
+      return <Shield className="h-6 w-6 sm:h-8 sm:w-8 md:h-10 md:w-10 text-green-600" />;
+    case 'Users':
+      return <Users className="h-6 w-6 sm:h-8 sm:w-8 md:h-10 md:w-10 text-green-600" />;
+    default:
+      return <Package className="h-6 w-6 sm:h-8 sm:w-8 md:h-10 md:w-10 text-green-600" />;
     }
   };
 
@@ -99,4 +100,6 @@ export default function TrustSignals() {
       </div>
     </section>
   );
-}
+});
+
+export default TrustSignals;

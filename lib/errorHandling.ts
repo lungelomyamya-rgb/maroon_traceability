@@ -94,10 +94,10 @@ export class AppErrorHandler {
       context: {
         url: typeof window !== 'undefined' ? window.location.href : undefined,
         userAgent: typeof navigator !== 'undefined' ? navigator.userAgent : undefined,
-        ...context
+        ...context,
       },
       severity: this.determineSeverity(error),
-      category: this.categorizeError(error)
+      category: this.categorizeError(error),
     };
 
     this.addError(appError);
@@ -155,7 +155,7 @@ export class AppErrorHandler {
   clearOldErrors(olderThanHours: number = 24) {
     const cutoffTime = Date.now() - (olderThanHours * 60 * 60 * 1000);
     this.errors = this.errors.filter(error => 
-      new Date(error.timestamp).getTime() > cutoffTime
+      new Date(error.timestamp).getTime() > cutoffTime,
     );
     this.storeErrors();
   }
@@ -166,8 +166,8 @@ export class AppErrorHandler {
       byCategory: {} as Record<AppError['category'], number>,
       bySeverity: {} as Record<AppError['severity'], number>,
       recent: this.errors.filter(error => 
-        new Date(error.timestamp).getTime() > Date.now() - (60 * 60 * 1000) // Last hour
-      ).length
+        new Date(error.timestamp).getTime() > Date.now() - (60 * 60 * 1000), // Last hour
+      ).length,
     };
 
     this.errors.forEach(error => {
@@ -201,11 +201,11 @@ export const logNetworkError = (url: string, error: Error) => {
   return errorHandler.logError(error, undefined, { action: `network_request_${url}` });
 };
 
-export const logValidationError = (field: string, value: any, error: Error) => {
+export const logValidationError = (field: string, value: unknown, error: Error) => {
   return errorHandler.logError(error, undefined, { 
     action: `validation_${field}`,
     field,
-    value: String(value)
+    value: String(value),
   });
 };
 
@@ -215,7 +215,7 @@ export const useErrorHandler = () => {
     return errorHandler.logError(error, undefined, context);
   };
 
-  const handleAsyncError = async (asyncFn: () => Promise<any>, context?: Partial<AppError['context']>) => {
+  const handleAsyncError = async <T>(asyncFn: () => Promise<T>, context?: Partial<AppError['context']>) => {
     try {
       return await asyncFn();
     } catch (error) {
@@ -229,6 +229,6 @@ export const useErrorHandler = () => {
     handleAsyncError,
     getErrors: errorHandler.getErrors.bind(errorHandler),
     getErrorStats: errorHandler.getErrorStats.bind(errorHandler),
-    clearErrors: errorHandler.clearErrors.bind(errorHandler)
+    clearErrors: errorHandler.clearErrors.bind(errorHandler),
   };
 };

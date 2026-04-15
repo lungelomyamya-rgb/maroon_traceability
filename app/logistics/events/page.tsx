@@ -1,21 +1,18 @@
 // src/app/logistics/events/page.tsx
 'use client';
 
-import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
+
+import { DashboardLayout } from '@/components/dashboard/DashboardLayout';
 import { useUser } from '@/contexts/userContext';
-import { EventForm } from '@/components/logistics/eventForm';
-import { DashboardLayout } from '@/components/dashboard/dashboardLayout';
-import { Button } from '@/components/ui/button';
-import { Clock } from 'lucide-react';
-import { Vehicle, Driver } from '@/types/logistics';
-import { mockVehicles, mockDrivers } from '@/constants/logisticsMockData';
+import { EventForm } from '@/src/features/Logistics';
+import { Button } from '@/src/features/shared/ui/button';
+
 
 export default function LogisticsEventsPage() {
   const { currentUser } = useUser();
   const router = useRouter();
-  const [vehicles, setVehicles] = useState<Vehicle[]>([]);
-  const [drivers, setDrivers] = useState<Driver[]>([]);
 
   useEffect(() => {
     // Redirect if user doesn't have logistics role
@@ -23,10 +20,6 @@ export default function LogisticsEventsPage() {
       router.push('/unauthorized');
       return;
     }
-
-    // Load mock data from consolidated file
-    setVehicles(mockVehicles);
-    setDrivers(mockDrivers);
   }, [currentUser, router]);
 
   if (!currentUser || currentUser.role !== 'logistics') {
@@ -52,14 +45,9 @@ export default function LogisticsEventsPage() {
       
       <DashboardLayout
         title="Logistics Events"
-        subtitle="Record transport events, collections, and delivery activities"
+        subtitle="Track and manage transportation events and activities"
       >
-        <EventForm
-          productId="PRD-2024-001"
-          onSubmit={async (data: any) => {
-            console.log('Enhanced event submitted:', data);
-          }}
-        />
+        <EventForm />
       </DashboardLayout>
     </>
   );

@@ -1,27 +1,25 @@
 // src/app/logistics/page.tsx
 'use client';
 
-import { useState, useEffect } from 'react';
+import { Truck, Users, Calendar, FileText, Package, Route } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import { useUser } from '@/contexts/userContext';
-import { DashboardLayout } from '@/components/dashboard/dashboardLayout';
-import { MetricsCard } from '@/components/dashboard/dashboardLayout';
-import { Card } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { Truck, Users, Calendar, FileText, Plus, MapPin, Package, Route, ArrowLeft } from 'lucide-react';
-import { getRoleColors } from '@/lib/theme/colors';
-import { Vehicle, Driver, TransportSchedule, TransportDocument, DocumentType } from '@/types/logistics';
+import { useState, useEffect } from 'react';
+
+import { DashboardLayout } from '@/components/dashboard/DashboardLayout';
 import { mockVehicles, mockDrivers, mockSchedules } from '@/constants/logisticsMockData';
+import { useUser } from '@/contexts/userContext';
+import { Badge } from '@/src/features/shared/ui/badge';
+import { Card } from '@/src/features/shared/ui/card';
+import { Vehicle, Driver, TransportSchedule } from '@/types/logistics';
 
 export default function LogisticsPage() {
   const { currentUser } = useUser();
   const router = useRouter();
   
   // Initialize state with mock data immediately
-  const [vehicles, setVehicles] = useState<Vehicle[]>(mockVehicles);
-  const [drivers, setDrivers] = useState<Driver[]>(mockDrivers);
-  const [schedules, setSchedules] = useState<TransportSchedule[]>(mockSchedules);
+  const [vehicles, _setVehicles] = useState<Vehicle[]>(mockVehicles);
+  const [drivers, _setDrivers] = useState<Driver[]>(mockDrivers);
+  const [schedules, _setSchedules] = useState<TransportSchedule[]>(mockSchedules);
 
   // Handle authentication redirect
   useEffect(() => {
@@ -37,18 +35,7 @@ export default function LogisticsPage() {
     }
   }, [currentUser, router]);
 
-  // Show loading state while checking authentication
-  if (false) { // Temporarily disabled for testing
-    return (
-      <div className="flex items-center justify-center min-h-screen">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-primary mx-auto mb-4"></div>
-          <p className="text-gray-600">Checking authentication...</p>
-        </div>
-      </div>
-    );
-  }
-
+  
   // Calculate metrics from mock data
   const activeVehicles = vehicles.filter(v => v.status === 'active').length;
   const availableDrivers = drivers.filter(d => d.status === 'available').length;
@@ -221,8 +208,8 @@ export default function LogisticsPage() {
                 <div className="flex flex-col sm:flex-row gap-2 mb-1">
                   <Badge className={
                     schedule.status === 'scheduled' ? 'bg-yellow-100 text-yellow-800' :
-                    schedule.status === 'in-transit' ? 'bg-blue-100 text-blue-800' :
-                    'bg-green-100 text-green-800'
+                      schedule.status === 'in-transit' ? 'bg-blue-100 text-blue-800' :
+                        'bg-green-100 text-green-800'
                   }>
                     {schedule.status}
                   </Badge>

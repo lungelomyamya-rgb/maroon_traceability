@@ -119,7 +119,7 @@ class AuditTrailManager {
 
   private categorizeAction(action: string): AuditEvent['category'] {
     const lowerAction = action.toLowerCase();
-    
+
     if (lowerAction.includes('login') || lowerAction.includes('logout') || lowerAction.includes('auth')) {
       return 'authentication';
     }
@@ -135,7 +135,7 @@ class AuditTrailManager {
     if (lowerAction.includes('audit') || lowerAction.includes('compliance') || lowerAction.includes('gdpr')) {
       return 'compliance';
     }
-    
+
     return 'system';
   }
 
@@ -146,11 +146,11 @@ class AuditTrailManager {
       }
       return 'high';
     }
-    
+
     if (action.toLowerCase().includes('delete') || action.toLowerCase().includes('admin')) {
       return 'medium';
     }
-    
+
     return 'low';
   }
 
@@ -159,7 +159,7 @@ class AuditTrailManager {
     action: string;
     resource: string;
     resourceId?: string;
-    details?: any;
+    details?: Record<string, unknown>;
     userId?: string;
     userRole?: string;
     success?: boolean;
@@ -180,7 +180,7 @@ class AuditTrailManager {
       severity: this.determineSeverity(params.action, params.success !== false),
       category: this.categorizeAction(params.action),
       success: params.success !== false,
-      errorMessage: params.errorMessage
+      errorMessage: params.errorMessage,
     };
 
     this.addEvent(event);
@@ -189,19 +189,19 @@ class AuditTrailManager {
 
   private addEvent(event: AuditEvent) {
     this.events.push(event);
-    
+
     // Maintain maximum event count
     if (this.events.length > this.maxEvents) {
       this.events = this.events.slice(-this.maxEvents);
     }
-    
+
     this.saveEvents();
-    
+
     // Log to console in development
     if (process.env.NODE_ENV === 'development') {
       console.log('Audit Event:', event);
     }
-    
+
     // In production, send to audit logging service
     if (process.env.NODE_ENV === 'production' && event.severity === 'critical') {
       this.reportCriticalEvent(event);
@@ -226,7 +226,7 @@ class AuditTrailManager {
       userId,
       userRole,
       success: action !== 'failed_login',
-      errorMessage
+      errorMessage,
     });
   }
 
@@ -237,11 +237,11 @@ class AuditTrailManager {
       resourceId,
       userId,
       userRole,
-      success: true
+      success: true,
     });
   }
 
-  logDataModification(action: string, resource: string, resourceId?: string, details?: any, userId?: string, userRole?: string) {
+  logDataModification(action: string, resource: string, resourceId?: string, details?: Record<string, unknown>, userId?: string, userRole?: string) {
     return this.logEvent({
       action,
       resource,
@@ -249,29 +249,29 @@ class AuditTrailManager {
       details,
       userId,
       userRole,
-      success: true
+      success: true,
     });
   }
 
-  logSecurityEvent(action: string, details?: any, userId?: string, userRole?: string, success?: boolean) {
+  logSecurityEvent(action: string, details?: Record<string, unknown>, userId?: string, userRole?: string, success?: boolean) {
     return this.logEvent({
       action,
       resource: 'security',
       details,
       userId,
       userRole,
-      success: success !== false
+      success: success !== false,
     });
   }
 
-  logComplianceEvent(action: string, details?: any, userId?: string, userRole?: string) {
+  logComplianceEvent(action: string, details?: Record<string, unknown>, userId?: string, userRole?: string) {
     return this.logEvent({
       action,
       resource: 'compliance',
       details,
       userId,
       userRole,
-      success: true
+      success: true,
     });
   }
 
@@ -281,63 +281,64 @@ class AuditTrailManager {
 
     if (filter) {
       if (filter.startDate) {
-        filteredEvents = filteredEvents.filter(event => 
-          new Date(event.timestamp) >= new Date(filter.startDate!)
+        filteredEvents = filteredEvents.filter(event =>
+          new Date(event.timestamp) >= new Date(filter.startDate as string),
         );
       }
 
       if (filter.endDate) {
-        filteredEvents = filteredEvents.filter(event => 
-          new Date(event.timestamp) <= new Date(filter.endDate!)
+        filteredEvents = filteredEvents.filter(event =>
+          new Date(event.timestamp) <= new Date(filter.endDate as string),
         );
       }
 
       if (filter.userId) {
-        filteredEvents = filteredEvents.filter(event => 
-          event.userId === filter.userId
+        filteredEvents = filteredEvents.filter(event =>
+          event.userId === filter.userId,
         );
       }
 
       if (filter.userRole) {
-        filteredEvents = filteredEvents.filter(event => 
-          event.userRole === filter.userRole
+        filteredEvents = filteredEvents.filter(event =>
+          event.userRole === filter.userRole,
         );
       }
 
       if (filter.action) {
-        filteredEvents = filteredEvents.filter(event => 
-          event.action.toLowerCase().includes(filter.action!.toLowerCase())
+        filteredEvents = filteredEvents.filter(event =>
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+          event.action.toLowerCase().includes(filter.action!.toLowerCase()),
         );
       }
 
       if (filter.resource) {
-        filteredEvents = filteredEvents.filter(event => 
-          event.resource === filter.resource
+        filteredEvents = filteredEvents.filter(event =>
+          event.resource === filter.resource,
         );
       }
 
       if (filter.severity) {
-        filteredEvents = filteredEvents.filter(event => 
-          event.severity === filter.severity
+        filteredEvents = filteredEvents.filter(event =>
+          event.severity === filter.severity,
         );
       }
 
       if (filter.category) {
-        filteredEvents = filteredEvents.filter(event => 
-          event.category === filter.category
+        filteredEvents = filteredEvents.filter(event =>
+          event.category === filter.category,
         );
       }
 
       if (filter.success !== undefined) {
-        filteredEvents = filteredEvents.filter(event => 
-          event.success === filter.success
+        filteredEvents = filteredEvents.filter(event =>
+          event.success === filter.success,
         );
       }
     }
 
     // Return sorted by timestamp (newest first)
-    return filteredEvents.sort((a, b) => 
-      new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()
+    return filteredEvents.sort((a, b) =>
+      new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime(),
     );
   }
 
@@ -348,7 +349,7 @@ class AuditTrailManager {
   // Analytics and reporting
   generateReport(filter?: AuditFilter): AuditReport {
     const events = this.getEvents(filter);
-    
+
     const eventsByCategory = events.reduce((acc, event) => {
       acc[event.category] = (acc[event.category] || 0) + 1;
       return acc;
@@ -371,7 +372,7 @@ class AuditTrailManager {
 
     const timeRange = {
       start: events.length > 0 ? events[events.length - 1].timestamp : new Date().toISOString(),
-      end: events.length > 0 ? events[0].timestamp : new Date().toISOString()
+      end: events.length > 0 ? events[0].timestamp : new Date().toISOString(),
     };
 
     return {
@@ -381,7 +382,7 @@ class AuditTrailManager {
       eventsByUser,
       failedEvents,
       criticalEvents,
-      timeRange
+      timeRange,
     };
   }
 
@@ -390,14 +391,14 @@ class AuditTrailManager {
     if (olderThanDays) {
       const cutoffDate = new Date();
       cutoffDate.setDate(cutoffDate.getDate() - olderThanDays);
-      
-      this.events = this.events.filter(event => 
-        new Date(event.timestamp) > cutoffDate
+
+      this.events = this.events.filter(event =>
+        new Date(event.timestamp) > cutoffDate,
       );
     } else {
       this.events = [];
     }
-    
+
     this.saveEvents();
   }
 
@@ -413,31 +414,31 @@ class AuditTrailManager {
     lastAuditDate: string;
     totalEvents: number;
     criticalEvents: number;
-  } {
+    } {
     const thirtyDaysAgo = new Date();
     thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
 
-    const recentEvents = this.events.filter(event => 
-      new Date(event.timestamp) > thirtyDaysAgo
+    const recentEvents = this.events.filter(event =>
+      new Date(event.timestamp) > thirtyDaysAgo,
     );
 
     const criticalEvents = recentEvents.filter(event => event.severity === 'critical');
-    const failedAuthEvents = recentEvents.filter(event => 
-      event.category === 'authentication' && !event.success
+    const failedAuthEvents = recentEvents.filter(event =>
+      event.category === 'authentication' && !event.success,
     );
 
     const issues: string[] = [];
-    
+
     if (criticalEvents.length > 0) {
       issues.push(`${criticalEvents.length} critical events in last 30 days`);
     }
-    
+
     if (failedAuthEvents.length > 10) {
       issues.push(`${failedAuthEvents.length} failed authentication attempts in last 30 days`);
     }
 
-    const lastAuditDate = recentEvents.length > 0 
-      ? recentEvents[0].timestamp 
+    const lastAuditDate = recentEvents.length > 0
+      ? recentEvents[0].timestamp
       : 'Never';
 
     return {
@@ -445,7 +446,7 @@ class AuditTrailManager {
       issues,
       lastAuditDate,
       totalEvents: recentEvents.length,
-      criticalEvents: criticalEvents.length
+      criticalEvents: criticalEvents.length,
     };
   }
 }
@@ -467,7 +468,7 @@ export const useAuditTrail = () => {
     return auditTrail.logDataAccess(action, resource, resourceId, userId, userRole);
   }, []);
 
-  const logDataModification = useCallback((action: string, resource: string, resourceId?: string, details?: any, userId?: string, userRole?: string) => {
+  const logDataModification = useCallback((action: string, resource: string, resourceId?: string, details?: Record<string, unknown>, userId?: string, userRole?: string) => {
     return auditTrail.logDataModification(action, resource, resourceId, details, userId, userRole);
   }, []);
 
@@ -492,6 +493,6 @@ export const useAuditTrail = () => {
     generateReport,
     getComplianceStatus,
     clearEvents: auditTrail.clearEvents.bind(auditTrail),
-    exportEvents: auditTrail.exportEvents.bind(auditTrail)
+    exportEvents: auditTrail.exportEvents.bind(auditTrail),
   };
 };

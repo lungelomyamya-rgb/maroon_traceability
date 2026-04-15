@@ -16,7 +16,7 @@ const staticFiles = [
   '/_vercel',
   '/vercel.svg',
   '/vercel.svg?width=180&height=180',
-  '/(.*)\.(css|js|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|eot|mp4|webm|wav|mp3|m4a|aac|oga)$',
+  '/(.*)\\.(css|js|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|eot|mp4|webm|wav|mp3|m4a|aac|oga)$',
 ];
 
 export function proxy(request: NextRequest) {
@@ -45,6 +45,6 @@ export function proxy(request: NextRequest) {
 
 export const config = {
   matcher: [
-    '/((?!_next/static|_next/image|favicon.ico|.*\..*).*)',
+    '/((?!_next/static|_next/image|favicon.ico|.*\\..*).*)',
   ],
 };

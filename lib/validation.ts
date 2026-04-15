@@ -8,7 +8,7 @@ const productSchema = z.object({
   category: z.string().min(1, 'Category is required'),
   harvestDate: z.string().refine(
     (val) => !isNaN(Date.parse(val)),
-    'Invalid date'
+    'Invalid date',
   ),
   location: z.string().min(1, 'Location is required'),
 });

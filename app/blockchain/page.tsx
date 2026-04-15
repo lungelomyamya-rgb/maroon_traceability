@@ -1,15 +1,16 @@
 // src/app/blockchain/page.tsx
 'use client';
 
-import { useEffect, useState } from 'react';
+import { Package, Layers } from 'lucide-react';
 import { useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
+
 import { useProducts, ProductCategory } from '@/contexts/productContext';
 import { useUser } from '@/contexts/userContext';
-import { ProductCard } from '@/components/cards';
-import { ProductModal } from '@/components/products/productModal';
-import { SectionTitle, InfoText } from '@/components/ui/typography';
-import { Package, Layers } from 'lucide-react';
-import { textColors, commonColors } from '@/lib/theme/colors';
+import { textColors } from '@/lib/theme/colors';
+import { ProductCard } from '@/src/features/shared/cards';
+import { ProductModal } from '@/src/features/shared/products/productModal';
+import { SectionTitle, InfoText } from '@/src/features/shared/ui/typography';
 import { BlockchainRecord } from '@/types/blockchain';
 
 function BlockchainContent() {
@@ -105,7 +106,7 @@ function BlockchainContent() {
                     status: 'verified',
                     description: `Harvested on ${blockchainRecord.harvestDate}`,
                     onView: () => router.push(`/trace/${blockchainRecord.id}`),
-                    className: 'shadow-md hover:shadow-lg transition-shadow'
+                    className: 'shadow-md hover:shadow-lg transition-shadow',
                   }}
                 />
               </div>

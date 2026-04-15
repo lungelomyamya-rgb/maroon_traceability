@@ -19,4 +19,4 @@ const nextConfig = {
   assetPrefix: process.env.NODE_ENV === 'development' ? '' : (process.env.NEXT_PUBLIC_BASE_PATH || '')
 }
 
-module.exports = nextConfig
+export default nextConfig

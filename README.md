@@ -42,11 +42,32 @@ A blockchain-based product traceability system for South African farmers and ret
 
 ## Recent Updates
 
+- **Architecture Migration**: Complete migration to feature-based architecture (`src/features/`)
+- **Component Organization**: 62+ retailer components modularized and organized
+- **Import Standardization**: Unified `@/src/features/` import pattern across codebase
+- **Code Quality**: Zero TypeScript errors, enterprise-level type safety
 - **Service Worker**: Enhanced error logging and cache handling
 - **Mobile Navigation**: Professional hamburger menu with desktop role selector
 - **Responsive Design**: Improved layouts for all devices
 - **PWA Features**: Development and production manifest support
 - **Error Handling**: Comprehensive debugging and monitoring
+
+## Architecture
+
+The application now uses a **feature-based architecture** with all business logic organized in `src/features/`:
+
+```
+src/features/
+|-- shared/           # Reusable UI components and utilities
+|-- Farmer/           # Farmer-specific components and logic
+|-- Inspector/        # Inspector functionality
+|-- Logistics/         # Logistics management
+|-- Packaging/        # Packaging operations
+|-- Retailers/        # Retailer operations (62 components)
+|-- marketplace/       # Product marketplace
+|-- auth/             # Authentication components
+|-- traceability/     # Blockchain traceability
+```
 
 ## Deployment
 

@@ -1,13 +1,14 @@
 // src/app/retailer/analytics/page.tsx
 'use client';
 
-import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { useUser } from '@/contexts/userContext';
-import { DashboardLayout } from '@/components/dashboard/dashboardLayout';
-import { Analytics } from '../../../components/retailers/analytics';
+import { useEffect } from 'react';
 
-export default function AnalyticsPage() {
+import { DashboardLayout } from '@/components/dashboard/DashboardLayout';
+import { useUser } from '@/contexts/userContext';
+import { Analytics as AnalyticsComponent } from '@/src/features/Retailers/components/analyticsComponent';
+
+export default function Analytics() {
   const { currentUser } = useUser();
   const router = useRouter();
 
@@ -51,7 +52,7 @@ export default function AnalyticsPage() {
         title="Sales Analytics"
         description="Track your business performance and insights"
       >
-        <Analytics />
+        <AnalyticsComponent />
       </DashboardLayout>
     </>
   );

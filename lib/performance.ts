@@ -1,13 +1,19 @@
 // src/lib/performance.ts
 import { useCallback, useMemo, useRef, useEffect, useState } from 'react';
 
+// Global declaration for Image constructor
+declare const Image: {
+  new(): HTMLImageElement;
+};
+
 // Performance optimization utilities
 
 // Memoized callback with dependency tracking
-export const useStableCallback = <T extends (...args: any[]) => any>(
+export const useStableCallback = <T extends (...args: unknown[]) => unknown>(
   callback: T,
-  deps: React.DependencyList
+  deps: React.DependencyList,
 ): T => {
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   return useCallback(callback, deps);
 };
 
@@ -24,12 +30,18 @@ export const useDeepMemo = <T>(factory: () => T, deps: React.DependencyList): T 
 
 // Simple deep equality check (for small objects)
 function depsEqual(a: React.DependencyList, b: React.DependencyList): boolean {
-  if (a === b) return true;
-  if (a.length !== b.length) return false;
+  if (a === b) {
+    return true;
+  }
+  if (a.length !== b.length) {
+    return false;
+  }
   
   return a.every((dep, index) => {
     const other = b[index];
-    if (dep === other) return true;
+    if (dep === other) {
+      return true;
+    }
     
     // Simple object comparison
     if (typeof dep === 'object' && typeof other === 'object' && dep !== null && other !== null) {
@@ -58,9 +70,9 @@ export const useDebounce = <T>(value: T, delay: number): T => {
 };
 
 // Throttled function hook
-export const useThrottle = <T extends (...args: any[]) => any>(
+export const useThrottle = <T extends (...args: unknown[]) => unknown>(
   func: T,
-  limit: number
+  limit: number,
 ): T => {
   const inThrottle = useRef(false);
   
@@ -74,15 +86,15 @@ export const useThrottle = <T extends (...args: any[]) => any>(
         }, limit);
       }
     }) as T,
-    [func, limit]
+    [func, limit],
   );
 };
 
 // Virtual scrolling utilities
-export const useVirtualScroll = (
-  items: any[],
+export const useVirtualScroll = <T>(
+  items: T[],
   itemHeight: number,
-  containerHeight: number
+  containerHeight: number,
 ) => {
   return useMemo(() => {
     const visibleCount = Math.ceil(containerHeight / itemHeight);
@@ -93,7 +105,7 @@ export const useVirtualScroll = (
       visibleItems: items.slice(startIndex, endIndex),
       startIndex,
       endIndex,
-      totalHeight: items.length * itemHeight
+      totalHeight: items.length * itemHeight,
     };
   }, [items, itemHeight, containerHeight]);
 };
@@ -101,7 +113,7 @@ export const useVirtualScroll = (
 // Lazy loading hook
 export const useLazyLoad = <T>(
   loader: () => Promise<T>,
-  deps: React.DependencyList = []
+  deps: React.DependencyList = [],
 ) => {
   const [data, setData] = useState<T | null>(null);
   const [loading, setLoading] = useState(false);
@@ -123,6 +135,7 @@ export const useLazyLoad = <T>(
 
   useEffect(() => {
     load();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, deps);
 
   return { data, loading, error, refetch: load };
@@ -139,7 +152,7 @@ export const usePerformanceMonitor = (componentName: string) => {
     if (process.env.NODE_ENV === 'development') {
       const renderTime = Date.now() - startTime.current;
       console.log(
-        `${componentName} render #${renderCount.current} took ${renderTime}ms`
+        `${componentName} render #${renderCount.current} took ${renderTime}ms`,
       );
     }
     
@@ -151,7 +164,7 @@ export const usePerformanceMonitor = (componentName: string) => {
     getAverageRenderTime: () => {
       // This would be more sophisticated in a real implementation
       return Date.now() - startTime.current;
-    }
+    },
   }), []);
 };
 
@@ -185,7 +198,7 @@ export const useOptimizedArray = <T>(initialArray: T[] = []) => {
     addItem,
     removeItem,
     updateItem,
-    clearArray
+    clearArray,
   };
 };
 
@@ -193,14 +206,15 @@ export const useOptimizedArray = <T>(initialArray: T[] = []) => {
 export const useMemoizedSelector = <T, R>(
   data: T[],
   selector: (items: T[]) => R[],
-  deps: React.DependencyList
+  deps: React.DependencyList,
 ) => {
-  return useMemo(() => selector(data), [data, ...deps]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  return useMemo(() => selector(data), [data, selector, ...deps]);
 };
 
 // Intersection Observer for lazy loading
 export const useIntersectionObserver = (
-  options: IntersectionObserverInit = {}
+  options: IntersectionObserverInit = {},
 ) => {
   const [entries, setEntries] = useState<IntersectionObserverEntry[]>([]);
   const [observer, setObserver] = useState<IntersectionObserver | null>(null);
@@ -213,7 +227,7 @@ export const useIntersectionObserver = (
       obs.observe(element);
       setObserver(obs);
     }
-  }, [options]);
+  }, [options, observer]);
 
   useEffect(() => {
     return () => {
@@ -230,13 +244,15 @@ export const useIntersectionObserver = (
 export const useOptimizedSearch = <T>(
   items: T[],
   searchFn: (item: T, query: string) => boolean,
-  debounceMs: number = 300
+  debounceMs: number = 300,
 ) => {
   const [query, setQuery] = useState('');
   const debouncedQuery = useDebounce(query, debounceMs);
 
   const filteredItems = useMemo(() => {
-    if (!debouncedQuery) return items;
+    if (!debouncedQuery) {
+      return items;
+    }
     
     return items.filter(item => searchFn(item, debouncedQuery));
   }, [items, debouncedQuery, searchFn]);
@@ -245,7 +261,7 @@ export const useOptimizedSearch = <T>(
     query,
     setQuery,
     filteredItems,
-    isSearching: query !== debouncedQuery
+    isSearching: query !== debouncedQuery,
   };
 };
 
@@ -257,6 +273,10 @@ export const useLazyImage = (src: string) => {
   const imgRef = useRef<HTMLImageElement>(null);
 
   useEffect(() => {
+    if (typeof window === 'undefined') {
+      return;
+    }
+
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -275,7 +295,7 @@ export const useLazyImage = (src: string) => {
           }
         });
       },
-      { threshold: 0.1 }
+      { threshold: 0.1 },
     );
 
     if (imgRef.current) {

@@ -1,16 +1,17 @@
 // src/app/packaging/qr-generation/page.tsx
 'use client';
 
-import { useEffect, useState } from 'react';
+import { QrCode, Download, Copy } from 'lucide-react';
 import { useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
+
+import { DashboardLayout } from '@/components/dashboard/DashboardLayout';
 import { useUser } from '@/contexts/userContext';
-import { DashboardLayout } from '@/components/dashboard/dashboardLayout';
-import { Card } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Badge } from '@/components/ui/badge';
-import { QrCode, Download, Plus, Search, Package, Copy, Check } from 'lucide-react';
-import { QRGenerator } from '@/components/qr';
+import { QRGenerator } from '@/src/features/shared/qr';
+import { Badge } from '@/src/features/shared/ui/badge';
+import { Button } from '@/src/features/shared/ui/button';
+import { Card } from '@/src/features/shared/ui/card';
+import { Input } from '@/src/features/shared/ui/input';
 
 export default function QRGenerationPage() {
   const { currentUser } = useUser();
@@ -48,14 +49,18 @@ export default function QRGenerationPage() {
   const products = [
     { id: 'PRD-2024-001', name: 'Organic Apples Premium', batchCode: 'BATCH-2024-CAR-STL-ABC' },
     { id: 'PRD-2024-002', name: 'Fresh Pears Vacuum Sealed', batchCode: 'BATCH-2024-VAC-STL-DEF' },
-    { id: 'PRD-2024-003', name: 'Mixed Citrus Bulk', batchCode: 'BATCH-2024-BUL-STL-GHI' }
+    { id: 'PRD-2024-003', name: 'Mixed Citrus Bulk', batchCode: 'BATCH-2024-BUL-STL-GHI' },
   ];
 
   const handleGenerateQR = () => {
-    if (!selectedProduct || !batchCode || quantity < 1) return;
+    if (!selectedProduct || !batchCode || quantity < 1) {
+      return;
+    }
 
     const product = products.find(p => p.id === selectedProduct);
-    if (!product) return;
+    if (!product) {
+      return;
+    }
 
     // Generate QR codes
     const newQRs = [];
@@ -64,7 +69,7 @@ export default function QRGenerationPage() {
         id: `qr-${Date.now()}-${i}`,
         data: `QR_${product.batchCode}_${i + 1}_${Date.now()}`,
         productName: product.name,
-        batchCode: batchCode
+        batchCode: batchCode,
       });
     }
 
@@ -234,7 +239,7 @@ export default function QRGenerationPage() {
                   id: `qr-advanced-${Date.now()}`,
                   data: qrData,
                   productName: products.find(p => p.id === selectedProduct)?.name || 'Sample Product',
-                  batchCode: batchCode
+                  batchCode: batchCode,
                 }]);
               }}
               mockMode={false}

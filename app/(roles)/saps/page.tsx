@@ -1,13 +1,14 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { Shield, Search, AlertTriangle, FileText, MapPin, Activity } from 'lucide-react';
 import { useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
+
+import { DashboardLayout } from '@/components/dashboard/DashboardLayout';
 import { useUser } from '@/contexts/userContext';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { DashboardLayout } from '@/components/dashboard/dashboardLayout';
-import { Shield, Search, AlertTriangle, FileText, MapPin, Activity, TrendingUp, Users, Calendar, CheckCircle } from 'lucide-react';
+import { Badge } from '@/src/features/shared/ui/badge';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/src/features/shared/ui/card';
+
 
 export default function SAPSPage() {
   const router = useRouter();

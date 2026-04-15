@@ -1,7 +1,8 @@
 // src/components/dashboard/DashboardLayout.tsx
 import React from 'react';
-import { Navigation } from '@/components/layout/navigation';
-import { getRoleColors } from '@/lib/theme/colors';
+
+import { Navigation } from '../layout/navigation';
+
 import { MetricsCard } from './metricsCard';
 
 interface DashboardLayoutProps {
@@ -9,31 +10,38 @@ interface DashboardLayoutProps {
   title?: string;
   subtitle?: string;
   actions?: React.ReactNode;
-  welcomeMessage?: string;
-  description?: string;
-  cards?: any[];
+  cards?: {
+    title: string;
+    value: string;
+    change: string;
+    trend: 'up' | 'down';
+    variant?: string;
+    icon?: React.ReactNode;
+  }[];
 }
 
 interface MetricsCardProps {
   title: string;
-  value: number;
-  icon: React.ReactNode;
-  color: string;
+  value: string;
+  change: string;
+  trend: 'up' | 'down';
   variant?: string;
+  icon?: React.ReactNode;
 }
 
-function MetricsCardWrapper({ title, value, icon, color, variant = 'primary' }: MetricsCardProps) {
+function MetricsCardWrapper({ title, value, variant = 'primary', icon }: MetricsCardProps) {
   return (
     <MetricsCard
-      icon={icon as any}
+      icon={icon}
       label={title}
       value={value}
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       variant={variant as any}
     />
   );
 }
 
-export function DashboardLayout({ children, title, subtitle, actions, welcomeMessage, description, cards }: DashboardLayoutProps) {
+export function DashboardLayout({ children, title, subtitle, actions, cards }: DashboardLayoutProps) {
   return (
     <div className="min-h-screen bg-gray-50">
       <Navigation />
@@ -54,9 +62,10 @@ export function DashboardLayout({ children, title, subtitle, actions, welcomeMes
                 key={index}
                 title={card.title}
                 value={card.value}
-                icon={card.icon}
-                color={card.color}
+                change={card.change}
+                trend={card.trend}
                 variant={card.variant}
+                icon={card.icon}
               />
             ))}
           </div>
