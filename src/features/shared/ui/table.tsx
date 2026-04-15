@@ -1,7 +1,11 @@
-// src/components/ui/table.tsx
+// src/features/shared/ui/table.tsx
 import React from 'react';
+
 import { commonColors } from '@/lib/theme/colors';
 import type { TableColumn } from '@/types/common';
+
+// Re-export TableColumn for external use
+export type { TableColumn };
 
 interface TableProps {
   children: React.ReactNode;
@@ -12,7 +16,6 @@ interface DataTableProps<T = unknown> {
   data: T[];
   columns: TableColumn<T>[];
   onRowClick?: (row: T) => void;
-  pageSize?: number;
   className?: string;
 }
 
@@ -24,7 +27,7 @@ export function Table({ children, className = '' }: TableProps) {
   );
 }
 
-export function DataTable<T = unknown>({ data, columns, onRowClick, className = '', pageSize }: DataTableProps<T>) {
+export function DataTable<T = unknown>({ data, columns, onRowClick, className = '' }: DataTableProps<T>) {
   return (
     <div className={`overflow-x-auto ${className}`}>
       <Table>
@@ -46,7 +49,7 @@ export function DataTable<T = unknown>({ data, columns, onRowClick, className = 
             >
               {columns.map((column, colIndex) => (
                 <td key={colIndex} className={`px-6 py-4 whitespace-nowrap text-sm ${commonColors.gray900}`}>
-                  {column.render ? column.render(row[column.key], row) : (column.accessor ? column.accessor(row) : String(row[column.key]))}
+                  {column.render ? column.render(row[column.key as keyof T], row) : (column.accessor ? column.accessor(row) : (column.key ? String(row[column.key as keyof T]) : ''))}
                 </td>
               ))}
             </tr>
