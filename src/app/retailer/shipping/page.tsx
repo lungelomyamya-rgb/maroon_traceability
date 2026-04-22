@@ -6,7 +6,7 @@ import { useEffect } from 'react';
 import { DashboardLayout } from '@/components/dashboard';
 import { Button } from '@/components/ui/button';
 import { useUser } from '@/contexts/userContext';
-import { ShippingIntegration } from '@/src/features/Retailers/components';
+import { ShippingIntegration } from '@/features/retailers/components';
 
 
 export default function RetailerShippingPage() {

@@ -6,7 +6,7 @@ import { useEffect } from 'react';
 import { DashboardLayout } from '@/components/dashboard';
 import { Button } from '@/components/ui/button';
 import { useUser } from '@/contexts/userContext';
-import { PackagingInventory } from '@/src/features/Packaging/components';
+import { PackagingInventory } from '@/features/packaging/components';
 
 
 export default function PackagingInventoryPage() {

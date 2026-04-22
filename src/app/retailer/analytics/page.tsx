@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 import { DashboardLayoutUnified as DashboardLayout } from '@/components/dashboard/DashboardLayout';
 import { useUser } from '@/contexts/userContext';
-import { Analytics as AnalyticsComponent } from '@/src/features/Retailers/components/analyticsComponent';
+import { Analytics as AnalyticsComponent } from '@/features/retailers/components/analytics';
 
 export default function Analytics() {
   const { currentUser } = useUser();

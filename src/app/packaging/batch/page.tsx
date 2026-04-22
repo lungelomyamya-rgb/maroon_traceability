@@ -6,7 +6,7 @@ import { ClientOnly } from '@/components/clientOnly';
 
 // Dynamically import the BatchProcessing component with SSR disabled
 const BatchProcessing = dynamic(
-  () => import('@/src/features/Packaging').then(mod => mod.BatchProcessing),
+  () => import('@/features/packaging').then(mod => mod.BatchProcessing),
   { ssr: false, loading: () => (
     <div className="flex items-center justify-center min-h-[300px]">
       <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>

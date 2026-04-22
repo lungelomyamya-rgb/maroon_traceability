@@ -13,7 +13,7 @@ export const dynamicConfig = 'force-dynamic';
 export const runtime = 'nodejs';
 
 // Dynamically import the retailer dashboard
-const RetailerDashboard = dynamic(() => import('@/src/features/Retailers/components/dashboard').then(mod => ({ default: mod.RetailerDashboard })), {
+const RetailerDashboard = dynamic(() => import('@/features/retailers/components/dashboard').then(mod => ({ default: mod.RetailerDashboard })), {
   loading: () => (
     <div className="flex items-center justify-center min-h-screen">
       <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-600"></div>

@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 import { DashboardLayoutUnified as DashboardLayout } from '@/components/dashboard/DashboardLayout';
 import { useUser } from '@/contexts/userContext';
-import { CustomerManagement as CustomerManagementComponent } from '@/src/features/Retailers/components/customerManagementComponent';
+import { CustomerManagement as CustomerManagementComponent } from '@/features/retailers/components/customerManagement';
 
 export default function CustomerManagementPage() {
   const { currentUser } = useUser();

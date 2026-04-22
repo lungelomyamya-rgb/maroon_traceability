@@ -18,7 +18,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { useUser } from '@/contexts/userContext';
-import { QualityInspection } from '@/src/features/Inspector/components';
+import { QualityInspection } from '@/features/inspector/components';
 import { InspectionRecord, InspectionStatus, Grade } from '@/types/inspector';
 
 

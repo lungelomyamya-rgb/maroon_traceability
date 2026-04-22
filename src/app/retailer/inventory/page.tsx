@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 import { DashboardLayout } from '@/components/dashboard';
 import { useUser } from '@/contexts/userContext';
-import { Inventory as InventoryComponent } from '@/src/features/Retailers/components/inventoryComponent';
+import { Inventory as InventoryComponent } from '@/features/retailers/components/inventory';
 
 export default function Inventory() {
   const { currentUser } = useUser();

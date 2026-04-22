@@ -6,7 +6,7 @@ import { useEffect } from 'react';
 import { DashboardLayout } from '@/components/dashboard';
 import { Button } from '@/components/ui/button';
 import { useUser } from '@/contexts/userContext';
-import { DriverManagement } from '@/src/features/Logistics';
+import { DriverManagement } from '@/features/logistics';
 
 
 export default function LogisticsDriversPage() {

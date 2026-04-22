@@ -6,7 +6,7 @@ import { useEffect } from 'react';
 import { DashboardLayout } from '@/components/dashboard';
 import { Button } from '@/components/ui/button';
 import { useUser } from '@/contexts/userContext';
-import { EventForm } from '@/src/features/Logistics';
+import { EventForm } from '@/features/logistics';
 
 
 export default function LogisticsEventsPage() {

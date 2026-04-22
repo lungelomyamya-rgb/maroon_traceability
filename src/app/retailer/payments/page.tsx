@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 import { DashboardLayout } from '@/components/dashboard';
 import { useUser } from '@/contexts/userContext';
-import { PaymentProcessing as PaymentProcessingComponent } from '@/src/features/Retailers/components/paymentProcessingComponent';
+import { PaymentProcessing as PaymentProcessingComponent } from '@/features/retailers/components/paymentProcessing';
 
 export default function PaymentProcessingPage() {
   const { currentUser } = useUser();

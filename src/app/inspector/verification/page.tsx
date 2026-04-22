@@ -16,7 +16,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { useUser } from '@/contexts/userContext';
-import { ThirdPartyVerification } from '@/src/features/Inspector/components';
+import { ThirdPartyVerification } from '@/features/inspector/components';
 import { ThirdPartyVerification as VerificationType, VerificationProvider } from '@/types/inspector';
 
 

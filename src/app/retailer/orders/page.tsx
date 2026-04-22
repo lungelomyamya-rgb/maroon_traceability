@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 import { DashboardLayout } from '@/components/dashboard';
 import { useUser } from '@/contexts/userContext';
-import { Orders as OrdersComponent } from '@/src/features/Retailers/components/ordersComponent';
+import { Orders as OrdersComponent } from '@/features/retailers/components/orders';
 
 export default function Orders() {
   const { currentUser } = useUser();

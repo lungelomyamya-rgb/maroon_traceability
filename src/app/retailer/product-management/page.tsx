@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 import { DashboardLayout } from '@/components/dashboard';
 import { useUser } from '@/contexts/userContext';
-import { ProductManagement as ProductManagementComponent } from '@/src/features/Retailers/components/productManagementComponent';
+import { ProductManagement as ProductManagementComponent } from '@/features/retailers/components/productManagement';
 
 export default function ProductManagement() {
   const { currentUser } = useUser();
