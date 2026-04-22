@@ -2,10 +2,8 @@
 'use client';
 
 import { useState } from 'react';
-
-import { Button } from '@/src/features/shared/ui/button';
-import { Card } from '@/src/features/shared/ui/card';
-
+import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
 import { InspectionForm } from './InspectionForm';
 import { InspectionOverview } from './InspectionOverview';
 import { InspectionResults } from './InspectionResults';

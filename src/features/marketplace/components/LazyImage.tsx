@@ -11,10 +11,10 @@ interface LazyImageProps {
   placeholder?: string;
 }
 
-export default function LazyImage({ 
-  src, 
-  alt, 
-  className = '', 
+export default function LazyImage({
+  src,
+  alt,
+  className = '',
   placeholder = '/images/placeholder.jpg',
 }: LazyImageProps) {
   const [isLoaded, setIsLoaded] = useState(false);
@@ -60,7 +60,7 @@ export default function LazyImage({
           <Loader2 className="h-6 w-6 sm:h-8 sm:w-8 md:h-10 md:w-10 text-gray-400 animate-spin" />
         </div>
       )}
-      
+
       {/* Actual image */}
       <img
         ref={imgRef}
@@ -73,7 +73,7 @@ export default function LazyImage({
         onError={handleError}
         loading="lazy"
       />
-      
+
       {/* Error fallback */}
       {hasError && (
         <div className="absolute inset-0 bg-gray-100 flex items-center justify-center">

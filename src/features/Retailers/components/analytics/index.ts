@@ -2,7 +2,7 @@
 
 /**
  * Analytics Feature Module
- * 
+ *
  * This module provides comprehensive analytics functionality with:
  * - Revenue and sales performance tracking
  * - Customer metrics and conversion analysis
@@ -12,14 +12,14 @@
  * - Export capabilities for data analysis
  * - Performance insights and recommendations
  * - Category-wise sales breakdown
- * 
+ *
  * @example
  * ```tsx
  * import { Analytics } from '@/features/retailers/components/analytics';
- * 
+ *
  * function RetailerPage() {
  *   return (
- *     <Analytics 
+ *     <Analytics
  *       onExport={(data) => console.log('Exported:', data)}
  *     />
  *   );

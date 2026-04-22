@@ -4,31 +4,49 @@
 import { Package, Layers } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
-
+import { ProductCard } from '@/components/cards';
+import { ProductModal } from '@/components/products/productModal';
+import { BlockchainSkeleton } from '@/components/ui/LoadingSkeletons';
+import { SectionTitle, InfoText } from '@/components/ui/typography';
 import { useProducts, ProductCategory } from '@/contexts/productContext';
 import { useUser } from '@/contexts/userContext';
 import { textColors } from '@/lib/theme/colors';
-import { ProductCard } from '@/src/features/shared/cards';
-import { ProductModal } from '@/src/features/shared/products/productModal';
-import { SectionTitle, InfoText } from '@/src/features/shared/ui/typography';
 import { BlockchainRecord } from '@/types/blockchain';
+
 
 function BlockchainContent() {
   const [isClient, setIsClient] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const { products } = useProducts();
   const { currentUser } = useUser();
   const router = useRouter();
 
   useEffect(() => {
     setIsClient(true);
-    
+
     if (!currentUser) {
       router.push('/');
+      return;
     }
+
+    // Simulate blockchain data loading
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 1000);
+
+    return () => clearTimeout(timer);
   }, [currentUser, router]);
 
-  if (!isClient || !currentUser) {
-    return null;
+  if (!isClient) {
+    return <BlockchainSkeleton />;
+  }
+
+  if (!currentUser) {
+    return <BlockchainSkeleton />;
+  }
+
+  if (isLoading) {
+    return <BlockchainSkeleton />;
   }
 
   return (
@@ -41,11 +59,11 @@ function BlockchainContent() {
             {currentUser?.role === 'farmer' ? '👨‍🌾 My Products' : '🛒 Available Products'}
           </span>
         </div>
-        
+
         <SectionTitle className="mb-2">
           {currentUser?.role === 'farmer' ? 'My Certified Products' : 'Verified Products Marketplace'}
         </SectionTitle>
-        
+
         <div className="flex items-center justify-center gap-2 mt-4">
           <div className="h-2 w-2 bg-green-500 rounded-full animate-pulse"></div>
           <InfoText className={`${textColors.primary}`}>
@@ -62,8 +80,8 @@ function BlockchainContent() {
           </div>
           <SectionTitle className="${commonColors.gray400} mb-3">No products found</SectionTitle>
           <InfoText className="${commonColors.gray500}">
-            {currentUser?.role === 'farmer' 
-              ? 'Start by certifying your first product' 
+            {currentUser?.role === 'farmer'
+              ? 'Start by certifying your first product'
               : 'Check back soon for new certified products'}
           </InfoText>
         </div>
@@ -90,15 +108,14 @@ function BlockchainContent() {
               isPublic: true, // Default to public
               farmerAddress: '', // Default empty address
             };
-            
+
             return (
-              <div 
+              <div
                 key={product.id}
                 className="animate-slide-up"
                 style={{ animationDelay: `${index * 50}ms` }}
               >
-                <ProductCard 
-                  variant="default"
+                <ProductCard
                   data={{
                     id: blockchainRecord.id,
                     name: blockchainRecord.productName || 'Unnamed Product',

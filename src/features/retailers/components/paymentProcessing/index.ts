@@ -2,21 +2,21 @@
 
 /**
  * Payment Processing Feature Module
- * 
+ *
  * This module provides comprehensive payment processing functionality with:
  * - Payment metrics and analytics
  * - Transaction management and filtering
  * - Payment gateway configuration
  * - Transaction details and receipts
  * - Refund processing
- * 
+ *
  * @example
  * ```tsx
  * import { PaymentProcessing } from '@/features/retailers/components/paymentProcessing';
- * 
+ *
  * function PaymentsPage() {
  *   return (
- *     <PaymentProcessing 
+ *     <PaymentProcessing
  *       title="Payment Management"
  *     />
  *   );

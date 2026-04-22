@@ -2,12 +2,12 @@
 
 import { Plus, Search } from 'lucide-react';
 import React, { useState, useEffect } from 'react';
-
-import { Button } from '@/src/features/shared/ui/button';
-import { Card, CardContent, CardHeader } from '@/src/features/shared/ui/card';
-import { Input } from '@/src/features/shared/ui/input';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/src/features/shared/ui/select';
-import { DataTable, TableColumn } from '@/src/features/shared/ui/table';
+import type { ReactNode } from 'react';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { DataTable, TableColumn, TableHeader, TableBody, TableRow, TableHead, TableCell } from '@/components/ui/table';
 import { TransportSchedule, TransportStatus } from '@/types/logistics';
 
 interface TransportSchedulingProps {
@@ -96,7 +96,7 @@ export function TransportScheduling({ className }: TransportSchedulingProps) {
         updatedAt: '2024-03-28T09:00:00Z',
       },
     ];
-    
+
     setTimeout(() => {
       setSchedules(mockSchedules);
       setIsLoading(false);
@@ -259,10 +259,26 @@ export function TransportScheduling({ className }: TransportSchedulingProps) {
           </div>
         </CardHeader>
         <CardContent>
-          <DataTable
-            data={filteredSchedules as unknown as Record<string, unknown>[]}
-            columns={columns}
-          />
+          <DataTable>
+            <TableHeader>
+              <TableRow>
+                {columns.map((col) => (
+                  <TableHead key={col.key}>{col.header || col.title}</TableHead>
+                ))}
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {filteredSchedules.map((schedule, index) => (
+                <TableRow key={index}>
+                  {columns.map((col) => (
+                    <TableCell key={col.key}>
+                      {col.accessor ? (col.accessor(schedule) as ReactNode) : (((schedule as unknown) as Record<string, unknown>)?.[col.dataIndex || col.key] as string || '') as ReactNode}
+                    </TableCell>
+                  ))}
+                </TableRow>
+              ))}
+            </TableBody>
+          </DataTable>
         </CardContent>
       </Card>
     </div>

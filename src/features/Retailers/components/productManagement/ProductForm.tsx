@@ -3,14 +3,12 @@
 
 import { X, Package, DollarSign, Ruler } from 'lucide-react';
 import { useState, useEffect } from 'react';
-
-import { Button } from '@/src/features/shared/ui/button';
-import { Card } from '@/src/features/shared/ui/card';
-import { Input } from '@/src/features/shared/ui/input';
-import { Label } from '@/src/features/shared/ui/label';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/src/features/shared/ui/select';
-import { Textarea } from '@/src/features/shared/ui/textarea';
-
+import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Textarea } from '@/components/ui/textarea';
 import { Product, NewProduct } from './hooks/useProductManagement';
 
 interface ProductFormProps {
@@ -22,13 +20,13 @@ interface ProductFormProps {
   isLoading?: boolean;
 }
 
-export function ProductForm({ 
-  product, 
-  categories, 
-  qualityGrades, 
-  onSubmit, 
-  onCancel, 
-  isLoading = false, 
+export function ProductForm({
+  product,
+  categories,
+  qualityGrades,
+  onSubmit,
+  onCancel,
+  isLoading = false,
 }: ProductFormProps) {
   const [formData, setFormData] = useState<NewProduct>({
     name: '',
@@ -123,7 +121,7 @@ export function ProductForm({
   };
 
   const handleDimensionChange = (field: keyof NonNullable<NewProduct['dimensions']>, value: number) => {
-    // @ts-ignore - Complex type inference for dimensions update
+    // @ts-expect-error - Complex type inference for dimensions update
     setFormData(prev => ({
       ...prev,
       dimensions: prev.dimensions ? { ...prev.dimensions, [field]: value } : { [field]: value },

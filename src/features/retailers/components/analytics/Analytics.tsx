@@ -1,21 +1,19 @@
 // src/components/retailers/analytics/Analytics.tsx
 'use client';
 
-import { 
-  BarChart3, 
-  Download, 
-  Calendar, 
+import {
+  BarChart3,
+  Download,
+  Calendar,
   Filter,
   TrendingUp,
   AlertTriangle,
   CheckCircle,
 } from 'lucide-react';
 import { useState } from 'react';
-
-import { Badge } from '@/src/features/shared/ui/badge';
-import { Button } from '@/src/features/shared/ui/button';
-import { Card } from '@/src/features/shared/ui/card';
-
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
 import { AnalyticsOverview } from './AnalyticsOverview';
 import { SalesChart } from './SalesChart';
 import { TopProducts } from './TopProducts';
@@ -62,7 +60,7 @@ export function Analytics({ onExport }: AnalyticsProps) {
 
     if (exportData) {
       onExport?.(exportData);
-      
+
       // Create downloadable JSON file
       const blob = new Blob([JSON.stringify(exportData, null, 2)], { type: 'application/json' });
       const url = URL.createObjectURL(blob);
@@ -116,23 +114,23 @@ export function Analytics({ onExport }: AnalyticsProps) {
           <h3 className="font-semibold text-gray-900">Performance Insights</h3>
           {insights.map((insight, index) => (
             <Card key={index} className={`p-4 ${
-              insight.type === 'positive' ? 'border-green-200 bg-green-50' : 
-                insight.type === 'warning' ? 'border-yellow-200 bg-yellow-50' : 
+              insight.type === 'positive' ? 'border-green-200 bg-green-50' :
+                insight.type === 'warning' ? 'border-yellow-200 bg-yellow-50' :
                   'border-blue-200 bg-blue-50'
             }`}>
               <div className="flex items-start gap-3">
                 <div className="text-lg">{insight.icon}</div>
                 <div className="flex-1">
                   <h4 className={`font-medium ${
-                    insight.type === 'positive' ? 'text-green-900' : 
-                      insight.type === 'warning' ? 'text-yellow-900' : 
+                    insight.type === 'positive' ? 'text-green-900' :
+                      insight.type === 'warning' ? 'text-yellow-900' :
                         'text-blue-900'
                   }`}>
                     {insight.title}
                   </h4>
                   <p className={`text-sm mt-1 ${
-                    insight.type === 'positive' ? 'text-green-700' : 
-                      insight.type === 'warning' ? 'text-yellow-700' : 
+                    insight.type === 'positive' ? 'text-green-700' :
+                      insight.type === 'warning' ? 'text-yellow-700' :
                         'text-blue-700'
                   }`}>
                     {insight.description}
@@ -169,7 +167,7 @@ export function Analytics({ onExport }: AnalyticsProps) {
           formatNumber={formatNumber}
           formatPercentage={formatPercentage}
         />
-        
+
         <TopProducts
           data={data}
           formatCurrency={formatCurrency}
@@ -186,7 +184,7 @@ export function Analytics({ onExport }: AnalyticsProps) {
             {timeRanges.find(range => range.value === selectedTimeRange)?.label}
           </Badge>
         </div>
-        
+
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           <div className="text-center p-4 bg-gray-50 rounded-lg">
             <div className="flex items-center justify-center mb-2">
@@ -195,7 +193,7 @@ export function Analytics({ onExport }: AnalyticsProps) {
             <p className="text-2xl font-bold text-gray-900">{formatCurrency(data.totalRevenue)}</p>
             <p className="text-sm text-gray-600">Total Revenue</p>
           </div>
-          
+
           <div className="text-center p-4 bg-gray-50 rounded-lg">
             <div className="flex items-center justify-center mb-2">
               <Calendar className="h-6 w-6 text-green-600" />
@@ -203,7 +201,7 @@ export function Analytics({ onExport }: AnalyticsProps) {
             <p className="text-2xl font-bold text-gray-900">{formatNumber(data.totalOrders)}</p>
             <p className="text-sm text-gray-600">Total Orders</p>
           </div>
-          
+
           <div className="text-center p-4 bg-gray-50 rounded-lg">
             <div className="flex items-center justify-center mb-2">
               <div className="h-6 w-6 bg-purple-100 rounded-full flex items-center justify-center">
@@ -213,7 +211,7 @@ export function Analytics({ onExport }: AnalyticsProps) {
             <p className="text-2xl font-bold text-gray-900">{formatPercentage(data.conversionRate)}</p>
             <p className="text-sm text-gray-600">Conversion Rate</p>
           </div>
-          
+
           <div className="text-center p-4 bg-gray-50 rounded-lg">
             <div className="flex items-center justify-center mb-2">
               <div className="h-6 w-6 bg-orange-100 rounded-full flex items-center justify-center">

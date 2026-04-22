@@ -1,7 +1,7 @@
 // src/components/marketplace/Categories.tsx
 'use client';
 
-import { Button } from '@/src/features/shared/ui/button';
+import { Button } from '@/components/ui/button';
 import { Grid3X3 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import React from 'react';
@@ -17,7 +17,7 @@ const Categories = React.memo(function Categories({ categories }: CategoriesProp
   };
 
   return (
-    <section 
+    <section
       className="py-8 sm:py-12 md:py-16 lg:py-20 bg-white"
       aria-labelledby="categories-heading"
     >
@@ -30,7 +30,7 @@ const Categories = React.memo(function Categories({ categories }: CategoriesProp
             Find exactly what you're looking for from our wide selection of premium agricultural products
           </p>
         </div>
-        
+
         <div className="grid grid-cols-2 xs:grid-cols-3 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 xs:gap-4 sm:gap-4 md:gap-6 lg:gap-8" role="list">
           {categories.map((category) => (
             <Button

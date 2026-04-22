@@ -12,7 +12,7 @@ export default function NotFound() {
         <p className="text-gray-600 mb-8">
           The page you're looking for doesn't exist or has been moved.
         </p>
-        <Link 
+        <Link
           href="/"
           className="inline-flex items-center justify-center rounded-md bg-primary px-6 py-2 text-sm font-medium text-primary-foreground shadow hover:bg-primary/90"
         >

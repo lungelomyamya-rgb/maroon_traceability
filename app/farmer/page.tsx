@@ -1,13 +1,14 @@
 // src/app/farmer/page.tsx
 'use client';
 
-import { DashboardLayout } from '@/components/dashboard/DashboardLayout';
+import { withFarmerAuth } from '@/components/auth/withAuth';
+import { DashboardLayout } from '@/components/dashboard';
 import { FarmerDashboard } from '@/src/features/Farmer';
-import { withFarmerAuth } from '@/src/features/shared/auth/withAuth';
+
 
 /**
  * Farmer page wrapper with authentication
- * 
+ *
  * @description Simple route wrapper that handles authentication and renders the FarmerDashboard
  * component. This follows the feature-first architecture pattern where business logic
  * is contained in the feature directory.

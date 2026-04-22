@@ -1,18 +1,17 @@
 // src/components/retailers/orders/OrdersOverview.tsx
 'use client';
 
-import { 
-  Package, 
-  TrendingUp, 
+import {
+  Package,
+  TrendingUp,
   DollarSign,
   CheckCircle,
   RefreshCw,
   Download,
   AlertTriangle,
 } from 'lucide-react';
-
-import { Button } from '@/src/features/shared/ui/button';
-import { Card } from '@/src/features/shared/ui/card';
+import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
 
 
 interface OrdersOverviewProps {
@@ -38,9 +37,9 @@ interface OrdersOverviewProps {
   onRefresh?: () => void;
 }
 
-export function OrdersOverview({ 
-  stats, 
-  formatCurrency, 
+export function OrdersOverview({
+  stats,
+  formatCurrency,
   formatNumber,
   onExport,
   onRefresh,

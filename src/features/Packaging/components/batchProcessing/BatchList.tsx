@@ -1,9 +1,9 @@
 // src/components/packaging/batchProcessing/BatchList.tsx
 'use client';
 
-import { 
-  Search, 
-  Plus, 
+import {
+  Search,
+  Plus,
   Eye,
   Trash2,
   QrCode,
@@ -15,13 +15,11 @@ import {
   Activity,
 } from 'lucide-react';
 import { useState } from 'react';
-
-import { Badge } from '@/src/features/shared/ui/badge';
-import { Button } from '@/src/features/shared/ui/button';
-import { Card } from '@/src/features/shared/ui/card';
-import { Input } from '@/src/features/shared/ui/input';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
 import { PACKAGING_TYPES } from '@/types/packaging';
-
 import type { ExtendedBatchProcessingItem } from './hooks/useBatchProcessing';
 
 interface BatchListProps {
@@ -99,7 +97,7 @@ export function BatchList({
               />
             </div>
           </div>
-          
+
           <div className="flex gap-2">
             <select
               value={statusFilter}
@@ -113,7 +111,7 @@ export function BatchList({
                 </option>
               ))}
             </select>
-            
+
             <select
               value={packagingTypeFilter}
               onChange={(e) => onPackagingTypeFilter(e.target.value)}
@@ -206,7 +204,7 @@ export function BatchList({
                     )}
                   </div>
                 </div>
-                
+
                 {/* Details */}
                 <div className="space-y-2 text-xs">
                   <div className="flex items-center gap-2">

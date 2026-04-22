@@ -2,8 +2,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-
-import { fetchWithProxy } from '@/lib/api';
+import { fetchWithProxy } from '@/types/api';
 
 interface ApiResponse {
   [key: string]: unknown;
@@ -18,7 +17,7 @@ export default function ProxyPage() {
     const fetchData = async () => {
       setIsLoading(true);
       setError(null);
-      
+
       try {
         const apiUrl = process.env.NEXT_PUBLIC_API_ENDPOINT || 'YOUR_API_ENDPOINT';
         const result = await fetchWithProxy(apiUrl);

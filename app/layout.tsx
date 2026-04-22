@@ -1,11 +1,9 @@
 // src/app/layout.tsx
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
-
 import './globals.css';
-import { ServiceWorkerRegistration } from '@/src/features/shared/service-worker-registration';
-import { ThemeToggle } from '@/src/features/shared/theme/ThemeToggle';
-
+import { ServiceWorkerRegistration } from '@/components/service-worker-registration';
+import { ThemeToggle } from '@/components/theme/ThemeToggle';
 import ClientLayout from './clientLayout';
 
 const inter = Inter({ subsets: ['latin'] });

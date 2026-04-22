@@ -2,7 +2,6 @@
 
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
-
 import { useUser } from '@/contexts/userContext';
 
 export default function HomePage() {
@@ -15,7 +14,7 @@ export default function HomePage() {
       router.replace(`/${currentUser.role}`);
       return;
     }
-    
+
     // For public role or no user, go to intro page first
     router.replace('/intro');
   }, [currentUser, router]);

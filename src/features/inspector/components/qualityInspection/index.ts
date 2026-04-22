@@ -2,18 +2,18 @@
 
 /**
  * Quality Inspection Module
- * 
+ *
  * This barrel file exports all quality inspection components and utilities.
  * The component has been refactored from a 570-line monolithic structure
  * into smaller, focused components with proper separation of concerns.
- * 
+ *
  * @example
  * ```tsx
  * // Import the main component
  * import { QualityInspection } from '@/components/inspector/qualityInspection';
- * 
+ *
  * // Import individual components
- * import { 
+ * import {
  *   QualityInspection,
  *   InspectionOverview,
  *   InspectionForm,
@@ -35,7 +35,7 @@ export { InspectionResults } from './InspectionResults';
 export { useQualityInspection } from './hooks/useQualityInspection';
 
 // Types
-export type { 
+export type {
   QualityInspectionFormData,
   QualityInspectionState,
   QualityInspectionActions,
@@ -62,7 +62,7 @@ export const qualityInspectionFeature = {
     'Separation of concerns - UI and business logic separated',
     'Reusable components - Each sub-component can be used independently',
     'Better testing - Isolated logic and UI components',
-    'Enhanced maintainability - Smaller, focused files',
+    'Maintainability - Smaller, focused files',
     'Type safety - Comprehensive TypeScript interfaces',
     'Performance - Optimized re-renders and state management',
     'Photo management - Built-in image handling and display',

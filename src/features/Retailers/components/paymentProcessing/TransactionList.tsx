@@ -1,10 +1,10 @@
 // src/components/retailers/paymentProcessing/TransactionList.tsx
 'use client';
 
-import { 
-  Search, 
-  Eye, 
-  Download, 
+import {
+  Search,
+  Eye,
+  Download,
   RefreshCw,
   CreditCard,
   Smartphone,
@@ -15,12 +15,11 @@ import {
   AlertTriangle,
 } from 'lucide-react';
 import { useState } from 'react';
-
-import { Badge } from '@/src/features/shared/ui/badge';
-import { Button } from '@/src/features/shared/ui/button';
-import { Card } from '@/src/features/shared/ui/card';
-import { Input } from '@/src/features/shared/ui/input';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/src/features/shared/ui/select';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
 interface Transaction {
   id: string;
@@ -51,10 +50,10 @@ interface TransactionListProps {
   isLoading?: boolean;
 }
 
-export function TransactionList({ 
-  transactions, 
-  onViewDetails, 
-  onExport, 
+export function TransactionList({
+  transactions,
+  onViewDetails,
+  onExport,
   onRefresh,
   isLoading = false,
 }: TransactionListProps) {
@@ -108,7 +107,7 @@ export function TransactionList({
                          transaction.id.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesStatus = statusFilter === 'all' || transaction.status === statusFilter;
     const matchesGateway = gatewayFilter === 'all' || transaction.gateway === gatewayFilter;
-    
+
     return matchesSearch && matchesStatus && matchesGateway;
   });
 
@@ -180,7 +179,7 @@ export function TransactionList({
           filteredTransactions.map((transaction) => {
             const StatusIcon = getStatusIcon(transaction.status);
             const PaymentIcon = getPaymentIcon(transaction.paymentMethod);
-            
+
             return (
               <div key={transaction.id} className="border rounded-lg p-4">
                 <div className="flex items-start justify-between">

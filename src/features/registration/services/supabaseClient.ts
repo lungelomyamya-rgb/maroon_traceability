@@ -8,6 +8,14 @@ const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 const supabaseServiceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
+// Debug environment variables
+console.log('Supabase Client Debug:', {
+  supabaseUrl,
+  supabaseAnonKey: supabaseAnonKey ? 'SET' : 'NOT_SET',
+  supabaseServiceRoleKey: supabaseServiceRoleKey ? 'SET' : 'NOT_SET',
+  nodeEnv: process.env.NODE_ENV,
+});
+
 // Initialize Supabase client (only if configured)
 export const supabase = supabaseUrl && supabaseAnonKey
   ? createClient(supabaseUrl, supabaseAnonKey)
@@ -21,7 +29,7 @@ export const getSupabaseAdmin = () => {
   if (!supabaseUrl || !supabaseServiceRoleKey) {
     throw new Error('Supabase admin credentials not configured');
   }
-  
+
   return createClient(
     supabaseUrl,
     supabaseServiceRoleKey,

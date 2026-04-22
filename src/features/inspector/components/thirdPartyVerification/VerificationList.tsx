@@ -1,24 +1,23 @@
 // src/components/inspector/thirdPartyVerification/VerificationList.tsx
 'use client';
 
-import { 
-  Search, 
-  Plus, 
+import {
+  Search,
+  Plus,
   Eye,
   Edit,
   Trash2,
   ExternalLink,
-  CheckCircle, 
-  Clock, 
-  AlertTriangle, 
+  CheckCircle,
+  Clock,
+  AlertTriangle,
   FileText,
 } from 'lucide-react';
 import { useState } from 'react';
-
-import { Badge } from '@/src/features/shared/ui/badge';
-import { Button } from '@/src/features/shared/ui/button';
-import { Card } from '@/src/features/shared/ui/card';
-import { Input } from '@/src/features/shared/ui/input';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
 import type { ThirdPartyVerification } from '@/types/inspector';
 
 interface VerificationListProps {
@@ -96,7 +95,7 @@ export function VerificationList({
               />
             </div>
           </div>
-          
+
           <div className="flex gap-2">
             <select
               value={providerFilter}
@@ -108,7 +107,7 @@ export function VerificationList({
                 <option key={provider} value={provider}>{provider}</option>
               ))}
             </select>
-            
+
             <select
               value={statusFilter}
               onChange={(e) => onStatusFilter(e.target.value)}
@@ -188,7 +187,7 @@ export function VerificationList({
                     </div>
                   </div>
                 </div>
-                
+
                 {/* Details */}
                 <div className="space-y-2 text-xs">
                   <div className="flex items-center gap-2">

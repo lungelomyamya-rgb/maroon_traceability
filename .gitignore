@@ -34,3 +34,31 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Build artifacts and temporary files
+tsconfig.tsbuildinfo
+*.tsbuildinfo
+
+# Lint outputs
+*lint*.txt
+final_lint.txt
+
+# Temporary files
+temp_*
+*.tmp
+*.temp
+
+# Debug files
+debug-*.*
+debug-test.*
+
+# Backup files
+*.backup
+*.old
+*.bak
+package.json.backup
+jest.config.old.js
+
+# Test outputs
+test-*.js
+test-*.mjs

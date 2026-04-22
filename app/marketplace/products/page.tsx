@@ -1,10 +1,10 @@
 // src/app/marketplace/products/page.tsx
 'use client';
 
-import { 
-  Search, 
-  ShoppingCart, 
-  Star, 
+import {
+  Search,
+  ShoppingCart,
+  Star,
   Heart,
   MapPin,
   Shield,
@@ -22,13 +22,12 @@ import {
 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useState, useEffect, useMemo } from 'react';
-
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useUser } from '@/contexts/userContext';
-import { Badge } from '@/src/features/shared/ui/badge';
-import { Button } from '@/src/features/shared/ui/button';
-import { Card } from '@/src/features/shared/ui/card';
-import { Input } from '@/src/features/shared/ui/input';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/src/features/shared/ui/select';
 
 
 interface Product {
@@ -200,7 +199,7 @@ export default function ProductsPage() {
     const category = urlParams.get('category');
     if (category) {
       setSelectedCategory(category.charAt(0).toUpperCase() + category.slice(1));
-      const filtered = mockProducts.filter(product => 
+      const filtered = mockProducts.filter(product =>
         product.category.toLowerCase() === category.toLowerCase(),
       );
       setFilteredProducts(filtered);
@@ -303,8 +302,8 @@ export default function ProductsPage() {
                   className="cursor-pointer"
                   aria-label="Go to marketplace"
                 >
-                  <img 
-                    src="/images/lwandleMoringaBakery.png" 
+                  <img
+                    src="/images/lwandleMoringaBakery.png"
                     alt="Lwandle Moringa Bakery"
                     className="h-8 w-8 sm:h-10 sm:w-10 rounded-lg shadow-sm hover:shadow-md transition-shadow duration-200"
                   />
@@ -344,15 +343,15 @@ export default function ProductsPage() {
         className="fixed top-4 left-4 bg-white hover:bg-gray-100 text-gray-800 p-3 rounded-full shadow-lg border border-gray-300 transition-all duration-300 z-30"
         aria-label="Go back to previous page"
       >
-        <svg 
-          xmlns="http://www.w3.org/2000/svg" 
-          width="20" 
-          height="20" 
-          viewBox="0 0 24 24" 
-          fill="none" 
-          stroke="currentColor" 
-          strokeWidth="2" 
-          strokeLinecap="round" 
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="20"
+          height="20"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
           strokeLinejoin="round"
           className="h-4 w-4"
         >
@@ -570,8 +569,8 @@ export default function ProductsPage() {
                               Add to Cart
                             </Button>
                           )}
-                          <Button 
-                            variant={wishlist.has(product.id) ? 'default' : 'outline'} 
+                          <Button
+                            variant={wishlist.has(product.id) ? 'default' : 'outline'}
                             size="sm"
                             onClick={() => toggleWishlist(product.id)}
                             className={wishlist.has(product.id) ? 'bg-red-50 border-red-200 text-red-600 hover:bg-red-100' : ''}

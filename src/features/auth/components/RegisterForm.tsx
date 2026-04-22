@@ -1,13 +1,15 @@
 'use client';
 
+import { authService, RegisterData } from '@/components/services/auth/auth';
+import { DemoQuickFill } from '@/components/ui/DemoQuickFill';
 import { useUser } from '@/contexts/userContext';
-import { RegisterData } from '@/services/auth/auth';
-import { authService } from '@/services/auth/auth';
+import { toUniversalUser } from '@/types/types';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
+
 
 // Form validation schema
 const registerSchema = z.object({
@@ -74,10 +76,13 @@ export function RegisterForm({ onSuccess, onLoginClick }: RegisterFormProps) {
       };
 
       const response = await authService.register(registerData);
-      
+
       if (response.success && response.user) {
-        setUser(response.user);
-        
+        const universalUser = toUniversalUser(response.user, 'api');
+        if (universalUser) {
+          setUser(universalUser);
+        }
+
         if (onSuccess) {
           onSuccess();
         } else {
@@ -122,7 +127,9 @@ export function RegisterForm({ onSuccess, onLoginClick }: RegisterFormProps) {
         </div>
       )}
 
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+      <DemoQuickFill className="mb-6" />
+
+      <form onSubmit={handleSubmit(onSubmit)} noValidate className="space-y-6">
         <div className="space-y-2">
           <label htmlFor="name" className="block text-sm font-medium text-gray-700">
             Full Name

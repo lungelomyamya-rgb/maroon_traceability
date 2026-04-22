@@ -2,12 +2,9 @@
 'use client';
 
 import { X, Package, MapPin, Truck, Mail, Printer, Edit } from 'lucide-react';
-
-import { Badge } from '@/src/features/shared/ui/badge';
-import { Button } from '@/src/features/shared/ui/button';
-import { Card } from '@/src/features/shared/ui/card';
-
-
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
 import { Order } from './hooks/useOrders';
 
 interface OrderDetailsProps {
@@ -24,11 +21,11 @@ interface OrderDetailsProps {
   _getEstimatedDeliveryDays: (estimatedDelivery?: string) => number | null;
 }
 
-export function OrderDetails({ 
-  order, 
+export function OrderDetails({
+  order,
   statusConfig,
   paymentStatusConfig,
-  onClose, 
+  onClose,
   onEdit,
   onUpdateStatus,
   _onAddTracking,

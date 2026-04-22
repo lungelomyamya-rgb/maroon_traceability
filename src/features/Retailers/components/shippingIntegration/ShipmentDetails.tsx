@@ -1,11 +1,11 @@
 // src/components/retailers/shippingIntegration/ShipmentDetails.tsx
 'use client';
 
-import { 
-  Package, 
-  MapPin, 
-  Calendar, 
-  CheckCircle, 
+import {
+  Package,
+  MapPin,
+  Calendar,
+  CheckCircle,
   Clock,
   Truck,
   Edit,
@@ -16,9 +16,8 @@ import {
   QrCode,
   Download,
 } from 'lucide-react';
-
-import { Badge } from '@/src/features/shared/ui/badge';
-import { Button } from '@/src/features/shared/ui/button';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
 
 
 interface Shipment {
@@ -104,7 +103,7 @@ export function ShipmentDetails({ shipment, onClose, onEdit }: ShipmentDetailsPr
             </Button>
           </div>
         </div>
-        
+
         <div className="p-4 sm:p-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             {/* Shipment Information */}
@@ -130,7 +129,7 @@ export function ShipmentDetails({ shipment, onClose, onEdit }: ShipmentDetailsPr
                     </div>
                   </div>
                 </div>
-                
+
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
                   <div>
                     <p className="text-gray-500">Order ID</p>
@@ -151,7 +150,7 @@ export function ShipmentDetails({ shipment, onClose, onEdit }: ShipmentDetailsPr
                 </div>
               </div>
             </div>
-            
+
             {/* Package Information */}
             <div>
               <h4 className="font-medium mb-3 flex items-center gap-2">

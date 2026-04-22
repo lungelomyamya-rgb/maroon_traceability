@@ -1,20 +1,18 @@
 // src/components/retailers/productManagement/ProductManagement.tsx
 'use client';
 
-import { 
-  Package, 
-  Plus, 
-  TrendingUp, 
+import {
+  Package,
+  Plus,
+  TrendingUp,
   DollarSign,
   Star,
   AlertTriangle,
 } from 'lucide-react';
 import { useState } from 'react';
-
-import { Badge } from '@/src/features/shared/ui/badge';
-import { Button } from '@/src/features/shared/ui/button';
-import { Card } from '@/src/features/shared/ui/card';
-
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
 import { ProductDetails } from './ProductDetails';
 import { ProductForm } from './ProductForm';
 import { ProductList } from './ProductList';

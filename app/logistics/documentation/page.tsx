@@ -3,11 +3,10 @@
 
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
-
-import { DashboardLayout } from '@/components/dashboard/DashboardLayout';
+import { DashboardLayout } from '@/components/dashboard';
+import { Button } from '@/components/ui/button';
 import { useUser } from '@/contexts/userContext';
 import { TransportDocumentation } from '@/src/features/Logistics';
-import { Button } from '@/src/features/shared/ui/button';
 
 
 export default function LogisticsDocumentationPage() {
@@ -42,7 +41,7 @@ export default function LogisticsDocumentationPage() {
           Back
         </Button>
       </div>
-      
+
       <DashboardLayout
         title="Transport Documentation"
         subtitle="Manage bills of lading, delivery confirmations, and compliance documents"

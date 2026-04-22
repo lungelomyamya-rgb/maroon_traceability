@@ -1,9 +1,9 @@
 'use client';
 
-import { 
-  Package, 
-  MapPin, 
-  Calendar, 
+import {
+  Package,
+  MapPin,
+  Calendar,
   Plus,
   Eye,
   Edit,
@@ -11,13 +11,12 @@ import {
 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
-
-import { DashboardLayout } from '@/components/dashboard/DashboardLayout';
+import { DashboardLayout } from '@/components/dashboard';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
 import { useProducts } from '@/contexts/productContext';
 import { useUser } from '@/contexts/userContext';
-import { Badge } from '@/src/features/shared/ui/badge';
-import { Button } from '@/src/features/shared/ui/button';
-import { Card } from '@/src/features/shared/ui/card';
 
 
 export default function ProductsPage() {
@@ -191,7 +190,7 @@ export default function ProductsPage() {
                       <MapPin className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2 flex-shrink-0" />
                       <span className="truncate">{product.location || 'Farm Location'}</span>
                     </div>
-                  
+
                     <div className="flex items-center text-xs sm:text-sm text-gray-600">
                       <Calendar className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2 flex-shrink-0" />
                       <span className="truncate">Created: {new Date(product.createdAt || Date.now()).toLocaleDateString()}</span>

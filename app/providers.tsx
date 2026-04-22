@@ -2,13 +2,11 @@
 'use client';
 
 import React, { createContext, useContext, useEffect, useState } from 'react';
-
-import { AuthProvider } from '@/contexts/authContext';
+import { ErrorBoundary } from '@/components/errorBoundary';
 import { EventLogsProvider } from '@/contexts/eventLogsContext';
 import { ProductProvider } from '@/contexts/productContext';
 import { SearchProvider } from '@/contexts/search-context';
 import { UserProvider } from '@/contexts/userContext';
-import { ErrorBoundary } from '@/src/features/shared/errorBoundary';
 
 // Theme context to replace next-themes
 interface ThemeContextType {
@@ -68,19 +66,17 @@ export function Providers({ children }: { children: React.ReactNode }) {
   return (
     <ErrorBoundary>
       <ThemeProvider>
-        <AuthProvider>
-          <UserProvider>
-            <ProductProvider>
-              <EventLogsProvider>
-                <SearchProvider>
-                  <main className="container mx-auto px-4 pt-20 pb-8">
-                    {children}
-                  </main>
-                </SearchProvider>
-              </EventLogsProvider>
-            </ProductProvider>
-          </UserProvider>
-        </AuthProvider>
+        <UserProvider>
+          <ProductProvider>
+            <EventLogsProvider>
+              <SearchProvider>
+                <main className="container mx-auto px-4 pt-20 pb-8">
+                  {children}
+                </main>
+              </SearchProvider>
+            </EventLogsProvider>
+          </ProductProvider>
+        </UserProvider>
       </ThemeProvider>
     </ErrorBoundary>
   );

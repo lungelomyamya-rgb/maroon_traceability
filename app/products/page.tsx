@@ -4,14 +4,13 @@
 import { Package, Layers, Shield } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useState, useEffect } from 'react';
-
-import { DashboardLayout } from '@/components/dashboard/DashboardLayout';
+import { DashboardLayout } from '@/components/dashboard';
+import { ErrorBoundary } from '@/components/errorBoundary';
+import { Button } from '@/components/ui/button';
+import { InfoText, SectionTitle } from '@/components/ui/typography';
 import { CATEGORY_COLORS } from '@/lib/constants';
 import { textColors, commonColors } from '@/lib/theme/colors';
 import { getAssetPath } from '@/lib/utils/assetPath';
-import { ErrorBoundary } from '@/src/features/shared/errorBoundary';
-import { Button } from '@/src/features/shared/ui/button';
-import { InfoText, SectionTitle } from '@/src/features/shared/ui/typography';
 import { ProductCategory } from '@/types/product';
 
 // Mock public products data
@@ -117,11 +116,11 @@ function ProductsContent() {
     );
   }
 
-  const filteredProducts = selectedCategory === 'all' 
-    ? products 
+  const filteredProducts = selectedCategory === 'all'
+    ? products
     : products.filter(product => product.category === selectedCategory);
 
-  
+
   const handleViewTrace = (productId: string) => {
     router.push(`/public-access/trace/${productId}`);
   };
@@ -136,7 +135,7 @@ function ProductsContent() {
             🛒 Verified Products on Blockchain
           </span>
         </div>
-        
+
         <InfoText className="text-primary mb-6">
           Explore our selection of blockchain-verified products from trusted local farmers
         </InfoText>
@@ -166,7 +165,7 @@ function ProductsContent() {
             const categoryColor = CATEGORY_COLORS[product.category as keyof typeof CATEGORY_COLORS];
             const defaultColor = { bg: 'bg-gray-100', text: 'text-gray-800', icon: '📦' };
             const safeCategoryColor = categoryColor || defaultColor;
-            
+
             // Maroon category icons mapping
             const categoryIcons: Record<string, string> = {
               'Fruits': '🍎',
@@ -176,9 +175,9 @@ function ProductsContent() {
               'Meat': '🥩',
               'Grains': '🌾',
             };
-            
+
             const categoryIcon = categoryIcons[product.category] || '📦';
-            
+
             return (
               <div key={product.id} className="bg-white border rounded-2xl overflow-hidden hover:shadow-xl transition-shadow group">
                 {/* Image Section */}
@@ -192,11 +191,11 @@ function ProductsContent() {
                     </div>
                   </div>
                 </div>
-                
+
                 {/* Content Section */}
                 <div className="p-4">
                   <h3 className="font-semibold text-gray-900 mb-2 line-clamp-2">{product.name}</h3>
-                  
+
                   {/* Category and Verification Badges */}
                   <div className="flex items-center gap-2 mb-2">
                     <span className="text-2xl">{safeCategoryColor.icon}</span>
@@ -207,11 +206,11 @@ function ProductsContent() {
                       ✓ Verified
                     </span>
                   </div>
-                  
+
                   {/* Farmer Info */}
                   <p className="text-sm text-gray-600 mb-2">by {product.farmer}</p>
                   <p className="text-sm text-gray-500 mb-3">{product.location}</p>
-                  
+
                   {/* Blockchain Verification */}
                   <div className="flex items-center justify-end mb-4">
                     <div className="flex items-center gap-1">
@@ -249,7 +248,7 @@ function ProductsContent() {
             <h4 className="font-semibold text-green-900">Public Blockchain Verification</h4>
           </div>
           <p className="text-sm text-green-800 mb-4">
-            All products are verified on the blockchain for complete transparency. 
+            All products are verified on the blockchain for complete transparency.
             Click "View Full Trace" to see the complete supply chain journey.
           </p>
           <Button

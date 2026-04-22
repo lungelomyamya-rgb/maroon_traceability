@@ -24,7 +24,7 @@ export function PackagingInventory() {
   return (
     <div className="space-y-6">
       {/* Overview Section */}
-      <PackagingOverview 
+      <PackagingOverview
         computed={computed}
         actions={actions}
         loading={loading}

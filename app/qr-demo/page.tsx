@@ -4,10 +4,9 @@
 import { QrCode, Scan, ArrowRight } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
-
-import { QRScanner, QRGenerator } from '@/src/features/shared/qr';
-import { Button } from '@/src/features/shared/ui/button';
-import { Card } from '@/src/features/shared/ui/card';
+import { QRScanner, QRGenerator } from '@/components/qr';
+import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
 
 export default function QRDemoPage() {
   const router = useRouter();
@@ -40,8 +39,8 @@ export default function QRDemoPage() {
     <>
       {/* Back Button - Separate from main content */}
       <div className="fixed top-2 left-2 z-50">
-        <Button 
-          variant="outline" 
+        <Button
+          variant="outline"
           size="sm"
           onClick={handleGoBack}
           className="shadow-md"
@@ -78,7 +77,7 @@ export default function QRDemoPage() {
                 Clear
                 </Button>
               </div>
-            
+
               {scanResult && (
                 <div className="mb-3 sm:mb-4 p-3 sm:p-4 bg-green-50 border border-green-200 rounded-lg">
                   <div className="flex items-center gap-2 mb-2">
@@ -114,7 +113,7 @@ export default function QRDemoPage() {
                 onScanError={handleScanError}
                 mockMode={true}
               />
-            
+
               <div className="mt-3 sm:mt-4 p-3 sm:p-4 bg-gray-100 rounded-lg">
                 <h4 className="text-sm sm:text-base font-medium text-gray-900 mb-2">Test Data:</h4>
                 <ul className="text-xs sm:text-sm text-gray-600 space-y-1">
@@ -169,7 +168,7 @@ export default function QRDemoPage() {
                 onGenerate={handleGenerate}
                 mockMode={false}
               />
-            
+
               <div className="mt-3 sm:mt-4 p-3 sm:p-4 bg-gray-100 rounded-lg">
                 <h4 className="text-sm sm:text-base font-medium text-gray-900 mb-2">Features:</h4>
                 <ul className="text-xs sm:text-sm text-gray-600 space-y-1">

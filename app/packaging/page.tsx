@@ -4,11 +4,10 @@
 import { Package, QrCode, BarChart3, Box, CheckCircle } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
-
-import { DashboardLayout } from '@/components/dashboard/DashboardLayout';
+import { DashboardLayoutUnified as DashboardLayout } from '@/components/dashboard/DashboardLayout';
+import { Badge } from '@/components/ui/badge';
+import { Card } from '@/components/ui/card';
 import { useUser } from '@/contexts/userContext';
-import { Badge } from '@/src/features/shared/ui/badge';
-import { Card } from '@/src/features/shared/ui/card';
 
 
 export default function PackagingPage() {

@@ -1,190 +1,63 @@
+// src/features/auth/index.ts
+// Authentication feature barrel export - With Hybrid Architecture
+
+// ============================================================================
+// SERVICES (Hybrid Architecture Integration)
+// ============================================================================
+
 /**
- * @fileoverview Authentication Feature - User authentication and authorization
- * @version 1.0.0
- * @author Maroon Traceability Team
- * @description 
- * Complete authentication system including login, registration, role-based access control,
- * and user management. All components are responsive, accessible, and include comprehensive
- * TypeScript support with proper error handling and security measures.
- * 
- * @example
- * ```typescript
- * import { AuthPage, useAuth, User } from '@/features/auth';
- * 
- * function App() {
- *   const { user, login, logout, isLoading } = useAuth();
- *   
- *   return (
- *     <AuthPage 
- *       onLogin={handleLogin}
- *       onRegister={handleRegister}
- *       theme="light"
- *     />
- *   );
- * }
- * ```
+ * Authentication Application
+ * Production-ready authentication with hybrid architecture integration
  */
+export { authApplication, AuthApplication } from './application/AuthApplication';
+
+// ============================================================================
+// ADAPTER EXPORTS
+// ============================================================================
+
+/**
+ * Hybrid authentication adapter
+ * Bridge between mock and real authentication with fallback
+ */
+export { HybridAuthAdapter } from './adapters/HybridAuthAdapter';
+
+/**
+ * Real authentication adapter
+ * Production Supabase authentication
+ */
+export { RealAuthAdapter } from './adapters/RealAuthAdapter';
+
+/**
+ * Mock authentication adapter
+ * Simulated authentication for development and testing
+ */
+export { MockAuthAdapter } from './adapters/MockAuthAdapter';
+
+// ============================================================================
+// HOOKS EXPORTS
+// ============================================================================
+
+/**
+ * Hybrid authentication hooks
+ * Dual-mode authentication with seamless switching
+ */
+export { useHybridAuth, useHybridAuthForm } from './hooks/useHybridAuth';
 
 // ============================================================================
 // COMPONENT EXPORTS
 // ============================================================================
 
 /**
- * Complete authentication page with login and registration forms
- * @component AuthPage
- * @example
- * ```typescript
- * <AuthPage 
- *   onLogin={handleLogin}
- *   onRegister={handleRegister}
- *   showSocialLogin={true}
- *   theme="light"
- * />
- * ```
+ * Hybrid login form component
+ * Login form with mode switching and demo users
  */
-export { default as AuthPage } from './components/AuthPage';
+export { HybridLoginForm } from './components';
 
 /**
- * Login form component with validation and error handling
- * @component LoginForm
- * @example
- * ```typescript
- * <LoginForm 
- *   onLogin={handleLogin}
- *   onRegisterClick={showRegister}
- *   loading={isLoading}
- *   error={loginError}
- * />
- * ```
+ * Hybrid authentication page component
+ * Complete authentication system with login and registration
  */
-export { default as LoginForm } from './components/LoginForm';
-
-/**
- * Registration form component with role selection and validation
- * @component RegisterForm
- * @example
- * ```typescript
- * <RegisterForm 
- *   onRegister={handleRegister}
- *   onLoginClick={showLogin}
- *   loading={isLoading}
- *   error={registerError}
- *   availableRoles={['farmer', 'inspector', 'retailer']}
- * />
- * ```
- */
-export { default as RegisterForm } from './components/RegisterForm';
-
-// Export all components for convenience
-export * from './components';
-
-// ============================================================================
-// HOOK EXPORTS
-// ============================================================================
-
-/**
- * Authentication management hook with state persistence
- * @hook useAuth
- * @returns {Object} Authentication state and management functions
- * @example
- * ```typescript
- * const { 
- *   user, 
- *   login, 
- *   logout, 
- *   register,
- *   isLoading,
- *   error,
- *   isAuthenticated,
- *   updateUser,
- *   clearError
- * } = useAuth();
- * ```
- */
-export { useAuth } from './hooks/useAuth';
-
-// ============================================================================
-// TYPE EXPORTS
-// ============================================================================
-
-/**
- * User interface for authentication system
- * @interface User
- * @property {string} id - Unique user identifier
- * @property {string} name - User's full name
- * @property {string} email - User's email address
- * @property {UserRole} role - User's role in the system
- * @property {string | Address} address - User's address (string or object)
- * @property {boolean} isActive - Whether the user account is active
- * @property {Date} createdAt - Account creation timestamp
- * @property {Date} updatedAt - Last update timestamp
- */
-export type { User } from './types/userTypes';
-
-/**
- * User role enumeration for role-based access control
- * @enum UserRole
- * @property {string} farmer - Farmer role with product management
- * @property {string} inspector - Inspector role with verification capabilities
- * @property {string} logistics - Logistics role with transport management
- * @property {string} packaging - Packaging role with batch processing
- * @property {string} retailer - Retailer role with sales management
- * @property {string} public - Public role with read-only access
- * @property {string} government - Government role with oversight
- * @property {string} admin - Administrator role with full access
- */
-export type { UserRole } from './types/userTypes';
-
-/**
- * Authentication state interface for auth context
- * @interface AuthState
- * @property {User | null} user - Currently authenticated user
- * @property {boolean} isLoading - Loading state for auth operations
- * @property {string | null} error - Authentication error message
- * @property {boolean} isAuthenticated - Authentication status
- */
-export type { AuthState } from './hooks/useAuth';
-
-// ============================================================================
-// IMPORTS FOR API OBJECT
-// ============================================================================
-
-import AuthPage from './components/AuthPage';
-import LoginForm from './components/LoginForm';
-import RegisterForm from './components/RegisterForm';
-import { useAuth } from './hooks/useAuth';
-
-// ============================================================================
-// PUBLIC API
-// ============================================================================
-
-/**
- * Authentication Feature Public API
- * Provides clean, type-safe access to all authentication functionality
- * 
- * @namespace AuthAPI
- * @example
- * ```typescript
- * import { authAPI } from '@/features/auth';
- * 
- * // Use components and hooks
- * const { AuthPage, useAuth, User } = authAPI;
- * 
- * // Render authentication
- * <AuthPage />
- * ```
- */
-export const authAPI = {
-  // Core Components
-  AuthPage,
-  LoginForm,
-  RegisterForm,
-  
-  // Hooks
-  useAuth,
-  
-  // Types are exported separately for tree-shaking
-} as const;
+export { HybridAuthPage } from './components';
 
 // ============================================================================
 // FEATURE METADATA
@@ -192,34 +65,50 @@ export const authAPI = {
 
 /**
  * Authentication feature metadata
- * @readonly
- * @enum {string}
  */
 export const AUTH_FEATURE = {
-  /** Feature version */
-  VERSION: '1.0.0',
-  /** Feature name */
-  NAME: 'Authentication',
-  /** Feature description */
-  DESCRIPTION: 'User authentication and authorization system with role-based access control',
-  /** Feature dependencies */
-  DEPENDENCIES: ['react', 'next', 'typescript', 'zod'],
-  /** Feature tags */
-  TAGS: ['authentication', 'authorization', 'login', 'register', 'rbac', 'security'],
+  name: 'authentication',
+  version: '3.0.0',
+  description: 'Hybrid authentication system with mock and real mode support',
+  adapters: {
+    mock: 'MockAuthAdapter',
+    real: 'RealAuthAdapter',
+    hybrid: 'HybridAuthAdapter',
+  },
+  hooks: {
+    hybrid: 'useHybridAuth',
+    hybridForm: 'useHybridAuthForm',
+    legacy: 'useAuth',
+  },
+  components: {
+    loginForm: 'HybridLoginForm',
+    authPage: 'HybridAuthPage',
+  },
+  capabilities: {
+    dualMode: true,
+    fallback: true,
+    modeSwitching: true,
+    healthMonitoring: true,
+    demoUsers: true,
+    realAuthentication: true,
+  },
+  status: 'complete',
+  lastUpdated: '2024-01-20',
 } as const;
 
 // ============================================================================
-// RE-EXPORTS FOR CONVENIENCE
+// DEFAULT EXPORT
 // ============================================================================
 
 /**
- * Default export - Main AuthPage component
+ * Default export - Hybrid authentication page
  * @default
  * @example
  * ```typescript
- * import AuthPage from '@/features/auth';
- * 
- * <AuthPage />
+ * import HybridAuthPage from '@/features/auth';
+ *
+ * <HybridAuthPage onSuccess={handleSuccess} />
  * ```
  */
-export { default } from './components/AuthPage';
+import { HybridAuthPage } from './components';
+export { HybridAuthPage as default };

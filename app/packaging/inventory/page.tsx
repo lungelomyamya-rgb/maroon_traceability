@@ -3,11 +3,10 @@
 
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
-
-import { DashboardLayout } from '@/components/dashboard/DashboardLayout';
+import { DashboardLayout } from '@/components/dashboard';
+import { Button } from '@/components/ui/button';
 import { useUser } from '@/contexts/userContext';
 import { PackagingInventory } from '@/src/features/Packaging/components';
-import { Button } from '@/src/features/shared/ui/button';
 
 
 export default function PackagingInventoryPage() {
@@ -42,7 +41,7 @@ export default function PackagingInventoryPage() {
           Back
         </Button>
       </div>
-      
+
       <DashboardLayout
         title="Packaging Inventory"
         subtitle="Manage packaging materials and inventory levels"

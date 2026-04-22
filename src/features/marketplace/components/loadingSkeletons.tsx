@@ -24,7 +24,7 @@ export default function LoadingSkeletons() {
             <div className="h-8 sm:h-10 md:h-12 bg-gray-200 rounded-lg w-48 mx-auto mb-4"></div>
             <div className="h-4 sm:h-5 md:h-6 bg-gray-200 rounded-lg w-64 mx-auto"></div>
           </div>
-          
+
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 sm:gap-6 md:gap-8 lg:gap-12">
             {[...Array(8)].map((_, index) => (
               <div key={index} className="bg-white rounded-xl border border-gray-200 overflow-hidden">
@@ -54,7 +54,7 @@ export default function LoadingSkeletons() {
             <div className="h-8 sm:h-10 md:h-12 bg-gray-200 rounded-lg w-40 mx-auto mb-4"></div>
             <div className="h-4 sm:h-5 md:h-6 bg-gray-200 rounded-lg w-56 mx-auto"></div>
           </div>
-          
+
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4">
             {[...Array(12)].map((_, index) => (
               <div key={index} className="bg-gray-50 rounded-lg border border-gray-200 h-20 sm:h-24 md:h-28 lg:h-32"></div>
@@ -70,7 +70,7 @@ export default function LoadingSkeletons() {
             <div className="h-8 sm:h-10 md:h-12 bg-gray-200 rounded-lg w-44 mx-auto mb-4"></div>
             <div className="h-4 sm:h-5 md:h-6 bg-gray-200 rounded-lg w-60 mx-auto"></div>
           </div>
-          
+
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 md:gap-8">
             {[...Array(4)].map((_, index) => (
               <div key={index} className="bg-white rounded-lg p-4 sm:p-6 md:p-8 text-center">
@@ -96,7 +96,7 @@ export function ProductCardSkeleton() {
           <div className="absolute top-2 right-2 h-6 w-12 bg-gray-200 rounded"></div>
           <div className="absolute top-2 left-2 h-6 w-16 bg-gray-200 rounded"></div>
         </div>
-        
+
         <div className="p-3 sm:p-4">
           <div className="h-4 sm:h-5 bg-gray-200 rounded mb-2"></div>
           <div className="flex items-center gap-2 mb-2">
@@ -107,7 +107,7 @@ export function ProductCardSkeleton() {
             </div>
             <div className="h-3 sm:h-4 bg-gray-200 rounded w-8"></div>
           </div>
-          
+
           <div className="flex items-center justify-between mb-3">
             <div>
               <div className="h-5 sm:h-6 bg-gray-200 rounded w-20 mb-1"></div>
@@ -140,7 +140,7 @@ export function SearchResultsSkeleton() {
         <div className="h-6 bg-gray-200 rounded w-48 mb-2"></div>
         <div className="h-4 bg-gray-200 rounded w-32"></div>
       </div>
-      
+
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
         {[...Array(8)].map((_, index) => (
           <ProductCardSkeleton key={index} />

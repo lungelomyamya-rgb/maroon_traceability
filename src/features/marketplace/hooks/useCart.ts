@@ -37,7 +37,7 @@ export const useCart = () => {
             : item,
         );
       }
-      return [...prevCart, { 
+      return [...prevCart, {
         id: product.id,
         name: product.name,
         category: product.category,

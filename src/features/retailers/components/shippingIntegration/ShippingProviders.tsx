@@ -1,19 +1,18 @@
 // src/components/retailers/shippingIntegration/ShippingProviders.tsx
 'use client';
 
-import { 
-  Package, 
-  Truck, 
-  CheckCircle, 
+import {
+  Package,
+  Truck,
+  CheckCircle,
   AlertTriangle,
   Settings,
   Globe,
   TrendingUp,
 } from 'lucide-react';
-
-import { Badge } from '@/src/features/shared/ui/badge';
-import { Button } from '@/src/features/shared/ui/button';
-import { Card } from '@/src/features/shared/ui/card';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
 
 
 interface ShippingProvider {
@@ -95,7 +94,7 @@ export function ShippingProviders({ providers, onConfigure, onToggleStatus }: Sh
       <div className="space-y-4">
         {providers.map((provider) => {
           const Icon = getProviderIcon(provider.type);
-          
+
           return (
             <div key={provider.id} className="border rounded-lg p-4">
               <div className="flex items-start justify-between">
@@ -109,7 +108,7 @@ export function ShippingProviders({ providers, onConfigure, onToggleStatus }: Sh
                       {getStatusBadge(provider.status)}
                       {getTypeBadge(provider.type)}
                     </div>
-                    
+
                     <div className="flex flex-wrap gap-2 mb-3">
                       {provider.services.map((service) => (
                         <Badge key={service} variant="outline" className="text-xs">

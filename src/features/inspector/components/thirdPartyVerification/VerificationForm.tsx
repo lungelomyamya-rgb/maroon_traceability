@@ -2,14 +2,12 @@
 'use client';
 
 import { X, ExternalLink, CheckCircle, Upload, Eye, Download, FileText } from 'lucide-react';
-
-import { Badge } from '@/src/features/shared/ui/badge';
-import { Button } from '@/src/features/shared/ui/button';
-import { Card } from '@/src/features/shared/ui/card';
-import { Input } from '@/src/features/shared/ui/input';
-import { Textarea } from '@/src/features/shared/ui/textarea';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
 import type { VerificationDocument } from '@/types/inspector';
-
 import type { ThirdPartyVerificationComputed, ThirdPartyVerificationState } from './hooks/useThirdPartyVerification';
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
@@ -27,18 +25,18 @@ interface VerificationFormProps {
   onClose: () => void;
 }
 
-export function VerificationForm({ 
-  form, 
-  isSubmitting, 
-  documents, 
-  verificationProviders, 
-  providerInfo, 
+export function VerificationForm({
+  form,
+  isSubmitting,
+  documents,
+  verificationProviders,
+  providerInfo,
   selectedProvider,
-  onDocumentUpload, 
-  removeDocument, 
+  onDocumentUpload,
+  removeDocument,
   setSelectedProvider,
-  onFormSubmit, 
-  onClose, 
+  onFormSubmit,
+  onClose,
 }: VerificationFormProps) {
   const { register, handleSubmit, formState: { errors }, watch } = form;
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -102,6 +100,15 @@ export function VerificationForm({
                     setSelectedProvider(providerKey);
                     form.setValue('provider', providerKey as 'sgs' | 'bureau-veritas' | 'intertek');
                   }}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      const providerKey = provider.name.toLowerCase().replace(' ', '-');
+                      setSelectedProvider(providerKey);
+                      form.setValue('provider', providerKey as 'sgs' | 'bureau-veritas' | 'intertek');
+                    }
+                  }}
+                  role="button"
+                  tabIndex={0}
                 >
                   <div className="flex items-center gap-3 mb-2">
                     <div className="w-8 h-8 bg-gray-200 rounded flex items-center justify-center text-xs font-bold">
@@ -206,7 +213,7 @@ export function VerificationForm({
                   {documents.length} uploaded
                 </Badge>
               </div>
-              
+
               <div className="mb-4">
                 <input
                   type="file"

@@ -3,11 +3,9 @@
 
 import { TrendingUp, Download } from 'lucide-react';
 import { useState } from 'react';
-
-import { Button } from '@/src/features/shared/ui/button';
-import { Card } from '@/src/features/shared/ui/card';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/src/features/shared/ui/select';
-
+import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { AnalyticsData, TimeRange } from './hooks/useAnalytics';
 
 interface SalesChartProps {
@@ -20,10 +18,10 @@ interface SalesChartProps {
   formatPercentage: (value: number) => string;
 }
 
-export function SalesChart({ 
-  data, 
-  selectedTimeRange, 
-  timeRanges, 
+export function SalesChart({
+  data,
+  selectedTimeRange,
+  timeRanges,
   onTimeRangeChange,
   formatCurrency,
   formatNumber,
@@ -105,7 +103,7 @@ export function SalesChart({
           <div className="text-center">
             <p className="text-sm text-gray-600">Total {chartType === 'revenue' ? 'Revenue' : 'Orders'}</p>
             <p className="text-lg font-bold text-gray-900">
-              {chartType === 'revenue' 
+              {chartType === 'revenue'
                 ? formatCurrency(data.monthlyRevenue.reduce((sum, month) => sum + month.revenue, 0))
                 : formatNumber(data.monthlyRevenue.reduce((sum, month) => sum + month.orders, 0))
               }
@@ -123,7 +121,7 @@ export function SalesChart({
           <div className="text-center">
             <p className="text-sm text-gray-600">Peak Month</p>
             <p className="text-lg font-bold text-gray-900">
-              {data.monthlyRevenue.reduce((max, month) => 
+              {data.monthlyRevenue.reduce((max, month) =>
                 (chartType === 'revenue' ? month.revenue : month.orders) > (chartType === 'revenue' ? max.revenue : max.orders) ? month : max,
               ).month}
             </p>

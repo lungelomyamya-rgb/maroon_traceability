@@ -1,21 +1,19 @@
 // src/components/inspector/qualityInspection/InspectionResults.tsx
 'use client';
 
-import { 
-  X, 
-  Download, 
+import {
+  X,
+  Download,
   Camera,
   FileText,
   AlertTriangle,
   CheckCircle,
 } from 'lucide-react';
 import { useState } from 'react';
-
-import { Badge } from '@/src/features/shared/ui/badge';
-import { Button } from '@/src/features/shared/ui/button';
-import { Card } from '@/src/features/shared/ui/card';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
 import type { Grade, InspectionPhoto } from '@/types/inspector';
-
 import type { QualityInspectionFormData, QualityInspectionComputed } from './hooks/useQualityInspection';
 
 interface InspectionResultsProps {
@@ -185,7 +183,7 @@ export function InspectionResults({
       {showFullReport && (
         <Card className="p-6">
           <h4 className="text-md font-semibold text-gray-900 mb-4">Detailed Report</h4>
-          
+
           {/* Metrics Table */}
           <div className="mb-6">
             <h5 className="text-sm font-medium text-gray-700 mb-3">Quality Metrics</h5>

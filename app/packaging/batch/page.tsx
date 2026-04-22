@@ -2,8 +2,7 @@
 'use client';
 
 import dynamic from 'next/dynamic';
-
-import { ClientOnly } from '@/src/features/shared/clientOnly';
+import { ClientOnly } from '@/components/clientOnly';
 
 // Dynamically import the BatchProcessing component with SSR disabled
 const BatchProcessing = dynamic(
@@ -22,4 +21,4 @@ export default function BatchProcessingPage() {
     </ClientOnly>
   );
 }
- 
+

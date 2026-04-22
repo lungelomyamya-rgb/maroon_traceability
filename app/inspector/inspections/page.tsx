@@ -1,11 +1,11 @@
 // src/app/inspector/inspections/page.tsx
 'use client';
 
-import { 
-  ClipboardList, 
-  Camera, 
-  Plus, 
-  Eye, 
+import {
+  ClipboardList,
+  Camera,
+  Plus,
+  Eye,
   AlertTriangle,
   CheckCircle,
   Clock,
@@ -13,14 +13,14 @@ import {
 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useState, useEffect } from 'react';
-
-import { DashboardLayout } from '@/components/dashboard/DashboardLayout';
+import { DashboardLayout } from '@/components/dashboard';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
 import { useUser } from '@/contexts/userContext';
 import { QualityInspection } from '@/src/features/Inspector/components';
-import { Badge } from '@/src/features/shared/ui/badge';
-import { Button } from '@/src/features/shared/ui/button';
-import { Card } from '@/src/features/shared/ui/card';
 import { InspectionRecord, InspectionStatus, Grade } from '@/types/inspector';
+
 
 export default function InspectorInspectionsPage() {
   const { currentUser } = useUser();
@@ -199,7 +199,7 @@ export default function InspectorInspectionsPage() {
           Back
         </Button>
       </div>
-      
+
       <DashboardLayout
         title="Quality Inspections"
         description="Manage product quality assessments and grading"
@@ -305,7 +305,7 @@ export default function InspectorInspectionsPage() {
           /* Inspections List */
             <Card className="p-6">
               <h3 className="text-lg font-semibold text-gray-900 mb-4">Inspection Records</h3>
-            
+
               {filteredInspections.length === 0 ? (
                 <div className="text-center py-12">
                   <ClipboardList className="h-12 w-12 text-gray-400 mx-auto mb-4" />
@@ -339,7 +339,7 @@ export default function InspectorInspectionsPage() {
                             )}
                           </div>
                         </div>
-                      
+
                         <div className="text-right flex-shrink-0">
                           <div className="flex flex-col sm:flex-row gap-2 mb-2">
                             <Badge className={`${getStatusColor(inspection.status)} text-xs`}>
@@ -351,7 +351,7 @@ export default function InspectorInspectionsPage() {
                               </Badge>
                             )}
                           </div>
-                        
+
                           <div className="flex flex-col sm:flex-row gap-2">
                             <Button
                               variant="outline"
@@ -363,7 +363,7 @@ export default function InspectorInspectionsPage() {
                               <span className="hidden sm:inline">View</span>
                               <span className="sm:hidden">View</span>
                             </Button>
-                          
+
                             {inspection.status === 'pending' && (
                               <Button
                                 size="sm"

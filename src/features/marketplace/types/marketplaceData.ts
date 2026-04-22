@@ -447,16 +447,16 @@ export const mockProducts: Product[] = [
 ];
 
 export const categories = [
-  'Powders', 
-  'Teas', 
-  'Supplements', 
-  'Oils', 
-  'Seeds', 
-  'Fresh', 
-  'Poultry', 
-  'Beef', 
-  'Vegetables', 
-  'Honey', 
+  'Powders',
+  'Teas',
+  'Supplements',
+  'Oils',
+  'Seeds',
+  'Fresh',
+  'Poultry',
+  'Beef',
+  'Vegetables',
+  'Honey',
   'Grains',
 ];
 

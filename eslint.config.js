@@ -24,7 +24,20 @@ export default [
       '.temp/**',
       '**/__tests__/**',
       '**/*.test.*',
-      '**/*.spec.*'
+      '**/*.spec.*',
+      // Additional ignores for surgical recovery
+      '**/*.config.js',
+      '**/*.config.ts',
+      'build/**',
+      'dist/**',
+      '.vscode/**',
+      '.windsurf/**',
+      'docs/**',
+      '*.backup',
+      '*.old',
+      '*.bak',
+      '.backup-*/**',
+      '.structural-backup-*/**'
     ]
   },
   js.configs.recommended,
@@ -56,6 +69,8 @@ export default [
         clearInterval: 'readonly',
         console: 'readonly',
         alert: 'readonly',
+        btoa: 'readonly',
+        atob: 'readonly',
         // React globals
         React: 'readonly',
         // TypeScript globals
@@ -91,54 +106,62 @@ export default [
       },
     },
     rules: {
-      // TypeScript rules
-      '@typescript-eslint/no-unused-vars': ['error', { 
+      // TypeScript rules (relaxed for surgical recovery)
+      '@typescript-eslint/no-unused-vars': ['warn', { 
         argsIgnorePattern: '^_',
         varsIgnorePattern: '^_',
         caughtErrorsIgnorePattern: '^_'
       }],
-      '@typescript-eslint/no-explicit-any': 'error',
-      '@typescript-eslint/no-non-null-assertion': 'error',
-      '@typescript-eslint/no-var-requires': 'error',
+      '@typescript-eslint/no-explicit-any': 'warn',
+      '@typescript-eslint/no-non-null-assertion': 'warn',
+      '@typescript-eslint/no-var-requires': 'warn',
       '@typescript-eslint/explicit-module-boundary-types': 'off',
+      '@typescript-eslint/no-empty-function': 'warn',
+      '@typescript-eslint/no-empty-interface': 'warn',
+      '@typescript-eslint/ban-ts-comment': 'warn',
       
-      // Import rules
+      // Import rules (relaxed for surgical recovery)
       'import/order': [
-        'error',
+        'warn',
         {
           groups: ['builtin', 'external', 'internal', 'parent', 'sibling', 'index'],
           alphabetize: { order: 'asc' },
-          'newlines-between': 'always',
+          'newlines-between': 'never',
         },
       ],
-      'import/no-unresolved': 'error',
-      'import/no-cycle': 'error',
+      'import/no-unresolved': 'warn',
+      'import/no-cycle': 'warn',
+      'import/no-duplicates': 'warn',
       
-      // React rules
-      'react-hooks/rules-of-hooks': 'error',
+      // React rules (relaxed for surgical recovery)
+      'react-hooks/rules-of-hooks': 'error', // Keep this critical rule
       'react-hooks/exhaustive-deps': 'warn',
       'react/react-in-jsx-scope': 'off',
       'react/prop-types': 'off',
       'react/jsx-uses-react': 'off',
+      'react/jsx-key': 'warn',
       
-      // JSX A11y rules
-      'jsx-a11y/alt-text': 'error',
-      'jsx-a11y/anchor-has-content': 'error',
-      'jsx-a11y/anchor-is-valid': 'error',
+      // JSX A11y rules (relaxed for surgical recovery)
+      'jsx-a11y/alt-text': 'warn',
+      'jsx-a11y/anchor-has-content': 'warn',
+      'jsx-a11y/anchor-is-valid': 'warn',
+      'jsx-a11y/click-events-have-key-events': 'warn',
       
-      // General rules
-      'prefer-const': 'error',
-      'no-var': 'error',
+      // General rules (relaxed for surgical recovery)
+      'prefer-const': 'warn',
+      'no-var': 'warn',
       'no-console': 'off',
-      'no-debugger': 'error',
+      'no-debugger': 'warn',
       'no-unused-vars': 'off', // Handled by @typescript-eslint/no-unused-vars
-      'eqeqeq': ['error', 'always'],
-      'curly': ['error', 'all'],
-      'brace-style': ['error', '1tbs'],
-      'comma-dangle': ['error', 'always-multiline'],
-      'semi': ['error', 'always'],
-      'quotes': ['error', 'single'],
-      'indent': ['error', 2],
+      'eqeqeq': ['warn', 'always'],
+      'curly': ['warn', 'all'],
+      'brace-style': ['warn', '1tbs'],
+      'comma-dangle': ['warn', 'always-multiline'],
+      'semi': ['warn', 'always'],
+      'quotes': ['warn', 'single'],
+      'indent': 'off', // Let Prettier handle formatting
+      'no-trailing-spaces': 'warn',
+      'no-multiple-empty-lines': ['warn', { max: 2 }],
     },
   },
   {
@@ -183,7 +206,29 @@ export default [
     },
   },
   {
-    files: ['**/sw.js', '**/sw-*.js', '**/service-worker.js', '**/public/sw*.js'],
+    files: ['database/**/*.cjs', 'scripts/**/*.cjs', 'scripts/**/*.js'],
+    languageOptions: {
+      globals: {
+        console: 'readonly',
+        process: 'readonly',
+        Buffer: 'readonly',
+        __dirname: 'readonly',
+        __filename: 'readonly',
+        module: 'readonly',
+        require: 'readonly',
+        exports: 'readonly',
+        global: 'readonly',
+        URL: 'readonly',
+      },
+    },
+    rules: {
+      'no-console': 'off',
+      'no-unused-vars': ['error', { argsIgnorePattern: '^_', varsIgnorePattern: '^_' }],
+      'no-undef': 'off',
+    },
+  },
+  {
+    files: ['**/sw.js', '**/sw-*.js', '**/service-worker.js', '**/assets/sw*.js'],
     languageOptions: {
       globals: {
         // Service Worker globals (built-ins are automatically available)

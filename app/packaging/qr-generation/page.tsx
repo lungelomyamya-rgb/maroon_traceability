@@ -4,14 +4,14 @@
 import { QrCode, Download, Copy } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
-
-import { DashboardLayout } from '@/components/dashboard/DashboardLayout';
+import { DashboardLayout } from '@/components/dashboard';
+import { QRGenerator } from '@/components/qr';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
 import { useUser } from '@/contexts/userContext';
-import { QRGenerator } from '@/src/features/shared/qr';
-import { Badge } from '@/src/features/shared/ui/badge';
-import { Button } from '@/src/features/shared/ui/button';
-import { Card } from '@/src/features/shared/ui/card';
-import { Input } from '@/src/features/shared/ui/input';
+
 
 export default function QRGenerationPage() {
   const { currentUser } = useUser();
@@ -80,7 +80,7 @@ export default function QRGenerationPage() {
     // Create download link
     const dataStr = JSON.stringify({ qr: qrData, generated: new Date().toISOString() });
     const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
-    
+
     const link = document.createElement('a');
     link.setAttribute('href', dataUri);
     link.setAttribute('download', `qr-code-${Date.now()}.json`);
@@ -105,7 +105,7 @@ export default function QRGenerationPage() {
           Back
         </Button>
       </div>
-      
+
       <DashboardLayout
         title="QR Code Generation"
         description="Generate QR codes for product tracking and traceability"
@@ -114,7 +114,7 @@ export default function QRGenerationPage() {
           {/* QR Generation Form */}
           <Card className="p-4 sm:p-6">
             <h3 className="text-lg sm:text-xl font-semibold text-gray-900 mb-4 sm:mb-6 text-center">Generate QR Codes</h3>
-            
+
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
               <div className="w-full lg:w-auto">
                 <label className="block text-sm font-medium text-gray-700 mb-2">Select Product</label>

@@ -2,7 +2,6 @@
 // Traceability hook for blockchain-based product tracking
 
 import { useState, useEffect } from 'react';
-
 import type { ProductEvent, Product } from '../types/traceabilityTypes';
 
 export interface TraceabilityState {
@@ -22,7 +21,7 @@ export const useTraceability = (productId?: string) => {
 
   const fetchTraceabilityData = async (id: string) => {
     setState(prev => ({ ...prev, loading: true, error: null }));
-    
+
     try {
       // Mock API call - replace with real blockchain service
       const mockEvents: ProductEvent[] = [
@@ -102,11 +101,11 @@ export const useTraceability = (productId?: string) => {
     try {
       // Mock QR code parsing - replace with real QR service
       const productId = qrData.includes('product-') ? qrData.split('-')[1] : qrData;
-      
+
       if (productId) {
         await fetchTraceabilityData(productId);
       }
-      
+
       return productId;
     } catch (error) {
       setState(prev => ({

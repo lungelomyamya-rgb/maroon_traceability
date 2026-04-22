@@ -1,24 +1,24 @@
 // src/app/inspector/verification/page.tsx
 'use client';
 
-import { 
-  CheckCircle, 
-  Plus, 
-  Eye, 
+import {
+  CheckCircle,
+  Plus,
+  Eye,
   AlertTriangle,
   Clock,
   Search,
 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useState, useEffect } from 'react';
-
-import { DashboardLayout } from '@/components/dashboard/DashboardLayout';
+import { DashboardLayout } from '@/components/dashboard';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
 import { useUser } from '@/contexts/userContext';
 import { ThirdPartyVerification } from '@/src/features/Inspector/components';
-import { Badge } from '@/src/features/shared/ui/badge';
-import { Button } from '@/src/features/shared/ui/button';
-import { Card } from '@/src/features/shared/ui/card';
 import { ThirdPartyVerification as VerificationType, VerificationProvider } from '@/types/inspector';
+
 
 export default function InspectorVerificationPage() {
   const { currentUser } = useUser();
@@ -157,7 +157,7 @@ export default function InspectorVerificationPage() {
           Back
         </Button>
       </div>
-      
+
       <DashboardLayout
         title="Third-Party Verification"
         description="Manage external verification requests and certificates"
@@ -250,7 +250,7 @@ export default function InspectorVerificationPage() {
           /* Verifications List */
             <Card className="p-6">
               <h3 className="text-lg font-semibold text-gray-900 mb-4">Verification Requests</h3>
-            
+
               {filteredVerifications.length === 0 ? (
                 <div className="text-center py-12">
                   <CheckCircle className="h-12 w-12 text-gray-400 mx-auto mb-4" />
@@ -260,7 +260,7 @@ export default function InspectorVerificationPage() {
                 <div className="space-y-4">
                   {filteredVerifications.map((verification) => {
                     const providerInfo = getProviderInfo(verification.provider);
-                  
+
                     return (
                       <div key={verification.id} className="border rounded-lg p-3 sm:p-4 hover:bg-gray-50 transition-colors">
                         <div className="flex flex-col sm:flex-row justify-between gap-4">
@@ -293,7 +293,7 @@ export default function InspectorVerificationPage() {
                               )}
                             </div>
                           </div>
-                        
+
                           <div className="text-right flex-shrink-0">
                             <div className="flex flex-col sm:flex-row gap-2 mb-2">
                               <Button
@@ -306,7 +306,7 @@ export default function InspectorVerificationPage() {
                                 <span className="hidden sm:inline">View</span>
                                 <span className="sm:hidden">View</span>
                               </Button>
-                            
+
                               {verification.status === 'pending' && (
                                 <Button
                                   size="sm"

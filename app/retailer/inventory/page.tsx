@@ -3,8 +3,7 @@
 
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
-
-import { DashboardLayout } from '@/components/dashboard/DashboardLayout';
+import { DashboardLayout } from '@/components/dashboard';
 import { useUser } from '@/contexts/userContext';
 import { Inventory as InventoryComponent } from '@/src/features/Retailers/components/inventoryComponent';
 
@@ -47,7 +46,7 @@ export default function Inventory() {
           Back
         </button>
       </div>
-      
+
       <DashboardLayout
         title="Inventory Management"
         description="Manage your stock levels and product availability"

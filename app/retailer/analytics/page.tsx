@@ -3,8 +3,7 @@
 
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
-
-import { DashboardLayout } from '@/components/dashboard/DashboardLayout';
+import { DashboardLayoutUnified as DashboardLayout } from '@/components/dashboard/DashboardLayout';
 import { useUser } from '@/contexts/userContext';
 import { Analytics as AnalyticsComponent } from '@/src/features/Retailers/components/analyticsComponent';
 
@@ -47,7 +46,7 @@ export default function Analytics() {
           Back
         </button>
       </div>
-      
+
       <DashboardLayout
         title="Sales Analytics"
         description="Track your business performance and insights"

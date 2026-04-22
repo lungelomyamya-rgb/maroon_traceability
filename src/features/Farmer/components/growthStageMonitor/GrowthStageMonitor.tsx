@@ -3,10 +3,9 @@
 
 import { Sprout, Calendar } from 'lucide-react';
 import { useState } from 'react';
-
-import { Badge } from '@/src/features/shared/ui/badge';
-import { Button } from '@/src/features/shared/ui/button';
-import { Card } from '@/src/features/shared/ui/card';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
 
 interface GrowthStageMonitorProps {
   _products?: unknown[];
@@ -41,20 +40,20 @@ export function GrowthStageMonitor({ _products = [] }: GrowthStageMonitorProps) 
                   <p className="text-sm text-gray-600">{stage.stage} Stage</p>
                 </div>
               </div>
-              
+
               <div className="space-y-2">
                 <div className="flex justify-between text-sm">
                   <span>Progress</span>
                   <span>{stage.progress}%</span>
                 </div>
                 <div className="w-full bg-gray-200 rounded-full h-2">
-                  <div 
-                    className="bg-green-600 h-2 rounded-full transition-all duration-300" 
+                  <div
+                    className="bg-green-600 h-2 rounded-full transition-all duration-300"
                     style={{ width: `${stage.progress}%` }}
                   />
                 </div>
               </div>
-              
+
               <Badge variant={stage.status === 'completed' ? 'default' : 'secondary'}>
                 {stage.status}
               </Badge>

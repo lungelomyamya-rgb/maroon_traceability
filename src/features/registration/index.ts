@@ -1,121 +1,23 @@
 // src/features/registration/index.ts
-// Registration feature barrel export
+// Barrel export for registration feature - Golden Template
 
-/**
- * @fileoverview Registration Feature - User registration and onboarding
- * @version 1.0.0
- * @author Maroon Traceability Team
- * @description 
- * Registration system with Supabase integration and user management.
- * Currently includes Supabase client services with plans for future component expansion.
- * 
- * @example
- * ```typescript
- * import { registrationAPI } from '@/features/registration';
- * 
- * // Use Supabase services
- * const { supabase, isSupabaseAvailable } = registrationAPI;
- * 
- * // Check Supabase availability
- * if (isSupabaseAvailable()) {
- *   // Use Supabase functionality
- * }
- * ```
- */
+// Services (Golden Template)
+export { RealRegistrationAdapter } from './adapters/RealRegistrationAdapter';
+export { registrationApplication, RegistrationApplication } from './application/RegistrationApplication';
 
-// ============================================================================
-// SERVICES EXPORTS
-// ============================================================================
+// Legacy Services (for backward compatibility)
+export { RegistrationRepository, registrationRepository } from './services/RegistrationRepository';
+export { SupabaseRegistrationAdapter } from './adapters/SupabaseRegistrationAdapter';
+export { MockRegistrationAdapter } from './adapters/MockRegistrationAdapter';
 
-/**
- * Supabase client services for registration and authentication
- * @namespace SupabaseServices
- * @example
- * ```typescript
- * import { supabase, isSupabaseAvailable } from '@/features/registration';
- * 
- * // Check if Supabase is available
- * if (isSupabaseAvailable()) {
- *   const { data, error } = await supabase
- *     .from('users')
- *     .select('*');
- * }
- * ```
- */
-export { supabase, isSupabaseAvailable, getSupabaseAdmin } from './services/supabaseClient';
+// Domain
+export { UserRegistrationService } from './domain/services/UserRegistrationService';
 
-// ============================================================================
-// IMPORTS FOR API OBJECT
-// ============================================================================
+// Application
+// Note: Only egistrationApplication exists in the application file
 
-import { supabase, isSupabaseAvailable, getSupabaseAdmin } from './services/supabaseClient';
+// Presentation
+export { RegistrationForm } from './components/RegistrationForm';
 
-// ============================================================================
-// PUBLIC API
-// ============================================================================
-
-/**
- * Registration Feature Public API
- * Provides clean, type-safe access to registration functionality
- * 
- * @namespace RegistrationAPI
- * @example
- * ```typescript
- * import { registrationAPI } from '@/features/registration';
- * 
- * // Use Supabase services
- * const { supabase, isSupabaseAvailable } = registrationAPI;
- * 
- * // Check Supabase availability
- * if (isSupabaseAvailable()) {
- *   // Use Supabase functionality
- * }
- * ```
- */
-export const registrationAPI = {
-  // Supabase Services
-  supabase,
-  isSupabaseAvailable,
-  getSupabaseAdmin,
-} as const;
-
-// ============================================================================
-// FEATURE METADATA
-// ============================================================================
-
-/**
- * Registration feature metadata
- * @readonly
- * @enum {string}
- */
-export const REGISTRATION_FEATURE = {
-  /** Feature version */
-  VERSION: '1.0.0',
-  /** Feature name */
-  NAME: 'Registration',
-  /** Feature description */
-  DESCRIPTION: 'Registration system with Supabase integration and user management',
-  /** Feature dependencies */
-  DEPENDENCIES: ['react', 'next', 'typescript', 'supabase'],
-  /** Feature tags */
-  TAGS: ['registration', 'onboarding', 'user-management', 'supabase'],
-} as const;
-
-// ============================================================================
-// RE-EXPORTS FOR CONVENIENCE
-// ============================================================================
-
-/**
- * Default export - Supabase client
- * @default
- * @example
- * ```typescript
- * import supabase from '@/features/registration';
- * 
- * // Use Supabase directly
- * const { data, error } = await supabase
- *   .from('users')
- *   .select('*');
- * ```
- */
-export { supabase as default } from './services/supabaseClient';
+// Types
+export type { RegistrationData } from './types/RegistrationData';

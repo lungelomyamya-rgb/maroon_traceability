@@ -1,7 +1,7 @@
 // src/components/retailers/customerManagement/CustomerDetails.tsx
 'use client';
 
-import { 
+import {
   User,
   Mail,
   Phone,
@@ -15,9 +15,8 @@ import {
   Edit,
   XCircle,
 } from 'lucide-react';
-
-import { Badge } from '@/src/features/shared/ui/badge';
-import { Button } from '@/src/features/shared/ui/button';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
 
 
 interface Customer {
@@ -114,7 +113,7 @@ export function CustomerDetails({ customer, onClose, onEdit, onContact }: Custom
             </Button>
           </div>
         </div>
-        
+
         <div className="p-4 sm:p-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             {/* Customer Information */}
@@ -140,7 +139,7 @@ export function CustomerDetails({ customer, onClose, onEdit, onContact }: Custom
                     </div>
                   </div>
                 </div>
-                
+
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
                   <div className="flex items-center gap-2">
                     <Mail className="h-4 w-4 text-gray-400" />
@@ -157,7 +156,7 @@ export function CustomerDetails({ customer, onClose, onEdit, onContact }: Custom
                     </div>
                   </div>
                 </div>
-                
+
                 <div className="flex items-start gap-2">
                   <MapPin className="h-4 w-4 text-gray-400 mt-1" />
                   <div>
@@ -172,7 +171,7 @@ export function CustomerDetails({ customer, onClose, onEdit, onContact }: Custom
                 </div>
               </div>
             </div>
-            
+
             {/* Order History */}
             <div>
               <h4 className="font-medium mb-3 flex items-center gap-2">
@@ -209,7 +208,7 @@ export function CustomerDetails({ customer, onClose, onEdit, onContact }: Custom
                   <div>
                     <p className="text-gray-500">Last Order</p>
                     <p className="font-medium">
-                      {customer.lastOrderDate 
+                      {customer.lastOrderDate
                         ? new Date(customer.lastOrderDate).toLocaleDateString()
                         : 'No orders yet'
                       }

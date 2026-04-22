@@ -3,8 +3,7 @@
 
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
-
-import { DashboardLayout } from '@/components/dashboard/DashboardLayout';
+import { DashboardLayout } from '@/components/dashboard';
 import { useUser } from '@/contexts/userContext';
 import { PaymentProcessing as PaymentProcessingComponent } from '@/src/features/Retailers/components/paymentProcessingComponent';
 
@@ -46,7 +45,7 @@ export default function PaymentProcessingPage() {
           Back
         </button>
       </div>
-      
+
       <DashboardLayout
         title="Payment Processing"
         description="Manage payment gateways and transaction processing"

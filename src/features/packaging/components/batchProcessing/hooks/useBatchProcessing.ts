@@ -3,18 +3,18 @@
 
 import { useRouter } from 'next/navigation';
 import { useState, useEffect, useMemo } from 'react';
-
 import { useUser } from '@/contexts/userContext';
-import type { 
-  BatchProcessingItem, 
-  PackagingType, 
+import type {
+  BatchProcessingItem,
+  PackagingType,
   BatchStatus,
-  PackagingRecord, 
+  PackagingRecord,
 } from '@/types/packaging';
-import { 
-  PACKAGING_TYPES, 
+import {
+  PACKAGING_TYPES,
   generateBatchCode,
 } from '@/types/packaging';
+
 
 // Extended interface to include qrCode
 export interface ExtendedBatchProcessingItem extends BatchProcessingItem {
@@ -83,7 +83,7 @@ export function useBatchProcessing() {
   // State
   const [batchItems, setBatchItems] = useState<ExtendedBatchProcessingItem[]>([]);
   const [packagingRecords, setPackagingRecords] = useState<PackagingRecord[]>([]);
-  const [newItem, setNewItem] = useState({ 
+  const [newItem, setNewItem] = useState({
     productId: '',
     productName: '',
     quantity: '',
@@ -112,7 +112,7 @@ export function useBatchProcessing() {
     }, 200);
 
     return () => {
-       
+
       clearTimeout(timer);
     };
   }, [currentUser, router]);
@@ -215,7 +215,7 @@ export function useBatchProcessing() {
 
       // Generate batch code if not provided
       const batchCode = generateBatchCode(newItem.packagingType as PackagingType);
-      
+
       const batchData: ExtendedBatchProcessingItem = {
         id: `batch-${Date.now()}`,
         productId: newItem.productId,
@@ -240,7 +240,7 @@ export function useBatchProcessing() {
         }, 1000);
       }
 
-    } catch (error) {  
+    } catch (error) {
       // Handle failed batch addition
       console.error('Failed to add batch:', error);
       // Show user-friendly error message
@@ -266,9 +266,9 @@ export function useBatchProcessing() {
         }
         return item;
       });
-      
+
       setBatchItems(updatedItems);
-      
+
       // Create packaging records
       const records: PackagingRecord[] = updatedItems.map(item => ({
         id: `record-${item.id}`,
@@ -287,10 +287,10 @@ export function useBatchProcessing() {
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString(),
       }));
-      
+
       setPackagingRecords(prev => [...prev, ...records]);
-      
-    } catch (error) {  
+
+    } catch (error) {
       // Handle batch completion failure
       console.error('Failed to complete batch:', error);
       // Show user-friendly error message
@@ -335,7 +335,7 @@ export function useBatchProcessing() {
         }
         return item;
       });
-      
+
       setBatchItems(updatedItems);
       setShowQRGenerator(false);
     } catch (error) {
@@ -353,7 +353,7 @@ export function useBatchProcessing() {
   const filteredItems = useMemo(() => {
     return batchItems.filter(item => {
       // Search filter
-      const matchesSearch = searchTerm === '' || 
+      const matchesSearch = searchTerm === '' ||
         item.productName.toLowerCase().includes(searchTerm.toLowerCase()) ||
         item.productId.toLowerCase().includes(searchTerm.toLowerCase()) ||
         (item.batchCode?.toLowerCase().includes(searchTerm.toLowerCase()) || false);
@@ -419,15 +419,15 @@ export function useBatchProcessing() {
     statusFilter,
     packagingTypeFilter,
     loading,
-    
+
     // Constants
     packagingTypes,
     batchStatuses,
-    
+
     // Computed
     filteredItems,
     statistics,
-    
+
     // Actions
     setNewItem,
     resetNewItem,

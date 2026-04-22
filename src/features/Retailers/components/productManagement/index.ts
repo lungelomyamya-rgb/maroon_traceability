@@ -2,7 +2,7 @@
 
 /**
  * Product Management Feature Module
- * 
+ *
  * This module provides comprehensive product management functionality with:
  * - Product catalog management
  * - Inventory tracking and alerts
@@ -12,14 +12,14 @@
  * - Supplier information tracking
  * - Batch code and quality control
  * - Stock level monitoring
- * 
+ *
  * @example
  * ```tsx
  * import { ProductManagement } from '@/features/retailers/components/productManagement';
- * 
+ *
  * function RetailerPage() {
  *   return (
- *     <ProductManagement 
+ *     <ProductManagement
  *       onProductSelect={(product) => console.log('Selected:', product)}
  *     />
  *   );

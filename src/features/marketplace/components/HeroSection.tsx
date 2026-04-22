@@ -1,12 +1,12 @@
 // src/components/marketplace/HeroSection.tsx
 'use client';
 
-import { Badge } from '@/src/features/shared/ui/badge';
-import { 
-  CheckCircle, 
-  Award, 
-  Leaf, 
-  Truck, 
+import { Badge } from '@/components/ui/badge';
+import {
+  CheckCircle,
+  Award,
+  Leaf,
+  Truck,
 } from 'lucide-react';
 
 interface HeroSectionProps {
@@ -22,14 +22,14 @@ interface HeroSectionProps {
 
 export default function HeroSection({ router }: HeroSectionProps) {
   return (
-    <section 
+    <section
       className="bg-gradient-to-r from-green-600 to-emerald-700 text-white py-6 sm:py-8 md:py-12 rounded-t-3xl"
       role="banner"
       aria-label="Marketplace Hero Section"
     >
       <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-8">
         <div className="text-center">
-          <Badge 
+          <Badge
             className="bg-white/20 text-white mb-2 sm:mb-3"
             aria-label="100% Traceable Products Badge"
           >
@@ -42,7 +42,7 @@ export default function HeroSection({ router }: HeroSectionProps) {
           <p className="text-sm sm:text-base md:text-lg lg:text-xl mb-4 sm:mb-6 text-green-100 max-w-xl sm:max-w-2xl lg:max-w-3xl mx-auto">
             Farm-to-Shelf Transparency. Every product tells a story of quality, sustainability, and trust.
           </p>
-          
+
           <div className="flex flex-wrap justify-center gap-2 sm:gap-3 mb-4 sm:mb-8" role="list">
             <div className="flex items-center gap-1 sm:gap-2 bg-white/10 px-2 sm:px-3 py-1 rounded-full" role="listitem">
               <CheckCircle className="h-3 w-3 sm:h-4 sm:w-4" aria-hidden="true" />
@@ -63,21 +63,21 @@ export default function HeroSection({ router }: HeroSectionProps) {
           </div>
 
           <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center mt-6 sm:mt-8">
-            <button 
+            <button
               onClick={() => router.push('/qr-demo')}
               className="inline-flex items-center justify-center rounded-md font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none ring-offset-background bg-green-600 hover:bg-green-700 text-white h-10 sm:h-12 py-2 px-4 sm:px-6 md:px-8 text-sm sm:text-base"
               aria-label="Scan Product QR Code to trace product origin"
             >
-              <svg 
-                xmlns="http://www.w3.org/2000/svg" 
-                width="24" 
-                height="24" 
-                viewBox="0 0 24 24" 
-                fill="none" 
-                stroke="currentColor" 
-                strokeWidth="2" 
-                strokeLinecap="round" 
-                strokeLinejoin="round" 
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
                 className="lucide lucide-qr-code h-4 w-4 sm:h-5 sm:w-5 mr-1 sm:mr-2"
                 aria-hidden="true"
               >
@@ -93,21 +93,21 @@ export default function HeroSection({ router }: HeroSectionProps) {
               </svg>
               <span className="text-xs sm:text-sm">Scan Product QR Code</span>
             </button>
-            <button 
+            <button
               onClick={() => router.push('/marketplace/products')}
               className="inline-flex items-center justify-center rounded-md font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none ring-offset-background border border-input hover:bg-accent hover:text-accent-foreground h-10 sm:h-12 py-2 px-4 sm:px-6 md:px-8 bg-white/10 hover:bg-white/20 text-white border-white/20 text-sm sm:text-base"
               aria-label="Browse all products in the marketplace"
             >
-              <svg 
-                xmlns="http://www.w3.org/2000/svg" 
-                width="24" 
-                height="24" 
-                viewBox="0 0 24 24" 
-                fill="none" 
-                stroke="currentColor" 
-                strokeWidth="2" 
-                strokeLinecap="round" 
-                strokeLinejoin="round" 
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
                 className="lucide lucide-search h-4 w-4 sm:h-5 sm:w-5 mr-1 sm:mr-2"
                 aria-hidden="true"
               >

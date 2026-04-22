@@ -204,11 +204,11 @@ export function useShippingIntegration() {
       const pendingShipments = mockShipments.filter(s => s.status === 'pending').length;
       const totalShippingCost = mockShipments.reduce((sum, s) => sum + s.cost, 0);
       const averageCostPerShipment = totalShippingCost / mockShipments.length;
-      
+
       // Calculate on-time delivery rate (mock calculation)
       const onTimeDeliveries = Math.floor(deliveredShipments * 0.92); // 92% on-time
       const onTimeDeliveryRate = (onTimeDeliveries / deliveredShipments) * 100;
-      
+
       const mockMetrics: ShippingMetrics = {
         totalShipments: mockShipments.length,
         inTransit: inTransitShipments,
@@ -244,13 +244,13 @@ export function useShippingIntegration() {
       id: `shp-${Date.now()}`,
       createdAt: new Date().toISOString(),
     };
-    
+
     setShipments(prev => [...prev, newShipment]);
     refreshData();
   };
 
   const updateShipment = (updatedShipment: Shipment) => {
-    setShipments(prev => prev.map(s => 
+    setShipments(prev => prev.map(s =>
       s.id === updatedShipment.id ? updatedShipment : s,
     ));
     refreshData();
@@ -274,15 +274,15 @@ export function useShippingIntegration() {
   };
 
   const configureProvider = (providerId: string, config: Partial<ShippingProvider>) => {
-    setProviders(prev => prev.map(p => 
+    setProviders(prev => prev.map(p =>
       p.id === providerId ? { ...p, ...config } : p,
     ));
     refreshData();
   };
 
   const toggleProviderStatus = (providerId: string) => {
-    setProviders(prev => prev.map(provider => 
-      provider.id === providerId 
+    setProviders(prev => prev.map(provider =>
+      provider.id === providerId
         ? { ...provider, status: provider.status === 'active' ? 'inactive' : 'active' as const }
         : provider,
     ));

@@ -2,21 +2,21 @@
 
 /**
  * Customer Management Feature Module
- * 
+ *
  * This module provides comprehensive customer management functionality with:
  * - Customer metrics and analytics
  * - Customer directory with filtering
  * - Customer details and communication
  * - Loyalty tier management
  * - Communication tools
- * 
+ *
  * @example
  * ```tsx
  * import { CustomerManagement } from '@/features/retailers/components/customerManagement';
- * 
+ *
  * function CustomersPage() {
  *   return (
- *     <CustomerManagement 
+ *     <CustomerManagement
  *       title="Customer Relationship Management"
  *     />
  *   );

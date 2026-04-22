@@ -2,12 +2,9 @@
 'use client';
 
 import { X, Package, Calendar, Truck, Edit, AlertTriangle } from 'lucide-react';
-
-import { Badge } from '@/src/features/shared/ui/badge';
-import { Button } from '@/src/features/shared/ui/button';
-import { Card } from '@/src/features/shared/ui/card';
-
-
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
 import { InventoryItem } from './hooks/useInventory';
 
 interface InventoryDetailsProps {
@@ -21,10 +18,10 @@ interface InventoryDetailsProps {
   getDaysUntilExpiry: (expiryDate: string) => number;
 }
 
-export function InventoryDetails({ 
-  item, 
-  statusConfig, 
-  onClose, 
+export function InventoryDetails({
+  item,
+  statusConfig,
+  onClose,
   onEdit,
   onRestock,
   formatCurrency,
@@ -298,9 +295,9 @@ export function InventoryDetails({
                 <div>
                   <span className="text-sm text-gray-600">Next Restock (estimated)</span>
                   <p className="text-sm font-medium">
-                    {item.currentStock <= item.reorderPoint ? 'Immediate' : 
-                      item.salesVelocity > 0 ? 
-                        formatDate(new Date(Date.now() + (Math.ceil((item.reorderPoint - item.currentStock) / item.salesVelocity) * 24 * 60 * 60 * 1000)).toISOString()) : 
+                    {item.currentStock <= item.reorderPoint ? 'Immediate' :
+                      item.salesVelocity > 0 ?
+                        formatDate(new Date(Date.now() + (Math.ceil((item.reorderPoint - item.currentStock) / item.salesVelocity) * 24 * 60 * 60 * 1000)).toISOString()) :
                         'Unknown'}
                   </p>
                 </div>

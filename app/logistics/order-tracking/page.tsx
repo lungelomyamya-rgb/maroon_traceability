@@ -4,14 +4,13 @@
 import { Truck, MapPin, Clock, CheckCircle, AlertCircle, Search, RefreshCw, Phone, MessageSquare } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useState, useEffect } from 'react';
-
-import { DashboardLayout } from '@/components/dashboard/DashboardLayout';
+import { DashboardLayout } from '@/components/dashboard';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useUser } from '@/contexts/userContext';
-import { Badge } from '@/src/features/shared/ui/badge';
-import { Button } from '@/src/features/shared/ui/button';
-import { Card } from '@/src/features/shared/ui/card';
-import { Input } from '@/src/features/shared/ui/input';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/src/features/shared/ui/select';
 
 
 interface OrderTracking {
@@ -318,7 +317,7 @@ export default function OrderTrackingPage() {
           Back
         </Button>
       </div>
-      
+
       <DashboardLayout
         title="Order Tracking"
         description="Real-time order tracking and delivery management"
@@ -459,7 +458,7 @@ export default function OrderTrackingPage() {
                 Close
                 </Button>
               </div>
-            
+
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 <div>
                   <h4 className="font-medium mb-3">Customer Information</h4>
@@ -469,7 +468,7 @@ export default function OrderTrackingPage() {
                     <p><strong>Product:</strong> {selectedOrder.productId}</p>
                   </div>
                 </div>
-              
+
                 <div>
                   <h4 className="font-medium mb-3">Driver Information</h4>
                   <div className="space-y-2 text-sm">

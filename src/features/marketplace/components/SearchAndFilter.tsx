@@ -1,17 +1,17 @@
 // src/components/marketplace/searchAndFilter.tsx
 'use client';
 
-import { Product } from '@/constants/marketplaceData';
-import { Badge } from '@/src/features/shared/ui/badge';
-import { Button } from '@/src/features/shared/ui/button';
-import { Input } from '@/src/features/shared/ui/input';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/src/features/shared/ui/select';
-import { 
-  Search, 
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import {
+  Search,
   X,
   SlidersHorizontal,
 } from 'lucide-react';
 import { useState, useEffect, useCallback } from 'react';
+import { Product } from '../types/marketplaceData';
 
 interface SearchAndFilterProps {
   products: Product[];
@@ -32,7 +32,7 @@ export default function SearchAndFilter({ products, onFilter }: SearchAndFilterP
   const applyFilters = useCallback(() => {
     const filtered = products.filter(product => {
       // Search filter
-      const matchesSearch = searchTerm === '' || 
+      const matchesSearch = searchTerm === '' ||
         product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
         product.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
         product.farmer.name.toLowerCase().includes(searchTerm.toLowerCase());
@@ -88,7 +88,7 @@ export default function SearchAndFilter({ products, onFilter }: SearchAndFilterP
     onFilter(products);
   };
 
-  const hasActiveFilters = searchTerm || selectedCategory !== 'all' || 
+  const hasActiveFilters = searchTerm || selectedCategory !== 'all' ||
     selectedGrade !== 'all' || priceRange !== 'all';
 
   // Apply filters whenever filter values change
@@ -271,8 +271,8 @@ export default function SearchAndFilter({ products, onFilter }: SearchAndFilterP
                 {searchTerm && (
                   <Badge variant="secondary" className="flex items-center gap-1 px-3 py-1.5 text-xs bg-gray-100 hover:bg-gray-200 transition-colors">
                     Search: "{searchTerm}"
-                    <X 
-                      className="h-3 w-3 cursor-pointer hover:text-red-600" 
+                    <X
+                      className="h-3 w-3 cursor-pointer hover:text-red-600"
                       onClick={() => setSearchTerm('')}
                     />
                   </Badge>
@@ -280,8 +280,8 @@ export default function SearchAndFilter({ products, onFilter }: SearchAndFilterP
                 {selectedCategory !== 'all' && (
                   <Badge variant="secondary" className="flex items-center gap-1 px-3 py-1.5 text-xs bg-gray-100 hover:bg-gray-200 transition-colors">
                     Category: {selectedCategory}
-                    <X 
-                      className="h-3 w-3 cursor-pointer hover:text-red-600" 
+                    <X
+                      className="h-3 w-3 cursor-pointer hover:text-red-600"
                       onClick={() => setSelectedCategory('all')}
                     />
                   </Badge>
@@ -289,8 +289,8 @@ export default function SearchAndFilter({ products, onFilter }: SearchAndFilterP
                 {selectedGrade !== 'all' && (
                   <Badge variant="secondary" className="flex items-center gap-1 px-3 py-1.5 text-xs bg-gray-100 hover:bg-gray-200 transition-colors">
                     Grade: {selectedGrade}
-                    <X 
-                      className="h-3 w-3 cursor-pointer hover:text-red-600" 
+                    <X
+                      className="h-3 w-3 cursor-pointer hover:text-red-600"
                       onClick={() => setSelectedGrade('all')}
                     />
                   </Badge>
@@ -300,8 +300,8 @@ export default function SearchAndFilter({ products, onFilter }: SearchAndFilterP
                     Price: {priceRange === '0-50' ? 'R0-R50' :
                       priceRange === '50-100' ? 'R50-R100' :
                         priceRange === '100-200' ? 'R100-R200' : 'R200+'}
-                    <X 
-                      className="h-3 w-3 cursor-pointer hover:text-red-600" 
+                    <X
+                      className="h-3 w-3 cursor-pointer hover:text-red-600"
                       onClick={() => setPriceRange('all')}
                     />
                   </Badge>

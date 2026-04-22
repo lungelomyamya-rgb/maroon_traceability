@@ -1,19 +1,17 @@
 // src/components/retailers/inventory/Inventory.tsx
 'use client';
 
-import { 
-  Package, 
-  Plus, 
-  Truck, 
-  AlertTriangle, 
+import {
+  Package,
+  Plus,
+  Truck,
+  AlertTriangle,
   TrendingUp,
   RefreshCw,
 } from 'lucide-react';
 import { useState } from 'react';
-
-import { Button } from '@/src/features/shared/ui/button';
-import { Card } from '@/src/features/shared/ui/card';
-
+import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
 import { InventoryDetails } from './InventoryDetails';
 import { InventoryList } from './InventoryList';
 import { InventoryOverview } from './InventoryOverview';
@@ -69,7 +67,7 @@ export function Inventory({ onItemSelect }: InventoryProps) {
       // 3. Allow user to modify the item details
       // 4. Save changes to the backend
       // 5. Update the local state
-      
+
       // For demo purposes, we'll show a message with current item info
       alert(`Edit functionality for item "${item.name}" (SKU: ${item.sku}) would open here. Current stock: ${item.currentStock}`);
       // In a real implementation, we would open an edit modal here
@@ -118,7 +116,7 @@ export function Inventory({ onItemSelect }: InventoryProps) {
       // 2. Re-fetch inventory from the API
       // 3. Update the local state
       // 4. Hide loading state
-      
+
       // For demo purposes, we'll just show a message
       alert('Inventory data refreshed successfully!');
       // In a real implementation, we would call the API to refresh data
@@ -169,7 +167,7 @@ export function Inventory({ onItemSelect }: InventoryProps) {
               </div>
             </Card>
           )}
-          
+
           {outOfStockItems.length > 0 && (
             <Card className="p-4 border-red-200 bg-red-50">
               <div className="flex items-center gap-3">
@@ -183,7 +181,7 @@ export function Inventory({ onItemSelect }: InventoryProps) {
               </div>
             </Card>
           )}
-          
+
           {expiringSoonItems.length > 0 && (
             <Card className="p-4 border-orange-200 bg-orange-50">
               <div className="flex items-center gap-3">
@@ -250,7 +248,7 @@ export function Inventory({ onItemSelect }: InventoryProps) {
               View Reorders
             </Button>
           </div>
-          
+
           <div className="text-center p-4 bg-green-50 rounded-lg">
             <div className="flex items-center justify-center mb-2">
               <TrendingUp className="h-6 w-6 text-green-600" />
@@ -261,7 +259,7 @@ export function Inventory({ onItemSelect }: InventoryProps) {
               View Analytics
             </Button>
           </div>
-          
+
           <div className="text-center p-4 bg-purple-50 rounded-lg">
             <div className="flex items-center justify-center mb-2">
               <Package className="h-6 w-6 text-purple-600" />

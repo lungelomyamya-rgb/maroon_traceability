@@ -2,20 +2,20 @@
  * @fileoverview Marketplace Feature - E-commerce and product catalog functionality
  * @version 1.0.0
  * @author Maroon Traceability Team
- * @description 
+ * @description
  * Complete marketplace feature including product catalog, cart management,
  * search functionality, and checkout process. All components are responsive
  * and accessible with comprehensive TypeScript support.
- * 
+ *
  * @example
  * ```typescript
  * import Marketplace, { useCart, Product } from '@/features/marketplace';
- * 
+ *
  * function App() {
  *   const { cart, addToCart, removeFromCart } = useCart();
- *   
+ *
  *   return (
- *     <Marketplace 
+ *     <Marketplace
  *       products={products}
  *       onProductSelect={handleProductSelect}
  *     />
@@ -33,7 +33,7 @@
  * @component Marketplace
  * @example
  * ```typescript
- * <Marketplace 
+ * <Marketplace
  *   products={products}
  *   onProductSelect={handleProductSelect}
  *   showCart={true}
@@ -48,7 +48,7 @@ export { default as Marketplace } from './components/Marketplace';
  * @component HeroSection
  * @example
  * ```typescript
- * <HeroSection 
+ * <HeroSection
  *   title="Welcome to Marketplace"
  *   subtitle="Find the best products"
  *   backgroundImage="/hero-bg.jpg"
@@ -62,7 +62,7 @@ export { default as HeroSection } from './components/HeroSection';
  * @component FeaturedProducts
  * @example
  * ```typescript
- * <FeaturedProducts 
+ * <FeaturedProducts
  *   products={featuredProducts}
  *   maxItems={8}
  *   showPrice={true}
@@ -77,7 +77,7 @@ export { default as FeaturedProducts } from './components/FeaturedProducts';
  * @component Categories
  * @example
  * ```typescript
- * <Categories 
+ * <Categories
  *   categories={categories}
  *   onCategorySelect={handleCategorySelect}
  *   layout="grid"
@@ -91,7 +91,7 @@ export { default as Categories } from './components/Categories';
  * @component TrustSignals
  * @example
  * ```typescript
- * <TrustSignals 
+ * <TrustSignals
  *   showSecure={true}
  *   showVerified={true}
  *   showReviews={true}
@@ -105,7 +105,7 @@ export { default as TrustSignals } from './components/TrustSignals';
  * @component QRScannerSection
  * @example
  * ```typescript
- * <QRScannerSection 
+ * <QRScannerSection
  *   onScan={handleQRScan}
  *   showInstructions={true}
  *   enabled={true}
@@ -119,7 +119,7 @@ export { default as QRScannerSection } from './components/QRScannerSection';
  * @component SearchAndFilter
  * @example
  * ```typescript
- * <SearchAndFilter 
+ * <SearchAndFilter
  *   onSearch={handleSearch}
  *   onFilter={handleFilter}
  *   categories={categories}
@@ -134,7 +134,7 @@ export { default as SearchAndFilter } from './components/SearchAndFilter';
  * @component LazyImage
  * @example
  * ```typescript
- * <LazyImage 
+ * <LazyImage
  *   src={imageUrl}
  *   alt="Product image"
  *   loading="lazy"
@@ -149,7 +149,7 @@ export { default as LazyImage } from './components/LazyImage';
  * @component KeyboardNavigation
  * @example
  * ```typescript
- * <KeyboardNavigation 
+ * <KeyboardNavigation
  *   items={products}
  *   onSelect={handleSelect}
  *   enabled={true}
@@ -157,7 +157,7 @@ export { default as LazyImage } from './components/LazyImage';
  * ```
  */
 // Export all components for convenience
-export * from './components';
+export * from './components/Marketplace';
 
 // ============================================================================
 // HOOK EXPORTS
@@ -169,14 +169,14 @@ export * from './components';
  * @returns {Object} Cart state and management functions
  * @example
  * ```typescript
- * const { 
- *   cart, 
- *   addToCart, 
- *   removeFromCart, 
- *   updateQuantity, 
+ * const {
+ *   cart,
+ *   addToCart,
+ *   removeFromCart,
+ *   updateQuantity,
  *   clearCart,
  *   totalPrice,
- *   itemCount 
+ *   itemCount
  * } = useCart();
  * ```
  */
@@ -189,7 +189,7 @@ export { useCart } from './hooks/useCart';
  * @example
  * ```typescript
  * const scrollToTop = useScrollToTop();
- * 
+ *
  * const handleBackToTop = () => {
  *   scrollToTop();
  * };
@@ -252,15 +252,15 @@ import { useScrollToTop } from './hooks/useScrollToTop';
 /**
  * Marketplace Feature Public API
  * Provides clean, type-safe access to all marketplace functionality
- * 
+ *
  * @namespace MarketplaceAPI
  * @example
  * ```typescript
  * import { marketplaceAPI } from '@/features/marketplace';
- * 
+ *
  * // Use components
  * const { Marketplace, useCart, Product } = marketplaceAPI;
- * 
+ *
  * // Render marketplace
  * <Marketplace />
  * ```
@@ -276,11 +276,11 @@ export const marketplaceAPI = {
   SearchAndFilter,
   LazyImage,
   KeyboardNavigation,
-  
+
   // Hooks
   useCart,
   useScrollToTop,
-  
+
   // Types are exported separately for tree-shaking
 } as const;
 
@@ -316,7 +316,7 @@ export const MARKETPLACE_FEATURE = {
  * @example
  * ```typescript
  * import Marketplace from '@/features/marketplace';
- * 
+ *
  * <Marketplace />
  * ```
  */

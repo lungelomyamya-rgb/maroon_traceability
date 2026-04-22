@@ -2,12 +2,12 @@
 
 import { Plus, Search } from 'lucide-react';
 import React, { useState, useEffect } from 'react';
-
-import { Button } from '@/src/features/shared/ui/button';
-import { Card, CardContent, CardHeader } from '@/src/features/shared/ui/card';
-import { Input } from '@/src/features/shared/ui/input';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/src/features/shared/ui/select';
-import { DataTable, TableColumn } from '@/src/features/shared/ui/table';
+import type { ReactNode } from 'react';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { DataTable, TableColumn, TableHeader, TableBody, TableRow, TableHead, TableCell } from '@/components/ui/table';
 import { Driver, DriverStatus } from '@/types/logistics';
 
 interface DriverManagementProps {
@@ -78,7 +78,7 @@ export function DriverManagement({ className }: DriverManagementProps) {
         insuranceExpiry: '2025-09-30',
       },
     ];
-    
+
     setTimeout(() => {
       setDrivers(mockDrivers);
       setIsLoading(false);
@@ -93,7 +93,7 @@ export function DriverManagement({ className }: DriverManagementProps) {
     return matchesSearch && matchesStatus;
   });
 
-  
+
   if (isLoading) {
     return (
       <div className="flex items-center justify-center min-h-[400px]">
@@ -107,28 +107,28 @@ export function DriverManagement({ className }: DriverManagementProps) {
       header: 'Driver',
       key: 'name',
       label: 'Driver',
-       
+
       accessor: (row: unknown) => (row as Driver).name,
     },
     {
       header: 'Contact',
       key: 'phone',
       label: 'Contact',
-       
+
       accessor: (row: unknown) => (row as Driver).phone,
     },
     {
       header: 'Status',
       key: 'status',
       label: 'Status',
-       
+
       accessor: (row: unknown) => (row as Driver).status,
     },
     {
       header: 'Experience',
       key: 'experience',
       label: 'Experience',
-       
+
 
       accessor: (row: unknown) => (row as Driver).experience,
     },
@@ -136,7 +136,7 @@ export function DriverManagement({ className }: DriverManagementProps) {
       header: 'Rating',
       key: 'rating',
       label: 'Rating',
-       
+
 
       accessor: (row: unknown) => (row as Driver).rating,
     },
@@ -144,7 +144,7 @@ export function DriverManagement({ className }: DriverManagementProps) {
       header: 'Deliveries',
       key: 'totalDeliveries',
       label: 'Deliveries',
-       
+
 
       accessor: (row: unknown) => (row as Driver).totalDeliveries,
     },
@@ -152,7 +152,7 @@ export function DriverManagement({ className }: DriverManagementProps) {
       header: 'On-Time Rate',
       key: 'onTimeDeliveryRate',
       label: 'On-Time Rate',
-       
+
 
       accessor: (row: unknown) => (row as Driver).onTimeDeliveryRate,
     },
@@ -160,7 +160,7 @@ export function DriverManagement({ className }: DriverManagementProps) {
       header: 'Actions',
       key: 'id',
       label: 'Actions',
-       
+
 
       accessor: (row: unknown) => (row as Driver).id,
     },
@@ -237,10 +237,26 @@ export function DriverManagement({ className }: DriverManagementProps) {
           </div>
         </CardHeader>
         <CardContent>
-          <DataTable
-            data={filteredDrivers as unknown as Record<string, unknown>[]}
-            columns={columns}
-          />
+          <DataTable>
+            <TableHeader>
+              <TableRow>
+                {columns.map((col) => (
+                  <TableHead key={col.key}>{col.header || col.title}</TableHead>
+                ))}
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {filteredDrivers.map((driver, index) => (
+                <TableRow key={index}>
+                  {columns.map((col) => (
+                    <TableCell key={col.key}>
+                      {col.accessor ? (col.accessor(driver) as ReactNode) : (((driver as unknown) as Record<string, unknown>)?.[col.dataIndex || col.key] as string || '') as ReactNode}
+                    </TableCell>
+                  ))}
+                </TableRow>
+              ))}
+            </TableBody>
+          </DataTable>
         </CardContent>
       </Card>
     </div>

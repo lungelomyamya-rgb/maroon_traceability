@@ -5,10 +5,9 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useState, useEffect, useMemo } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
-
-import type { 
-  VerificationProvider, 
-  ThirdPartyVerification, 
+import type {
+  VerificationProvider,
+  ThirdPartyVerification,
   VerificationDocument,
 } from '@/types/inspector';
 import { VERIFICATION_PROVIDERS } from '@/types/inspector';
@@ -109,7 +108,7 @@ export function useThirdPartyVerification(inspectionId: string, existingVerifica
   const filteredVerifications = useMemo(() => {
     return verifications.filter(verification => {
       // Search filter
-      const matchesSearch = searchTerm === '' || 
+      const matchesSearch = searchTerm === '' ||
         verification.referenceNumber.toLowerCase().includes(searchTerm.toLowerCase()) ||
         verification.notes?.toLowerCase().includes(searchTerm.toLowerCase()) ||
         verification.provider.toLowerCase().includes(searchTerm.toLowerCase());
@@ -298,7 +297,7 @@ export function useThirdPartyVerification(inspectionId: string, existingVerifica
       setShowAddForm(false);
       form.reset();
 
-    } catch (_error) {  
+    } catch (_error) {
       // TODO: Handle failed verification submission
     } finally {
       setIsSubmitting(false);
@@ -316,7 +315,7 @@ export function useThirdPartyVerification(inspectionId: string, existingVerifica
   };
 
   const handleEditVerification = (id: string, updates: Partial<ThirdPartyVerification>) => {
-    setVerifications(prev => prev.map(v => 
+    setVerifications(prev => prev.map(v =>
       v.id === id ? { ...v, ...updates } : v,
     ));
   };
@@ -333,16 +332,16 @@ export function useThirdPartyVerification(inspectionId: string, existingVerifica
     providerFilter,
     statusFilter,
     loading,
-    
+
     // Constants
     verificationProviders,
-    
+
     // Computed
     filteredVerifications,
     statistics,
     form,
     providerInfo,
-    
+
     // Actions
     setSelectedVerification,
     setShowAddForm,

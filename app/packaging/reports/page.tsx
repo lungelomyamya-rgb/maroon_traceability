@@ -4,12 +4,11 @@
 import { BarChart3, Download, Calendar, Filter, Search, Package, TrendingUp, AlertTriangle, PieChart, Activity, Clock, Eye } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
-
-import { DashboardLayout } from '@/components/dashboard/DashboardLayout';
+import { DashboardLayout } from '@/components/dashboard';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
 import { useUser } from '@/contexts/userContext';
-import { Badge } from '@/src/features/shared/ui/badge';
-import { Button } from '@/src/features/shared/ui/button';
-import { Card } from '@/src/features/shared/ui/card';
 
 
 export default function ReportsPage() {
@@ -157,7 +156,7 @@ export default function ReportsPage() {
           Back
         </Button>
       </div>
-      
+
       <DashboardLayout
         title="Packaging Reports"
         description="View analytics and packaging performance reports"
@@ -274,7 +273,7 @@ export default function ReportsPage() {
                   </div>
                   <div className="flex items-center gap-2">
                     <div className="w-16 sm:w-20 bg-gray-200 rounded-full h-2 sm:h-3">
-                      <div 
+                      <div
                         className={`h-2 sm:h-3 rounded-full ${type.color}`}
                         style={{ width: `${type.value}%` }}
                       ></div>
@@ -301,9 +300,9 @@ export default function ReportsPage() {
                   <span className="text-sm sm:text-base font-medium w-12 sm:w-16 text-gray-600">{day.day}</span>
                   <div className="flex items-center gap-2 flex-1">
                     <div className="w-full sm:w-32 bg-gray-200 rounded-full h-2 sm:h-3">
-                      <div 
+                      <div
                         className={`h-2 sm:h-3 rounded-full ${
-                          day.efficiency >= 90 ? 'bg-green-500' : 
+                          day.efficiency >= 90 ? 'bg-green-500' :
                             day.efficiency >= 80 ? 'bg-yellow-500' : 'bg-red-500'
                         }`}
                         style={{ width: `${day.efficiency}%` }}
@@ -312,7 +311,7 @@ export default function ReportsPage() {
                     <span className="text-sm sm:text-base font-bold text-gray-900 w-12 sm:w-16 text-right">{day.efficiency}%</span>
                   </div>
                   <div className="sm:hidden text-xs text-gray-500">
-                    {day.efficiency >= 90 ? 'Excellent' : 
+                    {day.efficiency >= 90 ? 'Excellent' :
                       day.efficiency >= 80 ? 'Good' : 'Needs Improvement'}
                   </div>
                 </div>

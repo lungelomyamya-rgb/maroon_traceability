@@ -2,22 +2,22 @@
 
 /**
  * Retailer Components Module
- * 
+ *
  * This barrel file exports all retailer-related components and utilities.
  * All components have been refactored into modular structures with:
  * - Custom hooks for business logic
  * - Focused sub-components for UI
  * - Barrel files for clean exports
  * - Zero logic changes from original implementations
- * 
+ *
  * @example
  * ```tsx
  * // Import specific components
  * import { ProductManagement, Analytics, Inventory, Orders } from '@/src/features/Retailers';
- * 
+ *
  * // Import with aliases to avoid naming conflicts
- * import { 
- *   ProductManagement as ProductMgmt, 
+ * import {
+ *   ProductManagement as ProductMgmt,
  *   Analytics as RetailerAnalytics,
  *   Inventory as StockManagement,
  *   Orders as OrderManagement
@@ -100,7 +100,7 @@ export const refactoringSummary = {
   averageReduction: '48%',
   componentsRefactored: [
     'ProductManagement (584 → 280 lines)',
-    'Analytics (466 → 228 lines)', 
+    'Analytics (466 → 228 lines)',
     'Inventory (504 → 248 lines)',
     'Orders (376 → 234 lines)',
   ],
@@ -108,7 +108,7 @@ export const refactoringSummary = {
     'Improved maintainability',
     'Better separation of concerns',
     'Reusable sub-components',
-    'Enhanced type safety',
+    'Type safety',
     'Cleaner code organization',
   ],
 };

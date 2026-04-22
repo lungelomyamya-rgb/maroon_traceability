@@ -558,7 +558,7 @@ For API support and questions:
 
 ### v1.2.0 (2024-01-16)
 - Added webhook support
-- Enhanced analytics endpoints
+- Analytics endpoints
 - Improved error handling
 
 ### v1.1.0 (2024-01-01)

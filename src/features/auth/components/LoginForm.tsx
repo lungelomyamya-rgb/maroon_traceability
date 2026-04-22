@@ -1,12 +1,12 @@
 'use client';
 
-import { useUser } from '@/contexts/userContext';
-import { authService } from '@/services/auth/auth';
+import { useAuth } from '@/contexts/userContext';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
+
 
 // Form validation schema
 const loginSchema = z.object({
@@ -22,9 +22,8 @@ interface LoginFormProps {
 }
 
 export function LoginForm({ onSuccess, onRegisterClick }: LoginFormProps) {
-  const { setUser } = useUser();
+  const { login, loading, user } = useAuth();
   const router = useRouter();
-  const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   const {
@@ -36,43 +35,42 @@ export function LoginForm({ onSuccess, onRegisterClick }: LoginFormProps) {
   });
 
   const onSubmit = async (data: LoginFormData) => {
-    setIsLoading(true);
     setError(null);
 
     try {
-      const response = await authService.login(data);
-      
-      if (response.success && response.user) {
-        setUser(response.user);
-        
+      const success = await login(data.email, data.password);
+
+      if (success) {
         if (onSuccess) {
           onSuccess();
         } else {
-          // Redirect based on role
-          switch (response.user.role) {
-          case 'farmer':
-            router.push('/farmer');
-            break;
-          case 'inspector':
-            router.push('/inspector');
-            break;
-          case 'retailer':
-            router.push('/retailer');
-            break;
-          case 'admin':
-            router.push('/admin');
-            break;
-          default:
-            router.push('/dashboard');
-          }
+          // Redirect based on role (user will be updated after successful login)
+          setTimeout(() => {
+            if (user) {
+              switch (user.role) {
+              case 'farmer':
+                router.push('/farmer');
+                break;
+              case 'inspector':
+                router.push('/inspector');
+                break;
+              case 'retailer':
+                router.push('/retailer');
+                break;
+              case 'admin':
+                router.push('/admin');
+                break;
+              default:
+                router.push('/dashboard');
+              }
+            }
+          }, 100); // Small delay to ensure user state is updated
         }
       } else {
-        setError(response.error || 'Login failed');
+        setError('Login failed');
       }
     } catch {
       setError('An unexpected error occurred');
-    } finally {
-      setIsLoading(false);
     }
   };
 
@@ -137,7 +135,7 @@ export function LoginForm({ onSuccess, onRegisterClick }: LoginFormProps) {
               Remember me
             </label>
           </div>
-          <button 
+          <button
             type="button"
             className="text-sm text-blue-600 hover:text-blue-500"
             onClick={() => {
@@ -150,10 +148,10 @@ export function LoginForm({ onSuccess, onRegisterClick }: LoginFormProps) {
 
         <button
           type="submit"
-          disabled={isLoading}
+          disabled={loading}
           className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50"
         >
-          {isLoading ? 'Signing in...' : 'Sign in'}
+          {loading ? 'Signing in...' : 'Sign in'}
         </button>
       </form>
 

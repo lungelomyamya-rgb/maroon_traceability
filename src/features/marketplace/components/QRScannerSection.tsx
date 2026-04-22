@@ -1,7 +1,7 @@
 // src/components/marketplace/qRScannerSection.tsx
 'use client';
 
-import { Button } from '@/src/features/shared/ui/button';
+import { Button } from '@/components/ui/button';
 import { CheckCircle, AlertCircle, QrCode } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
@@ -44,8 +44,8 @@ export default function QRScannerSection() {
   };
 
   return (
-    <section 
-      id="qr-scanner" 
+    <section
+      id="qr-scanner"
       className="py-8 sm:py-12 md:py-16 lg:py-20 px-3 sm:px-4 lg:px-8 bg-gray-50"
       aria-labelledby="qr-scanner-heading"
     >
@@ -58,7 +58,7 @@ export default function QRScannerSection() {
             Enter a product ID to trace its journey from farm to shelf
           </p>
         </div>
-        
+
         <div className="bg-white rounded-xl sm:rounded-2xl shadow-lg border border-gray-200 p-4 sm:p-6 md:p-8">
           {scanResult ? (
             <div className="text-center py-6 sm:py-8 md:py-12">
@@ -68,7 +68,7 @@ export default function QRScannerSection() {
               <h3 className="text-base sm:text-lg md:text-xl font-semibold text-gray-900 mb-2 sm:mb-3">
                 Scan Successful!
               </h3>
-              <p 
+              <p
                 className="text-sm sm:text-base md:text-lg text-gray-600 font-mono bg-gray-100 px-2 sm:px-3 py-1 sm:py-2 rounded"
                 role="status"
                 aria-live="polite"
@@ -82,7 +82,7 @@ export default function QRScannerSection() {
           ) : (
             <div className="space-y-4 sm:space-y-6 md:space-y-8">
               <div>
-                <label 
+                <label
                   htmlFor="qr-input"
                   className="block text-sm sm:text-base md:text-lg font-medium text-gray-700 mb-2 sm:mb-3"
                 >
@@ -113,7 +113,7 @@ export default function QRScannerSection() {
               </div>
 
               {error && (
-                <div 
+                <div
                   id="error-message"
                   className="flex items-center gap-2 p-3 sm:p-4 bg-red-50 border border-red-200 rounded-lg"
                   role="alert"

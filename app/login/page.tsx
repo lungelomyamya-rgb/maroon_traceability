@@ -1,13 +1,12 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { useEffect } from 'react';
-import { useState } from 'react';
-
+import { useEffect , useState } from 'react';
 import { DEMO_USERS } from '@/constants/users';
 import { useUser } from '@/contexts/userContext';
 import { getAssetPath } from '@/lib/utils/assetPath';
-import { UserRole } from '@/types/user';
+import { UserRole } from '@/types/types';
+
 
 // Prevent static generation
 export const dynamic = 'force-dynamic';
@@ -34,7 +33,7 @@ export default function LoginPage() {
     try {
       setSelectedRole(role);
       setIsLoading(true);
-      
+
       // Update user context first, then navigate
       const user = DEMO_USERS.find((u) => u.role === role);
       if (user) {
@@ -89,21 +88,30 @@ export default function LoginPage() {
             saps: 'Perform roadside inspections and asset recovery operations',
             public: 'Browse marketplace and view complete product traceability',
           }).map(([role, description]) => (
-            <div 
-              key={role} 
+            <div
+              key={role}
               className={`p-3 sm:p-4 lg:p-6 bg-white border-2 rounded-lg sm:rounded-xl transition-all hover:shadow-lg hover:scale-105 cursor-pointer ${
                 selectedRole === role ? 'border-blue-500 shadow-lg' : 'border-gray-200'
               }`}
               onClick={() => handleUserSelect(role as UserRole)}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault();
+                  handleUserSelect(role as UserRole);
+                }
+              }}
+              role="button"
+              tabIndex={0}
+              aria-label={`Select ${role} role: ${description}`}
             >
               <div className="mb-4">
                 <div className="w-8 sm:w-10 lg:w-12 h-8 sm:h-10 lg:h-12 bg-blue-600 rounded-lg flex items-center justify-center mb-2 sm:mb-3 mx-auto">
                   <span className="text-white text-sm sm:text-base lg:text-lg font-bold">
-                    {role === 'farmer' ? '👨‍🌾' : 
-                      role === 'inspector' ? '🔍' : 
-                        role === 'logistics' ? '🚚' : 
-                          role === 'packaging' ? '📦' : 
-                            role === 'retailer' ? '🏪' : 
+                    {role === 'farmer' ? '👨‍🌾' :
+                      role === 'inspector' ? '🔍' :
+                        role === 'logistics' ? '🚚' :
+                          role === 'packaging' ? '📦' :
+                            role === 'retailer' ? '🏪' :
                               role === 'saps' ? '🚔' : '👁️'}
                   </span>
                 </div>

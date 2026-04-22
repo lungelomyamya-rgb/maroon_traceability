@@ -2,12 +2,12 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { 
-  Package, 
-  Calendar, 
-  MapPin, 
-  User, 
-  Camera, 
+import {
+  Package,
+  Calendar,
+  MapPin,
+  User,
+  Camera,
   CheckCircle,
   X,
   QrCode,
@@ -15,22 +15,21 @@ import {
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
-
-import { Badge } from '@/src/features/shared/ui/badge';
-import { Button } from '@/src/features/shared/ui/button';
-import { Card } from '@/src/features/shared/ui/card';
-import { Input } from '@/src/features/shared/ui/input';
-import { Textarea } from '@/src/features/shared/ui/textarea';
-import type { 
-  PackagingType, 
-  PackagingRecord, 
-  BatchStatus, 
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
+import type {
+  PackagingType,
+  PackagingRecord,
+  BatchStatus,
 } from '@/types/packaging';
-import { 
-  PACKAGING_TYPES, 
-  BATCH_STATUS_COLORS, 
+import {
+  PACKAGING_TYPES,
+  BATCH_STATUS_COLORS,
   generateBatchCode,
-  getUnitsForPackagingType, 
+  getUnitsForPackagingType,
 } from '@/types/packaging';
 
 const packagingEventSchema = z.object({
@@ -53,10 +52,10 @@ interface PackagingEventFormProps {
   existingRecord?: PackagingRecord;
 }
 
-export function PackagingEventForm({ 
-  onSubmit, 
-  initialData, 
-  existingRecord, 
+export function PackagingEventForm({
+  onSubmit,
+  initialData,
+  existingRecord,
 }: PackagingEventFormProps) {
   const { register, handleSubmit, formState: { errors }, watch, setValue } = useForm<PackagingEventFormData>({
     resolver: zodResolver(packagingEventSchema),
@@ -117,7 +116,7 @@ export function PackagingEventForm({
     try {
       setIsSubmitting(true);
       await onSubmit({ ...data, photos });
-    } catch (error) {  
+    } catch (error) {
       // Handle error submitting packaging event
       console.error('Error submitting packaging event:', error);
       // Show user-friendly error message
@@ -321,7 +320,7 @@ export function PackagingEventForm({
           {/* Photo Upload */}
           <div className="border-t pt-6">
             <h4 className="text-md font-semibold text-gray-900 mb-4">Visual Evidence</h4>
-            
+
             <div className="space-y-4">
               <input
                 type="file"
@@ -331,7 +330,7 @@ export function PackagingEventForm({
                 className="hidden"
                 id="photo-upload"
               />
-              
+
               <label
                 htmlFor="photo-upload"
                 className="flex items-center justify-center gap-2 w-full p-4 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer hover:border-purple-500 hover:bg-purple-50"

@@ -1,23 +1,20 @@
 // src/components/packaging/batchProcessing/BatchOverview.tsx
 'use client';
 
-import { 
-  Package, 
-  QrCode, 
-  CheckCircle, 
-  Clock, 
+import {
+  Package,
+  QrCode,
+  CheckCircle,
+  Clock,
   AlertTriangle,
   TrendingUp,
   BarChart3,
   Plus,
   Activity,
 } from 'lucide-react';
-
-import { Badge } from '@/src/features/shared/ui/badge';
-import { Button } from '@/src/features/shared/ui/button';
-import { Card } from '@/src/features/shared/ui/card';
-
-
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
 import type { BatchProcessingComputed } from './hooks/useBatchProcessing';
 
 interface BatchOverviewProps {
@@ -241,12 +238,12 @@ export function BatchOverview({ statistics, onAddNewBatch }: BatchOverviewProps)
             <Plus className="h-4 w-4 mr-2" />
             Add New Batch
           </Button>
-          
+
           <div className="text-center p-4 bg-blue-50 rounded-lg">
             <p className="text-2xl font-bold text-blue-600">{qrGenerationRate.toFixed(1)}%</p>
             <p className="text-sm text-blue-800">QR Generation Rate</p>
           </div>
-          
+
           <div className="text-center p-4 bg-green-50 rounded-lg">
             <p className="text-2xl font-bold text-green-600">{completionRate.toFixed(1)}%</p>
             <p className="text-sm text-green-800">Completion Rate</p>
@@ -269,34 +266,34 @@ export function BatchOverview({ statistics, onAddNewBatch }: BatchOverviewProps)
               <span className="font-medium text-green-600">{completedBatches}</span>
             </div>
             <div className="w-full bg-gray-200 rounded-full h-2">
-              <div 
-                className="bg-green-600 h-2 rounded-full transition-all duration-300" 
+              <div
+                className="bg-green-600 h-2 rounded-full transition-all duration-300"
                 style={{ width: `${completionRate}%` }}
               />
             </div>
           </div>
-          
+
           <div>
             <div className="flex justify-between text-sm mb-1">
               <span className="text-gray-600">Processing</span>
               <span className="font-medium text-blue-600">{processingBatches}</span>
             </div>
             <div className="w-full bg-gray-200 rounded-full h-2">
-              <div 
-                className="bg-blue-600 h-2 rounded-full transition-all duration-300" 
+              <div
+                className="bg-blue-600 h-2 rounded-full transition-all duration-300"
                 style={{ width: `${totalBatches > 0 ? (processingBatches / totalBatches) * 100 : 0}%` }}
               />
             </div>
           </div>
-          
+
           <div>
             <div className="flex justify-between text-sm mb-1">
               <span className="text-gray-600">Pending</span>
               <span className="font-medium text-yellow-600">{pendingBatches}</span>
             </div>
             <div className="w-full bg-gray-200 rounded-full h-2">
-              <div 
-                className="bg-yellow-600 h-2 rounded-full transition-all duration-300" 
+              <div
+                className="bg-yellow-600 h-2 rounded-full transition-all duration-300"
                 style={{ width: `${totalBatches > 0 ? (pendingBatches / totalBatches) * 100 : 0}%` }}
               />
             </div>

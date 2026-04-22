@@ -3,9 +3,8 @@
 
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
-
+import { Button } from '@/components/ui/button';
 import { commonColors } from '@/lib/theme/colors';
-import { Button } from '@/src/features/shared/ui/button';
 
 export default function UnauthorizedPage() {
   const router = useRouter();

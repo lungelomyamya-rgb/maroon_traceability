@@ -2,15 +2,15 @@
  * @fileoverview Packaging Feature - Batch processing and inventory management
  * @version 1.0.0
  * @author Maroon Traceability Team
- * @description 
+ * @description
  * Complete packaging system including batch processing, inventory management, quality control,
  * and QR code generation. All components are responsive, accessible, and include comprehensive
  * TypeScript support with real-time monitoring and reporting capabilities.
- * 
+ *
  * @example
  * ```typescript
  * import { PackagingDashboard, BatchProcessing, Inventory } from '@/features/packaging';
- * 
+ *
  * function App() {
  *   return (
  *     <div>
@@ -32,7 +32,7 @@
  * @component PackagingDashboard
  * @example
  * ```typescript
- * <PackagingDashboard 
+ * <PackagingDashboard
  *   showAnalytics={true}
  *   showReports={true}
  *   dateRange={dateRange}
@@ -118,15 +118,15 @@ import * as PackagingTypes from './types/packagingTypes';
 /**
  * Packaging Feature Public API
  * Provides clean, type-safe access to all packaging functionality
- * 
+ *
  * @namespace PackagingAPI
  * @example
  * ```typescript
  * import { packagingAPI } from '@/features/packaging';
- * 
+ *
  * // Use components
  * const { PackagingDashboard, BatchProcessing, Inventory } = packagingAPI;
- * 
+ *
  * // Render packaging components
  * <PackagingDashboard />
  * <BatchProcessing />
@@ -139,7 +139,7 @@ export const packagingAPI = {
   EventFormComp,
   BatchComp,
   InventoryComp,
-  
+
   // Types are exported separately for tree-shaking
   types: PackagingTypes,
 } as const;
@@ -176,7 +176,7 @@ export const PACKAGING_FEATURE = {
  * @example
  * ```typescript
  * import PackagingDashboard from '@/features/packaging';
- * 
+ *
  * <PackagingDashboard />
  * ```
  */

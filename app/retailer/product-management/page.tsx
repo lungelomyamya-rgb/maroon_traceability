@@ -3,8 +3,7 @@
 
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
-
-import { DashboardLayout } from '@/components/dashboard/DashboardLayout';
+import { DashboardLayout } from '@/components/dashboard';
 import { useUser } from '@/contexts/userContext';
 import { ProductManagement as ProductManagementComponent } from '@/src/features/Retailers/components/productManagementComponent';
 
@@ -47,7 +46,7 @@ export default function ProductManagement() {
           Back
         </button>
       </div>
-      
+
       <DashboardLayout
         title="Product Management"
         description="Manage your product listings and inventory"

@@ -1,23 +1,23 @@
 // src/app/inspector/page.tsx
 'use client';
 
-import { 
-  CheckCircle, 
-  ClipboardList, 
-  Camera, 
-  FileText, 
+import {
+  CheckCircle,
+  ClipboardList,
+  Camera,
+  FileText,
   AlertTriangle,
   TrendingUp,
   MapPin,
 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useState, useEffect } from 'react';
-
-import { DashboardLayout } from '@/components/dashboard/DashboardLayout';
+import { DashboardLayout } from '@/components/dashboard';
+import { Badge } from '@/components/ui/badge';
+import { Card } from '@/components/ui/card';
 import { useUser } from '@/contexts/userContext';
-import { Badge } from '@/src/features/shared/ui/badge';
-import { Card } from '@/src/features/shared/ui/card';
 import { InspectionRecord, InspectionStatus, Grade } from '@/types/inspector';
+
 
 export default function InspectorPage() {
   const { currentUser } = useUser();
@@ -412,10 +412,10 @@ export default function InspectorPage() {
                       <span className="sm:hidden">{inspection.location.split(',')[0]}</span>
                     </p>
                     <p className="text-xs text-gray-500 mt-1">
-                      {new Date(inspection.inspectionDate).toLocaleDateString('en-US', { 
-                        year: 'numeric', 
-                        month: 'short', 
-                        day: 'numeric', 
+                      {new Date(inspection.inspectionDate).toLocaleDateString('en-US', {
+                        year: 'numeric',
+                        month: 'short',
+                        day: 'numeric',
                       })}
                     </p>
                   </div>

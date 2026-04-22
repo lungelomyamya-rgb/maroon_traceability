@@ -4,11 +4,10 @@
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
-
-import { DashboardLayout } from '@/components/dashboard/DashboardLayout';
+import { DashboardLayout } from '@/components/dashboard';
+import { Button } from '@/components/ui/button';
 import { useProducts } from '@/contexts/productContext';
 import { useUser } from '@/contexts/userContext';
-import { Button } from '@/src/features/shared/ui/button';
 
 
 // Lazy load large component
@@ -51,7 +50,7 @@ export default function FarmerFertiliserPage() {
           Back
         </Button>
       </div>
-      
+
       <DashboardLayout
         title="Fertiliser Logs"
         subtitle="Record nutrient applications and track soil health"

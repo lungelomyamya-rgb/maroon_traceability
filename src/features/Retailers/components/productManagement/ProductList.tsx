@@ -1,7 +1,7 @@
 // src/components/retailers/productManagement/ProductList.tsx
 'use client';
 
-import { 
+import {
   Plus,
   Edit,
   Trash2,
@@ -12,13 +12,11 @@ import {
   Star,
 } from 'lucide-react';
 import { useState } from 'react';
-
-import { Badge } from '@/src/features/shared/ui/badge';
-import { Button } from '@/src/features/shared/ui/button';
-import { Card } from '@/src/features/shared/ui/card';
-import { Input } from '@/src/features/shared/ui/input';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/src/features/shared/ui/select';
-
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Product } from './hooks/useProductManagement';
 
 interface ProductListProps {
@@ -35,13 +33,13 @@ interface ProductListProps {
   formatStockLevel: (stock: number, minStock: number) => { level: string; color: string };
 }
 
-export function ProductList({ 
-  products, 
-  categories, 
+export function ProductList({
+  products,
+  categories,
   statusConfig,
-  onAddProduct, 
-  onEditProduct, 
-  onViewProduct, 
+  onAddProduct,
+  onEditProduct,
+  onViewProduct,
   onDeleteProduct,
   onStatusUpdate,
   lowStockProducts,
@@ -58,7 +56,7 @@ export function ProductList({
                          product.tags.some(tag => tag.toLowerCase().includes(searchTerm.toLowerCase()));
     const matchesStatus = statusFilter === 'all' || product.status === statusFilter;
     const matchesCategory = categoryFilter === 'all' || product.category === categoryFilter;
-    
+
     return matchesSearch && matchesStatus && matchesCategory;
   });
 
@@ -69,7 +67,7 @@ export function ProductList({
   const getQualityGradeLabel = (grade: string) => {
     const gradeMap: Record<string, string> = {
       'A': 'Grade A - Premium',
-      'B': 'Grade B - Standard', 
+      'B': 'Grade B - Standard',
       'C': 'Grade C - Economy',
     };
     return gradeMap[grade] || grade;
@@ -170,7 +168,7 @@ export function ProductList({
             const status = statusConfig[product.status];
             const stockInfo = formatStockLevel(product.stockLevel, product.minStockLevel);
             const isLowStock = lowStockProducts.some(p => p.id === product.id);
-            
+
             return (
               <Card key={product.id} className="p-4">
                 <div className="flex items-start justify-between mb-4">

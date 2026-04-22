@@ -2,9 +2,8 @@
 'use client';
 
 import { Star } from 'lucide-react';
-
-import { Badge } from '@/src/features/shared/ui/badge';
-import { Card } from '@/src/features/shared/ui/card';
+import { Badge } from '@/components/ui/badge';
+import { Card } from '@/components/ui/card';
 
 interface Product {
   id: string;
@@ -29,7 +28,7 @@ export function TopProducts({ products }: TopProductsProps) {
   return (
     <Card className="p-4 sm:p-6">
       <h3 className="text-lg font-semibold text-gray-900 mb-4">Top Products</h3>
-      
+
       <div className="space-y-3">
         {topProducts.map((product, index) => (
           <div key={product.id} className="flex items-center justify-between p-3 border rounded-lg">

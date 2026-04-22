@@ -1,6 +1,5 @@
 // Retailers Feature Hooks
 import { useState, useEffect } from 'react';
-
 import type { Retailer, Order, Customer } from '../types';
 
 export function useRetailer(id: string) {

@@ -1,14 +1,13 @@
 // src/features/Farmer/components/complianceStatus.tsx
 'use client';
- 
-import { Shield, AlertTriangle } from 'lucide-react';
 
-import { Card } from '@/src/features/shared/ui/card';
- 
+import { Shield, AlertTriangle } from 'lucide-react';
+import { Card } from '@/components/ui/card';
+
 interface ComplianceStatusProps {
   products?: unknown[];
 }
- 
+
 /* eslint-disable */
 export function ComplianceStatus({ products = [] }: ComplianceStatusProps) {
   return (

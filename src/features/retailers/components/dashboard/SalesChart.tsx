@@ -2,8 +2,7 @@
 'use client';
 
 import { BarChart3, TrendingUp } from 'lucide-react';
-
-import { Card } from '@/src/features/shared/ui/card';
+import { Card } from '@/components/ui/card';
 
 interface MonthlyRevenue {
   month: string;
@@ -18,7 +17,7 @@ interface SalesChartProps {
 export function SalesChart({ data }: SalesChartProps) {
   // Simple chart implementation - in a real app, you'd use a charting library
   const maxRevenue = Math.max(...data.map(d => d.revenue));
-  
+
   return (
     <Card className="p-4 sm:p-6">
       <div className="flex items-center justify-between mb-4">
@@ -28,7 +27,7 @@ export function SalesChart({ data }: SalesChartProps) {
           <span>+12.5%</span>
         </div>
       </div>
-      
+
       <div className="space-y-4">
         {data.map((item, index) => (
           <div key={index} className="space-y-2">
@@ -37,7 +36,7 @@ export function SalesChart({ data }: SalesChartProps) {
               <span className="font-medium">${item.revenue.toLocaleString()}</span>
             </div>
             <div className="w-full bg-gray-200 rounded-full h-2">
-              <div 
+              <div
                 className="bg-blue-600 h-2 rounded-full transition-all duration-300"
                 style={{ width: `${(item.revenue / maxRevenue) * 100}%` }}
               />
@@ -49,7 +48,7 @@ export function SalesChart({ data }: SalesChartProps) {
           </div>
         ))}
       </div>
-      
+
       <div className="mt-4 pt-4 border-t">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">

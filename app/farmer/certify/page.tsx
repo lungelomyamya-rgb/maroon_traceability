@@ -5,17 +5,17 @@ import { format } from 'date-fns';
 import { Calendar as CalendarIcon, X, File as FileIcon } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useState, useEffect } from 'react';
-
+import { DocumentVerification } from '@/components/products/document-verification';
+import { QRGenerator } from '@/components/qr';
+import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 import { useUser } from '@/contexts/userContext';
 import { productCertificationDocs } from '@/lib/documentTypes';
 import { textColors, commonColors } from '@/lib/theme/colors';
-import { DocumentVerification } from '@/src/features/shared/products/document-verification';
-import { QRGenerator } from '@/src/features/shared/qr';
-import { Button } from '@/src/features/shared/ui/button';
-import { Card } from '@/src/features/shared/ui/card';
-import { Input } from '@/src/features/shared/ui/input';
-import { Label } from '@/src/features/shared/ui/label';
 import { ProductCategory } from '@/types/product';
+
 
 const productCategories = Object.values(ProductCategory) as string[];
 
@@ -43,7 +43,7 @@ export default function CertifyProductPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [uploadedFiles, setUploadedFiles] = useState<UploadedFile[]>([]);
   const [showDatePicker, setShowDatePicker] = useState(false);
-  
+
   useEffect(() => {
     setIsClient(true);
     // Check if user is a farmer
@@ -51,7 +51,7 @@ export default function CertifyProductPage() {
       router.push('/unauthorized');
     }
   }, [currentUser, router]);
-  
+
   if (!isClient) {
     return null;
   }
@@ -62,7 +62,7 @@ export default function CertifyProductPage() {
     return null;
   }
 
-  
+
   const handleFileUpload = (files: File[]) => {
     const newFiles = files.map(file => ({
       ...file,
@@ -84,12 +84,12 @@ export default function CertifyProductPage() {
       alert('Please upload and verify all required documents');
       return;
     }
-    
+
     if (!formData.category) {
       alert('Please select a product category');
       return;
     }
-    
+
     setIsSubmitting(true);
     try {
       // TODO: Implement form submission logic with file uploads
@@ -137,7 +137,7 @@ export default function CertifyProductPage() {
                   required
                 />
               </div>
-              
+
               {/* Category Selector */}
               <div>
                 <Label>
@@ -164,7 +164,7 @@ export default function CertifyProductPage() {
                   </div>
                 </div>
               </div>
-              
+
               {/* Batch Number */}
               <div>
                 <Label htmlFor="batchNumber">
@@ -178,7 +178,7 @@ export default function CertifyProductPage() {
                   required
                 />
               </div>
-              
+
               {/* Production Date with Calendar Picker */}
               <div className="space-y-1">
                 <Label className="text-sm">
@@ -198,7 +198,7 @@ export default function CertifyProductPage() {
                   {showDatePicker && (
                     <div className="absolute z-10 mt-1 bg-white border rounded-md shadow-lg">
                       <div className="p-2">
-                        <input 
+                        <input
                           type="date"
                           className="block w-full p-2 border rounded"
                           value={formData.productionDate.toISOString().split('T')[0]}
@@ -216,7 +216,7 @@ export default function CertifyProductPage() {
                   )}
                 </div>
               </div>
-              
+
               {/* Quantity */}
               <div className="space-y-1">
                 <Label htmlFor="quantity" className="text-sm">
@@ -232,7 +232,7 @@ export default function CertifyProductPage() {
                   required
                 />
               </div>
-              
+
               {/* Unit Selector */}
               <div className="space-y-1">
                 <Label htmlFor="unit" className="text-sm">
@@ -259,7 +259,7 @@ export default function CertifyProductPage() {
                 </div>
               </div>
             </div>
-            
+
             {/* Description */}
             <div>
               <Label htmlFor="description">
@@ -274,17 +274,17 @@ export default function CertifyProductPage() {
                 placeholder="Enter product description (optional)"
               />
             </div>
-            
+
             {/* Document Upload Section */}
             <div className="pt-4">
               <h2 className="text-lg font-medium text-foreground mb-4">Required Documents</h2>
-              <DocumentVerification 
-                onDocumentsVerified={setDocumentsVerified} 
+              <DocumentVerification
+                onDocumentsVerified={setDocumentsVerified}
                 documentTypes={productCertificationDocs.map(doc => ({ value: doc.value, label: doc.label }))}
                 required={true}
                 onFilesUploaded={handleFileUpload}
               />
-              
+
               {/* Uploaded Files Preview */}
               {uploadedFiles.length > 0 && (
                 <div className="mt-4">
@@ -320,8 +320,8 @@ export default function CertifyProductPage() {
             </div>
 
             <div className="flex justify-end pt-4">
-              <Button 
-                type="submit" 
+              <Button
+                type="submit"
                 disabled={isSubmitting || !documentsVerified}
                 className="min-w-[120px] ${commonColors.green600} ${commonColors.white} py-3 px-4 rounded-lg hover:bg-green-700 transition duration-200 font-medium"
               >

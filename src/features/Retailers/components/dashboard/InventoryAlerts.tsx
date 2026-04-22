@@ -2,9 +2,8 @@
 'use client';
 
 import { AlertTriangle, Package, ArrowDown } from 'lucide-react';
-
-import { Badge } from '@/src/features/shared/ui/badge';
-import { Card } from '@/src/features/shared/ui/card';
+import { Badge } from '@/components/ui/badge';
+import { Card } from '@/components/ui/card';
 
 interface Product {
   id: string;
@@ -52,7 +51,7 @@ export function InventoryAlerts({ products }: InventoryAlertsProps) {
           {lowStockProducts.length} items
         </Badge>
       </div>
-      
+
       {lowStockProducts.length === 0 ? (
         <div className="text-center py-8">
           <Package className="h-12 w-12 text-gray-400 mx-auto mb-4" />
@@ -64,7 +63,7 @@ export function InventoryAlerts({ products }: InventoryAlertsProps) {
           {lowStockProducts.slice(0, 5).map((product) => {
             const alertLevel = getAlertLevel(product.stockLevel, product.minStockLevel);
             const config = getAlertConfig(alertLevel);
-            
+
             return (
               <div key={product.id} className="flex items-center justify-between p-3 border rounded-lg">
                 <div className="flex-1">
@@ -90,7 +89,7 @@ export function InventoryAlerts({ products }: InventoryAlertsProps) {
           })}
         </div>
       )}
-      
+
       {lowStockProducts.length > 5 && (
         <div className="mt-4 pt-4 border-t">
           <p className="text-sm text-gray-500 text-center">

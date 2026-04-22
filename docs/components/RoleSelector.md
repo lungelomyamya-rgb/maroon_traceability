@@ -21,7 +21,7 @@ The `RoleSelector` component allows users to switch between different user roles
 ### Dropdown Mode (Default)
 
 ```typescript
-import { RoleSelector } from '@/components/roleSelector';
+import { RoleSelector } from '@/src/features/shared/roleSelector';
 
 function Header() {
   const handleRoleChange = (newRole) => {

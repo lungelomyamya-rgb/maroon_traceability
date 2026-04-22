@@ -2,10 +2,9 @@
 'use client';
 
 import { CreditCard, Smartphone, Wallet, Settings, CheckCircle, AlertTriangle } from 'lucide-react';
-
-import { Badge } from '@/src/features/shared/ui/badge';
-import { Button } from '@/src/features/shared/ui/button';
-import { Card } from '@/src/features/shared/ui/card';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
 
 
 interface PaymentGateway {
@@ -67,7 +66,7 @@ export function PaymentGateways({ gateways, onConfigure, onToggleStatus }: Payme
       <div className="space-y-4">
         {gateways.map((gateway) => {
           const Icon = getGatewayIcon(gateway.type);
-          
+
           return (
             <div key={gateway.id} className="border rounded-lg p-4">
               <div className="flex items-start justify-between">

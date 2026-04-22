@@ -182,7 +182,7 @@ export function usePaymentProcessing() {
       const completedTransactions = mockTransactions.filter(t => t.status === 'completed');
       const totalRevenue = completedTransactions.reduce((sum, t) => sum + t.amount, 0);
       const averageOrderValue = totalRevenue / completedTransactions.length;
-      
+
       const mockMetrics: PaymentMetrics = {
         totalRevenue: 45678,
         totalTransactions: mockTransactions.length,
@@ -232,8 +232,8 @@ export function usePaymentProcessing() {
   };
 
   const toggleGatewayStatus = (gatewayId: string) => {
-    setGateways(prev => prev.map(gateway => 
-      gateway.id === gatewayId 
+    setGateways(prev => prev.map(gateway =>
+      gateway.id === gatewayId
         ? { ...gateway, status: gateway.status === 'active' ? 'inactive' : 'active' as const }
         : gateway,
     ));
@@ -252,12 +252,12 @@ export function usePaymentProcessing() {
         gateway: transaction.gateway,
         createdAt: transaction.createdAt,
       }));
-      
+
       const csvContent = [
         ['ID', 'Order ID', 'Amount', 'Currency', 'Status', 'Payment Method', 'Gateway', 'Created At'],
         ...exportData.map(t => [t.id, t.orderId, t.amount, t.currency, t.status, t.paymentMethod, t.gateway, t.createdAt]),
       ].map(row => row.join(',')).join('\n');
-      
+
       const blob = new Blob([csvContent], { type: 'text/csv' });
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement('a');
@@ -280,7 +280,7 @@ export function usePaymentProcessing() {
       // 2. Process the refund through the payment gateway
       // 3. Update the transaction status
       // 4. Send confirmation emails
-      
+
       // For demo purposes, we'll just show a success message
       if (window.confirm(`Are you sure you want to process a refund for transaction ${transactionId}?`)) {
         alert(`Refund for transaction ${transactionId} has been processed successfully.`);

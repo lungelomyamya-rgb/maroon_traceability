@@ -2,12 +2,12 @@
 
 import { Plus, Search } from 'lucide-react';
 import React, { useState, useEffect } from 'react';
-
-import { Button } from '@/src/features/shared/ui/button';
-import { Card, CardContent, CardHeader } from '@/src/features/shared/ui/card';
-import { Input } from '@/src/features/shared/ui/input';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/src/features/shared/ui/select';
-import { DataTable, TableColumn } from '@/src/features/shared/ui/table';
+import type { ReactNode } from 'react';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { DataTable, TableColumn, TableHeader, TableBody, TableRow, TableHead, TableCell } from '@/components/ui/table';
 import { TransportDocument, DocumentType } from '@/types/logistics';
 
 interface TransportDocumentationProps {
@@ -71,7 +71,7 @@ export function TransportDocumentation({ className }: TransportDocumentationProp
         metadata: {},
       },
     ];
-    
+
     setTimeout(() => {
       setDocuments(mockDocuments);
       setIsLoading(false);
@@ -99,7 +99,7 @@ export function TransportDocumentation({ className }: TransportDocumentationProp
       header: 'Document',
       key: 'title',
       label: 'Document',
-       
+
 
       accessor: (row: unknown) => (row as TransportDocument).title,
     },
@@ -107,7 +107,7 @@ export function TransportDocumentation({ className }: TransportDocumentationProp
       header: 'Type',
       key: 'type',
       label: 'Type',
-       
+
 
       accessor: (row: unknown) => (row as TransportDocument).type,
     },
@@ -115,7 +115,7 @@ export function TransportDocumentation({ className }: TransportDocumentationProp
       header: 'Status',
       key: 'status',
       label: 'Status',
-       
+
 
       accessor: (row: unknown) => (row as TransportDocument).status,
     },
@@ -123,7 +123,7 @@ export function TransportDocumentation({ className }: TransportDocumentationProp
       header: 'Uploaded By',
       key: 'uploadedBy',
       label: 'Uploaded By',
-       
+
 
       accessor: (row: unknown) => (row as TransportDocument).uploadedBy,
     },
@@ -131,7 +131,7 @@ export function TransportDocumentation({ className }: TransportDocumentationProp
       header: 'Upload Date',
       key: 'uploadedAt',
       label: 'Upload Date',
-       
+
 
       accessor: (row: unknown) => (row as TransportDocument).uploadedAt,
     },
@@ -139,7 +139,7 @@ export function TransportDocumentation({ className }: TransportDocumentationProp
       header: 'File',
       key: 'fileUrl',
       label: 'File',
-       
+
 
       accessor: (row: unknown) => (row as TransportDocument).fileUrl,
     },
@@ -147,7 +147,7 @@ export function TransportDocumentation({ className }: TransportDocumentationProp
       header: 'Actions',
       key: 'id',
       label: 'Actions',
-       
+
 
       accessor: (row: unknown) => (row as TransportDocument).id,
     },
@@ -235,10 +235,26 @@ export function TransportDocumentation({ className }: TransportDocumentationProp
           </div>
         </CardHeader>
         <CardContent>
-          <DataTable
-            data={filteredDocuments as unknown as Record<string, unknown>[]}
-            columns={columns}
-          />
+          <DataTable>
+            <TableHeader>
+              <TableRow>
+                {columns.map((col) => (
+                  <TableHead key={col.key}>{col.header || col.title}</TableHead>
+                ))}
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {filteredDocuments.map((document, index) => (
+                <TableRow key={index}>
+                  {columns.map((col) => (
+                    <TableCell key={col.key}>
+                      {col.accessor ? (col.accessor(document) as ReactNode) : (((document as unknown) as Record<string, unknown>)?.[col.dataIndex || col.key] as string || '') as ReactNode}
+                    </TableCell>
+                  ))}
+                </TableRow>
+              ))}
+            </TableBody>
+          </DataTable>
         </CardContent>
       </Card>
     </div>

@@ -4,12 +4,12 @@
 import { MapPin, Calendar, User, CheckCircle, Package, ArrowRight, Share2, Printer, QrCode } from 'lucide-react';
 import { useParams, useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
-
+import { DashboardLayout } from '@/components/dashboard';
+import { ErrorBoundary } from '@/components/errorBoundary';
+import { Button } from '@/components/ui/button';
 import { formatDateTime } from '@/lib/utils';
 import { getAssetPath } from '@/lib/utils/assetPath';
-import { DashboardLayout } from '@/src/features/shared/dashboard/dashboardLayout';
-import { ErrorBoundary } from '@/src/features/shared/errorBoundary';
-import { Button } from '@/src/features/shared/ui/button';
+
 
 interface PublicTraceEvent {
   id: string;
@@ -70,21 +70,21 @@ export default function PublicTraceClient() {
       const productId = params.id as string;
       const mockProduct = {
         id: productId,
-        productName: productId === 'BLK001' ? 'Organic Apples' : 
+        productName: productId === 'BLK001' ? 'Organic Apples' :
           productId === 'BLK002' ? 'Free-Range Eggs' :
             productId === 'BLK003' ? 'Grass-Fed Beef' :
               productId === 'BLK004' ? 'Fresh Spinach' : 'Product',
         description: 'High-quality product from our certified farms, grown with sustainable practices and verified for quality and safety.',
-        category: productId === 'BLK001' ? 'Fruits' : 
+        category: productId === 'BLK001' ? 'Fruits' :
           productId === 'BLK002' ? 'Poultry' :
             productId === 'BLK003' ? 'Beef' :
               productId === 'BLK004' ? 'Vegetables' : 'Other',
-        farmer: productId === 'BLK001' ? 'Green Valley Farm' : 
+        farmer: productId === 'BLK001' ? 'Green Valley Farm' :
           productId === 'BLK002' ? 'Sunrise Poultry' :
             productId === 'BLK003' ? 'Karoo Cattle Co.' :
               productId === 'BLK004' ? 'Leafy Greens Farm' : 'Local Farm',
         farmerAddress: '0x742d35Cc6634C0532925a3b8D1750B87B02B6C71',
-        location: productId === 'BLK001' ? 'Stellenbosch, Western Cape' : 
+        location: productId === 'BLK001' ? 'Stellenbosch, Western Cape' :
           productId === 'BLK002' ? 'Robertson, Western Cape' :
             productId === 'BLK003' ? 'Graaff-Reinet, Eastern Cape' :
               productId === 'BLK004' ? 'Paarl, Western Cape' : 'South Africa',
@@ -454,7 +454,7 @@ export default function PublicTraceClient() {
               <h4 className="font-semibold text-green-900">Public Access Information</h4>
             </div>
             <p className="text-sm text-green-800 mb-3">
-              This product information is publicly accessible for transparency and consumer trust. 
+              This product information is publicly accessible for transparency and consumer trust.
               No login is required to view this trace information.
             </p>
             <div className="flex flex-wrap gap-3">

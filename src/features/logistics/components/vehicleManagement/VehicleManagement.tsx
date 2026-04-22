@@ -2,12 +2,12 @@
 
 import { Plus, Search } from 'lucide-react';
 import React, { useState, useEffect } from 'react';
-
-import { Button } from '@/src/features/shared/ui/button';
-import { Card, CardContent, CardHeader } from '@/src/features/shared/ui/card';
-import { Input } from '@/src/features/shared/ui/input';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/src/features/shared/ui/select';
-import { DataTable, TableColumn } from '@/src/features/shared/ui/table';
+import type { ReactNode } from 'react';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { DataTable, TableColumn, TableHeader, TableBody, TableRow, TableHead, TableCell } from '@/components/ui/table';
 import { Vehicle, VehicleStatus } from '@/types/logistics';
 
 interface VehicleManagementProps {
@@ -73,7 +73,7 @@ export function VehicleManagement({ className }: VehicleManagementProps) {
         location: { lat: -26.1959, lng: 28.0311 },
       },
     ];
-    
+
     setTimeout(() => {
       setVehicles(mockVehicles);
       setIsLoading(false);
@@ -101,28 +101,28 @@ export function VehicleManagement({ className }: VehicleManagementProps) {
       header: 'Vehicle',
       key: 'registrationNumber',
       label: 'Vehicle',
-       
+
       accessor: (row: unknown) => (row as Vehicle).registrationNumber,
     },
     {
       header: 'Type',
       key: 'type',
       label: 'Type',
-       
+
       accessor: (row: unknown) => (row as Vehicle).type,
     },
     {
       header: 'Capacity',
       key: 'capacity',
       label: 'Capacity',
-       
+
       accessor: (row: unknown) => (row as Vehicle).capacity,
     },
     {
       header: 'Status',
       key: 'status',
       label: 'Status',
-       
+
 
       accessor: (row: unknown) => (row as Vehicle).status,
     },
@@ -130,7 +130,7 @@ export function VehicleManagement({ className }: VehicleManagementProps) {
       header: 'Current Driver',
       key: 'currentDriver',
       label: 'Current Driver',
-       
+
 
       accessor: (row: unknown) => (row as Vehicle).currentDriver,
     },
@@ -138,7 +138,7 @@ export function VehicleManagement({ className }: VehicleManagementProps) {
       header: 'Next Maintenance',
       key: 'nextMaintenance',
       label: 'Next Maintenance',
-       
+
 
       accessor: (row: unknown) => (row as Vehicle).nextMaintenance,
     },
@@ -146,7 +146,7 @@ export function VehicleManagement({ className }: VehicleManagementProps) {
       header: 'Features',
       key: 'features',
       label: 'Features',
-       
+
 
       accessor: (row: unknown) => (row as Vehicle).features,
     },
@@ -154,7 +154,7 @@ export function VehicleManagement({ className }: VehicleManagementProps) {
       header: 'Actions',
       key: 'id',
       label: 'Actions',
-       
+
 
       accessor: (row: unknown) => (row as Vehicle).id,
     },
@@ -229,10 +229,26 @@ export function VehicleManagement({ className }: VehicleManagementProps) {
           </div>
         </CardHeader>
         <CardContent>
-          <DataTable
-            data={filteredVehicles as unknown as Record<string, unknown>[]}
-            columns={columns}
-          />
+          <DataTable>
+            <TableHeader>
+              <TableRow>
+                {columns.map((col) => (
+                  <TableHead key={col.key}>{col.header || col.title}</TableHead>
+                ))}
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {filteredVehicles.map((vehicle, index) => (
+                <TableRow key={index}>
+                  {columns.map((col) => (
+                    <TableCell key={col.key}>
+                      {col.accessor ? (col.accessor(vehicle) as ReactNode) : (((vehicle as unknown) as Record<string, unknown>)?.[col.dataIndex || col.key] as string || '') as ReactNode}
+                    </TableCell>
+                  ))}
+                </TableRow>
+              ))}
+            </TableBody>
+          </DataTable>
         </CardContent>
       </Card>
     </div>

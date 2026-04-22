@@ -3,11 +3,10 @@
 
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
-
-import { DashboardLayout } from '@/components/dashboard/DashboardLayout';
+import { DashboardLayout } from '@/components/dashboard';
+import { Button } from '@/components/ui/button';
 import { useUser } from '@/contexts/userContext';
 import { ShippingIntegration } from '@/src/features/Retailers/components';
-import { Button } from '@/src/features/shared/ui/button';
 
 
 export default function RetailerShippingPage() {
@@ -42,7 +41,7 @@ export default function RetailerShippingPage() {
           Back
         </Button>
       </div>
-      
+
       <DashboardLayout
         title="Shipping Integration"
         subtitle="Manage shipping and delivery logistics"

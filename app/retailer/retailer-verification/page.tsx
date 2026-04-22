@@ -2,10 +2,9 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-
-import { Button } from '@/src/features/shared/ui/button';
-import { Card } from '@/src/features/shared/ui/card';
-import { DocumentUpload, type DocumentType } from '@/src/features/shared/ui/document-upload';
+import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
+import { DocumentUpload, type DocumentType } from '@/components/ui/document-upload';
 
 export default function RetailerVerificationPage() {
   const router = useRouter();
@@ -77,8 +76,8 @@ export default function RetailerVerificationPage() {
 
             <div>
               <h2 className="text-lg font-semibold mb-4">Document Upload</h2>
-              <DocumentUpload 
-                documentTypes={retailerDocuments.map(doc => doc.value)}
+              <DocumentUpload
+                acceptedTypes={retailerDocuments.map(doc => doc.value)}
                 onUpload={(docs) => console.log('Uploaded docs:', docs)}
               />
             </div>

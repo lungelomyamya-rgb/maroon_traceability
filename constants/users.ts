@@ -1,86 +1,54 @@
 // src/constants/users.ts
 
-import { User } from '@/types/user';
+import { BaseUser } from '@/types/types';
 
-export const DEMO_USERS: User[] = [
+export const DEMO_USERS: BaseUser[] = [
   {
     id: 'user_1',
     name: 'John Farmer',
     email: 'john@farm.com',
     role: 'farmer',
-    permissions: {
-      canCreate: true,
-      canVerify: false,
-    },
   },
   {
     id: 'user_2',
     name: 'Jane Inspector',
     email: 'jane@inspect.com',
     role: 'inspector',
-    permissions: {
-      canCreate: false,
-      canVerify: true,
-    },
   },
   {
     id: 'user_3',
     name: 'Bob Retailer',
     email: 'bob@retail.com',
     role: 'retailer',
-    permissions: {
-      canCreate: false,
-      canVerify: true,
-    },
   },
   {
     id: 'user_4',
-    name: 'Alice Logistics',
-    email: 'alice@logistics.com',
+    name: 'Mike Logistics',
+    email: 'mike@logistics.com',
     role: 'logistics',
-    permissions: {
-      canCreate: false,
-      canVerify: false,
-    },
   },
   {
     id: 'user_5',
-    name: 'Charlie Packaging',
-    email: 'charlie@packaging.com',
+    name: 'Sarah Packaging',
+    email: 'sarah@packaging.com',
     role: 'packaging',
-    permissions: {
-      canCreate: true,
-      canVerify: false,
-    },
   },
   {
     id: 'user_6',
-    name: 'Dana Public',
-    email: 'dana@public.com',
+    name: 'Tom Public',
+    email: 'tom@public.com',
     role: 'public',
-    permissions: {
-      canCreate: false,
-      canVerify: false,
-    },
   },
   {
     id: 'user_7',
-    name: 'Eve Government',
-    email: 'eve@gov.com',
+    name: 'Lisa Government',
+    email: 'lisa@gov.za',
     role: 'government',
-    permissions: {
-      canCreate: false,
-      canVerify: true,
-    },
   },
   {
     id: 'user_8',
-    name: 'Frank SAPS Officer',
-    email: 'frank@saps.com',
+    name: 'James SAPS',
+    email: 'james@saps.gov.za',
     role: 'saps',
-    permissions: {
-      canCreate: false,
-      canVerify: true,
-    },
   },
 ];

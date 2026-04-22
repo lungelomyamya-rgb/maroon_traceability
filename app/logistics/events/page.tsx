@@ -3,11 +3,10 @@
 
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
-
-import { DashboardLayout } from '@/components/dashboard/DashboardLayout';
+import { DashboardLayout } from '@/components/dashboard';
+import { Button } from '@/components/ui/button';
 import { useUser } from '@/contexts/userContext';
 import { EventForm } from '@/src/features/Logistics';
-import { Button } from '@/src/features/shared/ui/button';
 
 
 export default function LogisticsEventsPage() {
@@ -42,7 +41,7 @@ export default function LogisticsEventsPage() {
           Back
         </Button>
       </div>
-      
+
       <DashboardLayout
         title="Logistics Events"
         subtitle="Track and manage transportation events and activities"

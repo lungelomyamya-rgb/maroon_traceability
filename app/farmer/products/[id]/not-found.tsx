@@ -1,8 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-
-import { Button } from '@/src/features/shared/ui/button';
+import { Button } from '@/components/ui/button';
 
 export default function NotFound() {
   return (
@@ -15,21 +14,21 @@ export default function NotFound() {
             The product you're looking for doesn't exist or you don't have permission to view it.
           </p>
         </div>
-        
+
         <div className="space-y-4">
           <Link href="/farmer/products">
             <Button className="w-full">
               Back to Products
             </Button>
           </Link>
-          
+
           <Link href="/farmer">
             <Button variant="outline" className="w-full">
               Farmer Dashboard
             </Button>
           </Link>
         </div>
-        
+
         <div className="mt-8 text-sm text-gray-500">
           <p>If you believe this is an error, please contact our support team.</p>
         </div>

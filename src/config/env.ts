@@ -10,21 +10,21 @@ const envSchema = z.object({
   NEXT_PUBLIC_APP_URL: z.string().url().default('http://localhost:3000'),
   NEXT_PUBLIC_APP_NAME: z.string().default('Maroon Traceability Demo'),
   NEXT_PUBLIC_APP_DESCRIPTION: z.string().default('Blockchain-based product traceability system'),
-  
+
   // Supabase (only for registration feature)
   NEXT_PUBLIC_SUPABASE_URL: z.string().url().optional(),
   NEXT_PUBLIC_SUPABASE_ANON_KEY: z.string().optional(),
   SUPABASE_SERVICE_ROLE_KEY: z.string().optional(),
-  
+
   // Blockchain
   NEXT_PUBLIC_BLOCKCHAIN_NETWORK: z.string().default('testnet'),
   NEXT_PUBLIC_BLOCKCHAIN_RPC_URL: z.string().url().optional(),
-  
+
   // Features
   NEXT_PUBLIC_ENABLE_ANALYTICS: z.string().transform(Boolean).default(false),
   NEXT_PUBLIC_ENABLE_REALTIME: z.string().transform(Boolean).default(true),
   NEXT_PUBLIC_ENABLE_OFFLINE: z.string().transform(Boolean).default(true),
-  
+
   // Development
   NEXT_PUBLIC_DEBUG_MODE: z.string().transform(Boolean).default(false),
   NEXT_PUBLIC_MOCK_DATA: z.string().transform(Boolean).default(true),

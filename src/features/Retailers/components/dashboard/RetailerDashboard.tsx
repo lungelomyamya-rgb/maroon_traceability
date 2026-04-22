@@ -2,17 +2,14 @@
 'use client';
 
 import { RefreshCw, Download } from 'lucide-react';
-
-import { Button } from '@/src/features/shared/ui/button';
-import { Card } from '@/src/features/shared/ui/card';
-
+import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
 import { InventoryAlerts } from './InventoryAlerts';
 import { MetricsCards } from './MetricsCards';
 import { RecentOrders } from './RecentOrders';
 import { SalesChart } from './SalesChart';
 import { TopProducts } from './TopProducts';
 import { useRetailerDashboard } from './hooks/useRetailerDashboard';
-
 
 
 interface RetailerDashboardProps {
@@ -34,7 +31,7 @@ export function RetailerDashboard({ title = 'Retailer Dashboard' }: RetailerDash
             </Button>
           </div>
         </div>
-        
+
         {/* Loading skeleton */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
           {[1, 2, 3, 4].map((i) => (

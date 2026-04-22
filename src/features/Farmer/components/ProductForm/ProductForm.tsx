@@ -4,9 +4,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import React, { useState, useCallback } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
-
 import { useProducts } from '@/contexts/productContext';
-import { ErrorHandler } from '@/lib/errorHandler';
 import { CreateProduct, ProductCategory } from '@/types/product';
 
 const productCategories = Object.values(ProductCategory);
@@ -71,7 +69,7 @@ export function ProductForm({ onSuccess, onCancel, initialData }: ProductFormPro
     const updated = selectedCertifications.includes(certification)
       ? selectedCertifications.filter(c => c !== certification)
       : [...selectedCertifications, certification];
-    
+
     setSelectedCertifications(updated);
     setValue('certifications', updated, { shouldValidate: true });
   }, [selectedCertifications, setValue]);
@@ -107,7 +105,7 @@ export function ProductForm({ onSuccess, onCancel, initialData }: ProductFormPro
   const onSubmit = useCallback(async (data: ProductFormData) => {
     setIsSubmitting(true);
     setSubmitError(null);
-    
+
     try {
       const productData: CreateProduct = {
         ...data,
@@ -116,7 +114,7 @@ export function ProductForm({ onSuccess, onCancel, initialData }: ProductFormPro
       };
 
       await addProduct(productData);
-      
+
       if (onSuccess) {
         onSuccess();
       } else {
@@ -125,8 +123,8 @@ export function ProductForm({ onSuccess, onCancel, initialData }: ProductFormPro
         setUploadedPhotos([]);
       }
     } catch (error) {
-      const appError = ErrorHandler.handleAsyncError(error, 'blockchain', 'productForm');
-      setSubmitError(ErrorHandler.getUserMessage(appError));
+      console.error('Product form submission error:', error);
+      setSubmitError('Failed to create product. Please try again.');
       // TODO: Log error for debugging
       // console.error('Failed to create product:', appError);
     } finally {

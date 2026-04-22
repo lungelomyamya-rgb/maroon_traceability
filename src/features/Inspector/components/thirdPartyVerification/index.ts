@@ -2,18 +2,18 @@
 
 /**
  * Third-Party Verification Module
- * 
+ *
  * This barrel file exports all third-party verification components and utilities.
  * The component has been refactored from a 391-line monolithic structure
  * into smaller, focused components with proper separation of concerns.
- * 
+ *
  * @example
  * ```tsx
  * // Import the main component
  * import { ThirdPartyVerification } from '@/components/inspector/thirdPartyVerification';
- * 
+ *
  * // Import individual components
- * import { 
+ * import {
  *   ThirdPartyVerification,
  *   VerificationOverview,
  *   VerificationList,
@@ -35,7 +35,7 @@ export { VerificationForm } from './VerificationForm';
 export { useThirdPartyVerification } from './hooks/useThirdPartyVerification';
 
 // Types
-export type { 
+export type {
   ThirdPartyVerificationFormData,
   ThirdPartyVerificationState,
   ThirdPartyVerificationActions,
@@ -61,8 +61,7 @@ export const thirdPartyVerificationFeature = {
   benefits: [
     'Separation of concerns - UI and business logic separated',
     'Reusable components - Each sub-component can be used independently',
-    'Better testing - Isolated logic and UI components',
-    'Enhanced maintainability - Smaller, focused files',
+    'Maintainability - Smaller, focused files',
     'Type safety - Comprehensive TypeScript interfaces',
     'Performance - Optimized re-renders and state management',
     'Third-party verification - Complete verification request system',

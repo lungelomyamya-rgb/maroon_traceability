@@ -5,11 +5,10 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useState, useRef, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
-
-import { 
-  Grade, 
-  InspectionPhoto, 
-  GRADE_CRITERIA, 
+import {
+  Grade,
+  InspectionPhoto,
+  GRADE_CRITERIA,
 } from '@/types/inspector';
 
 const qualityInspectionSchema = z.object({
@@ -79,7 +78,7 @@ export function useQualityInspection(
   initialData?: Partial<QualityInspectionFormData>,
 ) {
   const fileInputRef = useRef<HTMLInputElement>(null);
-  
+
   // Form setup
   const { register, handleSubmit, formState: { errors }, watch, setValue, setError, clearErrors } = useForm<QualityInspectionFormData>({
     resolver: zodResolver(qualityInspectionSchema),
@@ -182,7 +181,7 @@ export function useQualityInspection(
     try {
       setIsSubmitting(true);
       await onSubmit({ ...data, photos });
-    } catch (_error) {  
+    } catch (_error) {
       // TODO: Handle error submitting inspection
       // Handle error display if needed
     } finally {
@@ -206,7 +205,7 @@ export function useQualityInspection(
   const getDefectSeverity = (defect: string): 'low' | 'medium' | 'high' => {
     const highSeverityDefects = ['mold', 'pests', 'decay', 'contamination'];
     const mediumSeverityDefects = ['discoloration', 'bruising', 'soft spots'];
-    
+
     if (highSeverityDefects.some(d => defect.toLowerCase().includes(d))) {
       return 'high';
     }
@@ -223,7 +222,7 @@ export function useQualityInspection(
       sizeScore: watchedValues.size ? 80 : 0,
       firmnessScore: watchedValues.firmness ? watchedValues.firmness * 10 : 0,
       sugarScore: watchedValues.sugarContent ? Math.min(100, watchedValues.sugarContent * 3) : 0,
-      safetyScore: (watchedValues.pesticideResidue !== undefined && watchedValues.microbialCount !== undefined) 
+      safetyScore: (watchedValues.pesticideResidue !== undefined && watchedValues.microbialCount !== undefined)
         ? Math.max(0, 100 - (watchedValues.pesticideResidue * 1000 + watchedValues.microbialCount * 0.1))
         : 0,
     },
@@ -231,7 +230,7 @@ export function useQualityInspection(
       totalPhotos: photos.length,
       totalDefects: watchedValues.defects?.length || 0,
       totalRecommendations: watchedValues.recommendations?.length || 0,
-      overallQuality: (suggestedGrade ? 
+      overallQuality: (suggestedGrade ?
         (['A', 'B'].includes(suggestedGrade) ? 'excellent' :
           ['C', 'D'].includes(suggestedGrade) ? 'good' : 'fair') : 'poor') as 'excellent' | 'good' | 'fair' | 'poor',
     },
@@ -250,7 +249,7 @@ export function useQualityInspection(
     setError,
     clearErrors,
     fileInputRef,
-    
+
     // State
     isSubmitting,
     photos,
@@ -258,10 +257,10 @@ export function useQualityInspection(
     newRecommendation,
     suggestedGrade,
     watchedValues,
-    
+
     // Computed
     computed,
-    
+
     // Actions
     addDefect,
     removeDefect,

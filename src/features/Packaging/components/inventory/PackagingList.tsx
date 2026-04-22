@@ -1,8 +1,8 @@
 // src/components/packaging/inventory/PackagingList.tsx
 'use client';
 
-import { 
-  Search, 
+import {
+  Search,
   Edit,
   Eye,
   Trash2,
@@ -11,18 +11,15 @@ import {
   TrendingDown,
   Package,
 } from 'lucide-react';
-
-import { Badge } from '@/src/features/shared/ui/badge';
-import { Button } from '@/src/features/shared/ui/button';
-import { Card } from '@/src/features/shared/ui/card';
-import { Input } from '@/src/features/shared/ui/input';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/src/features/shared/ui/select';
-
-
-import type { 
-  InventoryItem, 
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import type {
+  InventoryItem,
   PackagingInventoryActions,
-  PackagingInventoryComputed, 
+  PackagingInventoryComputed,
 } from './hooks/usePackagingInventory';
 
 interface PackagingListProps {
@@ -34,13 +31,13 @@ interface PackagingListProps {
   statusFilter: string;
 }
 
-export function PackagingList({ 
-  filteredInventory, 
-  computed, 
-  actions, 
-  searchTerm, 
-  categoryFilter, 
-  statusFilter, 
+export function PackagingList({
+  filteredInventory,
+  computed,
+  actions,
+  searchTerm,
+  categoryFilter,
+  statusFilter,
 }: PackagingListProps) {
   const { setSelectedItem } = actions;
 
@@ -165,7 +162,7 @@ export function PackagingList({
               {filteredInventory.map((item) => {
                 const stockTrend = getStockTrend(item);
                 const TrendIcon = stockTrend.icon;
-                
+
                 return (
                   <tr key={item.id} className="hover:bg-gray-50 transition-colors">
                     <td className="px-4 py-4 whitespace-nowrap">

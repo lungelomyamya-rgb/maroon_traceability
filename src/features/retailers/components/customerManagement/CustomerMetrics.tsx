@@ -2,8 +2,7 @@
 'use client';
 
 import { Users, TrendingUp, DollarSign, Star } from 'lucide-react';
-
-import { Card } from '@/src/features/shared/ui/card';
+import { Card } from '@/components/ui/card';
 
 interface CustomerMetricsProps {
   metrics: {

@@ -10,11 +10,11 @@ interface KeyboardNavigationProps {
   enabled?: boolean;
 }
 
-export default function KeyboardNavigation({ 
-  containerRef, 
-  items, 
+export default function KeyboardNavigation({
+  containerRef,
+  items,
   onSelect,
-  enabled = true, 
+  enabled = true,
 }: KeyboardNavigationProps) {
   useEffect(() => {
     if (!enabled || !containerRef.current) {
@@ -23,7 +23,7 @@ export default function KeyboardNavigation({
 
     const handleKeyDown = (event: KeyboardEvent) => {
       const { key } = event;
-      
+
       // Only handle navigation keys
       if (!['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'Home', 'End', 'Enter', ' '].includes(key)) {
         return;
@@ -104,7 +104,7 @@ export const useSkipLinks = () => {
     // Create skip links container
     const skipLinksContainer = document.createElement('div');
     skipLinksContainer.className = 'sr-only focus-within:not-sr-only focus:absolute focus:top-4 focus:left-4 z-50 bg-white p-2 rounded shadow-lg';
-    
+
     skipLinks.forEach(link => {
       const a = document.createElement('a');
       a.href = link.href;

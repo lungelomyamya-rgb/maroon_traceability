@@ -1,22 +1,20 @@
 // src/components/inspector/qualityInspection/InspectionOverview.tsx
 'use client';
 
-import { 
-  CheckCircle, 
-  AlertTriangle, 
-  Camera, 
+import {
+  CheckCircle,
+  AlertTriangle,
+  Camera,
   TrendingUp,
   TrendingDown,
   Eye,
   Download,
   FileText,
 } from 'lucide-react';
-
-import { Badge } from '@/src/features/shared/ui/badge';
-import { Button } from '@/src/features/shared/ui/button';
-import { Card } from '@/src/features/shared/ui/card';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
 import type { Grade, InspectionPhoto } from '@/types/inspector';
-
 import type { QualityInspectionComputed } from './hooks/useQualityInspection';
 
 interface InspectionOverviewProps {
@@ -28,13 +26,13 @@ interface InspectionOverviewProps {
   onExportReport: () => void;
 }
 
-export function InspectionOverview({ 
-  suggestedGrade, 
-  computed, 
-  photos, 
-  getGradeColor, 
-  onViewPhoto, 
-  onExportReport, 
+export function InspectionOverview({
+  suggestedGrade,
+  computed,
+  photos,
+  getGradeColor,
+  onViewPhoto,
+  onExportReport,
 }: InspectionOverviewProps) {
   const { gradeMetrics, inspectionStats } = computed;
 
@@ -80,8 +78,8 @@ export function InspectionOverview({
             <span className="text-sm text-gray-500">{gradeMetrics.moistureScore.toFixed(0)}%</span>
           </div>
           <div className="w-full bg-gray-200 rounded-full h-2">
-            <div 
-              className="bg-blue-600 h-2 rounded-full transition-all duration-300" 
+            <div
+              className="bg-blue-600 h-2 rounded-full transition-all duration-300"
               style={{ width: `${gradeMetrics.moistureScore}%` }}
             />
           </div>
@@ -93,8 +91,8 @@ export function InspectionOverview({
             <span className="text-sm text-gray-500">{gradeMetrics.firmnessScore.toFixed(0)}%</span>
           </div>
           <div className="w-full bg-gray-200 rounded-full h-2">
-            <div 
-              className="bg-green-600 h-2 rounded-full transition-all duration-300" 
+            <div
+              className="bg-green-600 h-2 rounded-full transition-all duration-300"
               style={{ width: `${gradeMetrics.firmnessScore}%` }}
             />
           </div>
@@ -106,8 +104,8 @@ export function InspectionOverview({
             <span className="text-sm text-gray-500">{gradeMetrics.sugarScore.toFixed(0)}%</span>
           </div>
           <div className="w-full bg-gray-200 rounded-full h-2">
-            <div 
-              className="bg-yellow-600 h-2 rounded-full transition-all duration-300" 
+            <div
+              className="bg-yellow-600 h-2 rounded-full transition-all duration-300"
               style={{ width: `${gradeMetrics.sugarScore}%` }}
             />
           </div>
@@ -119,8 +117,8 @@ export function InspectionOverview({
             <span className="text-sm text-gray-500">{gradeMetrics.sizeScore.toFixed(0)}%</span>
           </div>
           <div className="w-full bg-gray-200 rounded-full h-2">
-            <div 
-              className="bg-purple-600 h-2 rounded-full transition-all duration-300" 
+            <div
+              className="bg-purple-600 h-2 rounded-full transition-all duration-300"
               style={{ width: `${gradeMetrics.sizeScore}%` }}
             />
           </div>
@@ -132,8 +130,8 @@ export function InspectionOverview({
             <span className="text-sm text-gray-500">{gradeMetrics.safetyScore.toFixed(0)}%</span>
           </div>
           <div className="w-full bg-gray-200 rounded-full h-2">
-            <div 
-              className="bg-red-600 h-2 rounded-full transition-all duration-300" 
+            <div
+              className="bg-red-600 h-2 rounded-full transition-all duration-300"
               style={{ width: `${gradeMetrics.safetyScore}%` }}
             />
           </div>
@@ -205,7 +203,18 @@ export function InspectionOverview({
           </div>
           <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
             {photos.slice(0, 12).map((photo) => (
-              <div key={photo.id} className="relative group cursor-pointer" onClick={() => onViewPhoto(photo)}>
+              <div
+                key={photo.id}
+                className="relative group cursor-pointer"
+                onClick={() => onViewPhoto(photo)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    onViewPhoto(photo);
+                  }
+                }}
+                role="button"
+                tabIndex={0}
+              >
                 <div className="aspect-square rounded-lg overflow-hidden bg-gray-100">
                   <img
                     src={photo.url}

@@ -184,7 +184,7 @@ export function useCustomerManagement() {
       const averageOrderValue = totalRevenue / mockCustomers.reduce((sum, c) => sum + c.totalOrders, 0);
       const repeatCustomers = mockCustomers.filter(c => c.totalOrders > 1).length;
       const averageRating = mockCustomers.reduce((sum, c) => sum + c.rating, 0) / mockCustomers.length;
-      
+
       const mockMetrics: CustomerMetrics = {
         totalCustomers: mockCustomers.length,
         activeCustomers,
@@ -221,13 +221,13 @@ export function useCustomerManagement() {
       totalSpent: 0,
       averageOrderValue: 0,
     };
-    
+
     setCustomers(prev => [...prev, newCustomer]);
     refreshData();
   };
 
   const updateCustomer = (updatedCustomer: Customer) => {
-    setCustomers(prev => prev.map(c => 
+    setCustomers(prev => prev.map(c =>
       c.id === updatedCustomer.id ? updatedCustomer : c,
     ));
     refreshData();
@@ -243,7 +243,7 @@ export function useCustomerManagement() {
     try {
       console.log('Sending message:', message);
       const customer = getCustomerById(message.customerId);
-      
+
       // In a real implementation, this would:
       // 1. Validate message content and recipient
       // 2. Choose appropriate communication channel (email/SMS)
@@ -251,7 +251,7 @@ export function useCustomerManagement() {
       // 4. Integrate with SMS service provider (Twilio, etc.)
       // 5. Track message delivery status
       // 6. Log communication for audit trail
-      
+
       // For demo purposes, we'll just show a success message
       const recipientName = customer?.name || `Customer ${message.customerId}`;
       alert(`Message sent to ${recipientName} via ${message.type}!`);

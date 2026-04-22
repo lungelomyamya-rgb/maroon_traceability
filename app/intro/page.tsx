@@ -3,9 +3,8 @@
 import { ArrowRight, Shield, Smartphone, Lock, TrendingUp, Users, Award, BookOpen } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
-
+import { Button } from '@/components/ui/button';
 import { getAssetPath } from '@/lib/utils/assetPath';
-import { Button } from '@/src/features/shared/ui/button';
 
 // Static cache-busting (build-time)
 const CACHE_BUST = '1776109992452';
@@ -32,26 +31,26 @@ export default function IntroPage() {
               They represent your savings, your family's future, and your legacy.
               Maroon is here to help you safeguard them and market them with confidence.
             </p>
-            
+
             {/* Hero Image */}
             <div className="mb-4 sm:mb-6 lg:mb-8 flex justify-center px-1 sm:px-2">
-              <img 
-                src={getAssetPath(`/images/heroImage.png?v=${CACHE_BUST}`)} 
-                alt="Maroon - Agricultural Asset Protection" 
+              <img
+                src={getAssetPath(`/images/heroImage.png?v=${CACHE_BUST}`)}
+                alt="Maroon - Agricultural Asset Protection"
                 className="w-full max-w-2xl sm:max-w-3xl md:max-w-4xl lg:max-w-5xl h-auto object-cover rounded-lg shadow-lg"
               />
             </div>
             <div className="flex flex-col sm:flex-row gap-2 sm:gap-3 lg:gap-4 justify-center px-1 sm:px-2">
-              <Button 
-                size="lg" 
+              <Button
+                size="lg"
                 className="bg-blue-600 hover:bg-blue-700 text-white px-4 sm:px-6 lg:px-8 py-2 sm:py-3 lg:py-4 text-sm sm:text-base lg:text-lg font-semibold"
-                onClick={() => router.push('/login')}
+                onClick={() => router.push('/get-started')}
               >
                 Start Your Digital Kraal! - Free
                 <ArrowRight className="ml-1 sm:ml-2 h-3 w-3 sm:h-4 sm:w-4 lg:h-5 lg:w-5" />
               </Button>
-              <Button 
-                variant="outline" 
+              <Button
+                variant="outline"
                 size="lg"
                 className="border-blue-600 text-blue-600 hover:bg-blue-50 px-4 sm:px-6 lg:px-8 py-2 sm:py-3 lg:py-4 text-sm sm:text-base lg:text-lg"
                 onClick={() => router.push('/marketplace')}
@@ -77,7 +76,7 @@ export default function IntroPage() {
               Every day, livestock owners end up losing money for two main reasons:
             </p>
           </div>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 lg:gap-8 mb-8 sm:mb-10 lg:mb-12">
             <div className="bg-red-50 border border-red-200 rounded-xl sm:rounded-2xl p-4 sm:p-6 lg:p-8">
               <div className="flex items-center mb-4">
@@ -169,9 +168,9 @@ export default function IntroPage() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8 px-2 sm:px-4 lg:px-8">
             <div className="text-center">
               <div className="mb-4 sm:mb-6 flex justify-center">
-                <img 
-                  src={getAssetPath(`/images/howItWorks1.png?v=${CACHE_BUST}`)} 
-                  alt="Step 1: Tag Your Animal" 
+                <img
+                  src={getAssetPath(`/images/howItWorks1.png?v=${CACHE_BUST}`)}
+                  alt="Step 1: Tag Your Animal"
                   className="w-full max-w-40 sm:max-w-48 md:max-w-xs lg:max-w-sm h-32 sm:h-36 md:h-40 lg:h-48 object-contain rounded-lg shadow-md"
                 />
               </div>
@@ -183,9 +182,9 @@ export default function IntroPage() {
 
             <div className="text-center">
               <div className="mb-4 sm:mb-6 flex justify-center">
-                <img 
-                  src={getAssetPath(`/images/howItWorks2.png?v=${CACHE_BUST}`)} 
-                  alt="Step 2: Record What Matters" 
+                <img
+                  src={getAssetPath(`/images/howItWorks2.png?v=${CACHE_BUST}`)}
+                  alt="Step 2: Record What Matters"
                   className="w-full max-w-40 sm:max-w-48 md:max-w-xs lg:max-w-sm h-32 sm:h-36 md:h-40 lg:h-48 object-contain"
                 />
               </div>
@@ -200,9 +199,9 @@ export default function IntroPage() {
 
             <div className="text-center">
               <div className="mb-4 sm:mb-6 flex justify-center">
-                <img 
-                  src={getAssetPath(`/images/howItWorks3.png?v=${CACHE_BUST}`)} 
-                  alt="Step 3: Show, Don't Tell" 
+                <img
+                  src={getAssetPath(`/images/howItWorks3.png?v=${CACHE_BUST}`)}
+                  alt="Step 3: Show, Don't Tell"
                   className="w-full max-w-40 sm:max-w-48 md:max-w-xs lg:max-w-sm h-32 sm:h-36 md:h-40 lg:h-48 object-contain rounded-lg shadow-md"
                 />
               </div>
@@ -243,7 +242,7 @@ export default function IntroPage() {
                 </div>
                 <div className="flex items-center">
                   <Lock className="h-4 w-4 sm:h-5 sm:w-5 lg:h-6 lg:w-6 text-blue-600 mr-2 sm:mr-3" />
-                  <span className="text-sm sm:text-base text-gray-700">Enhanced security against stock theft</span>
+                  <span className="text-sm sm:text-base text-gray-700">Security against stock theft</span>
                 </div>
                 <div className="flex items-center">
                   <Award className="h-4 w-4 sm:h-5 sm:w-5 lg:h-6 lg:w-6 text-blue-600 mr-2 sm:mr-3" />
@@ -300,7 +299,7 @@ export default function IntroPage() {
               We don't offer subscriptions.
             </p>
             <p className="text-base sm:text-lg lg:text-xl text-gray-700 leading-relaxed max-w-4xl mx-auto">
-              We turn quiet wealth of your agricultural assets into an untouchable legacy, 
+              We turn quiet wealth of your agricultural assets into an untouchable legacy,
               making sure what you've built is never lost, never stolen, and never undervalued.
             </p>
           </div>
@@ -319,20 +318,20 @@ export default function IntroPage() {
               <BookOpen className="h-10 w-10 sm:h-12 sm:w-12 lg:h-16 lg:w-16 text-orange-600 mx-auto mb-2 sm:mb-4" />
               <p className="text-base sm:text-lg lg:text-xl text-gray-700 mb-3 sm:mb-4 lg:mb-6">Each animal gets a Digital Passport that verifies:</p>
             </div>
-            
+
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 lg:gap-6">
               <div className="text-center p-3 sm:p-4 lg:p-6 bg-orange-50 rounded-lg">
                 <Shield className="h-6 w-6 sm:h-8 sm:w-8 lg:h-10 lg:w-10 text-orange-600 mx-auto mb-2 sm:mb-3" />
                 <h4 className="text-sm sm:text-base lg:text-lg font-semibold text-gray-900 mb-1 sm:mb-2">Where it came from</h4>
                 <p className="text-xs sm:text-sm text-gray-600">Verified origin and farm records</p>
               </div>
-              
+
               <div className="text-center p-3 sm:p-4 lg:p-6 bg-orange-50 rounded-lg">
                 <Award className="h-6 w-6 sm:h-8 sm:w-8 lg:h-10 lg:w-10 text-orange-600 mx-auto mb-2 sm:mb-3" />
                 <h4 className="text-sm sm:text-base lg:text-lg font-semibold text-gray-900 mb-1 sm:mb-2">How it was raised</h4>
                 <p className="text-xs sm:text-sm text-gray-600">Complete care and treatment history</p>
               </div>
-              
+
               <div className="text-center p-3 sm:p-4 lg:p-6 bg-orange-50 rounded-lg">
                 <Users className="h-6 w-6 sm:h-8 sm:w-8 lg:h-10 lg:w-10 text-orange-600 mx-auto mb-2 sm:mb-3" />
                 <h4 className="text-sm sm:text-base lg:text-lg font-semibold text-gray-900 mb-1 sm:mb-2">Who owns it</h4>
@@ -356,19 +355,19 @@ export default function IntroPage() {
               <h4 className="text-xs sm:text-sm lg:text-base font-semibold text-gray-900 mb-1 sm:mb-2">Tailored for South African farming realities against theft and fraud</h4>
               <p className="text-xs sm:text-sm text-gray-600">Built specifically for local challenges</p>
             </div>
-            
+
             <div className="text-center p-3 sm:p-4 lg:p-6 bg-gray-50 rounded-lg">
               <Smartphone className="h-8 w-8 sm:h-10 sm:w-10 lg:h-12 lg:w-12 text-blue-600 mx-auto mb-2 sm:mb-3 lg:mb-4" />
               <h4 className="text-xs sm:text-sm lg:text-base font-semibold text-gray-900 mb-1 sm:mb-2">Functional offline</h4>
               <p className="text-xs sm:text-sm text-gray-600">Works even without internet</p>
             </div>
-            
+
             <div className="text-center p-3 sm:p-4 lg:p-6 bg-gray-50 rounded-lg">
               <Users className="h-8 w-8 sm:h-10 sm:w-10 lg:h-12 lg:w-12 text-blue-600 mx-auto mb-2 sm:mb-3 lg:mb-4" />
               <h4 className="text-xs sm:text-sm lg:text-base font-semibold text-gray-900 mb-1 sm:mb-2">User-friendly</h4>
               <p className="text-xs sm:text-sm text-gray-600">Simple and intuitive to use</p>
             </div>
-            
+
             <div className="text-center p-3 sm:p-4 lg:p-6 bg-gray-50 rounded-lg">
               <Lock className="h-8 w-8 sm:h-10 sm:w-10 lg:h-12 lg:w-12 text-blue-600 mx-auto mb-2 sm:mb-3 lg:mb-4" />
               <h4 className="text-xs sm:text-sm lg:text-base font-semibold text-gray-900 mb-1 sm:mb-2">Focused on safeguarding agricultural assets</h4>
@@ -386,25 +385,25 @@ export default function IntroPage() {
       <div className="py-20 bg-gradient-to-r from-blue-600 to-indigo-600">
         <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-8 text-center">
           <BookOpen className="h-10 w-10 sm:h-12 sm:w-12 lg:h-16 lg:w-16 text-white mx-auto mb-3 sm:mb-4 lg:mb-6" />
-          
+
           <h2 className="text-xl sm:text-2xl lg:text-3xl md:text-4xl font-bold text-white mb-4 sm:mb-6 lg:mb-8">
             Every Agricultural Asset in your Agri-Asset Book has a story to tell.
           </h2>
-          
+
           <div className="text-base sm:text-lg lg:text-xl text-blue-100 mb-6 sm:mb-8 lg:mb-12 max-w-4xl mx-auto space-y-2 sm:space-y-3 lg:space-y-4">
             <p>The grass it grazed on.</p>
             <p>The care you provided.</p>
             <p>The future you're creating for your legacy.</p>
-            
+
             <p className="mt-4 sm:mt-6 lg:mt-8 font-semibold text-white text-lg sm:text-xl lg:text-2xl">
               Maroon ensures that your story is always secure, never lost, never stolen, and never undervalued.
             </p>
           </div>
-          
-          <Button 
-            size="lg" 
+
+          <Button
+            size="lg"
             className="bg-white text-orange-600 hover:bg-gray-100 px-4 sm:px-6 lg:px-8 py-2 sm:py-3 lg:py-4 text-sm sm:text-base lg:text-lg font-semibold"
-            onClick={() => router.push('/login')}
+            onClick={() => router.push('/get-started')}
           >
             Start Your Digital Agri-Asset Book Today
             <ArrowRight className="ml-1 sm:ml-2 h-3 w-3 sm:h-4 sm:w-4 lg:h-5 lg:w-5" />

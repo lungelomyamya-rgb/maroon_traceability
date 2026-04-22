@@ -3,10 +3,10 @@
 
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
-
+import ErrorBoundary from '@/components/errorBoundary';
 import { useUser } from '@/contexts/userContext';
 import { MarketplacePage } from '@/src/features/marketplace';
-import ErrorBoundary from '@/src/features/shared/errorBoundary';
+
 
 export default function PublicPage() {
   const router = useRouter();

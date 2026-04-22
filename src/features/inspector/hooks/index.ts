@@ -1,6 +1,5 @@
 // Inspector Feature Hooks
 import { useState, useEffect } from 'react';
-
 import type { Inspector, Inspection } from '../types';
 
 export function useInspector(id: string) {

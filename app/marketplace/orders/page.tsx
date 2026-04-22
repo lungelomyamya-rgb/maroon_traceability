@@ -1,11 +1,11 @@
 // src/app/marketplace/orders/page.tsx
 'use client';
 
-import { 
-  Package, 
-  Truck, 
-  CheckCircle, 
-  Clock, 
+import {
+  Package,
+  Truck,
+  CheckCircle,
+  Clock,
   XCircle,
   Eye,
   Search,
@@ -16,14 +16,14 @@ import {
 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useState, useEffect } from 'react';
-
+import ErrorBoundary from '@/components/errorBoundary';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useUser } from '@/contexts/userContext';
 import { getAssetPath } from '@/lib/utils/assetPath';
-import ErrorBoundary from '@/src/features/shared/errorBoundary';
-import { Badge } from '@/src/features/shared/ui/badge';
-import { Button } from '@/src/features/shared/ui/button';
-import { Input } from '@/src/features/shared/ui/input';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/src/features/shared/ui/select';
+
 
 interface Order {
   id: string;
@@ -274,9 +274,9 @@ export default function OrdersPage() {
                   className="flex items-center gap-2 hover:opacity-80 transition-opacity"
                   aria-label="Go to marketplace"
                 >
-                  <img 
-                    src={getAssetPath('/images/maroonLogo.png')} 
-                    alt="MAROON" 
+                  <img
+                    src={getAssetPath('/images/maroonLogo.png')}
+                    alt="MAROON"
                     className="h-8 w-8 sm:h-10 sm:w-10 lg:h-12 lg:w-12"
                   />
                 </button>
@@ -295,8 +295,8 @@ export default function OrdersPage() {
 
         {/* Back Button Below Nav Bar */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
-          <Button 
-            variant="outline" 
+          <Button
+            variant="outline"
             size="sm"
             onClick={() => router.push('/marketplace')}
             className="h-8 sm:h-10"
@@ -347,7 +347,7 @@ export default function OrdersPage() {
                 <Package className="h-12 w-12 sm:h-16 sm:w-16 text-gray-400 mx-auto mb-4" />
                 <h3 className="text-base sm:text-lg font-semibold text-gray-900 mb-2">No orders found</h3>
                 <p className="text-sm sm:text-base text-gray-600 mb-4">Try adjusting your search or filters</p>
-                <Button 
+                <Button
                   onClick={() => router.push('/marketplace/products')}
                   className="h-9 sm:h-10 px-4 sm:px-6"
                 >
@@ -438,7 +438,7 @@ export default function OrdersPage() {
                   </Button>
                 </div>
               </div>
-            
+
               <div className="p-3 sm:p-4 lg:p-6 space-y-3 sm:space-y-4 lg:space-y-6">
                 {/* Order Status */}
                 <div>
@@ -481,7 +481,7 @@ export default function OrdersPage() {
                     <div className="flex items-start gap-2">
                       <MapPin className="h-4 w-4 text-gray-600 flex-shrink-0 mt-0.5" />
                       <span className="text-xs sm:text-sm text-gray-600 break-words">
-                        {selectedOrder.shipping.address}, {selectedOrder.shipping.city}, 
+                        {selectedOrder.shipping.address}, {selectedOrder.shipping.city},
                         {selectedOrder.shipping.province} {selectedOrder.shipping.postalCode}
                       </span>
                     </div>

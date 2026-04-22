@@ -1,9 +1,9 @@
 // src/components/traceability/Timeline.tsx
 // Reusable timeline component for traceability visualization
 
-import { formatDateTime } from '@/lib/utils';
 import { ArrowRight, CheckCircle, Clock, MapPin, User, Calendar, FileText, Image as ImageIcon } from 'lucide-react';
 import React from 'react';
+import { formatDateTime } from '@/lib/utils';
 
 export interface TimelineEvent {
   id: string;
@@ -80,17 +80,24 @@ export function Timeline({ events, showActions = false, onEventClick, compact = 
       {/* Events */}
       <div className="space-y-6">
         {events.map((event, index) => {
-          const config = EVENT_CONFIG[event.type] || { 
-            icon: '📋', 
-            color: 'gray', 
-            label: event.type, 
+          const config = EVENT_CONFIG[event.type] || {
+            icon: '📋',
+            color: 'gray',
+            label: event.type,
           };
 
           return (
-            <div 
-              key={event.id} 
+            <div
+              key={event.id}
               className={`relative flex gap-4 pl-16 ${onEventClick ? 'cursor-pointer hover:bg-gray-50' : ''}`}
               onClick={() => onEventClick?.(event)}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  onEventClick?.(event);
+                }
+              }}
+              role={onEventClick ? 'button' : undefined}
+              tabIndex={onEventClick ? 0 : undefined}
             >
               {/* Timeline dot */}
               <div className={`absolute left-3 top-2 w-6 h-6 rounded-full bg-white border-4 ${getStatusColor(event.status)} shadow-md`}>
@@ -156,7 +163,7 @@ export function Timeline({ events, showActions = false, onEventClick, compact = 
                 {/* Status badge */}
                 <div className="mt-3">
                   <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${
-                    event.status === 'completed' 
+                    event.status === 'completed'
                       ? 'bg-green-100 text-green-800'
                       : event.status === 'pending'
                         ? 'bg-yellow-100 text-yellow-800'
@@ -266,9 +273,9 @@ export function DashboardTimeline() {
         <h3 className="text-lg font-semibold text-gray-800">Product Journey</h3>
         <span className="text-sm text-gray-500">5 events</span>
       </div>
-      
-      <Timeline 
-        events={mockEvents} 
+
+      <Timeline
+        events={mockEvents}
         compact={false}
         showActions={true}
         onEventClick={(_event) => {

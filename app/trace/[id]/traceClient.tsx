@@ -3,9 +3,7 @@
 
 import { MapPin, Calendar, User, CheckCircle, Package, ArrowRight } from 'lucide-react';
 import { useParams } from 'next/navigation';
-import React from 'react';
-import { useEffect, useState } from 'react';
-
+import React, { useEffect, useState } from 'react';
 import { CATEGORY_COLORS } from '@/lib/constants';
 import { formatDateTime } from '@/lib/utils';
 import { getAssetPath } from '@/lib/utils/assetPath';
@@ -330,8 +328,8 @@ export default function TraceClient({ id: _id }: TraceClientProps) {
     );
   }
 
-  const categoryColor = (product.category in CATEGORY_COLORS) 
-    ? CATEGORY_COLORS[product.category as keyof typeof CATEGORY_COLORS] 
+  const categoryColor = (product.category in CATEGORY_COLORS)
+    ? CATEGORY_COLORS[product.category as keyof typeof CATEGORY_COLORS]
     : CATEGORY_COLORS[ProductCategory.FRUITS];
 
   return (

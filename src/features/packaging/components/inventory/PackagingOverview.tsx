@@ -1,20 +1,18 @@
 // src/components/packaging/inventory/PackagingOverview.tsx
 'use client';
 
-import { 
-  Package, 
-  AlertTriangle, 
-  CheckCircle, 
-  Clock, 
+import {
+  Package,
+  AlertTriangle,
+  CheckCircle,
+  Clock,
   TrendingUp,
   BarChart3,
   Download,
   RefreshCw,
 } from 'lucide-react';
-
-import { Button } from '@/src/features/shared/ui/button';
-import { Card } from '@/src/features/shared/ui/card';
-
+import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
 import type { PackagingInventoryComputed, PackagingInventoryActions } from './hooks/usePackagingInventory';
 
 interface PackagingOverviewProps {
@@ -94,17 +92,17 @@ export function PackagingOverview({ computed, actions, loading = false }: Packag
 
       {/* Action Buttons */}
       <div className="flex flex-col sm:flex-row gap-3">
-        <Button 
-          onClick={refreshInventory} 
+        <Button
+          onClick={refreshInventory}
           disabled={loading}
           className="w-full sm:w-auto"
         >
           <RefreshCw className={`h-4 w-4 mr-2 ${loading ? 'animate-spin' : ''}`} />
           {loading ? 'Refreshing...' : 'Refresh Inventory'}
         </Button>
-        
-        <Button 
-          variant="outline" 
+
+        <Button
+          variant="outline"
           onClick={exportInventory}
           className="w-full sm:w-auto"
         >

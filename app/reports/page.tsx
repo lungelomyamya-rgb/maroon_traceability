@@ -1,16 +1,15 @@
 'use client';
 
 import { BarChart, Filter, Download, FileText } from 'lucide-react';
-
-import { Card } from '@/src/features/shared/ui/card';
-import { PageTitle } from '@/src/features/shared/ui/typography';
+import { Card } from '@/components/ui/card';
+import { PageTitle } from '@/components/ui/typography';
 
 export default function ReportsPage() {
   return (
     <div className="space-y-8">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <PageTitle className="mb-8">Reports</PageTitle>
-        
+
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           <Card className="p-6">
             <div className="flex items-center space-x-3 mb-4">
@@ -24,7 +23,7 @@ export default function ReportsPage() {
               View Analytics
             </button>
           </Card>
-          
+
           <Card className="p-6">
             <div className="flex items-center space-x-3 mb-4">
               <Filter className="h-8 w-8 text-secondary" />
@@ -37,7 +36,7 @@ export default function ReportsPage() {
               Create Filter
             </button>
           </Card>
-          
+
           <Card className="p-6">
             <div className="flex items-center space-x-3 mb-4">
               <Download className="h-8 w-8 text-accent" />
@@ -50,7 +49,7 @@ export default function ReportsPage() {
               Export Data
             </button>
           </Card>
-          
+
           <Card className="p-6">
             <div className="flex items-center space-x-3 mb-4">
               <FileText className="h-8 w-8 text-warning" />

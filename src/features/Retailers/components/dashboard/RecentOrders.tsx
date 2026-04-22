@@ -2,10 +2,9 @@
 'use client';
 
 import { Eye, Truck, Clock, CheckCircle, XCircle, Package } from 'lucide-react';
-
-import { Badge } from '@/src/features/shared/ui/badge';
-import { Button } from '@/src/features/shared/ui/button';
-import { Card } from '@/src/features/shared/ui/card';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
 
 
 interface Order {
@@ -38,11 +37,11 @@ export function RecentOrders({ orders }: RecentOrdersProps) {
           View All
         </Button>
       </div>
-      
+
       <div className="space-y-4">
         {orders.slice(0, 5).map((order) => {
           const status = statusConfig[order.status];
-          
+
           return (
             <div key={order.id} className="flex items-center justify-between p-3 border rounded-lg">
               <div className="flex-1">

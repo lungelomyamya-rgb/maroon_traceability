@@ -2,7 +2,7 @@
 
 /**
  * Order Management Feature Module
- * 
+ *
  * This module provides comprehensive order management functionality with:
  * - Real-time order tracking and status management
  * - Payment status monitoring and collection
@@ -12,14 +12,14 @@
  * - Multi-channel order processing
  * - Revenue and performance analytics
  * - Customer communication and notifications
- * 
+ *
  * @example
  * ```tsx
  * import { Orders } from '@/features/retailers/components/orders';
- * 
+ *
  * function RetailerPage() {
  *   return (
- *     <Orders 
+ *     <Orders
  *       onOrderSelect={(order) => console.log('Selected:', order)}
  *     />
  *   );

@@ -3,27 +3,28 @@
 import { Package, MapPin, Calendar, Plus, Eye, Sprout, Droplets, Shield } from 'lucide-react';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
-
+import { useState, useEffect } from 'react';
+import { FarmerDashboardSkeleton, LoadingSpinner } from '@/components/ui/LoadingSkeletons';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
 import { useProducts } from '@/contexts/productContext';
 import { useUser } from '@/contexts/userContext';
-import { Badge } from '@/src/features/shared/ui/badge';
-import { Button } from '@/src/features/shared/ui/button';
-import { Card } from '@/src/features/shared/ui/card';
+
 
 // Lazy load large components
-const EventForm = dynamic(() => import('@/src/features/shared/components/forms').then(mod => ({ default: mod.ProductEventForm })), {
-  loading: () => <div>Loading event form...</div>,
+const EventForm = dynamic(() => import('@/components/forms/forms/ProductEventForm').then(mod => ({ default: mod.ProductEventForm })), {
+  loading: () => <div className="p-4"><LoadingSpinner text="Loading event form..." /></div>,
   ssr: false,
 });
 
 /**
  * Main Farmer Dashboard Component
- * 
+ *
  * @description Comprehensive dashboard for farmer operations including product management,
  * event tracking, growth monitoring, fertiliser logging, seed variety tracking,
  * and compliance management.
- * 
+ *
  * @example
  * ```tsx
  * <FarmerDashboard />
@@ -34,6 +35,20 @@ export function FarmerDashboard() {
   const { currentUser: _currentUser } = useUser();
   const { products } = useProducts();
   const [showEventForm, setShowEventForm] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+
+  // Simulate initial loading
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 800); // Brief loading for better UX
+    return () => clearTimeout(timer);
+  }, []);
+
+  // Show skeleton while loading
+  if (isLoading) {
+    return <FarmerDashboardSkeleton />;
+  }
 
   // Get products for current farmer (for demo, we'll use first few products)
   const farmerProducts = products.length > 0 ? products.slice(0, 3) : [];
@@ -75,8 +90,8 @@ export function FarmerDashboard() {
         <Card className="p-4 sm:p-6 mb-4 sm:mb-6">
           <div className="flex justify-between items-center mb-3 sm:mb-4">
             <h3 className="text-base sm:text-lg font-medium">Create New Event</h3>
-            <Button 
-              variant="outline" 
+            <Button
+              variant="outline"
               onClick={() => setShowEventForm(false)}
               className="h-8 sm:h-10 w-8 sm:w-auto"
             >
@@ -84,7 +99,7 @@ export function FarmerDashboard() {
               <span className="sm:hidden">×</span>
             </Button>
           </div>
-          <EventForm 
+          <EventForm
             productId={farmerProducts[0]?.id || ''}
             onSubmit={async (data: Record<string, unknown>) => {
               console.log('Event submitted:', data);
@@ -96,7 +111,17 @@ export function FarmerDashboard() {
 
       {/* Quick Actions - Navigation to Dedicated Pages */}
       <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-5 gap-3 sm:gap-4 lg:gap-6">
-        <div className="cursor-pointer" onClick={() => setShowEventForm(true)}>
+        <div
+          className="cursor-pointer"
+          onClick={() => setShowEventForm(true)}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              setShowEventForm(true);
+            }
+          }}
+          role="button"
+          tabIndex={0}
+        >
           <Card className="p-3 sm:p-4 lg:p-6 hover:shadow-lg transition-shadow">
             <div className="text-center">
               <div className="inline-flex items-center justify-center w-8 sm:w-10 lg:w-12 h-8 sm:h-10 lg:h-12 bg-emerald-100 rounded-full mb-2 sm:mb-4">
@@ -108,7 +133,18 @@ export function FarmerDashboard() {
           </Card>
         </div>
 
-        <div className="cursor-pointer" onClick={() => router.push('/farmer/growth')}>
+
+        <div
+          className="cursor-pointer"
+          onClick={() => router.push('/farmer/growth')}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              router.push('/farmer/growth');
+            }
+          }}
+          role="button"
+          tabIndex={0}
+        >
           <Card className="p-3 sm:p-4 lg:p-6 hover:shadow-lg transition-shadow">
             <div className="text-center">
               <div className="inline-flex items-center justify-center w-8 sm:w-10 lg:w-12 h-8 sm:h-10 lg:h-12 bg-green-100 rounded-full mb-2 sm:mb-4">
@@ -120,7 +156,18 @@ export function FarmerDashboard() {
           </Card>
         </div>
 
-        <div className="cursor-pointer" onClick={() => router.push('/farmer/fertiliser')}>
+
+        <div
+          className="cursor-pointer"
+          onClick={() => router.push('/farmer/fertiliser')}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              router.push('/farmer/fertiliser');
+            }
+          }}
+          role="button"
+          tabIndex={0}
+        >
           <Card className="p-3 sm:p-4 lg:p-6 hover:shadow-lg transition-shadow">
             <div className="text-center">
               <div className="inline-flex items-center justify-center w-8 sm:w-10 lg:w-12 h-8 sm:h-10 lg:h-12 bg-blue-100 rounded-full mb-2 sm:mb-4">
@@ -132,7 +179,18 @@ export function FarmerDashboard() {
           </Card>
         </div>
 
-        <div className="cursor-pointer" onClick={() => router.push('/farmer/seeds')}>
+
+        <div
+          className="cursor-pointer"
+          onClick={() => router.push('/farmer/seeds')}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              router.push('/farmer/seeds');
+            }
+          }}
+          role="button"
+          tabIndex={0}
+        >
           <Card className="p-3 sm:p-4 lg:p-6 hover:shadow-lg transition-shadow">
             <div className="text-center">
               <div className="inline-flex items-center justify-center w-8 sm:w-10 lg:w-12 h-8 sm:h-10 lg:h-12 bg-purple-100 rounded-full mb-2 sm:mb-4">
@@ -144,7 +202,18 @@ export function FarmerDashboard() {
           </Card>
         </div>
 
-        <div className="cursor-pointer" onClick={() => router.push('/farmer/compliance')}>
+
+        <div
+          className="cursor-pointer"
+          onClick={() => router.push('/farmer/compliance')}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              router.push('/farmer/compliance');
+            }
+          }}
+          role="button"
+          tabIndex={0}
+        >
           <Card className="p-3 sm:p-4 lg:p-6 hover:shadow-lg transition-shadow">
             <div className="text-center">
               <div className="inline-flex items-center justify-center w-8 sm:w-10 lg:w-12 h-8 sm:h-10 lg:h-12 bg-orange-100 rounded-full mb-2 sm:mb-4">
@@ -156,7 +225,18 @@ export function FarmerDashboard() {
           </Card>
         </div>
 
-        <div className="cursor-pointer" onClick={() => router.push('/farmer/products')}>
+
+        <div
+          className="cursor-pointer"
+          onClick={() => router.push('/farmer/products')}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              router.push('/farmer/products');
+            }
+          }}
+          role="button"
+          tabIndex={0}
+        >
           <Card className="p-3 sm:p-4 lg:p-6 hover:shadow-lg transition-shadow">
             <div className="text-center">
               <div className="inline-flex items-center justify-center w-8 sm:w-10 lg:w-12 h-8 sm:h-10 lg:h-12 bg-blue-100 rounded-full mb-2 sm:mb-4">
@@ -207,8 +287,8 @@ export function FarmerDashboard() {
                 </div>
 
                 <div className="flex gap-2">
-                  <Button 
-                    variant="outline" 
+                  <Button
+                    variant="outline"
                     size="sm"
                     onClick={() => router.push(`/farmer/products/${product.id}`)}
                     className="flex-1"
@@ -216,7 +296,7 @@ export function FarmerDashboard() {
                     <Eye className="h-3 w-3 mr-1" />
                     View Details
                   </Button>
-                  <Button 
+                  <Button
                     size="sm"
                     onClick={() => router.push(`/farmer/events?productId=${product.id}`)}
                     className="flex-1"

@@ -2,13 +2,12 @@
 
 import { Calendar, MapPin, Users, Package, AlertTriangle } from 'lucide-react';
 import React, { useState } from 'react';
-
-import { Badge } from '@/src/features/shared/ui/badge';
-import { Button } from '@/src/features/shared/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/src/features/shared/ui/card';
-import { Input } from '@/src/features/shared/ui/input';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/src/features/shared/ui/select';
-import { Textarea } from '@/src/features/shared/ui/textarea';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Textarea } from '@/components/ui/textarea';
 import { TransportSchedule, TransportStatus } from '@/types/logistics';
 
 interface EventFormProps {
@@ -33,11 +32,11 @@ export function EventForm({ className, onSubmit }: EventFormProps) {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-    
+
     try {
       await new Promise(resolve => setTimeout(resolve, 1000)); // Simulate API call
       onSubmit?.(formData);
-      
+
       // Reset form
       setFormData({
         status: 'scheduled',
@@ -49,7 +48,7 @@ export function EventForm({ className, onSubmit }: EventFormProps) {
           specialHandling: [],
         },
       });
-    } catch (_error) {  
+    } catch (_error) {
       // TODO: Handle error submitting event
     } finally {
       setIsSubmitting(false);
@@ -133,7 +132,7 @@ export function EventForm({ className, onSubmit }: EventFormProps) {
                   disabled
                 />
               </div>
-              
+
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
                   Scheduled Date

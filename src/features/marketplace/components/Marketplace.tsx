@@ -2,19 +2,17 @@
 'use client';
 
 import ErrorBoundary from '@/components/errorBoundary';
-import { mockProducts, categories } from '@/constants/marketplaceData';
-import { Product } from '@/constants/marketplaceData';
+import { PageSkeleton } from '@/components/ui/LoadingSkeletons';
+import { Button } from '@/components/ui/button';
 import { useUser } from '@/contexts/userContext';
 import { getAssetPath } from '@/lib/utils/assetPath';
-import { Button } from '@/src/features/shared/ui/button';
-import { 
-  ShoppingCart, 
-  QrCode, 
+import {
+  ShoppingCart,
+  QrCode,
   ArrowUp,
 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useState, useEffect, useMemo } from 'react';
-
 import CategoriesComponent from './Categories';
 import FeaturedProducts from './FeaturedProducts';
 import HeroSection from './HeroSection';
@@ -22,6 +20,7 @@ import { useSkipLinks } from './KeyboardNavigation';
 import QRScannerSection from './QRScannerSection';
 import SearchAndFilter from './SearchAndFilter';
 import TrustSignals from './TrustSignals';
+import { Product , mockProducts, categories } from '../types/marketplaceData';
 
 
 interface CartItem {
@@ -40,10 +39,19 @@ export default function Marketplace() {
   const [cart, setCart] = useState<CartItem[]>([]);
   const [showScrollTop, setShowScrollTop] = useState(false);
   const [filteredProducts, setFilteredProducts] = useState<Product[]>(mockProducts);
-  const products = useMemo(() => mockProducts, []);
+  const [isLoading, setIsLoading] = useState(true);
+    const products = useMemo(() => mockProducts, []);
 
   // Initialize skip links
   useSkipLinks();
+
+  // Simulate initial loading
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 600); // Brief loading for better UX
+    return () => clearTimeout(timer);
+  }, []);
 
   // Scroll to top functionality
   useEffect(() => {
@@ -52,7 +60,7 @@ export default function Marketplace() {
     };
 
     window.addEventListener('scroll', handleScroll);
-    
+
     // Scroll to top on page load
     setTimeout(() => {
       window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -61,16 +69,21 @@ export default function Marketplace() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  // Show skeleton while loading
+  if (isLoading) {
+    return <PageSkeleton />;
+  }
+
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const addToCart = (product: Product) => {
     const existingItem = cart.find(item => item.id === product.id);
-    
+
     if (existingItem) {
-      setCart(cart.map(item => 
-        item.id === product.id 
+      setCart(cart.map(item =>
+        item.id === product.id
           ? { ...item, quantity: item.quantity + 1 }
           : item,
       ));
@@ -95,8 +108,8 @@ export default function Marketplace() {
     if (quantity <= 0) {
       removeFromCart(productId);
     } else {
-      setCart(cart.map(item => 
-        item.id === productId 
+      setCart(cart.map(item =>
+        item.id === productId
           ? { ...item, quantity }
           : item,
       ));
@@ -120,8 +133,8 @@ export default function Marketplace() {
             <div className="flex justify-between h-14 sm:h-16 items-center">
               <div className="flex items-center gap-2 sm:gap-3 md:gap-4 lg:gap-6">
                 <div className="flex items-center flex-1 min-w-0">
-                  <img 
-                    src={getAssetPath('/images/lwandleMoringaBakery.png')} 
+                  <img
+                    src={getAssetPath('/images/lwandleMoringaBakery.png')}
                     alt="Lwandle Moringa Bakery Logo"
                     className="h-10 w-10 sm:h-12 sm:w-12 mr-2 rounded-lg"
                   />
@@ -133,10 +146,10 @@ export default function Marketplace() {
               </div>
               <div className="flex items-center gap-2 sm:gap-3 md:gap-4 lg:gap-6">
                 <div className="flex items-center gap-2 sm:gap-3 md:gap-4 lg:gap-6">
-                  <Button 
-                    variant="ghost" 
-                    size="sm" 
-                    onClick={() => router.push('/qr-demo')} 
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => router.push('/qr-demo')}
                     className="flex px-2 flex-shrink-0"
                     aria-label="Scan QR code"
                   >
@@ -147,16 +160,16 @@ export default function Marketplace() {
                 <div className="flex items-center gap-2 sm:gap-3 md:gap-4 lg:gap-6">
                   {currentUser ? (
                     <>
-                      <Button 
-                        onClick={() => router.push('/marketplace/cart')} 
-                        className="relative px-2 sm:px-3" 
+                      <Button
+                        onClick={() => router.push('/marketplace/cart')}
+                        className="relative px-2 sm:px-3"
                         size="sm"
                         aria-label={`Shopping cart with ${getCartItemCount()} items`}
                       >
                         <ShoppingCart className="h-4 w-4" />
                         <span className="hidden sm:inline ml-2">Cart</span>
                         {cart.length > 0 && (
-                          <span 
+                          <span
                             className="absolute -top-1 -right-1 bg-orange-600 text-white text-xs rounded-full h-4 w-4 sm:h-5 sm:w-5 flex items-center justify-center"
                             aria-label={`${getCartItemCount()} items in cart`}
                           >
@@ -164,8 +177,8 @@ export default function Marketplace() {
                           </span>
                         )}
                       </Button>
-                      <Button 
-                        onClick={() => router.push('/marketplace/orders')} 
+                      <Button
+                        onClick={() => router.push('/marketplace/orders')}
                         size="sm"
                         className="px-2 sm:px-3"
                         aria-label="View orders"
@@ -173,8 +186,8 @@ export default function Marketplace() {
                         <span className="hidden sm:inline">Orders</span>
                         <span className="sm:hidden">📦</span>
                       </Button>
-                      <Button 
-                        onClick={() => router.push('/login')} 
+                      <Button
+                        onClick={() => router.push('/login')}
                         size="sm"
                         className="px-2 sm:px-3"
                         aria-label="Account"
@@ -184,8 +197,8 @@ export default function Marketplace() {
                       </Button>
                     </>
                   ) : (
-                    <Button 
-                      onClick={() => router.push('/login')} 
+                    <Button
+                      onClick={() => router.push('/login')}
                       size="sm"
                       className="px-2 sm:px-3 text-xs sm:text-sm"
                       aria-label="Login to marketplace"
@@ -203,7 +216,7 @@ export default function Marketplace() {
         <main id="main-content" className="min-h-screen bg-gray-50">
           {/* Back Button Inside Main Content */}
           <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-8 py-4">
-            
+
           </div>
 
           {/* Hero Section */}
@@ -254,7 +267,7 @@ export default function Marketplace() {
                 </Button>
               </div>
             </div>
-            
+
             <div className="p-6 space-y-4">
               {cart.map((item) => (
                 <div key={item.id} className="flex items-center gap-4 p-3 bg-gray-50 rounded-lg">
@@ -288,7 +301,7 @@ export default function Marketplace() {
                 </div>
               ))}
             </div>
-            
+
             <div className="p-6 border-t">
               <div className="flex justify-between mb-4">
                 <span className="font-semibold">Total:</span>

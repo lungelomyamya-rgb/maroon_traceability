@@ -1,18 +1,16 @@
 // src/components/retailers/orders/Orders.tsx
 'use client';
 
-import { 
-  Package, 
-  Plus, 
-  Truck, 
-  AlertTriangle, 
+import {
+  Package,
+  Plus,
+  Truck,
+  AlertTriangle,
   RefreshCw,
 } from 'lucide-react';
 import { useState } from 'react';
-
-import { Button } from '@/src/features/shared/ui/button';
-import { Card } from '@/src/features/shared/ui/card';
-
+import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
 import { OrderDetails } from './OrderDetails';
 import { OrdersList } from './OrdersList';
 import { OrdersOverview } from './OrdersOverview';
@@ -68,7 +66,7 @@ export function Orders({ onOrderSelect }: OrdersProps) {
       // 2. Call the shipping provider API to validate
       // 3. Update the order with tracking information
       // 4. Send tracking confirmation to the customer
-      
+
       addTrackingInfo(orderId, trackingNumber, 'default');
       alert(`Tracking number ${trackingNumber} has been added to order ${orderId}.`);
     } catch (error) {
@@ -118,7 +116,7 @@ export function Orders({ onOrderSelect }: OrdersProps) {
       // 2. Re-fetch orders from the API
       // 3. Update the local state
       // 4. Hide loading state
-      
+
       // For demo purposes, we'll just show a message
       alert('Orders data refreshed successfully!');
       // In a real implementation, we would call the API to refresh data

@@ -2,7 +2,7 @@
 
 /**
  * Inventory Management Feature Module
- * 
+ *
  * This module provides comprehensive inventory management functionality with:
  * - Real-time stock tracking and monitoring
  * - Low stock and out-of-stock alerts
@@ -13,14 +13,14 @@
  * - Quality grade tracking
  * - Financial analysis and reporting
  * - Supplier and batch code management
- * 
+ *
  * @example
  * ```tsx
  * import { Inventory } from '@/features/retailers/components/inventory';
- * 
+ *
  * function RetailerPage() {
  *   return (
- *     <Inventory 
+ *     <Inventory
  *       onItemSelect={(item) => console.log('Selected:', item)}
  *     />
  *   );

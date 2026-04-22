@@ -3,7 +3,6 @@
 
 import { useRouter } from 'next/navigation';
 import { useState, useEffect, useMemo } from 'react';
-
 import { useUser } from '@/contexts/userContext';
 
 export interface InventoryItem {
@@ -80,7 +79,7 @@ export interface PackagingInventoryComputed {
 export function usePackagingInventory() {
   const { currentUser } = useUser();
   const router = useRouter();
-  
+
   // State
   const [inventory, setInventory] = useState<InventoryItem[]>([]);
   const [stockMovements, setStockMovements] = useState<StockMovement[]>([]);
@@ -283,7 +282,7 @@ export function usePackagingInventory() {
     const lowStockItems = inventory.filter(item => item.status === 'low-stock').length;
     const outOfStockItems = inventory.filter(item => item.status === 'out-of-stock').length;
     const categories = Array.from(new Set(inventory.map(item => item.category)));
-    
+
     const stats = {
       inStock: inventory.filter(item => item.status === 'in-stock').length,
       lowStock: inventory.filter(item => item.status === 'low-stock').length,
@@ -347,9 +346,9 @@ export function usePackagingInventory() {
       setInventory(prev => prev.map(item => {
         if (item.id === id) {
           const newStock = item.currentStock + quantity;
-          const newStatus = newStock <= 0 ? 'out-of-stock' : 
+          const newStatus = newStock <= 0 ? 'out-of-stock' :
             newStock <= item.minStockLevel ? 'low-stock' : 'in-stock';
-          
+
           return {
             ...item,
             currentStock: newStock,
@@ -372,7 +371,7 @@ export function usePackagingInventory() {
         userId: currentUser?.id || '',
         userName: currentUser?.name || 'System',
       };
-      
+
       setStockMovements(prev => [newMovement, ...prev]);
     },
   };
@@ -387,10 +386,10 @@ export function usePackagingInventory() {
     statusFilter,
     selectedItem,
     loading,
-    
+
     // Computed
     computed,
-    
+
     // Actions
     ...actions,
   };

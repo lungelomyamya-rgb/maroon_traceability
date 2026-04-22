@@ -3,13 +3,10 @@
 
 import { Plus, Loader2 } from 'lucide-react';
 import { useState } from 'react';
-
-import { QRGenerator } from '@/src/features/shared/qr';
-import { Button } from '@/src/features/shared/ui/button';
-import { Card } from '@/src/features/shared/ui/card';
-
+import { QRGenerator } from '@/components/qr';
+import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
 import { PackagingEventForm } from '../PackagingEventForm';
-
 import { BatchForm } from './BatchForm';
 import { BatchList } from './BatchList';
 import { BatchOverview } from './BatchOverview';
@@ -18,7 +15,7 @@ import type { ExtendedBatchProcessingItem } from './hooks/useBatchProcessing';
 
 export function BatchProcessing() {
   const [showAddForm, setShowAddForm] = useState(false);
-  
+
   const {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     batchItems,

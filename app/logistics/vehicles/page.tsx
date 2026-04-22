@@ -3,11 +3,10 @@
 
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
-
-import { DashboardLayout } from '@/components/dashboard/DashboardLayout';
+import { DashboardLayout } from '@/components/dashboard';
+import { Button } from '@/components/ui/button';
 import { useUser } from '@/contexts/userContext';
 import { VehicleManagement } from '@/src/features/Logistics';
-import { Button } from '@/src/features/shared/ui/button';
 
 
 export default function LogisticsVehiclesPage() {
@@ -42,7 +41,7 @@ export default function LogisticsVehiclesPage() {
           Back
         </Button>
       </div>
-      
+
       <DashboardLayout
         title="Vehicle Management"
         subtitle="Manage fleet vehicles and maintenance schedules"

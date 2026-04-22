@@ -1,10 +1,10 @@
 // src/components/inspector/qualityInspection/InspectionForm.tsx
 'use client';
 
-import { 
-  Droplets, 
-  Scale, 
-  Palette, 
+import {
+  Droplets,
+  Scale,
+  Palette,
   Hand,
   Cookie,
   Thermometer,
@@ -14,15 +14,13 @@ import {
   Plus,
   X,
 } from 'lucide-react';
-
-import { Badge } from '@/src/features/shared/ui/badge';
-import { Button } from '@/src/features/shared/ui/button';
-import { Card } from '@/src/features/shared/ui/card';
-import { Input } from '@/src/features/shared/ui/input';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/src/features/shared/ui/select';
-import { Textarea } from '@/src/features/shared/ui/textarea';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Textarea } from '@/components/ui/textarea';
 import type { InspectionPhoto } from '@/types/inspector';
-
 import type { QualityInspectionFormData } from './hooks/useQualityInspection';
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
@@ -116,7 +114,7 @@ export function InspectionForm({
         {/* Quality Metrics */}
         <div className="border-t pt-6">
           <h4 className="text-md font-semibold text-gray-900 mb-4">Quality Metrics</h4>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {/* Moisture Content */}
             <div>
@@ -289,7 +287,7 @@ export function InspectionForm({
         {/* Photo Upload */}
         <div className="border-t pt-6">
           <h4 className="text-md font-semibold text-gray-900 mb-4">Inspection Photos</h4>
-          
+
           <div className="space-y-4">
             <div className="flex items-center gap-4">
               <input
@@ -342,7 +340,7 @@ export function InspectionForm({
         {/* Defects */}
         <div className="border-t pt-6">
           <h4 className="text-md font-semibold text-gray-900 mb-4">Defects Found</h4>
-          
+
           <div className="space-y-3">
             <div className="flex gap-2">
               <Input
@@ -386,7 +384,7 @@ export function InspectionForm({
         {/* Recommendations */}
         <div className="border-t pt-6">
           <h4 className="text-md font-semibold text-gray-900 mb-4">Recommendations</h4>
-          
+
           <div className="space-y-3">
             <div className="flex gap-2">
               <Input

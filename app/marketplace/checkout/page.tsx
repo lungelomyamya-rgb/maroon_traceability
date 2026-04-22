@@ -1,7 +1,7 @@
 // src/app/marketplace/checkout/page.tsx
 'use client';
 
-import { 
+import {
   CreditCard,
   Truck,
   Shield,
@@ -13,10 +13,9 @@ import {
 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useState, useEffect } from 'react';
-
+import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
 import { useUser } from '@/contexts/userContext';
-import { Button } from '@/src/features/shared/ui/button';
-import { Card } from '@/src/features/shared/ui/card';
 
 
 interface CheckoutFormData {
@@ -29,13 +28,13 @@ interface CheckoutFormData {
   city: string;
   province: string;
   postalCode: string;
-  
+
   // Payment Information
   cardNumber: string;
   cardName: string;
   expiryDate: string;
   cvv: string;
-  
+
   // Order Notes
   orderNotes: string;
 }
@@ -46,7 +45,7 @@ export default function CheckoutPage() {
   const [isProcessing, setIsProcessing] = useState(false);
   const [orderComplete, setOrderComplete] = useState(false);
   const [orderNumber, setOrderNumber] = useState('');
-  
+
   const [formData, setFormData] = useState<CheckoutFormData>({
     // Shipping Information
     firstName: '',
@@ -57,13 +56,13 @@ export default function CheckoutPage() {
     city: '',
     province: '',
     postalCode: '',
-    
+
     // Payment Information
     cardNumber: '',
     cardName: '',
     expiryDate: '',
     cvv: '',
-    
+
     // Order Notes
     orderNotes: '',
   });
@@ -97,7 +96,7 @@ export default function CheckoutPage() {
     }
   }, [currentUser, router]);
 
-  
+
   const validateForm = () => {
     // Basic validation
     const requiredFields = ['firstName', 'lastName', 'email', 'phone', 'address', 'city', 'province', 'postalCode'];
@@ -106,7 +105,7 @@ export default function CheckoutPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!validateForm()) {
       alert('Please fill in all required fields');
       return;
@@ -141,7 +140,7 @@ export default function CheckoutPage() {
             <h2 className="text-lg sm:text-xl font-bold text-gray-900 mb-4 sm:mb-6">Shipping Information</h2>
             <p className="text-lg text-gray-600 mb-2">Thank you for your purchase</p>
             <p className="text-sm text-gray-500 mb-8">Order #{orderNumber}</p>
-            
+
             <Card className="max-w-md mx-auto p-6 mb-8">
               <h3 className="font-semibold text-gray-900 mb-4">Order Details</h3>
               <div className="space-y-2 text-sm">
@@ -159,15 +158,15 @@ export default function CheckoutPage() {
                 </div>
               </div>
             </Card>
-            
+
             <div className="flex gap-4 justify-center">
-              <Button 
+              <Button
                 onClick={() => router.push('/marketplace')}
                 className="bg-green-600 hover:bg-green-700 text-white px-8 py-3 rounded-full"
               >
                 Continue Shopping
               </Button>
-              <Button 
+              <Button
                 variant="outline"
                 onClick={() => router.push('/marketplace/orders')}
               >
@@ -187,8 +186,8 @@ export default function CheckoutPage() {
         <div className="w-full px-3 sm:px-4 lg:px-8">
           <div className="flex justify-between h-16 items-center">
             <div className="flex items-center gap-2 sm:gap-4">
-              <Button 
-                variant="outline" 
+              <Button
+                variant="outline"
                 size="sm"
                 onClick={() => router.push('/marketplace')}
                 className="h-8 sm:h-10"
@@ -207,15 +206,15 @@ export default function CheckoutPage() {
         className="fixed top-4 left-4 bg-white hover:bg-gray-100 text-gray-800 p-3 rounded-full shadow-lg border border-gray-300 transition-all duration-300 z-30"
         aria-label="Go back to previous page"
       >
-        <svg 
-          xmlns="http://www.w3.org/2000/svg" 
-          width="20" 
-          height="20" 
-          viewBox="0 0 24 24" 
-          fill="none" 
-          stroke="currentColor" 
-          strokeWidth="2" 
-          strokeLinecap="round" 
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="20"
+          height="20"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
           strokeLinejoin="round"
           className="h-4 w-4"
         >
@@ -235,7 +234,7 @@ export default function CheckoutPage() {
                   Shipping Information
                   </h2>
                 </div>
-              
+
                 <div className="p-6 space-y-6">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
@@ -250,7 +249,7 @@ export default function CheckoutPage() {
                         placeholder="Enter your first name"
                       />
                     </div>
-                  
+
                     <div>
                       <label className="block text-sm font-semibold text-gray-700 mb-2">
                       Last Name *
@@ -263,7 +262,7 @@ export default function CheckoutPage() {
                         placeholder="Enter your last name"
                       />
                     </div>
-                  
+
                     <div>
                       <label className="block text-sm font-semibold text-gray-700 mb-2">
                       Email Address *
@@ -276,7 +275,7 @@ export default function CheckoutPage() {
                         placeholder="your.email@example.com"
                       />
                     </div>
-                  
+
                     <div>
                       <label className="block text-sm font-semibold text-gray-700 mb-2">
                       Phone Number *
@@ -289,7 +288,7 @@ export default function CheckoutPage() {
                         placeholder="+27 (XX) XXX-XXXX"
                       />
                     </div>
-                  
+
                     <div className="md:col-span-2">
                       <label className="block text-sm font-semibold text-gray-700 mb-2">
                       Street Address *
@@ -302,7 +301,7 @@ export default function CheckoutPage() {
                         placeholder="123 Main Street, Apartment 4B"
                       />
                     </div>
-                  
+
                     <div>
                       <label className="block text-sm font-semibold text-gray-700 mb-2">
                       City *
@@ -315,7 +314,7 @@ export default function CheckoutPage() {
                         placeholder="Cape Town"
                       />
                     </div>
-                  
+
                     <div>
                       <label className="block text-sm font-semibold text-gray-700 mb-2">
                       Province *
@@ -328,7 +327,7 @@ export default function CheckoutPage() {
                         placeholder="Western Cape"
                       />
                     </div>
-                  
+
                     <div>
                       <label className="block text-sm font-semibold text-gray-700 mb-2">
                       Postal Code *
@@ -353,7 +352,7 @@ export default function CheckoutPage() {
                   Payment Information
                   </h2>
                 </div>
-              
+
                 <div className="p-6 space-y-6">
                   <div>
                     <label className="block text-sm font-semibold text-gray-700 mb-2">
@@ -367,7 +366,7 @@ export default function CheckoutPage() {
                       className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm sm:text-base"
                     />
                   </div>
-                
+
                   <div>
                     <label className="block text-sm font-semibold text-gray-700 mb-2">
                     Name on Card *
@@ -380,7 +379,7 @@ export default function CheckoutPage() {
                       placeholder="John Doe"
                     />
                   </div>
-                
+
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
                     <div>
                       <label className="block text-sm font-semibold text-gray-700 mb-2">
@@ -394,7 +393,7 @@ export default function CheckoutPage() {
                         className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm sm:text-base"
                       />
                     </div>
-                  
+
                     <div>
                       <label className="block text-sm font-semibold text-gray-700 mb-2">
                       CVV *
@@ -409,7 +408,7 @@ export default function CheckoutPage() {
                     </div>
                   </div>
                 </div>
-              
+
                 {/* Security Notice */}
                 <div className="mt-6 p-4 bg-blue-50 border border-blue-200 rounded-lg">
                   <div className="flex items-center gap-2">
@@ -429,7 +428,7 @@ export default function CheckoutPage() {
                   Order Notes (Optional)
                   </h2>
                 </div>
-              
+
                 <div className="p-6">
                   <textarea
                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 text-sm sm:text-base resize-none"
@@ -451,7 +450,7 @@ export default function CheckoutPage() {
                   Order Summary
                   </h2>
                 </div>
-              
+
                 <div className="p-6">
                   {/* Items */}
                   <div className="space-y-4 sm:space-y-6">
@@ -465,14 +464,14 @@ export default function CheckoutPage() {
                       </div>
                     ))}
                   </div>
-                
+
                   {/* Pricing */}
                   <div className="border-t pt-4 space-y-3">
                     <div className="flex justify-between text-sm">
                       <span className="text-gray-600">Subtotal</span>
                       <span className="font-medium">R{orderSummary.subtotal.toFixed(2)}</span>
                     </div>
-                  
+
                     <div className="flex justify-between text-sm">
                       <span className="text-gray-600">Shipping</span>
                       <span className="font-medium">
@@ -483,12 +482,12 @@ export default function CheckoutPage() {
                         )}
                       </span>
                     </div>
-                  
+
                     <div className="flex justify-between text-sm">
                       <span className="text-gray-600">Tax (VAT)</span>
                       <span className="font-medium">R{orderSummary.tax.toFixed(2)}</span>
                     </div>
-                  
+
                     {orderSummary.discount > 0 && (
                       <div className="flex justify-between text-sm">
                         <span className="text-green-600">Discount</span>
@@ -497,7 +496,7 @@ export default function CheckoutPage() {
                         </span>
                       </div>
                     )}
-                  
+
                     <div className="border-t pt-4">
                       <div className="flex justify-between items-center">
                         <span className="text-xl font-bold text-gray-900">Total</span>
@@ -509,7 +508,7 @@ export default function CheckoutPage() {
                   </div>
 
                   {/* Place Order Button */}
-                  <Button 
+                  <Button
                     type="submit"
                     className="w-full bg-green-600 hover:bg-green-700 text-white py-2 sm:py-3 rounded-full h-10 sm:h-12 text-sm sm:text-base font-semibold shadow-lg hover:shadow-xl transition-all duration-200"
                     onClick={handleSubmit}

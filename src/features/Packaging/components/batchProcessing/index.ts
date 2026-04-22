@@ -2,18 +2,18 @@
 
 /**
  * Batch Processing Module
- * 
+ *
  * This barrel file exports all batch processing components and utilities.
  * The component has been refactored from a 518-line monolithic structure
  * into smaller, focused components with proper separation of concerns.
- * 
+ *
  * @example
  * ```tsx
  * // Import the main component
  * import { BatchProcessing } from '@/components/packaging/batchProcessing';
- * 
+ *
  * // Import individual components
- * import { 
+ * import {
  *   BatchProcessing,
  *   BatchOverview,
  *   BatchList,
@@ -35,7 +35,7 @@ export { BatchForm } from './BatchForm';
 export { useBatchProcessing } from './hooks/useBatchProcessing';
 
 // Types
-export type { 
+export type {
   ExtendedBatchProcessingItem,
   BatchProcessingState,
   BatchProcessingActions,
@@ -62,7 +62,7 @@ export const batchProcessingFeature = {
     'Separation of concerns - UI and business logic separated',
     'Reusable components - Each sub-component can be used independently',
     'Better testing - Isolated logic and UI components',
-    'Enhanced maintainability - Smaller, focused files',
+    'Maintainability - Smaller, focused files',
     'Type safety - Comprehensive TypeScript interfaces',
     'Performance - Optimized re-renders and state management',
     'Batch management - Complete batch tracking system',

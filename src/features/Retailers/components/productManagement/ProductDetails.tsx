@@ -2,12 +2,9 @@
 'use client';
 
 import { X, Package, DollarSign, TrendingUp, Star, Edit, Calendar, Ruler } from 'lucide-react';
-
-import { Badge } from '@/src/features/shared/ui/badge';
-import { Button } from '@/src/features/shared/ui/button';
-import { Card } from '@/src/features/shared/ui/card';
-
-
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
 import { Product } from './hooks/useProductManagement';
 
 interface ProductDetailsProps {
@@ -18,10 +15,10 @@ interface ProductDetailsProps {
   formatPrice: (price: number) => string;
 }
 
-export function ProductDetails({ 
-  product, 
-  statusConfig, 
-  onClose, 
+export function ProductDetails({
+  product,
+  statusConfig,
+  onClose,
   onEdit,
   formatPrice,
 }: ProductDetailsProps) {

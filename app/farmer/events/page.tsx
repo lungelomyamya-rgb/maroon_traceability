@@ -4,15 +4,14 @@
 import { Plus, Calendar, TrendingUp, Package } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
-
-import { DashboardLayout } from '@/components/dashboard/DashboardLayout';
+import { DashboardLayout } from '@/components/dashboard';
+import { ProductEventList } from '@/components/events/productEventList';
+import { ProductEventForm } from '@/components/forms/forms';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
 import { useProducts } from '@/contexts/productContext';
 import { useUser } from '@/contexts/userContext';
-import { ProductEventForm } from '@/src/features/shared/components/forms';
-import { ProductEventList } from '@/src/features/shared/events/productEventList';
-import { Badge } from '@/src/features/shared/ui/badge';
-import { Button } from '@/src/features/shared/ui/button';
-import { Card } from '@/src/features/shared/ui/card';
 
 
 export default function EventManagementPage() {
@@ -29,7 +28,7 @@ export default function EventManagementPage() {
   useEffect(() => {
     const checkAuth = () => {
       setIsChecking(false);
-      
+
       // If user is not logged in, redirect to login
       if (!currentUser) {
         router.replace('/login?redirect=/farmer/events');
@@ -85,7 +84,7 @@ export default function EventManagementPage() {
     <>
       {/* Back Button - True Top Corner */}
       <div className="px-4 sm:px-6 lg:px-8 pt-4 pb-2">
-        <Button 
+        <Button
           variant="outline"
           onClick={() => router.push('/farmer')}
           className="text-gray-600 hover:text-gray-900 hover:bg-gray-50"
@@ -94,13 +93,13 @@ export default function EventManagementPage() {
           <span className="sm:hidden">Back</span>
         </Button>
       </div>
-      
+
       <DashboardLayout
         title="Event Management"
         subtitle="Track and manage your farm events from seed to sale"
         actions={
           <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
-            <Button 
+            <Button
               onClick={() => setShowEventForm(!showEventForm)}
               className="bg-green-600 hover:bg-green-700 text-white shadow-lg w-full sm:w-auto"
               size="lg"
@@ -150,8 +149,8 @@ export default function EventManagementPage() {
             <Card className="p-3 sm:p-4 lg:p-6">
               <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3 mb-4">
                 <h3 className="text-base sm:text-lg font-semibold text-gray-900">Add New Event</h3>
-                <Button 
-                  variant="outline" 
+                <Button
+                  variant="outline"
                   size="sm"
                   onClick={() => setShowEventForm(false)}
                   className="w-full sm:w-auto"
@@ -159,7 +158,7 @@ export default function EventManagementPage() {
                 Cancel
                 </Button>
               </div>
-              <ProductEventForm 
+              <ProductEventForm
                 productId={selectedProduct || farmerProducts[0]?.id || ''}
                 onSubmit={handleEventSubmit}
               />

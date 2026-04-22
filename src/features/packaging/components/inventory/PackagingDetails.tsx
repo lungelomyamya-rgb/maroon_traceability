@@ -1,10 +1,10 @@
 // src/components/packaging/inventory/PackagingDetails.tsx
 'use client';
 
-import { 
-  X, 
-  Package, 
-  MapPin, 
+import {
+  X,
+  Package,
+  MapPin,
   FileText,
   Shield,
   QrCode,
@@ -12,14 +12,13 @@ import {
   AlertTriangle,
 } from 'lucide-react';
 import { useState } from 'react';
-
-import { Badge } from '@/src/features/shared/ui/badge';
-import { Button } from '@/src/features/shared/ui/button';
-import { Card } from '@/src/features/shared/ui/card';
-import { Input } from '@/src/features/shared/ui/input';
-import { Textarea } from '@/src/features/shared/ui/textarea';
-
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
 import type { InventoryItem, StockMovement, PackagingInventoryActions } from './hooks/usePackagingInventory';
+
 
 interface PackagingDetailsProps {
   selectedItem: InventoryItem | null;
@@ -274,7 +273,7 @@ export function PackagingDetails({ selectedItem, stockMovements, actions }: Pack
                         {new Date(movement.timestamp).toLocaleDateString()}
                       </td>
                       <td className="py-2">
-                        <Badge 
+                        <Badge
                           variant={movement.type === 'in' ? 'default' : movement.type === 'out' ? 'destructive' : 'outline'}
                           className="text-xs"
                         >

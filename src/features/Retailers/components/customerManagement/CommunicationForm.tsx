@@ -3,11 +3,10 @@
 
 import { MessageSquare, Send, X, Mail, Smartphone } from 'lucide-react';
 import { useState } from 'react';
-
-import { Button } from '@/src/features/shared/ui/button';
-import { Input } from '@/src/features/shared/ui/input';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/src/features/shared/ui/select';
-import { Textarea } from '@/src/features/shared/ui/textarea';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Textarea } from '@/components/ui/textarea';
 
 interface Customer {
   id: string;
@@ -70,7 +69,7 @@ export function CommunicationForm({ customer, onClose, onSend }: CommunicationFo
             <X className="h-4 w-4" />
           </Button>
         </div>
-        
+
         <div className="p-4 sm:p-6">
           {/* Customer Info */}
           <div className="mb-6 p-4 bg-gray-50 rounded-lg">
@@ -96,7 +95,7 @@ export function CommunicationForm({ customer, onClose, onSend }: CommunicationFo
 
           {/* Form */}
           <form className="space-y-4" onSubmit={(e) => {
-            e.preventDefault(); handleSubmit(); 
+            e.preventDefault(); handleSubmit();
           }}>
             <div>
               <label className="text-sm font-medium text-gray-700">Communication Type</label>

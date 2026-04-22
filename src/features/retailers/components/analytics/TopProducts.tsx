@@ -2,12 +2,9 @@
 'use client';
 
 import { TrendingUp, Eye, Star } from 'lucide-react';
-
-import { Badge } from '@/src/features/shared/ui/badge';
-import { Button } from '@/src/features/shared/ui/button';
-import { Card } from '@/src/features/shared/ui/card';
-
-
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
 import { AnalyticsData } from './hooks/useAnalytics';
 
 interface TopProductsProps {
@@ -127,7 +124,7 @@ export function TopProducts({ data, formatCurrency, formatNumber, formatPercenta
           <div>
             <h4 className="font-medium text-blue-900">Performance Insight</h4>
             <p className="text-sm text-blue-700 mt-1">
-              Your top 5 products account for {formatPercentage((data.topProducts.reduce((sum, p) => sum + p.revenue, 0) / data.totalRevenue) * 100)} of total revenue. 
+              Your top 5 products account for {formatPercentage((data.topProducts.reduce((sum, p) => sum + p.revenue, 0) / data.totalRevenue) * 100)} of total revenue.
               Consider promoting these products further and analyzing their success factors.
             </p>
           </div>

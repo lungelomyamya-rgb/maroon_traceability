@@ -3,9 +3,7 @@
 
 import { RefreshCw, Download } from 'lucide-react';
 import { useState } from 'react';
-
-import { Button } from '@/src/features/shared/ui/button';
-
+import { Button } from '@/components/ui/button';
 import { PaymentGateways } from './PaymentGateways';
 import { PaymentMetrics } from './PaymentMetrics';
 import { TransactionDetails } from './TransactionDetails';
@@ -56,7 +54,7 @@ export function PaymentProcessing({ title = 'Payment Processing' }: PaymentProce
             </Button>
           </div>
         </div>
-        
+
         {/* Loading skeleton */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
           {[1, 2, 3, 4].map((i) => (

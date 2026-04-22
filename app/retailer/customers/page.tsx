@@ -3,8 +3,7 @@
 
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
-
-import { DashboardLayout } from '@/components/dashboard/DashboardLayout';
+import { DashboardLayoutUnified as DashboardLayout } from '@/components/dashboard/DashboardLayout';
 import { useUser } from '@/contexts/userContext';
 import { CustomerManagement as CustomerManagementComponent } from '@/src/features/Retailers/components/customerManagementComponent';
 
@@ -46,7 +45,7 @@ export default function CustomerManagementPage() {
           Back
         </button>
       </div>
-      
+
       <DashboardLayout
         title="Customer Management"
         description="Manage customer relationships and communication"

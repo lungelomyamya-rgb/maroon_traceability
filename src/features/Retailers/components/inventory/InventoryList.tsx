@@ -1,7 +1,7 @@
 // src/components/retailers/inventory/InventoryList.tsx
 'use client';
 
-import { 
+import {
   Search,
   Package,
   Eye,
@@ -11,13 +11,11 @@ import {
   TrendingDown,
 } from 'lucide-react';
 import { useState } from 'react';
-
-import { Badge } from '@/src/features/shared/ui/badge';
-import { Button } from '@/src/features/shared/ui/button';
-import { Card } from '@/src/features/shared/ui/card';
-import { Input } from '@/src/features/shared/ui/input';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/src/features/shared/ui/select';
-
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { InventoryItem } from './hooks/useInventory';
 
 interface InventoryListProps {
@@ -32,9 +30,9 @@ interface InventoryListProps {
   getDaysUntilExpiry: (expiryDate: string) => number;
 }
 
-export function InventoryList({ 
-  inventory, 
-  categories, 
+export function InventoryList({
+  inventory,
+  categories,
   statusConfig,
   onViewItem,
   onEditItem,
@@ -54,7 +52,7 @@ export function InventoryList({
                          item.supplier.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesStatus = statusFilter === 'all' || item.status === statusFilter;
     const matchesCategory = categoryFilter === 'all' || item.category === categoryFilter;
-    
+
     return matchesSearch && matchesStatus && matchesCategory;
   });
 
@@ -171,7 +169,7 @@ export function InventoryList({
             const expiryStatus = getExpiryStatus(daysUntilExpiry);
             const stockColor = getStockLevelColor(item.currentStock, item.minStockLevel, item.maxStockLevel);
             const stockIcon = getStockLevelIcon(item.currentStock, item.minStockLevel, item.maxStockLevel);
-            
+
             return (
               <Card key={item.id} className="p-4">
                 <div className="flex items-start justify-between">
@@ -244,7 +242,7 @@ export function InventoryList({
                       </span>
                     </div>
                     <div className="w-full bg-gray-200 rounded-full h-1 mt-1">
-                      <div 
+                      <div
                         className={`h-1 rounded-full ${
                           item.currentStock === 0 ? 'bg-red-500' :
                             item.currentStock <= item.minStockLevel ? 'bg-yellow-500' :

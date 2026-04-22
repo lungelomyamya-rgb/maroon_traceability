@@ -1,17 +1,16 @@
 // src/components/retailers/inventory/InventoryOverview.tsx
 'use client';
 
-import { 
-  Package, 
-  AlertTriangle, 
+import {
+  Package,
+  AlertTriangle,
   DollarSign,
   RefreshCw,
   Download,
   Truck,
 } from 'lucide-react';
-
-import { Button } from '@/src/features/shared/ui/button';
-import { Card } from '@/src/features/shared/ui/card';
+import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
 
 interface InventoryOverviewProps {
   stats: {
@@ -33,9 +32,9 @@ interface InventoryOverviewProps {
   onRefresh?: () => void;
 }
 
-export function InventoryOverview({ 
-  stats, 
-  formatCurrency, 
+export function InventoryOverview({
+  stats,
+  formatCurrency,
   formatNumber,
   onExport,
   onRefresh,
@@ -204,7 +203,7 @@ export function InventoryOverview({
             <p className="text-sm font-medium text-gray-900">In Stock</p>
             <p className="text-xs text-gray-600">{((stats.inStock / stats.total) * 100).toFixed(1)}%</p>
           </div>
-          
+
           <div className="text-center">
             <div className="w-16 h-16 bg-yellow-500 rounded-full flex items-center justify-center mx-auto mb-2">
               <span className="text-white text-lg font-bold">{stats.lowStock}</span>
@@ -212,7 +211,7 @@ export function InventoryOverview({
             <p className="text-sm font-medium text-gray-900">Low Stock</p>
             <p className="text-xs text-gray-600">{((stats.lowStock / stats.total) * 100).toFixed(1)}%</p>
           </div>
-          
+
           <div className="text-center">
             <div className="w-16 h-16 bg-red-500 rounded-full flex items-center justify-center mx-auto mb-2">
               <span className="text-white text-lg font-bold">{stats.outOfStock}</span>
@@ -220,7 +219,7 @@ export function InventoryOverview({
             <p className="text-sm font-medium text-gray-900">Out of Stock</p>
             <p className="text-xs text-gray-600">{((stats.outOfStock / stats.total) * 100).toFixed(1)}%</p>
           </div>
-          
+
           <div className="text-center">
             <div className="w-16 h-16 bg-gray-500 rounded-full flex items-center justify-center mx-auto mb-2">
               <span className="text-white text-lg font-bold">{stats.discontinued}</span>
@@ -240,20 +239,20 @@ export function InventoryOverview({
             <p className="text-sm text-gray-600">Total Inventory Value</p>
             <p className="text-xs text-gray-500 mt-1">Current stock at retail price</p>
           </div>
-          
+
           <div className="text-center p-4 bg-blue-50 rounded-lg">
             <p className="text-2xl font-bold text-blue-600">{formatCurrency(stats.totalCost)}</p>
             <p className="text-sm text-gray-600">Total Cost</p>
             <p className="text-xs text-gray-500 mt-1">Current stock at cost price</p>
           </div>
-          
+
           <div className="text-center p-4 bg-purple-50 rounded-lg">
             <p className="text-2xl font-bold text-purple-600">{formatCurrency(stats.potentialRevenue)}</p>
             <p className="text-sm text-gray-600">Potential Revenue</p>
             <p className="text-xs text-gray-500 mt-1">Potential profit margin</p>
           </div>
         </div>
-        
+
         <div className="mt-4 pt-4 border-t">
           <div className="flex justify-between items-center">
             <span className="text-sm text-gray-600">Average Profit Margin</span>

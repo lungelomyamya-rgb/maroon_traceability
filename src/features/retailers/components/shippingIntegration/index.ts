@@ -2,21 +2,21 @@
 
 /**
  * Shipping Integration Feature Module
- * 
+ *
  * This module provides comprehensive shipping and logistics integration functionality with:
  * - Shipping metrics and performance analytics
  * - Shipping provider management and configuration
  * - Shipment tracking and management
  * - Package and delivery information
  * - Real-time tracking integration
- * 
+ *
  * @example
  * ```tsx
  * import { ShippingIntegration } from '@/features/retailers/components/shippingIntegration';
- * 
+ *
  * function ShippingPage() {
  *   return (
- *     <ShippingIntegration 
+ *     <ShippingIntegration
  *       title="Shipping & Logistics Management"
  *     />
  *   );

@@ -1,9 +1,9 @@
 // src/components/packaging/PackagingDashboard.tsx
 'use client';
 
-import { 
-  Package, 
-  QrCode, 
+import {
+  Package,
+  QrCode,
   TrendingUp,
   Clock,
   CheckCircle,
@@ -13,10 +13,9 @@ import {
   Download,
 } from 'lucide-react';
 import { useState, useEffect } from 'react';
-
-import { Badge } from '@/src/features/shared/ui/badge';
-import { Button } from '@/src/features/shared/ui/button';
-import { Card } from '@/src/features/shared/ui/card';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
 import type { PackagingRecord, BatchStatus } from '@/types/packaging';
 import { BATCH_STATUS_COLORS } from '@/types/packaging';
 
@@ -93,7 +92,7 @@ export function PackagingDashboard() {
     pendingQC: records.filter(r => r.status === 'qc-pending').length,
     processing: records.filter(r => r.status === 'processing').length,
     totalQRs: records.reduce((sum, r) => sum + r.qrCodes.length, 0),
-    todayEvents: records.filter(r => 
+    todayEvents: records.filter(r =>
       new Date(r.packagingDate).toDateString() === new Date().toDateString(),
     ).length,
   };
@@ -226,7 +225,7 @@ export function PackagingDashboard() {
                       </div>
                     </div>
                   </div>
-                  
+
                   <div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4 w-full sm:w-auto">
                     <Badge className={`${BATCH_STATUS_COLORS[record.status]} text-xs px-2 sm:px-3 py-1`}>
                       <div className="flex items-center gap-1">
@@ -234,7 +233,7 @@ export function PackagingDashboard() {
                         <span>{record.status.replace('-', ' ').charAt(0).toUpperCase() + record.status.slice(1).replace('-', ' ')}</span>
                       </div>
                     </Badge>
-                    
+
                     <div className="flex gap-1 sm:gap-2">
                       {record.qrCodes.length > 0 && (
                         <Button variant="outline" size="sm" className="text-xs sm:text-sm">
@@ -251,7 +250,7 @@ export function PackagingDashboard() {
                     </div>
                   </div>
                 </div>
-                
+
                 {/* Details row */}
                 <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 text-xs sm:text-sm text-gray-600">
                   <div className="flex items-center gap-2">
@@ -267,7 +266,7 @@ export function PackagingDashboard() {
                     <span>{new Date(record.packagingDate).toLocaleDateString()}</span>
                   </div>
                 </div>
-                
+
                 {/* Meta information */}
                 <div className="flex flex-wrap items-center gap-3 sm:gap-4 text-xs text-gray-500 pt-2 border-t border-gray-100">
                   <div className="flex items-center gap-1">

@@ -1,20 +1,18 @@
 // src/components/retailers/orders/OrdersList.tsx
 'use client';
 
-import { 
+import {
   Search,
   Eye,
   Truck,
   Package,
 } from 'lucide-react';
 import { useState } from 'react';
-
-import { Badge } from '@/src/features/shared/ui/badge';
-import { Button } from '@/src/features/shared/ui/button';
-import { Card } from '@/src/features/shared/ui/card';
-import { Input } from '@/src/features/shared/ui/input';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/src/features/shared/ui/select';
-
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Order } from './hooks/useOrders';
 
 interface OrdersListProps {
@@ -30,8 +28,8 @@ interface OrdersListProps {
   getEstimatedDeliveryDays: (estimatedDelivery?: string) => number | null;
 }
 
-export function OrdersList({ 
-  orders, 
+export function OrdersList({
+  orders,
   statusConfig,
   paymentStatusConfig,
   onViewOrder,
@@ -53,7 +51,7 @@ export function OrdersList({
                          (order.trackingNumber && order.trackingNumber.toLowerCase().includes(searchTerm.toLowerCase()));
     const matchesStatus = statusFilter === 'all' || order.status === statusFilter;
     const matchesPayment = paymentFilter === 'all' || order.paymentStatus === paymentFilter;
-    
+
     return matchesSearch && matchesStatus && matchesPayment;
   });
 

@@ -4,18 +4,18 @@
 import { Truck, Users, Calendar, FileText, Package, Route } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useState, useEffect } from 'react';
-
-import { DashboardLayout } from '@/components/dashboard/DashboardLayout';
+import { DashboardLayout } from '@/components/dashboard';
+import { Badge } from '@/components/ui/badge';
+import { Card } from '@/components/ui/card';
 import { mockVehicles, mockDrivers, mockSchedules } from '@/constants/logisticsMockData';
 import { useUser } from '@/contexts/userContext';
-import { Badge } from '@/src/features/shared/ui/badge';
-import { Card } from '@/src/features/shared/ui/card';
 import { Vehicle, Driver, TransportSchedule } from '@/types/logistics';
+
 
 export default function LogisticsPage() {
   const { currentUser } = useUser();
   const router = useRouter();
-  
+
   // Initialize state with mock data immediately
   const [vehicles, _setVehicles] = useState<Vehicle[]>(mockVehicles);
   const [drivers, _setDrivers] = useState<Driver[]>(mockDrivers);
@@ -27,7 +27,7 @@ export default function LogisticsPage() {
       router.push('/login?redirect=/logistics');
       return;
     }
-    
+
     if (currentUser.role !== 'logistics') {
       console.log('Logistics page - redirecting to unauthorized. Current user:', currentUser);
       router.push('/unauthorized');
@@ -35,7 +35,7 @@ export default function LogisticsPage() {
     }
   }, [currentUser, router]);
 
-  
+
   // Calculate metrics from mock data
   const activeVehicles = vehicles.filter(v => v.status === 'active').length;
   const availableDrivers = drivers.filter(d => d.status === 'available').length;
@@ -173,7 +173,7 @@ export default function LogisticsPage() {
               </div>
             </div>
           </Card>
-          
+
           <Card className="p-4 sm:p-6">
             <div className="flex items-center justify-between">
               <div>

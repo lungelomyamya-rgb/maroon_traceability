@@ -2,13 +2,11 @@
 'use client';
 
 import { X, Plus, Package } from 'lucide-react';
-
-import { Badge } from '@/src/features/shared/ui/badge';
-import { Button } from '@/src/features/shared/ui/button';
-import { Card } from '@/src/features/shared/ui/card';
-import { Input } from '@/src/features/shared/ui/input';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
 import { PACKAGING_TYPES, getUnitsForPackagingType } from '@/types/packaging';
-
 import type { BatchProcessingState } from './hooks/useBatchProcessing';
 
 interface BatchFormProps {
@@ -20,13 +18,13 @@ interface BatchFormProps {
   onClose: () => void;
 }
 
-export function BatchForm({ 
-  newItem, 
-  isProcessing, 
-  packagingTypes, 
-  onNewItemChange, 
-  onAddBatch, 
-  onClose, 
+export function BatchForm({
+  newItem,
+  isProcessing,
+  packagingTypes,
+  onNewItemChange,
+  onAddBatch,
+  onClose,
 }: BatchFormProps) {
   const selectedPackagingType = newItem.packagingType;
   const availableUnits = selectedPackagingType ? getUnitsForPackagingType(selectedPackagingType as any) : []; // eslint-disable-line @typescript-eslint/no-explicit-any
@@ -183,8 +181,8 @@ export function BatchForm({
             <Button variant="outline" onClick={onClose} disabled={isProcessing}>
               Cancel
             </Button>
-            <Button 
-              onClick={onAddBatch} 
+            <Button
+              onClick={onAddBatch}
               disabled={isProcessing || !newItem.productId || !newItem.productName || !newItem.quantity || !newItem.packagingType}
             >
               {isProcessing ? (

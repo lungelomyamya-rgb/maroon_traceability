@@ -1,9 +1,9 @@
 // src/app/inspector/reports/page.tsx
 'use client';
 
-import { 
-  FileText, 
-  Download, 
+import {
+  FileText,
+  Download,
   Calendar,
   TrendingUp,
   BarChart3,
@@ -15,12 +15,11 @@ import {
 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useState, useEffect } from 'react';
-
-import { DashboardLayout } from '@/components/dashboard/DashboardLayout';
+import { DashboardLayout } from '@/components/dashboard';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
 import { useUser } from '@/contexts/userContext';
-import { Badge } from '@/src/features/shared/ui/badge';
-import { Button } from '@/src/features/shared/ui/button';
-import { Card } from '@/src/features/shared/ui/card';
 
 
 export default function InspectorReportsPage() {
@@ -153,7 +152,7 @@ export default function InspectorReportsPage() {
           Back
         </Button>
       </div>
-      
+
       <DashboardLayout
         title="Inspection Reports"
         description="View and download quality inspection reports and analytics"
@@ -233,7 +232,7 @@ export default function InspectorReportsPage() {
                   <div className="text-xs opacity-90">Monthly/Quarterly overview</div>
                 </div>
               </Button>
-            
+
               <Button className="h-auto p-3 sm:p-4 flex flex-col items-center gap-2 bg-green-600 hover:bg-green-700 text-white">
                 <CheckCircle className="h-5 w-5 sm:h-6 sm:w-6" />
                 <div className="text-center">
@@ -241,7 +240,7 @@ export default function InspectorReportsPage() {
                   <div className="text-xs opacity-90">Third-party verifications</div>
                 </div>
               </Button>
-            
+
               <Button className="h-auto p-3 sm:p-4 flex flex-col items-center gap-2 bg-purple-600 hover:bg-purple-700 text-white">
                 <TrendingUp className="h-5 w-5 sm:h-6 sm:w-6" />
                 <div className="text-center">
@@ -296,7 +295,7 @@ export default function InspectorReportsPage() {
           {/* Reports List */}
           <Card className="p-6">
             <h3 className="text-lg font-semibold text-gray-900 mb-4">Available Reports</h3>
-          
+
             {filteredReports.length === 0 ? (
               <div className="text-center py-12">
                 <FileText className="h-12 w-12 text-gray-400 mx-auto mb-4" />
@@ -336,7 +335,7 @@ export default function InspectorReportsPage() {
                           )}
                         </div>
                       </div>
-                    
+
                       <div className="text-right flex-shrink-0">
                         <div className="flex flex-col sm:flex-row gap-2 mb-2">
                           <Button
@@ -352,7 +351,7 @@ export default function InspectorReportsPage() {
                             <span className="hidden sm:inline">View</span>
                             <span className="sm:hidden">View</span>
                           </Button>
-                        
+
                           <Button
                             size="sm"
                             className="bg-green-600 hover:bg-green-700 text-white text-xs"
@@ -367,7 +366,7 @@ export default function InspectorReportsPage() {
                             <span className="sm:hidden">Download</span>
                           </Button>
                         </div>
-                      
+
                         <div className="flex items-center gap-1 mt-2 text-xs text-gray-500">
                           <Calendar className="h-3 w-3" />
                         PDF Format

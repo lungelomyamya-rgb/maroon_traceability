@@ -21,7 +21,7 @@ const staticFiles = [
 
 export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
-  
+
   // Skip middleware for public routes and static files
   if (
     publicRoutes.some(route => pathname.startsWith(route)) ||
@@ -33,7 +33,7 @@ export function proxy(request: NextRequest) {
 
   // Check if this is a protected route
   const isProtectedRoute = protectedRoutes.some(route => pathname.startsWith(route));
-  
+
   if (isProtectedRoute) {
     // For protected routes, let client-side auth handle the checks
     return NextResponse.next();

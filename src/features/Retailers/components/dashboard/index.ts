@@ -2,21 +2,21 @@
 
 /**
  * Retailer Dashboard Feature Module
- * 
+ *
  * This module provides comprehensive retailer dashboard functionality with:
  * - Sales metrics and analytics
  * - Recent orders tracking
  * - Inventory management alerts
  * - Top products performance
  * - Sales visualization
- * 
+ *
  * @example
  * ```tsx
  * import { RetailerDashboard } from '@/features/retailers/components/dashboard';
- * 
+ *
  * function RetailerPage() {
  *   return (
- *     <RetailerDashboard 
+ *     <RetailerDashboard
  *       title="My Store Dashboard"
  *     />
  *   );

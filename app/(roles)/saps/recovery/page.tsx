@@ -3,15 +3,14 @@
 import { AlertTriangle, CheckCircle, MapPin, FileText, Camera } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
-
-import { DashboardLayout } from '@/components/dashboard/DashboardLayout';
+import { DashboardLayoutUnified as DashboardLayout } from '@/components/dashboard/DashboardLayout';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Textarea } from '@/components/ui/textarea';
 import { useUser } from '@/contexts/userContext';
-import { Badge } from '@/src/features/shared/ui/badge';
-import { Button } from '@/src/features/shared/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/src/features/shared/ui/card';
-import { Input } from '@/src/features/shared/ui/input';
-import { Label } from '@/src/features/shared/ui/label';
-import { Textarea } from '@/src/features/shared/ui/textarea';
 
 
 export default function SAPSRecoveryPage() {
@@ -152,7 +151,16 @@ export default function SAPSRecoveryPage() {
             <div className="space-y-4">
               {activeCases.map((case_) => (
                 <div key={case_.id} className="border rounded-lg p-4 hover:bg-gray-50 cursor-pointer"
-                  onClick={() => setSelectedCase(case_.id)}>
+                  onClick={() => setSelectedCase(case_.id)}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      e.preventDefault();
+                      setSelectedCase(case_.id);
+                    }
+                  }}
+                  role="button"
+                  tabIndex={0}
+                  aria-label={`Select case ${case_.id}`}>
                   <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-3">
                     <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:gap-3">
                       <h3 className="font-semibold text-lg">{case_.id}</h3>

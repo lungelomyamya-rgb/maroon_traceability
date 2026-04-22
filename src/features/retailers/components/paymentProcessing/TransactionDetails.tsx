@@ -1,7 +1,7 @@
 // src/components/retailers/paymentProcessing/TransactionDetails.tsx
 'use client';
 
-import { 
+import {
   CreditCard,
   XCircle,
   User,
@@ -9,9 +9,8 @@ import {
   Receipt,
   TrendingDown,
 } from 'lucide-react';
-
-import { Badge } from '@/src/features/shared/ui/badge';
-import { Button } from '@/src/features/shared/ui/button';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
 
 
 interface Transaction {
@@ -70,7 +69,7 @@ export function TransactionDetails({ transaction, onClose }: TransactionDetailsP
             Close
           </Button>
         </div>
-        
+
         <div className="p-4 sm:p-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             {/* Transaction Information */}
@@ -118,7 +117,7 @@ export function TransactionDetails({ transaction, onClose }: TransactionDetailsP
                 )}
               </div>
             </div>
-            
+
             {/* Customer Information */}
             <div>
               <h4 className="font-medium mb-3 flex items-center gap-2">

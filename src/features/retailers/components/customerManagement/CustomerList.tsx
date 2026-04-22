@@ -1,23 +1,22 @@
 // src/components/retailers/customerManagement/CustomerList.tsx
 'use client';
 
-import { 
-  Search, 
-  Eye, 
-  Edit, 
-  Mail, 
-  Phone, 
-  MapPin, 
+import {
+  Search,
+  Eye,
+  Edit,
+  Mail,
+  Phone,
+  MapPin,
   Users,
   Star,
 } from 'lucide-react';
 import { useState } from 'react';
-
-import { Badge } from '@/src/features/shared/ui/badge';
-import { Button } from '@/src/features/shared/ui/button';
-import { Card } from '@/src/features/shared/ui/card';
-import { Input } from '@/src/features/shared/ui/input';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/src/features/shared/ui/select';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
 interface Customer {
   id: string;
@@ -57,10 +56,10 @@ interface CustomerListProps {
   isLoading?: boolean;
 }
 
-export function CustomerList({ 
-  customers, 
-  onViewDetails, 
-  onEdit, 
+export function CustomerList({
+  customers,
+  onViewDetails,
+  onEdit,
   onContact,
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   isLoading = false,
@@ -103,7 +102,7 @@ export function CustomerList({
                          customer.phone.includes(searchTerm);
     const matchesStatus = statusFilter === 'all' || customer.status === statusFilter;
     const matchesTier = tierFilter === 'all' || customer.loyaltyTier === tierFilter;
-    
+
     return matchesSearch && matchesStatus && matchesTier;
   });
 

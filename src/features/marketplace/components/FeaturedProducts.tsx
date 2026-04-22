@@ -1,11 +1,11 @@
 // src/components/marketplace/featuredProducts.tsx
 'use client';
 
-import { Product } from '@/constants/marketplaceData';
-import { Badge } from '@/src/features/shared/ui/badge';
-import { Button } from '@/src/features/shared/ui/button';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
 import { Star, ShoppingCart, Leaf, Grid, List } from 'lucide-react';
 import { useState, useEffect } from 'react';
+import { Product } from '../types/marketplaceData';
 
 interface FeaturedProductsProps {
   products: Product[];
@@ -31,12 +31,12 @@ interface CartItem {
   farmer: string;
 }
 
-const ProductListItem = ({ 
-  product, 
-  addToCart, 
+const ProductListItem = ({
+  product,
+  addToCart,
   cart,
-  router, 
-}: { 
+  router,
+}: {
   product: Product;
   addToCart: (product: Product) => void;
   cart: CartItem[];
@@ -78,11 +78,11 @@ const ProductListItem = ({
               </Badge>
             )}
           </div>
-          
+
           <p className="mt-1 text-sm text-gray-600 line-clamp-2">
             {product.description || 'No description available'}
           </p>
-          
+
           <div className="mt-2 flex items-center gap-2">
             <span className="text-lg font-semibold text-gray-900">
               R{product.price.toFixed(2)}
@@ -93,7 +93,7 @@ const ProductListItem = ({
               </span>
             )}
           </div>
-          
+
           <div className="mt-2 flex items-center gap-2 flex-wrap">
             <div className="flex items-center" role="img" aria-label={`Rating: ${product.farmer.rating} out of 5 stars`}>
               {[...Array(5)].map((_, i) => (
@@ -109,9 +109,9 @@ const ProductListItem = ({
               ))}
               <span className="ml-1 text-xs text-gray-500">({product.farmer.totalReviews})</span>
             </div>
-            
-            <Badge 
-              variant="outline" 
+
+            <Badge
+              variant="outline"
               className={`text-xs ${
                 product.quality.grade === 'A' ? 'border-green-600 text-green-600' :
                   product.quality.grade === 'B' ? 'border-yellow-600 text-yellow-600' :
@@ -121,29 +121,29 @@ const ProductListItem = ({
             >
               Grade {product.quality.grade}
             </Badge>
-            
+
             <Badge variant="outline" className="text-xs">
               <Leaf className="h-3 w-3 mr-1" />
               Organic
             </Badge>
           </div>
-          
+
           <p className="mt-2 text-xs text-gray-500">
             By {product.farmer.name} • {product.farmer.location} • {product.stockLevel} in stock
           </p>
         </div>
-        
+
         <div className="mt-4 flex flex-col sm:flex-row gap-2">
-          <Button 
-            size="sm" 
+          <Button
+            size="sm"
             className="flex-1"
             onClick={() => router.push(`/marketplace/products/${product.id}`)}
             aria-label={`View details for ${product.name}`}
           >
             View Details
           </Button>
-          <Button 
-            size="sm" 
+          <Button
+            size="sm"
             variant="outline"
             className="flex-1 sm:flex-initial sm:w-auto"
             onClick={() => addToCart(product)}
@@ -181,7 +181,7 @@ export default function FeaturedProducts({ products, router, addToCart, cart }: 
   }, [viewMode]);
 
   return (
-    <section 
+    <section
       className="py-8 sm:py-12 md:py-16 lg:py-20 bg-gray-50"
       aria-labelledby="featured-products-heading"
     >
@@ -220,18 +220,18 @@ export default function FeaturedProducts({ products, router, addToCart, cart }: 
             </Button>
           </div>
         </div>
-        
-        <div 
-          className={viewMode === 'grid' 
-            ? 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-4 md:gap-5 lg:gap-6 px-2 sm:px-0' 
+
+        <div
+          className={viewMode === 'grid'
+            ? 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-4 md:gap-5 lg:gap-6 px-2 sm:px-0'
             : 'flex flex-col gap-4 w-full px-2 sm:px-0'
-          } 
+          }
           role="list"
         >
           {featured.map((product) =>
             viewMode === 'grid' ? (
-              <div 
-                key={product.id} 
+              <div
+                key={product.id}
                 className="overflow-hidden hover:shadow-xl transition-shadow group rounded-lg sm:rounded-xl md:rounded-2xl bg-white border border-gray-200 w-full"
                 role="listitem"
               >
@@ -255,7 +255,7 @@ export default function FeaturedProducts({ products, router, addToCart, cart }: 
                     </div>
                   </div>
                   {product.discount && (
-                    <Badge 
+                    <Badge
                       className="absolute top-1 sm:top-2 right-1 sm:right-2 bg-red-600 text-xs"
                       aria-label={`${product.discount}% discount`}
                     >
@@ -269,7 +269,7 @@ export default function FeaturedProducts({ products, router, addToCart, cart }: 
                     </Badge>
                   </div>
                 </div>
-              
+
                 <div className="p-3 sm:p-4">
                   <h3 className="font-semibold text-gray-900 mb-2 text-sm sm:text-base line-clamp-1">
                     {product.name}
@@ -292,7 +292,7 @@ export default function FeaturedProducts({ products, router, addToCart, cart }: 
                     ({product.farmer.totalReviews})
                     </span>
                   </div>
-                
+
                   <div className="flex items-center justify-between mb-3">
                     <div>
                       <div className="flex items-center gap-2">
@@ -313,8 +313,8 @@ export default function FeaturedProducts({ products, router, addToCart, cart }: 
 
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
-                      <Badge 
-                        variant="outline" 
+                      <Badge
+                        variant="outline"
                         className={`text-xs ${
                           product.quality.grade === 'A' ? 'border-green-600 text-green-600' :
                             product.quality.grade === 'B' ? 'border-yellow-600 text-yellow-600' :
@@ -331,16 +331,16 @@ export default function FeaturedProducts({ products, router, addToCart, cart }: 
                   </div>
 
                   <div className="mt-3 flex gap-2">
-                    <Button 
-                      size="sm" 
+                    <Button
+                      size="sm"
                       className="flex-1 text-xs sm:text-sm"
                       onClick={() => router.push(`/marketplace/products/${product.id}`)}
                       aria-label={`View details for ${product.name}`}
                     >
                     View Details
                     </Button>
-                    <Button 
-                      size="sm" 
+                    <Button
+                      size="sm"
                       variant="outline"
                       className="text-xs sm:text-sm"
                       onClick={() => addToCart(product)}
@@ -358,9 +358,9 @@ export default function FeaturedProducts({ products, router, addToCart, cart }: 
                 </div>
               </div>
             ) : (
-              <ProductListItem 
-                key={product.id} 
-                product={product} 
+              <ProductListItem
+                key={product.id}
+                product={product}
                 addToCart={addToCart}
                 cart={cart}
                 router={router}

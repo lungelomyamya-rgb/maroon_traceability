@@ -1,5 +1,5 @@
 // src/types/packaging.ts
-export type PackagingType = 
+export type PackagingType =
   | 'cardboard-box'
   | 'plastic-crate'
   | 'wooden-crate'
@@ -146,11 +146,11 @@ export const generateBatchCode = (packagingType: PackagingType, location?: strin
   const month = String(date.getMonth() + 1).padStart(2, '0');
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const day = String(date.getDate()).padStart(2, '0');
-  
+
   const typeCode = PACKAGING_TYPES[packagingType].label.substring(0, 3).toUpperCase();
   const locationCode = location ? location.substring(0, 3).toUpperCase() : 'GEN';
   const randomSuffix = Math.random().toString(36).substring(2, 5).toUpperCase();
-  
+
   return `BATCH-${year}-${typeCode}-${locationCode}-${randomSuffix}`;
 };
 

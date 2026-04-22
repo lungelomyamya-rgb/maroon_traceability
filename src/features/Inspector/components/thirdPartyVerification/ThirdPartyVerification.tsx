@@ -3,10 +3,8 @@
 
 import { Plus } from 'lucide-react';
 import { useState } from 'react';
-
-import { Button } from '@/src/features/shared/ui/button';
-import { Card } from '@/src/features/shared/ui/card';
-
+import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
 import { VerificationForm } from './VerificationForm';
 import { VerificationList } from './VerificationList';
 import { VerificationOverview } from './VerificationOverview';
@@ -21,7 +19,7 @@ interface ThirdPartyVerificationProps {
 
 export function ThirdPartyVerification({ inspectionId, _onSubmit, existingVerification }: ThirdPartyVerificationProps) {
   const [showAddForm, setShowAddForm] = useState(false);
-  
+
   const {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     verifications,

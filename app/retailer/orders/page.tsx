@@ -3,8 +3,7 @@
 
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
-
-import { DashboardLayout } from '@/components/dashboard/DashboardLayout';
+import { DashboardLayout } from '@/components/dashboard';
 import { useUser } from '@/contexts/userContext';
 import { Orders as OrdersComponent } from '@/src/features/Retailers/components/ordersComponent';
 
@@ -47,7 +46,7 @@ export default function Orders() {
           Back
         </button>
       </div>
-      
+
       <DashboardLayout
         title="Order Management"
         description="Process and track customer orders"

@@ -1,21 +1,20 @@
 'use client';
 
-import { 
+import {
   Filter,
-  AlertTriangle, 
-  CheckCircle, 
+  AlertTriangle,
+  CheckCircle,
 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
-
-import { DashboardLayout } from '@/components/dashboard/DashboardLayout';
+import { DashboardLayout } from '@/components/dashboard';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { DataTable, TableHead, TableHeader, TableBody, TableRow, TableCell } from '@/components/ui/table';
 import { useUser } from '@/contexts/userContext';
-import { Button } from '@/src/features/shared/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/src/features/shared/ui/card';
-import { Input } from '@/src/features/shared/ui/input';
-import { Label } from '@/src/features/shared/ui/label';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/src/features/shared/ui/select';
-import { DataTable } from '@/src/features/shared/ui/table';
 
 
 export default function SAPSReportsPage() {
@@ -140,7 +139,7 @@ export default function SAPSReportsPage() {
     },
   ];
 
-  
+
   return (
     <DashboardLayout
       description="View and manage theft incident reports and inspection logs"
@@ -226,20 +225,38 @@ export default function SAPSReportsPage() {
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <DataTable
-                data={theftReports}
-                columns={[
-                  { header: 'Report ID', key: 'id', label: 'Report ID', accessor: (row: unknown) => (row as { id: string }).id },
-                  { header: 'Date', key: 'date', label: 'Date', accessor: (row: unknown) => (row as { date: string }).date },
-                  { header: 'Location', key: 'location', label: 'Location', accessor: (row: unknown) => (row as { location: string }).location },
-                  { header: 'Livestock', key: 'livestock', label: 'Livestock', accessor: (row: unknown) => (row as { livestock: string }).livestock },
-                  { header: 'Farmer', key: 'farmer', label: 'Farmer', accessor: (row: unknown) => (row as { farmer: string }).farmer },
-                  { header: 'Status', key: 'status', label: 'Status', accessor: (row: unknown) => (row as { status: string }).status },
-                  { header: 'Value', key: 'value', label: 'Value', accessor: (row: unknown) => (row as { value: string }).value },
-                  { header: 'Officer', key: 'officer', label: 'Officer', accessor: (row: unknown) => (row as { officer: string }).officer },
-                ]}
-                onRowClick={(row) => console.log('View report:', (row as { id: string }).id)}
-              />
+              <DataTable>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>Report ID</TableHead>
+                    <TableHead>Date</TableHead>
+                    <TableHead>Location</TableHead>
+                    <TableHead>Livestock</TableHead>
+                    <TableHead>Farmer</TableHead>
+                    <TableHead>Status</TableHead>
+                    <TableHead>Value</TableHead>
+                    <TableHead>Officer</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {theftReports.map((report, index) => (
+                    <TableRow
+                      key={index}
+                      onClick={() => console.log('View report:', report.id)}
+                      className="cursor-pointer hover:bg-gray-50"
+                    >
+                      <TableCell>{report.id}</TableCell>
+                      <TableCell>{report.date}</TableCell>
+                      <TableCell>{report.location}</TableCell>
+                      <TableCell>{report.livestock}</TableCell>
+                      <TableCell>{report.farmer}</TableCell>
+                      <TableCell>{report.status}</TableCell>
+                      <TableCell>{report.value}</TableCell>
+                      <TableCell>{report.officer}</TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </DataTable>
             </CardContent>
           </Card>
         )}
@@ -257,18 +274,34 @@ export default function SAPSReportsPage() {
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <DataTable
-                data={inspectionReports}
-                columns={[
-                  { header: 'Inspection ID', key: 'id', label: 'Inspection ID', accessor: (row: unknown) => (row as { id: string }).id },
-                  { header: 'Date', key: 'date', label: 'Date', accessor: (row: unknown) => (row as { date: string }).date },
-                  { header: 'Location', key: 'location', label: 'Location', accessor: (row: unknown) => (row as { location: string }).location },
-                  { header: 'Livestock', key: 'livestock', label: 'Livestock', accessor: (row: unknown) => (row as { livestock: string }).livestock },
-                  { header: 'Status', key: 'status', label: 'Status', accessor: (row: unknown) => (row as { status: string }).status },
-                  { header: 'Officer', key: 'officer', label: 'Officer', accessor: (row: unknown) => (row as { officer: string }).officer },
-                ]}
-                onRowClick={(row) => console.log('View inspection:', (row as { id: string }).id)}
-              />
+              <DataTable>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>Inspection ID</TableHead>
+                    <TableHead>Date</TableHead>
+                    <TableHead>Location</TableHead>
+                    <TableHead>Livestock</TableHead>
+                    <TableHead>Status</TableHead>
+                    <TableHead>Officer</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {inspectionReports.map((report, index) => (
+                    <TableRow
+                      key={index}
+                      onClick={() => console.log('View inspection:', report.id)}
+                      className="cursor-pointer hover:bg-gray-50"
+                    >
+                      <TableCell>{report.id}</TableCell>
+                      <TableCell>{report.date}</TableCell>
+                      <TableCell>{report.location}</TableCell>
+                      <TableCell>{report.livestock}</TableCell>
+                      <TableCell>{report.status}</TableCell>
+                      <TableCell>{report.officer}</TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </DataTable>
             </CardContent>
           </Card>
         )}

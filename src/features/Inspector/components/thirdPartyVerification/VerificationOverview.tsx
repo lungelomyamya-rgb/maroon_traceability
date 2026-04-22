@@ -1,24 +1,21 @@
 // src/components/inspector/thirdPartyVerification/VerificationOverview.tsx
 'use client';
 
-import { 
-  ExternalLink, 
-  CheckCircle, 
-  Clock, 
-  AlertTriangle, 
-  FileText, 
+import {
+  ExternalLink,
+  CheckCircle,
+  Clock,
+  AlertTriangle,
+  FileText,
   Upload,
   Plus,
   Activity,
   BarChart3,
   TrendingUp,
 } from 'lucide-react';
-
-import { Badge } from '@/src/features/shared/ui/badge';
-import { Button } from '@/src/features/shared/ui/button';
-import { Card } from '@/src/features/shared/ui/card';
-
-
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
 import type { ThirdPartyVerificationComputed } from './hooks/useThirdPartyVerification';
 
 interface VerificationOverviewProps {
@@ -270,12 +267,12 @@ export function VerificationOverview({ statistics, onAddNewVerification }: Verif
             <Plus className="h-4 w-4 mr-2" />
             Add New Verification
           </Button>
-          
+
           <div className="text-center p-4 bg-green-50 rounded-lg">
             <p className="text-2xl font-bold text-green-600">{completionRate.toFixed(1)}%</p>
             <p className="text-sm text-green-800">Completion Rate</p>
           </div>
-          
+
           <div className="text-center p-4 bg-blue-50 rounded-lg">
             <p className="text-2xl font-bold text-blue-600">{totalDocuments}</p>
             <p className="text-sm text-blue-800">Total Documents</p>
@@ -298,21 +295,21 @@ export function VerificationOverview({ statistics, onAddNewVerification }: Verif
               <span className="font-medium text-green-600">{completedVerifications}</span>
             </div>
             <div className="w-full bg-gray-200 rounded-full h-2">
-              <div 
-                className="bg-green-600 h-2 rounded-full transition-all duration-300" 
+              <div
+                className="bg-green-600 h-2 rounded-full transition-all duration-300"
                 style={{ width: `${completionRate}%` }}
               />
             </div>
           </div>
-          
+
           <div>
             <div className="flex justify-between text-sm mb-1">
               <span className="text-gray-600">Pending Verifications</span>
               <span className="font-medium text-yellow-600">{pendingVerifications}</span>
             </div>
             <div className="w-full bg-gray-200 rounded-full h-2">
-              <div 
-                className="bg-yellow-600 h-2 rounded-full transition-all duration-300" 
+              <div
+                className="bg-yellow-600 h-2 rounded-full transition-all duration-300"
                 style={{ width: `${pendingRate}%` }}
               />
             </div>

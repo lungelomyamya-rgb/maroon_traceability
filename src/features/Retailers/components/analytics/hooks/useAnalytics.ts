@@ -153,7 +153,7 @@ export function useAnalytics() {
     }
 
     const insights = [];
-    
+
     // Revenue insights
     const avgMonthlyRevenue = data.monthlyRevenue.reduce((sum, month) => sum + month.revenue, 0) / data.monthlyRevenue.length;
     const latestMonth = data.monthlyRevenue[data.monthlyRevenue.length - 1];

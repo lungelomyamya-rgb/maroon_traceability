@@ -1,11 +1,11 @@
 'use client';
 
 import { Settings, User, Bell, Shield, Database } from 'lucide-react';
-
+import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
+import { PageTitle } from '@/components/ui/typography';
 import { useUser } from '@/contexts/userContext';
-import { Button } from '@/src/features/shared/ui/button';
-import { Card } from '@/src/features/shared/ui/card';
-import { PageTitle } from '@/src/features/shared/ui/typography';
+
 
 export default function SettingsPage() {
   const { currentUser: user } = useUser();
@@ -14,7 +14,7 @@ export default function SettingsPage() {
     <div className="space-y-8">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <PageTitle className="mb-8">Settings</PageTitle>
-        
+
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           <Card className="p-6">
             <div className="flex items-center space-x-3 mb-4">
@@ -41,7 +41,7 @@ export default function SettingsPage() {
               </div>
             </div>
           </Card>
-          
+
           <Card className="p-6">
             <div className="flex items-center space-x-3 mb-4">
               <User className="h-8 w-8 text-secondary" />
@@ -61,7 +61,7 @@ export default function SettingsPage() {
               </Button>
             </div>
           </Card>
-          
+
           <Card className="p-6">
             <div className="flex items-center space-x-3 mb-4">
               <Shield className="h-8 w-8 text-accent" />
@@ -88,7 +88,7 @@ export default function SettingsPage() {
               </Button>
             </div>
           </Card>
-          
+
           <Card className="p-6">
             <div className="flex items-center space-x-3 mb-4">
               <Database className="h-8 w-8 text-warning" />

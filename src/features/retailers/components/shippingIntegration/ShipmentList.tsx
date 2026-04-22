@@ -1,8 +1,8 @@
 // src/components/retailers/shippingIntegration/ShipmentList.tsx
 'use client';
 
-import { 
-  Search, 
+import {
+  Search,
   Clock,
   Truck,
   CheckCircle,
@@ -17,12 +17,11 @@ import {
   Edit,
 } from 'lucide-react';
 import { useState } from 'react';
-
-import { Badge } from '@/src/features/shared/ui/badge';
-import { Button } from '@/src/features/shared/ui/button';
-import { Card } from '@/src/features/shared/ui/card';
-import { Input } from '@/src/features/shared/ui/input';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/src/features/shared/ui/select';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
 interface Shipment {
   id: string;
@@ -57,11 +56,11 @@ interface ShipmentListProps {
   isLoading?: boolean;
 }
 
-export function ShipmentList({ 
-  shipments, 
-  onViewDetails, 
-  onEdit, 
-  onExport, 
+export function ShipmentList({
+  shipments,
+  onViewDetails,
+  onEdit,
+  onExport,
   onRefresh,
   isLoading = false,
 }: ShipmentListProps) {
@@ -124,7 +123,7 @@ export function ShipmentList({
     const matchesStatus = statusFilter === 'all' || shipment.status === statusFilter;
     const matchesProvider = providerFilter === 'all' || shipment.provider === providerFilter;
     const matchesPriority = priorityFilter === 'all' || shipment.priority === priorityFilter;
-    
+
     return matchesSearch && matchesStatus && matchesProvider && matchesPriority;
   });
 
@@ -210,7 +209,7 @@ export function ShipmentList({
         ) : (
           filteredShipments.map((shipment) => {
             const StatusIcon = getStatusIcon(shipment.status);
-            
+
             return (
               <div key={shipment.id} className="border rounded-lg p-4">
                 <div className="flex items-start justify-between">

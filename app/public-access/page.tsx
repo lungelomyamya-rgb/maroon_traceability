@@ -4,12 +4,11 @@
 import { QrCode, Search, Users, Globe, Smartphone } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
-
-import { DashboardLayout } from '@/components/dashboard/DashboardLayout';
+import { DashboardLayout } from '@/components/dashboard';
+import { ErrorBoundary } from '@/components/errorBoundary';
+import { QRScanner } from '@/components/qr';
+import { Button } from '@/components/ui/button';
 import { getAssetPath } from '@/lib/utils/assetPath';
-import { ErrorBoundary } from '@/src/features/shared/errorBoundary';
-import { QRScanner } from '@/src/features/shared/qr';
-import { Button } from '@/src/features/shared/ui/button';
 
 export default function PublicAccessPage() {
   const router = useRouter();
@@ -46,14 +45,14 @@ export default function PublicAccessPage() {
               <div className="inline-flex items-center justify-center w-16 h-16 bg-green-100 rounded-full mb-6">
                 <Globe className="h-8 w-8 text-green-600" />
               </div>
-          
+
               <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
             Trace Your Food from
                 <span className="text-green-600"> Farm to Table</span>
               </h1>
-          
+
               <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
-            Scan QR codes to verify product authenticity, view complete supply chain history, 
+            Scan QR codes to verify product authenticity, view complete supply chain history,
             and ensure food safety - all without creating an account.
               </p>
 

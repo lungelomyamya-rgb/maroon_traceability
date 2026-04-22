@@ -4,8 +4,7 @@
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
-
-import { DashboardLayout } from '@/components/dashboard/DashboardLayout';
+import { DashboardLayout } from '@/components/dashboard';
 import { useUser } from '@/contexts/userContext';
 
 
@@ -13,8 +12,8 @@ import { useUser } from '@/contexts/userContext';
 export const dynamicConfig = 'force-dynamic';
 export const runtime = 'nodejs';
 
-// Dynamically import the enhanced retailer dashboard
-const EnhancedRetailerDashboard = dynamic(() => import('@/src/features/Retailers/components/dashboard').then(mod => ({ default: mod.RetailerDashboard })), {
+// Dynamically import the retailer dashboard
+const RetailerDashboard = dynamic(() => import('@/src/features/Retailers/components/dashboard').then(mod => ({ default: mod.RetailerDashboard })), {
   loading: () => (
     <div className="flex items-center justify-center min-h-screen">
       <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-600"></div>
@@ -56,7 +55,7 @@ export default function RetailerPage() {
     <DashboardLayout
       description="Manage your products, orders, and analytics"
     >
-      <EnhancedRetailerDashboard />
+      <RetailerDashboard />
     </DashboardLayout>
   );
 }

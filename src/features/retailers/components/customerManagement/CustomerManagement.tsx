@@ -3,9 +3,7 @@
 
 import { RefreshCw, Download } from 'lucide-react';
 import { useState } from 'react';
-
-import { Button } from '@/src/features/shared/ui/button';
-
+import { Button } from '@/components/ui/button';
 import { CommunicationForm } from './CommunicationForm';
 import { CustomerDetails } from './CustomerDetails';
 import { CustomerList } from './CustomerList';
@@ -51,7 +49,7 @@ export function CustomerManagement({ title = 'Customer Management' }: CustomerMa
       // 3. Allow user to modify customer details
       // 4. Save changes to the backend
       // 5. Update the local state
-      
+
       // For demo purposes, we'll show a message with customer info
       alert(`Edit functionality for customer "${customer.name}" (Email: ${customer.email}) would open here.`);
       // In a real implementation, we would open an edit modal here
@@ -93,7 +91,7 @@ export function CustomerManagement({ title = 'Customer Management' }: CustomerMa
             </Button>
           </div>
         </div>
-        
+
         {/* Loading skeleton */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
           {[1, 2, 3, 4].map((i) => (

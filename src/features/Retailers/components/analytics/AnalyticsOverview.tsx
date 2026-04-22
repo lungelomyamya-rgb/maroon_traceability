@@ -1,7 +1,7 @@
 // src/components/retailers/analytics/AnalyticsOverview.tsx
 'use client';
 
-import { 
+import {
   TrendingUp,
   TrendingDown,
   DollarSign,
@@ -10,10 +10,8 @@ import {
   Package,
   Target,
 } from 'lucide-react';
-
-import { Badge } from '@/src/features/shared/ui/badge';
-import { Card } from '@/src/features/shared/ui/card';
-
+import { Badge } from '@/components/ui/badge';
+import { Card } from '@/components/ui/card';
 import { AnalyticsData } from './hooks/useAnalytics';
 
 interface AnalyticsOverviewProps {
@@ -23,11 +21,11 @@ interface AnalyticsOverviewProps {
   formatPercentage: (value: number) => string;
 }
 
-export function AnalyticsOverview({ 
-  data, 
-  formatCurrency, 
-  formatNumber, 
-  formatPercentage, 
+export function AnalyticsOverview({
+  data,
+  formatCurrency,
+  formatNumber,
+  formatPercentage,
 }: AnalyticsOverviewProps) {
   const getTrendIcon = (trend: 'up' | 'down' | 'stable') => {
     switch (trend) {

@@ -188,7 +188,7 @@ export function useInventory() {
   const getExpiringSoonItems = (days: number = 7) => {
     const cutoffDate = new Date();
     cutoffDate.setDate(cutoffDate.getDate() + days);
-    
+
     return inventory.filter(item => {
       const expiryDate = new Date(item.expiryDate);
       return expiryDate <= cutoffDate && item.status !== 'discontinued';
@@ -218,15 +218,15 @@ export function useInventory() {
 
   const getReorderRecommendations = () => {
     return inventory
-      .filter(item => 
-        item.status === 'low-stock' || 
+      .filter(item =>
+        item.status === 'low-stock' ||
         item.status === 'out-of-stock' ||
         item.currentStock <= item.reorderPoint,
       )
       .map(item => ({
         ...item,
         recommendedQuantity: Math.max(item.reorderQuantity, item.maxStockLevel - item.currentStock),
-        urgency: item.status === 'out-of-stock' ? 'critical' : 
+        urgency: item.status === 'out-of-stock' ? 'critical' :
           item.currentStock <= item.reorderPoint ? 'high' : 'medium',
       }))
       .sort((a, b) => {
@@ -241,11 +241,11 @@ export function useInventory() {
     const lowStock = inventory.filter(item => item.status === 'low-stock').length;
     const outOfStock = inventory.filter(item => item.status === 'out-of-stock').length;
     const discontinued = inventory.filter(item => item.status === 'discontinued').length;
-    
+
     const totalValue = inventory.reduce((sum, item) => sum + (item.unitPrice * item.currentStock), 0);
     const totalCost = inventory.reduce((sum, item) => sum + (item.unitCost * item.currentStock), 0);
     const potentialRevenue = totalValue - totalCost;
-    
+
     const expiringSoon = getExpiringSoonItems(7).length;
     const reorderNeeded = getReorderRecommendations().length;
 
@@ -266,7 +266,7 @@ export function useInventory() {
 
   const searchInventory = (query: string) => {
     const lowercaseQuery = query.toLowerCase();
-    return inventory.filter(item => 
+    return inventory.filter(item =>
       item.name.toLowerCase().includes(lowercaseQuery) ||
       item.sku.toLowerCase().includes(lowercaseQuery) ||
       item.batchCode.toLowerCase().includes(lowercaseQuery) ||
@@ -276,7 +276,7 @@ export function useInventory() {
   };
 
   const updateInventoryItem = (itemId: string, updates: Partial<InventoryItem>) => {
-    setInventory(prev => prev.map(item => 
+    setInventory(prev => prev.map(item =>
       item.id === itemId ? { ...item, ...updates } : item,
     ));
   };

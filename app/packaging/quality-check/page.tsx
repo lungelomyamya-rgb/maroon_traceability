@@ -1,12 +1,12 @@
 // src/app/packaging/quality-check/page.tsx
 'use client';
 
-import { 
-  CheckCircle, 
-  AlertTriangle, 
-  X, 
-  Eye, 
-  Download, 
+import {
+  CheckCircle,
+  AlertTriangle,
+  X,
+  Eye,
+  Download,
   Camera,
   Package,
   Scale,
@@ -16,15 +16,14 @@ import {
 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
-
-import { DashboardLayout } from '@/components/dashboard/DashboardLayout';
+import { DashboardLayout } from '@/components/dashboard';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Textarea } from '@/components/ui/textarea';
 import { useUser } from '@/contexts/userContext';
-import { Badge } from '@/src/features/shared/ui/badge';
-import { Button } from '@/src/features/shared/ui/button';
-import { Card } from '@/src/features/shared/ui/card';
-import { Input } from '@/src/features/shared/ui/input';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/src/features/shared/ui/select';
-import { Textarea } from '@/src/features/shared/ui/textarea';
 
 
 interface QualityCheck {
@@ -170,7 +169,7 @@ export default function QualityCheckPage() {
           Back
         </Button>
       </div>
-      
+
       <DashboardLayout
         title="Quality Check"
         description="Perform quality control checks on packaged products"
@@ -381,7 +380,7 @@ export default function QualityCheckPage() {
                         <p><strong>Checked By:</strong> {selectedCheck.checkedBy}</p>
                       </div>
                     </div>
-                    
+
                     <div>
                       <h4 className="font-medium mb-3">Quality Metrics</h4>
                       <div className="space-y-2 text-sm">
@@ -400,7 +399,7 @@ export default function QualityCheckPage() {
                         <p className="text-sm text-gray-600 mb-1">Visual Inspection:</p>
                         <p className="text-sm">{selectedCheck.visualInspection}</p>
                       </div>
-                      
+
                       {selectedCheck.issues.length > 0 && (
                         <div>
                           <p className="text-sm text-gray-600 mb-2">Issues Found:</p>

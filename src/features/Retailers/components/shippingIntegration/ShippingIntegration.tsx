@@ -1,15 +1,13 @@
 // src/components/retailers/shippingIntegration/ShippingIntegration.tsx
 'use client';
 
-import { 
+import {
   RefreshCw,
   Download,
 } from 'lucide-react';
 import { useState } from 'react';
-
-import { Button } from '@/src/features/shared/ui/button';
-import { Card } from '@/src/features/shared/ui/card';
-
+import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
 import { ShipmentDetails } from './ShipmentDetails';
 import { ShipmentList } from './ShipmentList';
 import { ShippingMetrics } from './ShippingMetrics';
@@ -65,7 +63,7 @@ export function ShippingIntegration({ title = 'Shipping Integration' }: Shipping
             </Button>
           </div>
         </div>
-        
+
         {/* Loading skeleton */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
           {[1, 2, 3, 4].map((i) => (
@@ -115,12 +113,12 @@ export function ShippingIntegration({ title = 'Shipping Integration' }: Shipping
                   estimatedDelivery: shipment.estimatedDelivery,
                   createdAt: shipment.createdAt,
                 }));
-                
+
                 const csvContent = [
                   ['ID', 'Tracking Number', 'Status', 'Customer Address', 'Estimated Delivery', 'Created At'],
                   ...exportData.map(s => [s.id, s.trackingNumber, s.status, s.destination, s.estimatedDelivery, s.createdAt]),
                 ].map(row => row.join(',')).join('\n');
-                
+
                 const blob = new Blob([csvContent], { type: 'text/csv' });
                 const url = window.URL.createObjectURL(blob);
                 const a = document.createElement('a');

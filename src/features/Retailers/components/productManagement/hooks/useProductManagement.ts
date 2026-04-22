@@ -176,14 +176,14 @@ export function useProductManagement() {
       reviews: 0,
       lastUpdated: new Date().toISOString(),
     };
-    
+
     setProducts(prev => [...prev, newProduct]);
     return newProduct;
   };
 
   const updateProduct = (updatedProduct: Product) => {
-    setProducts(prev => prev.map(product => 
-      product.id === updatedProduct.id 
+    setProducts(prev => prev.map(product =>
+      product.id === updatedProduct.id
         ? { ...updatedProduct, lastUpdated: new Date().toISOString() }
         : product,
     ));
@@ -216,7 +216,7 @@ export function useProductManagement() {
   };
 
   const getLowStockProducts = () => {
-    return products.filter(product => 
+    return products.filter(product =>
       product.stockLevel <= product.minStockLevel && product.status === 'active',
     );
   };
@@ -243,8 +243,8 @@ export function useProductManagement() {
     const lowStock = getLowStockProducts().length;
     const totalValue = products.reduce((sum, p) => sum + (p.price * p.stockLevel), 0);
     const totalSold = products.reduce((sum, p) => sum + p.soldCount, 0);
-    const averageRating = products.length > 0 
-      ? products.reduce((sum, p) => sum + p.rating, 0) / products.length 
+    const averageRating = products.length > 0
+      ? products.reduce((sum, p) => sum + p.rating, 0) / products.length
       : 0;
 
     return {
@@ -262,7 +262,7 @@ export function useProductManagement() {
 
   const searchProducts = (query: string) => {
     const lowercaseQuery = query.toLowerCase();
-    return products.filter(product => 
+    return products.filter(product =>
       product.name.toLowerCase().includes(lowercaseQuery) ||
       product.description.toLowerCase().includes(lowercaseQuery) ||
       product.tags.some(tag => tag.toLowerCase().includes(lowercaseQuery)) ||
