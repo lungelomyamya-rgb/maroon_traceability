@@ -1,4 +1,4 @@
-// src/features/Farmer/components/growthStageMonitor.tsx
+// src/features/farmer/components/growthStageMonitor.tsx
 'use client';
 
 import { Sprout, Calendar } from 'lucide-react';

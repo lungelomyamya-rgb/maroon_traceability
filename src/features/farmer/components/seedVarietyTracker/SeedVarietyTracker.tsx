@@ -1,4 +1,4 @@
-// src/features/Farmer/components/seedVarietyTracker.tsx
+// src/features/farmer/components/seedVarietyTracker.tsx
 'use client';
 
 import { Sprout, Search } from 'lucide-react';

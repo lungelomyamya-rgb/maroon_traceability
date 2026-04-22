@@ -1,4 +1,4 @@
-// src/features/Farmer/components/fertiliserLog.tsx
+// src/features/farmer/components/fertiliserLog.tsx
 'use client';
 
 import { Droplets, Filter } from 'lucide-react';
