@@ -53,3 +53,8 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+        with:
+          path: ./out
+          # Deploy from main branch by default
+          # If gh-pages branch exists, it will be used instead
+          branch: ${{ github.ref != 'refs/heads/main' && github.ref != 'refs/heads/main' || 'gh-pages' }}

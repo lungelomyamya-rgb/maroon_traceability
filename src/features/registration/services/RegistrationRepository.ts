@@ -35,7 +35,7 @@ export class RegistrationRepository {
 
   constructor() {
     // Use mock adapter if Supabase is not configured, otherwise use real
-    const hasSupabaseConfig = process.env.NEXT_PUBLIC_SUPABASE_URL && 
+    const hasSupabaseConfig = process.env.NEXT_PUBLIC_SUPABASE_URL &&
                             process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
     const adapterType = hasSupabaseConfig ? 'real' : 'mock';
     this.config = getFinalAdapterConfig('registration', adapterType);
