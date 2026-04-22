@@ -1,7 +1,6 @@
 // src/features/farmer/services/FarmerRepository.ts
 // Repository abstraction for farmer operations
 
-import type { UniversalUser } from '@/types/types';
 import { getAdapterConfig } from '@/config/adapters';
 import type {
   AdapterConfig,
@@ -9,6 +8,7 @@ import type {
   DataAdapter,
 } from '@/core/types/adapter';
 import { logHybridOperation } from '@/core/utils/hybridUtils';
+import type { UniversalUser } from '@/types/types';
 import { RealFarmerAdapter } from '../adapters/RealFarmerAdapter';
 import type { FarmerProfileData, FarmerProduct, FarmerStatistics } from '../application/FarmerApplication';
 

@@ -1,10 +1,10 @@
 // src/features/auth/services/LoginService.ts
 // Separate login service supporting both real authentication and demo accounts
 
-import { toUniversalUser, type DataSourceType } from '@/types/types';
 import { getFinalAdapterConfig } from '@/config/adapters';
 import type { AdapterResult, UniversalUser } from '@/core/types/adapter';
 import { logHybridOperation } from '@/core/utils/hybridUtils';
+import { toUniversalUser, type DataSourceType } from '@/types/types';
 
 /**
  * Interface for real authentication adapter

@@ -5,9 +5,9 @@
  * Generate the correct path for assets
  */
 export function assetPath(path: string): string {
-  // Remove leading slash if present and add /assets prefix
+  // Remove leading slash if present - assets are served from public directory
   const cleanPath = path.startsWith('/') ? path.slice(1) : path;
-  return `/assets/${cleanPath}`;
+  return `/${cleanPath}`;
 }
 
 /**

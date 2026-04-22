@@ -28,7 +28,7 @@ export function ThemeToggle() {
       variant="outline"
       size="sm"
       onClick={toggleTheme}
-      className="fixed top-4 right-4 z-50 p-2 rounded-full"
+      className="fixed bottom-4 right-4 z-50 p-2 rounded-full"
       aria-label="Toggle theme"
     >
       {theme === 'light' ? (

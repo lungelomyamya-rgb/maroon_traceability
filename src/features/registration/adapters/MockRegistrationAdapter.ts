@@ -1,7 +1,6 @@
 // src/features/registration/adapters/MockRegistrationAdapter.ts
 // Mock implementation for registration testing and development
 
-import { MockUser, UserRole } from '@/types/types';
 import type {
   RegistrationAdapter,
   AdapterConfig,
@@ -9,6 +8,7 @@ import type {
   AuthUser,
   RegistrationData,
 } from '@/core/types/adapter';
+import { MockUser, UserRole } from '@/types/types';
 
 // Using consolidated MockUser interface from types/user.ts
 

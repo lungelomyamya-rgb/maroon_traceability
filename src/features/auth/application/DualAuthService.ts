@@ -1,8 +1,8 @@
 // src/features/auth/application/DualAuthService.ts
 // Dual-Auth strategy for login (registration results + hardcoded Demo account)
 
-import { toUniversalUser, type DataSourceType } from '@/types/types';
 import type { AdapterResult , UniversalUser, RegistrationData } from '@/core/types/adapter';
+import { toUniversalUser, type DataSourceType } from '@/types/types';
 
 /**
  * Demo account credentials for immediate presentation

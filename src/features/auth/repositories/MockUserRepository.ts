@@ -1,8 +1,8 @@
 // src/features/auth/repositories/MockUserRepository.ts
 // Mock user repository for development and testing
 
-import type { UniversalUser } from '@/types/types';
 import type { IUserRepository } from '@/core/interfaces/services';
+import type { UniversalUser } from '@/types/types';
 
 /**
  * Mock User Repository Implementation

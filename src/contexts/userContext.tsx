@@ -126,7 +126,7 @@ export function UserProvider({ children }: { children: ReactNode }) {
   // User management methods
   const switchUser = useCallback((userId: string) => {
     // Find user in mock data
-    const mockUser = DEMO_USERS.find((u: any) => u.id === userId);
+    const mockUser = DEMO_USERS.find((u: User) => u.id === userId);
     if (mockUser) {
       const universalUser = toUniversalUser(mockUser, 'mock');
       if (universalUser) {

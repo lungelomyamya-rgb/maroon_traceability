@@ -14,7 +14,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { DEMO_USERS } from '@/constants/users';
 import { useUser } from '@/contexts/userContext';
-import { BaseUser, UserRole, ROLE_PERMISSIONS, USER_ROLES } from '@/types';
+import { BaseUser, UserRole, ROLE_PERMISSIONS } from '@/types';
 
 const cn = (...inputs: Parameters<typeof twMerge>) => twMerge(...inputs);
 

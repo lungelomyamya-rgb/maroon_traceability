@@ -1,13 +1,12 @@
 // src/features/farmer/application/FarmerApplication.ts
 // Farmer application integrated with hybrid architecture
 
-import type { FarmInfo } from '@/types/types';
-import type { UniversalUser } from '@/types/types';
 import { adapterRegistry } from '@/core/adapters/AdapterRegistry';
 import type { AdapterConstructor } from '@/core/adapters/AdapterRegistry';
 import { healthMonitor } from '@/core/infrastructure/HealthMonitor';
 import { hybridModeManager } from '@/core/infrastructure/HybridModeManager';
 import type { AdapterResult } from '@/core/types/adapter';
+import type { UniversalUser , FarmInfo } from '@/types/types';
 import { farmerRepository } from '../services/FarmerRepository';
 
 // Farmer data interface for type safety
@@ -600,15 +599,15 @@ export class FarmerApplication {
   /**
    * Log farmer events to hybrid system
    */
-  private async logFarmerEvent(event: string, data: Record<string, unknown>): Promise<void> {
+  private async logFarmerEvent(_event: string, _data: Record<string, unknown>): Promise<void> {
     try {
       // This would integrate with your audit logging system
-      // Farmer event: 
+      // Farmer event:
       // mode: hybridModeManager.getMode('farmer'),
 
       // For now, just log to console - in production, this would go to your audit system
-      // await auditLogger.log('farmer', event, data);
-    } catch (error) {
+      // await auditLogger.log('farmer', _event, _data);
+    } catch (_error) {
       // Failed to log farmer event:
     }
   }
@@ -620,7 +619,7 @@ export class FarmerApplication {
       await farmerRepository.cleanup();
       this.initialized = false;
       // Farmer Application cleaned up
-    } catch (error) {
+    } catch (_error) {
       // Failed to cleanup Farmer Application:
     }
   }

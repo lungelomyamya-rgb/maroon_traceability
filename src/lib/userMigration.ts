@@ -17,13 +17,11 @@ import type {
   PrivacySettings,
   UserAccountStatus,
   Profile,
-} from '@/types/types';
-import type {
+
   UniversalUser,
   SourceMetadata,
   ValidationMetadata,
-  UserRole,
-} from '@/types/types';
+  UserRole} from '@/types/types';
 
 /**
  * Database record interface (from old registration system)

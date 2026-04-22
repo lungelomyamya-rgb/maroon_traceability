@@ -1,8 +1,8 @@
 // src/features/auth/services/IdentityService.ts
 // Identity service for user authentication and management
 
-import type { UniversalUser, User } from '@/types/types';
 import type { IIdentityService, IUserRepository } from '@/core/interfaces/services';
+import type { UniversalUser, User } from '@/types/types';
 
 /**
  * Mock Identity Service Implementation

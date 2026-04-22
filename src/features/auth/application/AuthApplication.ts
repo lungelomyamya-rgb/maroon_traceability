@@ -1,12 +1,12 @@
 // src/features/auth/application/AuthApplication.ts
 //  authentication application integrated with hybrid architecture
 
-import { toUniversalUser } from '@/types/types';
 import { healthMonitor } from '@/core/infrastructure/HealthMonitor';
 import { hybridModeManager } from '@/core/infrastructure/HybridModeManager';
 import type { IAdapter } from '@/core/interfaces/IAdapter';
 import { adapterRegistry } from '@/core/registry/AdapterRegistry';
 import type { AdapterResult , UniversalUser, RegistrationData } from '@/core/types/adapter';
+import { toUniversalUser } from '@/types/types';
 import { HybridAuthAdapter } from '../adapters/HybridAuthAdapter';
 
 /**
@@ -610,13 +610,13 @@ export class AuthApplication {
   /**
    * Log authentication events to hybrid system
    */
-  private async logAuthEvent(event: string, data: Record<string, unknown>): Promise<void> {
+  private async logAuthEvent(_event: string, _data: Record<string, unknown>): Promise<void> {
     try {
       // This would integrate with your audit logging system
-      // Authentication event: 
+      // Authentication event:
       // For now, just log to console - in production, this would go to your audit system
-      // await auditLogger.log('authentication', event, data);
-    } catch (error) {
+      // await auditLogger.log('authentication', _event, _data);
+    } catch (_error) {
       // Failed to log authentication event:
     }
   }
@@ -629,7 +629,7 @@ export class AuthApplication {
       await this.hybridAdapter.cleanup();
       this.initialized = false;
       // Authentication Application cleaned up
-    } catch (error) {
+    } catch (_error) {
       // Failed to cleanup Authentication Application:
     }
   }

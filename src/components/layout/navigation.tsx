@@ -1,17 +1,17 @@
 // src/components/layout/navigation.tsx
 'use client';
 
+import { ChevronDown, Menu } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useState, useEffect, useRef } from 'react';
-import { ChevronDown, Menu } from 'lucide-react';
 import { RolePermissionsService } from '@/components/services/rolePermissionsService';
 import { Button } from '@/components/ui/button';
-import { UserRole, USER_ROLES } from '@/types';
-import { useUser } from '@/contexts/userContext';
-import { assetPath, getAssetPath } from '@/lib/utils/assetPath';
-import { BaseUser } from '@/types';
 import { DEMO_USERS } from '@/constants/users';
+import { useUser } from '@/contexts/userContext';
+import { getAssetPath } from '@/lib/utils/assetPath';
+import { UserRole, BaseUser } from '@/types';
+
 
 interface NavigationItem {
   name: string;
@@ -108,7 +108,7 @@ export function Navigation() {
         <div className="flex justify-between h-16 items-center">
           {/* Logo and Title - Always visible */}
           <div className="flex-shrink-0 flex items-center">
-            <img src={getAssetPath('/images/maroonLogo.png')} alt="MAROON" className="h-6 w-6 sm:h-8 sm:w-8 mr-3 nav-logo transition-all duration-200 hover:scale-105" />
+            <img src={getAssetPath('images/maroonLogo.png')} alt="MAROON" className="h-6 w-6 sm:h-8 sm:w-8 mr-3 nav-logo transition-all duration-200 hover:scale-105" />
             <div className="hidden sm:block">
               <Link href={currentUser?.role === 'public' ? '/marketplace' : `/${currentUser?.role || 'public'}`} className="text-xl font-bold text-gray-900">
                 Maroon Blockchain

@@ -6,8 +6,8 @@ declare global {
   function atob(data: string): string;
 }
 
-import type { UniversalUser } from '@/types/types';
 import type { ITokenProvider, IStorageService, TokenPair } from '@/core/interfaces/services';
+import type { UniversalUser } from '@/types/types';
 
 /**
  * JWT Token Provider Implementation

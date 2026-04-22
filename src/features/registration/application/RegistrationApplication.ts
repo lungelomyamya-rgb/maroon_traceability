@@ -2,11 +2,11 @@
 // Application layer for registration feature integrated with hybrid architecture
 
 import { randomUUID } from 'crypto';
-import type { UniversalUser as User } from '@/types/types';
 import { healthMonitor } from '@/core/infrastructure/HealthMonitor';
 import { hybridModeManager } from '@/core/infrastructure/HybridModeManager';
 import { adapterRegistry } from '@/core/registry/AdapterRegistry';
 import type { RegistrationData, AuthUser, AdapterResult } from '@/core/types/adapter';
+import type { UniversalUser as User } from '@/types/types';
 import { UserRegistrationService } from '../domain/services/UserRegistrationService';
 import { registrationRepository } from '../services/RegistrationRepository';
 

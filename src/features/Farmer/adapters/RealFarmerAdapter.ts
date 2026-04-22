@@ -1,13 +1,13 @@
 // src/features/farmer/adapters/RealFarmerAdapter.ts
 // Real farmer adapter integrated with hybrid architecture
 
-import type { UniversalUser } from '@/types/types';
-import { toUniversalUser } from '@/types/types';
 import type {
   DataAdapter,
   AdapterConfig,
   AdapterResult,
 } from '@/core/types/adapter';
+import type { UniversalUser } from '@/types/types';
+import { toUniversalUser } from '@/types/types';
 import type { FarmerProfileData, FarmerProduct } from '../application/FarmerApplication';
 import { supabase, isSupabaseAvailable } from '../services/supabaseClient';
 

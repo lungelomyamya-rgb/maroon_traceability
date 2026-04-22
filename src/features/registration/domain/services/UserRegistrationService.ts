@@ -2,6 +2,7 @@
 // Domain service for user registration business logic
 
 import { randomUUID } from 'crypto';
+import type { RegistrationData } from '@/core/types/adapter';
 import type {
   FarmInfo,
   InspectionInfo,
@@ -10,9 +11,7 @@ import type {
   RetailInfo,
   MarketplaceInfo,
   BlockchainInfo,
-} from '@/types/types';
-import type { UniversalUser as User, ValidationMetadata } from '@/types/types';
-import type { RegistrationData } from '@/core/types/adapter';
+ UniversalUser as User, ValidationMetadata } from '@/types/types';
 
 /**
  * User registration domain service
