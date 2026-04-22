@@ -36,6 +36,13 @@
       "@/*": [
         "./src/*",
         "./*"
+      ],
+      "@/features/*": [
+        "./src/features/*"
+      ],
+      "@/components/*": [
+        "./src/components/*",
+        "./components/*"
       ]
     },
     "plugins": [

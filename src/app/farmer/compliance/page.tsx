@@ -11,7 +11,7 @@ import { useUser } from '@/contexts/userContext';
 
 
 // Lazy load large component
-const ComplianceStatus = dynamic(() => import('@/src/features/Farmer').then(mod => ({ default: mod.ComplianceStatus })), {
+const ComplianceStatus = dynamic(() => import('@/features/Farmer').then(mod => ({ default: mod.ComplianceStatus })), {
   loading: () => <div>Loading compliance status...</div>,
   ssr: false,
 });

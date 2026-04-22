@@ -11,7 +11,7 @@ import { useUser } from '@/contexts/userContext';
 
 
 // Lazy load large component
-const SeedVarietyTracker = dynamic(() => import('@/src/features/Farmer').then(mod => ({ default: mod.SeedVarietyTracker })), {
+const SeedVarietyTracker = dynamic(() => import('@/features/Farmer').then(mod => ({ default: mod.SeedVarietyTracker })), {
   loading: () => <div>Loading seed tracker...</div>,
   ssr: false,
 });

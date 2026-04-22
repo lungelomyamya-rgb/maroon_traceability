@@ -3,7 +3,7 @@
 
 import { withFarmerAuth } from '@/components/auth/withAuth';
 import { DashboardLayout } from '@/components/dashboard';
-import { FarmerDashboard } from '@/src/features/Farmer';
+import { FarmerDashboard } from '@/features/Farmer';
 
 
 /**
