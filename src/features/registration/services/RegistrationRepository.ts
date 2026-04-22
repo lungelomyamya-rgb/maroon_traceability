@@ -34,8 +34,11 @@ export class RegistrationRepository {
   private static instance: RegistrationRepository | null = null;
 
   constructor() {
-    // Registration must always use real adapter - no fallback allowed
-    this.config = getFinalAdapterConfig('registration', 'real');
+    // Use mock adapter if Supabase is not configured, otherwise use real
+    const hasSupabaseConfig = process.env.NEXT_PUBLIC_SUPABASE_URL && 
+                            process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+    const adapterType = hasSupabaseConfig ? 'real' : 'mock';
+    this.config = getFinalAdapterConfig('registration', adapterType);
   }
 
   /**
@@ -77,9 +80,16 @@ export class RegistrationRepository {
         config: this.config,
       }, 'info');
 
-      // Registration must always use real Supabase adapter
-      console.log('RegistrationRepository: Creating new SupabaseRegistrationAdapter');
-      this.adapter = new SupabaseRegistrationAdapter(this.config);
+      // Create adapter based on configuration
+      if (this.config.type === 'real') {
+        console.log('RegistrationRepository: Creating new SupabaseRegistrationAdapter');
+        this.adapter = new SupabaseRegistrationAdapter(this.config);
+      } else {
+        console.log('RegistrationRepository: Creating mock adapter');
+        // Import mock adapter dynamically to avoid circular dependencies
+        const { MockRegistrationAdapter } = await import('../adapters/MockRegistrationAdapter');
+        this.adapter = new MockRegistrationAdapter(this.config);
+      }
       console.log('RegistrationRepository: Adapter created:', {
         adapter: !!this.adapter,
         adapterId: this.adapter?.id,

@@ -7,12 +7,8 @@ import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { useRegistration } from '@/src/features/registration/hooks/useRegistration';
 
-// Test environment variables
-console.log('Environment Variables Test:', {
-  NEXT_PUBLIC_SUPABASE_URL: process.env.NEXT_PUBLIC_SUPABASE_URL ? 'SET' : 'NOT_SET',
-  NEXT_PUBLIC_SUPABASE_ANON_KEY: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ? 'SET' : 'NOT_SET',
-  SUPABASE_SERVICE_ROLE_KEY: process.env.SUPABASE_SERVICE_ROLE_KEY ? 'SET' : 'NOT_SET',
-});
+// Environment variables are handled by the registration repository
+// Debug logs removed for cleaner console output
 
 export default function IndividualRegistrationPage() {
   const router = useRouter();
