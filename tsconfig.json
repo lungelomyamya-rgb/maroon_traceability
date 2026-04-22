@@ -40,12 +40,6 @@
       "@/features/*": [
         "./src/features/*"
       ],
-      "@/features/Farmer": [
-        "./src/features/Farmer"
-      ],
-      "@/features/Farmer/*": [
-        "./src/features/Farmer/*"
-      ],
       "@/components/*": [
         "./src/components/*",
         "./components/*"

@@ -11,7 +11,7 @@ import { useUser } from '@/contexts/userContext';
 
 
 // Lazy load large component
-const GrowthStageMonitor = dynamic(() => import('@/features/Farmer').then(mod => ({ default: mod.GrowthStageMonitor })), {
+const GrowthStageMonitor = dynamic(() => import('@/features/farmer').then(mod => ({ default: mod.GrowthStageMonitor })), {
   loading: () => <div>Loading growth monitor...</div>,
   ssr: false,
 });
