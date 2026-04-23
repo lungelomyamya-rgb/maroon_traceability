@@ -50,12 +50,12 @@ export default function IntroPage() {
                 <ArrowRight className="ml-1 sm:ml-2 h-3 w-3 sm:h-4 sm:w-4 lg:h-5 lg:w-5" />
               </Button>
               <Button
-                variant="outline"
                 size="lg"
+                variant="outline"
                 className="border-blue-600 text-blue-600 hover:bg-blue-50 px-4 sm:px-6 lg:px-8 py-2 sm:py-3 lg:py-4 text-sm sm:text-base lg:text-lg"
-                onClick={() => router.push('/marketplace')}
+                onClick={() => router.push('/auth/login')}
               >
-                See How It Works
+                Login
               </Button>
             </div>
           </div>
