@@ -31,7 +31,7 @@ export default function GetStartedPage() {
         { icon: Clock, text: 'Priority Support', included: false },
       ],
       cta: 'Get Started',
-      ctaAction: () => router.push('/register/individual'),
+      ctaAction: () => router.push('/register'),
       popular: false,
     },
     {
@@ -50,7 +50,7 @@ export default function GetStartedPage() {
         { icon: Clock, text: '8-to-5 Priority', included: true },
       ],
       cta: 'Start 14-Day Trial',
-      ctaAction: () => router.push('/register/smme'),
+      ctaAction: () => router.push('/register'),
       popular: false,
     },
     {
@@ -69,7 +69,7 @@ export default function GetStartedPage() {
         { icon: Clock, text: 'Priority Support', included: true },
       ],
       cta: 'Go Pro Now',
-      ctaAction: () => router.push('/register/commercial'),
+      ctaAction: () => router.push('/register'),
       popular: true,
     },
     {
