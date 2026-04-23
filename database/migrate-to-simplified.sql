@@ -22,13 +22,12 @@ ALTER TABLE users DROP COLUMN IF EXISTS tax_number;
 ALTER TABLE users DROP COLUMN IF EXISTS vat_number;
 ALTER TABLE users DROP COLUMN IF EXISTS contact_person;
 
--- Remove contact information columns
+-- Remove contact information columns (keep address and postal_code)
 ALTER TABLE users DROP COLUMN IF EXISTS phone;
-ALTER TABLE users DROP COLUMN IF EXISTS address;
 ALTER TABLE users DROP COLUMN IF EXISTS city;
 ALTER TABLE users DROP COLUMN IF EXISTS province;
-ALTER TABLE users DROP COLUMN IF EXISTS postal_code;
 ALTER TABLE users DROP COLUMN IF EXISTS country;
+-- Keep address and postal_code as they are needed for simplified registration
 
 -- Remove farm/business detail columns
 ALTER TABLE users DROP COLUMN IF EXISTS farm_size;
@@ -51,8 +50,20 @@ DROP INDEX IF EXISTS idx_users_email_verified;
 DROP INDEX IF EXISTS idx_users_phone;
 DROP INDEX IF EXISTS idx_users_company_name;
 
--- Step 5: Update constraints
+-- Step 5: Update constraints (keep postal_code constraint, remove phone constraint)
 ALTER TABLE users DROP CONSTRAINT IF EXISTS users_phone_check;
+-- Add postal code constraint if it doesn't exist
+DO $$
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1 FROM information_schema.table_constraints 
+        WHERE constraint_name = 'users_postal_code_check' 
+        AND table_name = 'users'
+    ) THEN
+        ALTER TABLE users ADD CONSTRAINT users_postal_code_check 
+        CHECK (postal_code IS NULL OR postal_code ~* '^[0-9A-Za-z\s-]+$');
+    END IF;
+END $$;
 
 -- Step 6: Update RLS policies for simplified schema
 DROP POLICY IF EXISTS "Users can view own data" ON users;
@@ -105,7 +116,9 @@ SELECT
   id, 
   email, 
   name, 
-  role, 
+  role,
+  address,
+  postal_code,
   is_active, 
   email_verified,
   additional_data

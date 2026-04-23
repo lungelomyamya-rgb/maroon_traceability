@@ -20,6 +20,10 @@ CREATE TABLE IF NOT EXISTS users (
   name VARCHAR(255) NOT NULL,
   role VARCHAR(50) NOT NULL CHECK (role IN ('farmer', 'inspector', 'logistics', 'packaging', 'retailer', 'public', 'government', 'admin', 'saps', 'viewer')),
   
+  -- Contact information
+  address TEXT,
+  postal_code VARCHAR(20),
+  
   -- Account status
   is_active BOOLEAN DEFAULT TRUE,
   email_verified BOOLEAN DEFAULT FALSE,
@@ -31,7 +35,8 @@ CREATE TABLE IF NOT EXISTS users (
   additional_data JSONB DEFAULT '{}'::jsonb,
   
   -- Constraints
-  CONSTRAINT users_email_check CHECK (email ~* '^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$')
+  CONSTRAINT users_email_check CHECK (email ~* '^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$'),
+  CONSTRAINT users_postal_code_check CHECK (postal_code IS NULL OR postal_code ~* '^[0-9A-Za-z\s-]+$')
 );
 
 -- Create indexes for better performance
@@ -85,6 +90,8 @@ COMMENT ON COLUMN users.id IS 'Unique identifier for the user';
 COMMENT ON COLUMN users.email IS 'User email address (unique)';
 COMMENT ON COLUMN users.name IS 'User full name';
 COMMENT ON COLUMN users.role IS 'User role in the system';
+COMMENT ON COLUMN users.address IS 'Physical address of the user';
+COMMENT ON COLUMN users.postal_code IS 'Postal code for physical address';
 COMMENT ON COLUMN users.is_active IS 'Whether the user account is active';
 COMMENT ON COLUMN users.email_verified IS 'Whether the user email has been verified';
 COMMENT ON COLUMN users.additional_data IS 'Additional metadata in JSON format';

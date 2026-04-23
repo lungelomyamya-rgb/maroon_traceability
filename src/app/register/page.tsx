@@ -16,6 +16,8 @@ export default function RegistrationPage() {
     fullName: '',
     email: '',
     role: '' as UserRole,
+    address: '',
+    postalCode: '',
     password: '',
     confirmPassword: '',
     agreeToTerms: false,
@@ -24,7 +26,7 @@ export default function RegistrationPage() {
   const { register, isLoading, error, isRegistered, checkEmailAvailability } = useRegistration();
   const { login } = useUser();
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     const { name, value, type } = e.target;
     setFormData(prev => ({
       ...prev,
@@ -66,6 +68,8 @@ export default function RegistrationPage() {
       password: formData.password,
       name: formData.fullName,
       role: formData.role,
+      address: formData.address,
+      postalCode: formData.postalCode,
       additionalData: {
         registrationType: 'simplified',
         registeredAt: new Date().toISOString(),
@@ -218,6 +222,36 @@ export default function RegistrationPage() {
                   {getRoleDescription(formData.role)}
                 </p>
               )}
+            </div>
+
+            {/* Address */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Physical Address
+              </label>
+              <textarea
+                name="address"
+                rows={2}
+                value={formData.address}
+                onChange={handleChange}
+                placeholder="Enter your physical address"
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+              />
+            </div>
+
+            {/* Postal Code */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Postal Code
+              </label>
+              <input
+                type="text"
+                name="postalCode"
+                value={formData.postalCode}
+                onChange={handleChange}
+                placeholder="Enter your postal code"
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+              />
             </div>
 
             {/* Password */}
