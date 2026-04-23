@@ -203,7 +203,7 @@ export default function AuthLoginPage() {
             Don't have an account?{' '}
             <Button 
               variant="link" 
-              onClick={() => router.push('/register')}
+              onClick={() => router.push('/get-started')}
               className="p-0 h-auto text-blue-600 hover:text-blue-800"
             >
               Sign up here
