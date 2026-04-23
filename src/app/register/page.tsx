@@ -6,10 +6,12 @@ import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { useRegistration } from '@/src/features/registration/hooks/useRegistration';
+import { useUser } from '@/contexts/userContext';
 import { USER_ROLES, type UserRole } from '@/types/user';
 
 export default function RegistrationPage() {
   const router = useRouter();
+  const { setUser } = useUser();
   const [formData, setFormData] = useState({
     fullName: '',
     email: '',
@@ -71,7 +73,9 @@ export default function RegistrationPage() {
 
     const success = await register(registrationData);
     if (success) {
-      router.push(`/verification-pending?email=${encodeURIComponent(formData.email)}`);
+      // For simplified flow, directly redirect to role dashboard
+      // In production, you might want to include email verification
+      router.push(`/${formData.role}`);
     }
   };
 

@@ -14,15 +14,21 @@ export default function VerificationPendingPage() {
   const { sendVerificationEmail, isLoading, error } = useRegistration();
 
   const [email] = useState(searchParams?.get('email') || '');
+  const [role] = useState(searchParams?.get('role') || '');
   const [isResending, setIsResending] = useState(false);
   const [resendSuccess, setResendSuccess] = useState(false);
   const [resendError, setResendError] = useState('');
 
   const handleEmailVerification = useCallback(async (_token: string) => {
     // This would verify the email token
-    // For now, we'll just show a success message
-    router.push('/login?verified=true');
-  }, [router]);
+    // For now, we'll just show a success message and redirect to role dashboard
+    if (role) {
+      router.push(`/${role}`);
+    } else {
+      // Fallback to login if role is not available
+      router.push('/login?verified=true');
+    }
+  }, [router, role]);
 
   // Handle email verification from URL params
   useEffect(() => {
