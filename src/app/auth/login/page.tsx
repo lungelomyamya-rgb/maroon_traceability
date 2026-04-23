@@ -89,11 +89,10 @@ export default function AuthLoginPage() {
         <div className="mb-6">
           <Button
             variant="ghost"
-            onClick={() => router.push('/get-started')}
+            onClick={() => router.push('/intro')}
             className="text-gray-600 hover:text-gray-900"
           >
             <ArrowLeft className="mr-2 h-4 w-4" />
-            Back to Get Started
           </Button>
         </div>
 

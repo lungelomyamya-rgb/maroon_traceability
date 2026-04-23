@@ -123,7 +123,6 @@ export default function RegistrationPage() {
             className="mb-4"
           >
             <ArrowLeft className="mr-2 h-4 w-4" />
-            Back to Get Started
           </Button>
           <div className="text-center">
             <h1 className="text-3xl font-bold text-gray-900 mb-2">Create Your Account</h1>
