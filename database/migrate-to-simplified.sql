@@ -50,8 +50,29 @@ DROP INDEX IF EXISTS idx_users_email_verified;
 DROP INDEX IF EXISTS idx_users_phone;
 DROP INDEX IF EXISTS idx_users_company_name;
 
--- Step 5: Update constraints (keep postal_code constraint, remove phone constraint)
+-- Step 5: Add back missing columns if they were removed, then update constraints
 ALTER TABLE users DROP CONSTRAINT IF EXISTS users_phone_check;
+
+-- Add back address and postal_code columns if they don't exist
+DO $$
+BEGIN
+    -- Add address column if it doesn't exist
+    IF NOT EXISTS (
+        SELECT 1 FROM information_schema.columns 
+        WHERE table_name = 'users' AND column_name = 'address'
+    ) THEN
+        ALTER TABLE users ADD COLUMN address TEXT;
+    END IF;
+    
+    -- Add postal_code column if it doesn't exist
+    IF NOT EXISTS (
+        SELECT 1 FROM information_schema.columns 
+        WHERE table_name = 'users' AND column_name = 'postal_code'
+    ) THEN
+        ALTER TABLE users ADD COLUMN postal_code VARCHAR(20);
+    END IF;
+END $$;
+
 -- Add postal code constraint if it doesn't exist
 DO $$
 BEGIN
