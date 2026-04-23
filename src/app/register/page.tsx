@@ -22,6 +22,7 @@ export default function RegistrationPage() {
   });
 
   const { register, isLoading, error, isRegistered, checkEmailAvailability } = useRegistration();
+  const { login } = useUser();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value, type } = e.target;
@@ -73,9 +74,15 @@ export default function RegistrationPage() {
 
     const success = await register(registrationData);
     if (success) {
-      // For simplified flow, directly redirect to role dashboard
-      // In production, you might want to include email verification
-      router.push(`/${formData.role}`);
+      // Automatically log the user in after successful registration
+      const loginSuccess = await login(formData.email, formData.password);
+      if (loginSuccess) {
+        // Redirect to role dashboard after successful login
+        router.push(`/${formData.role}`);
+      } else {
+        // Fallback: redirect to login page if auto-login fails
+        router.push('/auth/login?registered=true');
+      }
     }
   };
 
