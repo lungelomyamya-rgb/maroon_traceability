@@ -1,5 +1,6 @@
--- Fix Address Fields Script
+-- Fix Address Fields Script (Simple Version)
 -- This script checks and fixes missing address and postal_code columns
+-- Compatible with all PostgreSQL versions
 
 -- Check current table structure
 SELECT 
@@ -11,27 +12,11 @@ FROM information_schema.columns
 WHERE table_name = 'users' 
 ORDER BY ordinal_position;
 
--- Add missing columns if they don't exist
-DO $$
-BEGIN
-    -- Add address column if it doesn't exist
-    IF NOT EXISTS (
-        SELECT 1 FROM information_schema.columns 
-        WHERE table_name = 'users' AND column_name = 'address'
-    ) THEN
-        ALTER TABLE users ADD COLUMN address TEXT;
-        PERFORM dblink_exec('log', 'Added address column to users table');
-    END IF;
-    
-    -- Add postal_code column if it doesn't exist
-    IF NOT EXISTS (
-        SELECT 1 FROM information_schema.columns 
-        WHERE table_name = 'users' AND column_name = 'postal_code'
-    ) THEN
-        ALTER TABLE users ADD COLUMN postal_code VARCHAR(20);
-        PERFORM dblink_exec('log', 'Added postal_code column to users table');
-    END IF;
-END $$;
+-- Add missing columns if they don't exist (simple version)
+-- Note: This will show warnings if columns already exist, which is normal
+
+ALTER TABLE users ADD COLUMN IF NOT EXISTS address TEXT;
+ALTER TABLE users ADD COLUMN IF NOT EXISTS postal_code VARCHAR(20);
 
 -- Add postal code constraint if it doesn't exist
 DO $$
@@ -43,7 +28,9 @@ BEGIN
     ) THEN
         ALTER TABLE users ADD CONSTRAINT users_postal_code_check 
         CHECK (postal_code IS NULL OR postal_code ~* '^[0-9A-Za-z\s-]+$');
-        SELECT 'Added postal_code constraint to users table';
+        SELECT 'Added postal code constraint to users table' AS result;
+    ELSE
+        SELECT 'Postal code constraint already exists' AS result;
     END IF;
 END $$;
 
@@ -71,4 +58,4 @@ SELECT
 FROM users 
 LIMIT 5;
 
-SELECT 'Address fields fix completed successfully!' AS message;
+SELECT 'Address fields fix completed!' AS status;
