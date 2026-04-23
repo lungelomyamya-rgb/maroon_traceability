@@ -8,7 +8,7 @@ import type {
   AuthUser,
   RegistrationData,
 } from '../../../core/types/adapter';
-import { supabase, isSupabaseAvailable } from '../services/supabaseClient';
+import { supabase, isSupabaseAvailable, getSupabaseAdmin } from '../services/supabaseClient';
 
 /**
  * Supabase Registration Adapter
@@ -111,19 +111,41 @@ export class SupabaseRegistrationAdapter implements RegistrationAdapter {
       }
 
       // Create user profile in database - matching schema field names
+      // Extract additional fields from additionalData to use dedicated columns
+      const extractedFields = additionalData ? {
+        phone: additionalData.phone,
+        address: additionalData.address,
+        city: additionalData.city,
+        province: additionalData.province,
+        postal_code: additionalData.postalCode,
+      } : {};
+
       const userProfile = {
         id: authData.user.id,
         email: authData.user?.email || email,
         name,
         role,
-        user_type: additionalData?.userType || 'individual', // Default user type
-        registration_type: additionalData?.registrationType || 'individual', // Default registration type
-        is_active: false, // Requires email verification - matches schema field name
-        email_verified: false, // Matches schema field name
+        is_active: true, // Active immediately - no email verification required
+        email_verified: true, // Mark as verified - skipping email verification
         created_at: new Date().toISOString(), // Matches schema field name
         updated_at: new Date().toISOString(), // Matches schema field name
-        last_login_at: null, // Matches schema field name
-        additional_data: additionalData || {}, // Store additional data in JSONB field
+        last_login_at: new Date().toISOString(), // Set initial login time
+        // Use dedicated columns for contact information
+        phone: extractedFields.phone || null,
+        address: extractedFields.address || null,
+        city: extractedFields.city || null,
+        province: extractedFields.province || null,
+        postal_code: extractedFields.postal_code || null,
+        // Store remaining data in additional_data
+        additional_data: additionalData ? {
+          ...additionalData,
+          // Remove fields that are now in dedicated columns to avoid duplication
+          phone: undefined,
+          address: undefined,
+          city: undefined,
+          province: undefined,
+          postalCode: undefined,
+        } : {}
       };
 
       let profileData: AuthUser | null = null;
@@ -182,9 +204,6 @@ export class SupabaseRegistrationAdapter implements RegistrationAdapter {
         };
       }
 
-      // Send verification email
-      await this.sendVerificationEmail(email);
-
       const resultUser: AuthUser = {
         id: profileData.id,
         email: profileData.email,
@@ -201,7 +220,7 @@ export class SupabaseRegistrationAdapter implements RegistrationAdapter {
         success: true,
         data: resultUser,
         metadata: {
-          requiresEmailVerification: true,
+          requiresEmailVerification: false, // No email verification required
           userId: authData.user.id,
         },
       };
@@ -296,12 +315,9 @@ export class SupabaseRegistrationAdapter implements RegistrationAdapter {
         };
       }
 
-      // Use direct table access since RLS policies are properly configured
+      // Use secure function for email availability checks (maintains RLS security)
       const { data, error } = await supabase
-        .from('users')
-        .select('id')
-        .eq('email', email)
-        .limit(1);
+        .rpc('check_email_availability', { email_to_check: email });
 
       if (error) {
         console.error('Email availability check failed:', error);
@@ -311,7 +327,8 @@ export class SupabaseRegistrationAdapter implements RegistrationAdapter {
         };
       }
 
-      const isAvailable = !data || data.length === 0;
+      // The function returns a boolean directly
+      const isAvailable = data === true;
       return { success: true, data: isAvailable };
 
     } catch (error) {

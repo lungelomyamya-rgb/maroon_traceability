@@ -3,10 +3,10 @@
 
 import { createClient } from '@supabase/supabase-js';
 
-// Environment variables (temporary until config is properly set up)
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-const supabaseServiceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+// Environment variables with validation
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL?.trim();
+const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY?.trim();
+const supabaseServiceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY?.trim();
 
 // Debug environment variables
 console.log('Supabase Client Debug:', {
@@ -16,8 +16,18 @@ console.log('Supabase Client Debug:', {
   nodeEnv: process.env.NODE_ENV,
 });
 
-// Initialize Supabase client (only if configured)
-export const supabase = supabaseUrl && supabaseAnonKey
+// Validate Supabase URL format
+const isValidUrl = (url: string): boolean => {
+  try {
+    new URL(url);
+    return true;
+  } catch {
+    return false;
+  }
+};
+
+// Initialize Supabase client (only if properly configured)
+export const supabase = supabaseUrl && supabaseAnonKey && isValidUrl(supabaseUrl)
   ? createClient(supabaseUrl, supabaseAnonKey)
   : null;
 
@@ -28,6 +38,10 @@ export const isSupabaseAvailable = (): boolean => supabase !== null;
 export const getSupabaseAdmin = () => {
   if (!supabaseUrl || !supabaseServiceRoleKey) {
     throw new Error('Supabase admin credentials not configured');
+  }
+
+  if (!isValidUrl(supabaseUrl)) {
+    throw new Error('Invalid Supabase URL: Must be a valid HTTP or HTTPS URL');
   }
 
   return createClient(

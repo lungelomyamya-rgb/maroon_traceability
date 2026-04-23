@@ -20,6 +20,10 @@ export default function AuthLoginPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [fieldErrors, setFieldErrors] = useState({
+    email: '',
+    password: '',
+  });
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -47,19 +51,60 @@ export default function AuthLoginPage() {
     return undefined;
   }, [searchParams, router]);
 
+  const validateField = (name: string, value: string): string => {
+    switch (name) {
+      case 'email':
+        if (!value) {
+          return 'Email is required';
+        }
+        if (!value.includes('@')) {
+          return 'Invalid email format';
+        }
+        return '';
+      
+      case 'password':
+        if (!value) {
+          return 'Password is required';
+        }
+        if (value.length < 6) {
+          return 'Password must be at least 6 characters';
+        }
+        return '';
+      
+      default:
+        return '';
+    }
+  };
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({
       ...prev,
       [name]: value,
     }));
+
+    // Real-time validation
+    const error = validateField(name, value);
+    setFieldErrors(prev => ({
+      ...prev,
+      [name]: error,
+    }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
-    if (!formData.email || !formData.password) {
-      setError('Please fill in all fields');
+
+    // Validate all fields
+    const errors = {
+      email: validateField('email', formData.email),
+      password: validateField('password', formData.password),
+    };
+
+    setFieldErrors(errors);
+
+    // Check if there are any errors
+    const hasErrors = Object.values(errors).some(error => error !== '');
+    if (hasErrors) {
       return;
     }
 
@@ -133,9 +178,14 @@ export default function AuthLoginPage() {
                 value={formData.email}
                 onChange={handleChange}
                 placeholder="Enter your email"
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+                className={`w-full px-3 py-2 border rounded-md focus:ring-blue-500 focus:border-blue-500 ${
+                  fieldErrors.email ? 'border-red-500' : 'border-gray-300'
+                }`}
                 required
               />
+              {fieldErrors.email && (
+                <p className="mt-1 text-sm text-red-500">{fieldErrors.email}</p>
+              )}
             </div>
 
             {/* Password */}
@@ -151,7 +201,9 @@ export default function AuthLoginPage() {
                   value={formData.password}
                   onChange={handleChange}
                   placeholder="Enter your password"
-                  className="w-full px-3 py-2 pr-10 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+                  className={`w-full px-3 py-2 pr-10 border rounded-md focus:ring-blue-500 focus:border-blue-500 ${
+                    fieldErrors.password ? 'border-red-500' : 'border-gray-300'
+                  }`}
                   required
                 />
                 <button
@@ -162,6 +214,9 @@ export default function AuthLoginPage() {
                   {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                 </button>
               </div>
+              {fieldErrors.password && (
+                <p className="mt-1 text-sm text-red-500">{fieldErrors.password}</p>
+              )}
             </div>
 
             {/* Submit Button */}
@@ -194,6 +249,9 @@ export default function AuthLoginPage() {
               <User className="mr-2 h-4 w-4" />
               Try Demo Mode
             </Button>
+            <p className="text-xs text-gray-500 text-center mt-2">
+              Demo mode provides instant access to explore all features
+            </p>
           </div>
         </Card>
 

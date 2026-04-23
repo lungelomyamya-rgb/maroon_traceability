@@ -1,7 +1,10 @@
 {
-  "rewrites": [
-    { "source": "/maroon_traceability/_next/static/(.*)", "destination": "/_next/static/$1" },
-    { "source": "/maroon_traceability/_next/data/(.*)", "destination": "/_next/data/$1" },
-    { "source": "/maroon_traceability/(.*)", "destination": "/maroon_traceability/index.html" }
-  ]
+  "buildCommand": "npm run build",
+  "outputDirectory": "out",
+  "framework": "nextjs",
+  "installCommand": "npm install",
+  "env": {
+    "NEXT_PUBLIC_SUPABASE_URL": "@supabase-url",
+    "NEXT_PUBLIC_SUPABASE_ANON_KEY": "@supabase-anon-key"
+  }
 }

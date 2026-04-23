@@ -34,11 +34,18 @@ export class RegistrationRepository {
   private static instance: RegistrationRepository | null = null;
 
   constructor() {
-    // Use mock adapter if Supabase is not configured, otherwise use real
+    // REQUIRE Supabase configuration - fail loudly if not configured
     const hasSupabaseConfig = process.env.NEXT_PUBLIC_SUPABASE_URL &&
                             process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-    const adapterType = hasSupabaseConfig ? 'real' : 'mock';
-    this.config = getFinalAdapterConfig('registration', adapterType);
+    
+    if (!hasSupabaseConfig) {
+      throw new Error(
+        'Supabase configuration is required for registration. ' +
+        'Please set NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY in your environment variables.'
+      );
+    }
+    
+    this.config = getFinalAdapterConfig('registration', 'real');
   }
 
   /**
@@ -80,16 +87,9 @@ export class RegistrationRepository {
         config: this.config,
       }, 'info');
 
-      // Create adapter based on configuration
-      if (this.config.type === 'real') {
-        console.log('RegistrationRepository: Creating new SupabaseRegistrationAdapter');
-        this.adapter = new SupabaseRegistrationAdapter(this.config);
-      } else {
-        console.log('RegistrationRepository: Creating mock adapter');
-        // Import mock adapter dynamically to avoid circular dependencies
-        const { MockRegistrationAdapter } = await import('../adapters/MockRegistrationAdapter');
-        this.adapter = new MockRegistrationAdapter(this.config);
-      }
+      // Create Supabase adapter (mock adapter no longer supported)
+      console.log('RegistrationRepository: Creating new SupabaseRegistrationAdapter');
+      this.adapter = new SupabaseRegistrationAdapter(this.config);
       console.log('RegistrationRepository: Adapter created:', {
         adapter: !!this.adapter,
         adapterId: this.adapter?.id,

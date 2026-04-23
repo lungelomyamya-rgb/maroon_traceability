@@ -54,7 +54,7 @@ export function RoleSelector({
   _align = 'end',
   _sideOffset = 4,
 }: RoleSelectorProps) {
-  const { currentUser, switchUser } = useUser();
+  const { currentUser, logout } = useUser();
   const [isOpen, setIsOpen] = useState(false);
   const buttonRef = useRef<HTMLButtonElement>(null);
 
@@ -75,13 +75,11 @@ export function RoleSelector({
     }
 
     try {
-      // Find a demo user with the new role
-      const newUser = DEMO_USERS.find((user: BaseUser) => user.role === role);
-      if (newUser) {
-        // Use switchUser to update the user context with the new user ID
-        switchUser(newUser.id);
-        onRoleChange?.(role);
-      }
+      // For real authentication, logout and redirect to registration for the selected role
+      logout().then(() => {
+        window.location.href = `/register?role=${role}`;
+      });
+      onRoleChange?.(role);
     } catch (error) {
 
       console.error('Failed to update role:', error);

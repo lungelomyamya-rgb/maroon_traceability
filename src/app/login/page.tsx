@@ -57,10 +57,10 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-green-50 via-white to-blue-50 p-4 sm:p-6 lg:p-8">
-      <div className="max-w-4xl mx-auto px-2 sm:px-4 lg:px-8">
+    <div className="min-h-screen bg-gradient-to-br from-green-50 via-white to-blue-50 p-2 sm:p-3 lg:p-4">
+      <div className="max-w-4xl mx-auto lg:px-8">
         {/* Back Button */}
-        <div className="mb-4 sm:mb-6">
+        <div className="mb-2 sm:mb-4">
           <Button
             variant="ghost"
             onClick={() => router.push('/intro')}
@@ -69,7 +69,7 @@ export default function LoginPage() {
             <ArrowLeft className="mr-2 h-4 w-4" />
           </Button>
         </div>
-        <div className="text-center mb-8 sm:mb-10 lg:mb-12">
+        <div className="text-center mb-4 sm:mb-6 lg:mb-8">
           <div className="flex justify-center items-center mb-4 sm:mb-6">
             <img src={getAssetPath('images/maroonLogo.png')} alt="MAROON" className="h-10 sm:h-12 lg:h-16 w-10 sm:w-12 lg:w-16 mr-2 sm:mr-4" />
             <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight text-gray-900">

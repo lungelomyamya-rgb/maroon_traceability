@@ -77,6 +77,17 @@ export const useRegistration = (): UseRegistration => {
     setError(null);
 
     try {
+      // Check if Supabase is configured before attempting registration
+      const hasSupabaseConfig = process.env.NEXT_PUBLIC_SUPABASE_URL &&
+                              process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+      
+      if (!hasSupabaseConfig) {
+        const errorMsg = 'Registration system is not properly configured. Please contact support.';
+        setError(errorMsg);
+        console.error('Registration failed: Supabase environment variables are missing');
+        return false;
+      }
+
       const result = await registrationRepository.registerUser(userData);
 
       if (result.success && result.data) {
@@ -92,7 +103,9 @@ export const useRegistration = (): UseRegistration => {
         return false;
       }
     } catch (error) {
-      setError(error instanceof Error ? error.message : 'Registration failed');
+      const errorMsg = error instanceof Error ? error.message : 'Registration failed';
+      setError(errorMsg);
+      console.error('Registration error:', error);
       return false;
     }
   }, [updateState, setError, setLoading]);
@@ -247,10 +260,18 @@ export const useRegistrationForm = () => {
         return 'Password is required';
       }
       if (value.length < 8) {
-        return 'Password must be at least 8 characters';
+        return 'Password must be at least 8 characters long';
       }
       if (!/(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/.test(value)) {
-        return 'Password must contain uppercase, lowercase, and number';
+        return 'Password must contain at least one lowercase letter';
+      }
+      // Check for uppercase letter separately for better error messages
+      if (!/(?=.*[A-Z])/.test(value)) {
+        return 'Password must contain at least one uppercase letter';
+      }
+      // Check for number separately for better error messages
+      if (!/(?=.*\d)/.test(value)) {
+        return 'Password must contain at least one number';
       }
       return null;
 
@@ -293,8 +314,12 @@ export const useRegistrationForm = () => {
     const errors: Record<string, string> = {};
     let isValid = true;
 
-    Object.entries(formData).forEach(([field, value]) => {
-      const error = validateField(field as keyof RegistrationData, value);
+    // Only validate specific fields, not additionalData
+    const fieldsToValidate: (keyof RegistrationData)[] = ['name', 'email', 'password', 'role'];
+    
+    fieldsToValidate.forEach((field) => {
+      const value = formData[field] as string; // These fields are all strings in RegistrationData
+      const error = validateField(field, value);
       if (error) {
         errors[field] = error;
         isValid = false;

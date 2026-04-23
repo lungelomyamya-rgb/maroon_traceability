@@ -10,7 +10,28 @@ import type {
   UniversalUser,
   RegistrationData,
 } from '../../../core/types/adapter';
+import type { User } from '@/types/types';
 import { supabase, isSupabaseAvailable } from '../../registration/services/supabaseClient';
+
+/**
+ * Handle Postgrest errors, especially PGRST116 (no rows found)
+ */
+function handlePostgrestError(error: any): string | null {
+  if (!error) return null;
+  
+  // Handle PGRST116 - No rows found
+  if (error.code === 'PGRST116') {
+    return null; // No error, just no data found
+  }
+  
+  // Handle other Postgrest errors
+  if (error.code && error.code.startsWith('PGRST')) {
+    return `Database error: ${error.message || 'Unknown database error'}`;
+  }
+  
+  // Handle other errors
+  return error.message || 'Unknown error';
+}
 
 /**
  * Real Supabase authentication adapter
@@ -76,28 +97,105 @@ export class RealAuthAdapter implements AuthAdapter {
         };
       }
 
-      // Get user profile from database
+      // Get user profile from database - use maybeSingle() to handle missing profiles
       const { data: profile, error: profileError } = await supabase
         .from('users')
         .select('*')
         .eq('id', data.user.id)
-        .single();
+        .maybeSingle();
 
       if (profileError) {
-        console.warn('Failed to fetch user profile:', profileError);
+        const errorMessage = handlePostgrestError(profileError);
+        if (errorMessage) {
+          console.warn('Failed to fetch user profile:', errorMessage);
+        } else {
+          console.log('No existing user profile found during login (PGRST116 handled gracefully)');
+        }
       }
 
-      // Create AuthUser from Supabase data
-      const authUser: AuthUser = {
+      // If no profile exists, create one from auth user metadata
+      let userProfile = profile;
+      if (!profile && data.user) {
+        console.log('No user profile found during login, creating from auth metadata');
+        userProfile = {
+          id: data.user.id,
+          email: data.user.email || '',
+          name: data.user.user_metadata?.name || data.user.email?.split('@')[0] || 'User',
+          role: data.user.user_metadata?.role || 'public',
+          isActive: true,
+          createdAt: data.user.created_at,
+          updatedAt: data.user.updated_at,
+          lastLoginAt: new Date().toISOString(),
+          emailVerified: data.user.email_confirmed_at ? true : false,
+        };
+
+        // Try to create the missing profile
+        try {
+          const { data: newProfile, error: insertError } = await supabase
+            .from('users')
+            .insert({
+              id: userProfile.id,
+              email: userProfile.email,
+              name: userProfile.name,
+              role: userProfile.role,
+              // Mandatory fields
+              phone: userProfile.phone || '',
+              address: userProfile.address || '',
+              city: userProfile.city || '',
+              province: userProfile.province || '',
+              postal_code: userProfile.postal_code || '',
+              is_active: userProfile.isActive,
+              email_verified: userProfile.emailVerified,
+              created_at: userProfile.createdAt,
+              updated_at: userProfile.updatedAt,
+              last_login_at: userProfile.lastLoginAt,
+            })
+            .select()
+            .single();
+
+          if (insertError) {
+            console.warn('Failed to create missing user profile during login:', insertError);
+          } else {
+            console.log('Successfully created missing user profile during login');
+            userProfile = newProfile;
+          }
+        } catch (error) {
+          console.warn('Exception creating missing user profile during login:', error);
+        }
+      }
+
+      // Create User from Supabase data
+      const authUser: User = {
         id: data.user.id,
         email: data.user.email || '',
-        name: profile?.name || data.user.user_metadata?.name || data.user.email?.split('@')[0] || 'User',
-        role: profile?.role || data.user.user_metadata?.role || 'public',
-        isActive: profile?.isActive ?? true,
-        createdAt: profile?.createdAt || data.user.created_at,
-        updatedAt: profile?.updatedAt || data.user.updated_at,
+        name: userProfile?.name || data.user.user_metadata?.name || data.user.email?.split('@')[0] || 'User',
+        role: userProfile?.role || data.user.user_metadata?.role || 'public',
+        // Map database fields to Address object
+        address: userProfile?.address ? {
+          street: userProfile.address || '',
+          city: userProfile.city || '',
+          state: userProfile.province || '',
+          postalCode: userProfile.postal_code || '',
+          formatted: `${userProfile.address || ''}, ${userProfile.city || ''}, ${userProfile.province || ''} ${userProfile.postal_code || ''}`
+        } : undefined,
+        // Use database phone field directly
+        phone: userProfile?.phone || '',
+        isActive: userProfile?.isActive ?? true,
+        createdAt: userProfile?.createdAt || data.user.created_at,
+        updatedAt: userProfile?.updatedAt || data.user.updated_at,
         lastLoginAt: new Date().toISOString(),
         emailVerified: data.user.email_confirmed_at ? true : false,
+        // Add metadata for profile screen compatibility with all database fields
+        metadata: {
+          // Direct database fields
+          phone: userProfile?.phone || '',
+          address: userProfile?.address || '',
+          city: userProfile?.city || '',
+          province: userProfile?.province || '',
+          postalCode: userProfile?.postal_code || '',
+          // Additional fields from database additional_data
+          ...(userProfile as any)?.additional_data || {},
+        },
       };
 
       // Normalize to UniversalUser with tracking
@@ -195,11 +293,11 @@ export class RealAuthAdapter implements AuthAdapter {
         email: data.user.email || '',
         name: userData.name,
         role: userData.role,
-        isActive: false, // Requires email verification
+        isActive: true, // Active immediately - no email verification required
         createdAt: data.user.created_at,
         updatedAt: data.user.updated_at,
-        lastLoginAt: null,
-        emailVerified: false,
+        lastLoginAt: new Date().toISOString(), // Set initial login time
+        emailVerified: true, // Mark as verified - skipping email verification
       };
 
       const { data: profile, error: profileError } = await supabase
@@ -220,16 +318,37 @@ export class RealAuthAdapter implements AuthAdapter {
         };
       }
 
-      const authUser: AuthUser = {
+      const authUser: User = {
         id: profile.id,
         email: profile.email,
         name: profile.name,
         role: profile.role,
+        // Map database fields to Address object
+        address: profile.address ? {
+          street: profile.address || '',
+          city: profile.city || '',
+          state: profile.province || '',
+          postalCode: profile.postal_code || '',
+          formatted: `${profile.address || ''}, ${profile.city || ''}, ${profile.province || ''} ${profile.postal_code || ''}`
+        } : undefined,
+        // Use database phone field directly
+        phone: profile.phone || '',
         isActive: profile.isActive,
         createdAt: profile.createdAt,
         updatedAt: profile.updatedAt,
         lastLoginAt: profile.lastLoginAt,
         emailVerified: profile.emailVerified,
+        // Add metadata for profile screen compatibility with all database fields
+        metadata: {
+          // Direct database fields
+          phone: profile.phone || '',
+          address: profile.address || '',
+          city: profile.city || '',
+          province: profile.province || '',
+          postalCode: profile.postal_code || '',
+          // Additional fields from database additional_data
+          ...(profile as any)?.additional_data || {},
+        },
       };
 
       // Normalize to UniversalUser with tracking
@@ -266,7 +385,7 @@ export class RealAuthAdapter implements AuthAdapter {
         data: universalUser,
         metadata: {
           registrationTime: authUser.createdAt,
-          requiresEmailVerification: true,
+          requiresEmailVerification: false, // No email verification required
           userId: authUser.id,
           source: 'api',
           validationWarnings: universalUser._validation.warnings,
@@ -349,27 +468,110 @@ export class RealAuthAdapter implements AuthAdapter {
         };
       }
 
-      // Get user profile from database
+      // Get user profile from database - use maybeSingle() to handle missing profiles
       const { data: profile, error: profileError } = await supabase
         .from('users')
         .select('*')
         .eq('id', session.user.id)
-        .single();
+        .maybeSingle();
 
       if (profileError) {
-        console.warn('Failed to fetch user profile:', profileError);
+        const errorMessage = handlePostgrestError(profileError);
+        if (errorMessage) {
+          console.warn('Failed to fetch user profile:', errorMessage);
+        } else {
+          console.log('No existing user profile found (PGRST116 handled gracefully)');
+        }
       }
 
-      const authUser: AuthUser = {
+      // If no profile exists, create one from auth user metadata
+      let userProfile = profile;
+      if (!profile && session.user) {
+        console.log('No user profile found, creating from auth metadata');
+        userProfile = {
+          id: session.user.id,
+          email: session.user.email || '',
+          name: session.user.user_metadata?.name || session.user.email?.split('@')[0] || 'User',
+          role: session.user.user_metadata?.role || 'public',
+          // Mandatory fields - will need to be filled in by user during profile completion
+          phone: session.user.user_metadata?.phone || '',
+          address: session.user.user_metadata?.address || '',
+          city: session.user.user_metadata?.city || '',
+          province: session.user.user_metadata?.province || '',
+          postal_code: session.user.user_metadata?.postal_code || '',
+          isActive: true,
+          createdAt: session.user.created_at,
+          updatedAt: session.user.updated_at,
+          lastLoginAt: new Date().toISOString(),
+          emailVerified: session.user.email_confirmed_at ? true : false,
+        };
+
+        // Try to create the missing profile
+        try {
+          const { data: newProfile, error: insertError } = await supabase
+            .from('users')
+            .insert({
+              id: userProfile.id,
+              email: userProfile.email,
+              name: userProfile.name,
+              role: userProfile.role,
+              // Mandatory fields
+              phone: userProfile.phone || '',
+              address: userProfile.address || '',
+              city: userProfile.city || '',
+              province: userProfile.province || '',
+              postal_code: userProfile.postal_code || '',
+              is_active: userProfile.isActive,
+              email_verified: userProfile.emailVerified,
+              created_at: userProfile.createdAt,
+              updated_at: userProfile.updatedAt,
+              last_login_at: userProfile.lastLoginAt,
+            })
+            .select()
+            .single();
+
+          if (insertError) {
+            console.warn('Failed to create missing user profile:', insertError);
+          } else {
+            console.log('Successfully created missing user profile');
+            userProfile = newProfile;
+          }
+        } catch (error) {
+          console.warn('Exception creating missing user profile:', error);
+        }
+      }
+
+      const authUser: User = {
         id: session.user.id,
         email: session.user.email || '',
-        name: profile?.name || session.user.user_metadata?.name || session.user.email?.split('@')[0] || 'User',
-        role: profile?.role || session.user.user_metadata?.role || 'public',
-        isActive: profile?.isActive ?? true,
-        createdAt: profile?.createdAt || session.user.created_at,
-        updatedAt: profile?.updatedAt || session.user.updated_at,
-        lastLoginAt: profile?.lastLoginAt,
+        name: userProfile?.name || session.user.user_metadata?.name || session.user.email?.split('@')[0] || 'User',
+        role: userProfile?.role || session.user.user_metadata?.role || 'public',
+        // Map database fields to Address object
+        address: userProfile?.address ? {
+          street: userProfile.address || '',
+          city: userProfile.city || '',
+          state: userProfile.province || '',
+          postalCode: userProfile.postal_code || '',
+          formatted: `${userProfile.address || ''}, ${userProfile.city || ''}, ${userProfile.province || ''} ${userProfile.postal_code || ''}`
+        } : undefined,
+        // Use database phone field directly
+        phone: userProfile?.phone || '',
+        isActive: userProfile?.isActive ?? true,
+        createdAt: userProfile?.createdAt || session.user.created_at,
+        updatedAt: userProfile?.updatedAt || session.user.updated_at,
+        lastLoginAt: userProfile?.lastLoginAt,
         emailVerified: session.user.email_confirmed_at ? true : false,
+        // Add metadata for profile screen compatibility with all database fields
+        metadata: {
+          // Direct database fields
+          phone: userProfile?.phone || '',
+          address: userProfile?.address || '',
+          city: userProfile?.city || '',
+          province: userProfile?.province || '',
+          postalCode: userProfile?.postal_code || '',
+          // Additional fields from database additional_data
+          ...(userProfile as any)?.additional_data || {},
+        },
       };
 
       // Normalize to UniversalUser with tracking

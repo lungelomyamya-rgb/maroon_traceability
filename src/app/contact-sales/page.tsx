@@ -46,7 +46,6 @@ export default function ContactSalesPage() {
             className="mb-4"
           >
             <ArrowLeft className="mr-2 h-4 w-4" />
-            Back to Plans
           </Button>
           <div className="text-center">
             <h1 className="text-3xl font-bold text-gray-900 mb-2">Contact Sales</h1>
@@ -196,9 +195,13 @@ export default function ContactSalesPage() {
                   </div>
                 </div>
 
-                <Button type="submit" size="lg" className="w-full">
-                  Contact Sales Team
-                </Button>
+                <div className="flex justify-center">
+                  <Button type="submit" size="lg"
+                      className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg shadow-md hover:shadow-lg transform hover:scale-105 transition-all duration-200 border-2 border-blue-500 disabled:opacity-50 disabled:transform-none"
+                      >
+                    Contact Sales Team
+                  </Button>
+                </div>
               </form>
             </Card>
           </div>

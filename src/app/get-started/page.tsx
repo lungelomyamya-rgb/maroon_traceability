@@ -31,7 +31,7 @@ export default function GetStartedPage() {
         { icon: Clock, text: 'Priority Support', included: false },
       ],
       cta: 'Get Started',
-      ctaAction: () => router.push('/register'),
+      ctaAction: () => router.push('/register/individual'),
       popular: false,
     },
     {
@@ -50,7 +50,7 @@ export default function GetStartedPage() {
         { icon: Clock, text: '8-to-5 Priority', included: true },
       ],
       cta: 'Start 14-Day Trial',
-      ctaAction: () => router.push('/register'),
+      ctaAction: () => router.push('/register/smme'),
       popular: false,
     },
     {
@@ -69,7 +69,7 @@ export default function GetStartedPage() {
         { icon: Clock, text: 'Priority Support', included: true },
       ],
       cta: 'Go Pro Now',
-      ctaAction: () => router.push('/register'),
+      ctaAction: () => router.push('/register/commercial'),
       popular: true,
     },
     {
@@ -150,18 +150,18 @@ export default function GetStartedPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-50">
       {/* Back Button */}
-      <div className="px-3 sm:px-4 lg:px-8 pt-4 sm:pt-6 lg:pt-8">
+      <div className="px-3 sm:px-4 lg:px-8">
         <Button
           variant="ghost"
           onClick={() => router.push('/')}
-          className="mb-4"
+          className="mb-2"
         >
           <ArrowLeft className="mr-2 h-4 w-4" />
         </Button>
       </div>
 
       {/* Hero Section */}
-      <div className="py-16 sm:py-20 lg:py-24">
+      <div className="py-1 sm:py-2 lg:py-3">
         <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-8 text-center">
           <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-4 sm:mb-6">
             Intelligence for the Agri-Food Value Chain

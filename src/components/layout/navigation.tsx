@@ -1,7 +1,7 @@
 // src/components/layout/navigation.tsx
 'use client';
 
-import { ChevronDown, Menu } from 'lucide-react';
+import { Menu, User } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useState, useEffect, useRef } from 'react';
@@ -21,27 +21,16 @@ interface NavigationItem {
   icon?: React.ReactNode;
 }
 
-interface Role {
-  name: string;
-  href: string;
-}
 
 export function Navigation() {
   const pathname = usePathname();
   const router = useRouter();
-  const { currentUser, switchUser } = useUser();
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const { currentUser, logout } = useUser();
   const [isMobileDropdownOpen, setIsMobileDropdownOpen] = useState(false);
-  const dropdownRef = useRef<HTMLDivElement>(null);
   const mobileDropdownRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent | TouchEvent) => {
-      // Handle desktop dropdown
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
-        setIsDropdownOpen(false);
-      }
-
       // Handle mobile dropdown
       if (mobileDropdownRef.current && !mobileDropdownRef.current.contains(event.target as Node)) {
         setIsMobileDropdownOpen(false);
@@ -84,24 +73,26 @@ export function Navigation() {
   const userRole = currentUser?.role === 'public' ? 'viewer' as UserRole :
     currentUser?.role === 'government' ? 'admin' as UserRole :
                    currentUser?.role as UserRole | null;
+  
+  const getIconComponent = (iconName?: string) => {
+    switch (iconName) {
+      case 'user':
+        return <User className="h-4 w-4" />;
+      default:
+        return null;
+    }
+  };
+
   const navigation = userRole
-    ? RolePermissionsService.getNavigationItems(userRole).map((item: { href: string; label: string; icon?: React.ReactNode }) => ({
+    ? RolePermissionsService.getNavigationItems(userRole).map((item: { href: string; label: string; icon?: string }) => ({
       ...item,
       name: item.label,
+      icon: getIconComponent(item.icon),
       current: cleanPathname === item.href || (item.href === '/marketplace' && isPublicPage),
     }))
     : getDefaultNavigationItems();
 
-  const roles = [
-    { name: 'Public', href: '/marketplace' },
-    { name: 'Farmer', href: '/farmer' },
-    { name: 'Logistics', href: '/logistics' },
-    { name: 'Packaging', href: '/packaging' },
-    { name: 'Retailer', href: '/retailer' },
-    { name: 'Inspector', href: '/inspector' },
-    { name: 'SAPS', href: '/saps' },
-  ];
-
+  
   return (
     <nav className="bg-white shadow-sm border-b fixed top-0 left-0 right-0 z-50" style={{ width: '100vw', boxSizing: 'border-box' }}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -163,69 +154,30 @@ export function Navigation() {
               ))}
             </div>
 
-            {/* Desktop Role Selector */}
-            <div className="hidden lg:block relative" ref={dropdownRef}>
+            {/* Desktop Logout Button */}
+            <div className="hidden lg:block">
               <Button
                 variant="ghost"
                 className="flex items-center space-x-2 transition-all duration-200 hover:scale-105 active:scale-95"
-                onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                onClick={() => {
+                  logout().then(() => {
+                    // Check if user was using demo mode
+                    const isDemoUser = currentUser && '_source' in currentUser && 
+                                     (currentUser as any)._source?.type === 'mock' || 
+                                     DEMO_USERS.some(u => u.id === currentUser?.id);
+                    
+                    if (isDemoUser) {
+                      // For demo users, redirect to demo login page
+                      router.push('/login');
+                    } else {
+                      // For real accounts, redirect to intro screen
+                      router.push('/intro');
+                    }
+                  });
+                }}
               >
-                <span>{currentUser?.role ? `${currentUser.role.charAt(0).toUpperCase() + currentUser.role.slice(1)}` : 'Switch Role'}</span>
-                <ChevronDown className="h-4 w-4" />
+                <span>Logout</span>
               </Button>
-
-              {isDropdownOpen && (
-                <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg z-50 border border-gray-200 transition-all duration-200 animate-fade-in">
-                  <div className="py-1">
-                    {roles.map((role: Role) => (
-                      <button
-                        key={role.name}
-                        onClick={() => {
-                          if (role.name === 'Public') {
-                            // Update user context first, then navigate
-                            const publicUser = DEMO_USERS.find((u: BaseUser) => u.role === 'public');
-                            if (publicUser) {
-                              switchUser(publicUser.id);
-                              // Small delay to ensure context updates before navigation
-                              setTimeout(() => {
-                                window.location.href = '/marketplace';
-                              }, 100);
-                            } else {
-                              // Fallback if public user not found
-                              window.location.href = '/marketplace';
-                            }
-                          } else {
-                            // For other roles, go to login first
-                            router.push('/login');
-                          }
-                          setIsDropdownOpen(false);
-                        }}
-                        className={`w-full text-left px-4 py-2 text-sm hover:bg-gray-100 flex items-center space-x-2 transition-all duration-200 hover:scale-105 active:scale-95 ${
-                          (currentUser?.role === 'farmer' && role.name === 'Farmer') ||
-                          (currentUser?.role === 'public' && role.name === 'Public') ||
-                          (currentUser?.role === 'logistics' && role.name === 'Logistics') ||
-                          (currentUser?.role === 'inspector' && role.name === 'Inspector') ||
-                          (currentUser?.role === 'packaging' && role.name === 'Packaging') ||
-                          (currentUser?.role === 'retailer' && role.name === 'Retailer') ||
-                          (currentUser?.role === 'saps' && role.name === 'SAPS')
-                            ? 'bg-gray-100' : ''
-                        }`}
-                      >
-                        <span className="capitalize">{role.name}</span>
-                        {((currentUser?.role === 'farmer' && role.name === 'Farmer') ||
-                          (currentUser?.role === 'public' && role.name === 'Public') ||
-                          (currentUser?.role === 'logistics' && role.name === 'Logistics') ||
-                          (currentUser?.role === 'inspector' && role.name === 'Inspector') ||
-                          (currentUser?.role === 'packaging' && role.name === 'Packaging') ||
-                          (currentUser?.role === 'retailer' && role.name === 'Retailer') ||
-                          (currentUser?.role === 'saps' && role.name === 'SAPS')) && (
-                          <span className="text-xs text-gray-500 ml-2">(Current)</span>
-                        )}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              )}
             </div>
 
             {/* Mobile Navigation - Hamburger Menu with Navigation Tabs */}
@@ -259,55 +211,30 @@ export function Navigation() {
                       </Link>
                     ))}
 
-                    {/* Role Switching Section */}
+                    {/* Logout Section */}
                     <div className="border-t border-gray-200 mt-2 pt-2">
-                      {roles.map((role: Role) => (
-                        <button
-                          key={role.name}
-                          onClick={() => {
-                            if (role.name === 'Public') {
-                              // Update user context first, then navigate
-                              const publicUser = DEMO_USERS.find((u: BaseUser) => u.role === 'public');
-                              if (publicUser) {
-                                switchUser(publicUser.id);
-                                // Small delay to ensure context updates before navigation
-                                setTimeout(() => {
-                                  window.location.href = '/marketplace';
-                                }, 100);
-                              } else {
-                                // Fallback if public user not found
-                                window.location.href = '/marketplace';
-                              }
-                            } else {
-                              // For other roles, go to login first
+                      <button
+                        onClick={() => {
+                          logout().then(() => {
+                            // Check if user was using demo mode
+                            const isDemoUser = currentUser && '_source' in currentUser && 
+                                             (currentUser as any)._source?.type === 'mock' || 
+                                             DEMO_USERS.some(u => u.id === currentUser?.id);
+                            
+                            if (isDemoUser) {
+                              // For demo users, redirect to demo login page
                               router.push('/login');
+                            } else {
+                              // For real accounts, redirect to intro screen
+                              router.push('/intro');
                             }
-                            setIsDropdownOpen(false);
-                            setIsMobileDropdownOpen(false);
-                          }}
-                          className={`w-full text-left px-4 py-2 text-sm hover:bg-gray-100 flex items-center space-x-2 ${
-                            (currentUser?.role === 'farmer' && role.name === 'Farmer') ||
-                            (currentUser?.role === 'public' && role.name === 'Public') ||
-                            (currentUser?.role === 'logistics' && role.name === 'Logistics') ||
-                            (currentUser?.role === 'inspector' && role.name === 'Inspector') ||
-                            (currentUser?.role === 'packaging' && role.name === 'Packaging') ||
-                            (currentUser?.role === 'retailer' && role.name === 'Retailer') ||
-                            (currentUser?.role === 'saps' && role.name === 'SAPS')
-                              ? 'bg-gray-100' : ''
-                          }`}
-                        >
-                          <span className="capitalize">{role.name}</span>
-                          {((currentUser?.role === 'farmer' && role.name === 'Farmer') ||
-                            (currentUser?.role === 'public' && role.name === 'Public') ||
-                            (currentUser?.role === 'logistics' && role.name === 'Logistics') ||
-                            (currentUser?.role === 'inspector' && role.name === 'Inspector') ||
-                            (currentUser?.role === 'packaging' && role.name === 'Packaging') ||
-                            (currentUser?.role === 'retailer' && role.name === 'Retailer') ||
-                            (currentUser?.role === 'saps' && role.name === 'SAPS')) && (
-                            <span className="text-xs text-gray-500">(Current)</span>
-                          )}
-                        </button>
-                      ))}
+                          });
+                          setIsMobileDropdownOpen(false);
+                        }}
+                        className="w-full text-left px-4 py-2 text-sm hover:bg-gray-100 flex items-center space-x-2 transition-all duration-200 hover:scale-105 active:scale-95"
+                      >
+                        <span>Logout</span>
+                      </button>
                     </div>
                   </div>
                 </div>

@@ -190,6 +190,9 @@ export class RolePermissionsService {
     const permissions = this.getPermissions(role);
     const items = [];
 
+    // Add Profile for all authenticated users
+    items.push({ label: 'Profile', href: '/profile', icon: 'user' });
+
     if (permissions.canView) {
       items.push({ label: 'Dashboard', href: '/dashboard' });
     }

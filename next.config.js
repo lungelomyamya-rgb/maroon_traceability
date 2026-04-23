@@ -9,8 +9,9 @@ const nextConfig = {
   trailingSlash: true,
   
   // Environment-specific output configuration
+  // Note: For Vercel deployment, we don't use static export to enable API routes
   ...(isDev ? {} : {
-    output: 'export',
+    // Remove output: 'export' to allow API routes on Vercel
     generateBuildId: () => 'build',
   }),
   
