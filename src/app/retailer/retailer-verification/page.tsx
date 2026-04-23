@@ -20,7 +20,7 @@ export default function RetailerVerificationPage() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     // Handle form submission
-    router.push('/verification-pending');
+    router.push('/retailer');
   };
 
   return (

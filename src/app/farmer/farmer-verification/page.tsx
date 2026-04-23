@@ -21,7 +21,7 @@ export default function FarmerVerificationPage() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     // Handle form submission
-    router.push('/verification-pending');
+    router.push('/farmer');
   };
 
   return (
