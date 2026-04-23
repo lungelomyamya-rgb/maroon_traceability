@@ -11,9 +11,9 @@ BEGIN
     ) THEN
         ALTER TABLE users ADD CONSTRAINT users_postal_code_check 
         CHECK (postal_code IS NULL OR postal_code ~* '^[0-9A-Za-z\s-]+$');
-        SELECT 'Added postal code constraint successfully' AS result;
+        PERFORM 'Added postal code constraint successfully';
     ELSE
-        SELECT 'Postal code constraint already exists' AS result;
+        PERFORM 'Postal code constraint already exists';
     END IF;
 END $$;
 
