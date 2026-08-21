@@ -1,4 +1,4 @@
-// public/sw.js - Cache-free Service Worker for GitHub Pages
+// public/sw.js - Cache-free Service Worker for Vercel
 // Completely avoids Cache API during installation to prevent addAll errors
 
 /* global self, fetch, Response */

@@ -7,13 +7,7 @@
 export function assetPath(path: string): string {
   // Remove leading slash if present - assets are served from public directory
   const cleanPath = path.startsWith('/') ? path.slice(1) : path;
-
-  // Check if we're on GitHub Pages and add base path
-  const isGitHubPages = typeof window !== 'undefined' &&
-    window.location.hostname.includes('github.io');
-
-  const basePath = isGitHubPages ? '/maroon_traceability' : '';
-
+  const basePath = process.env.NEXT_PUBLIC_BASE_PATH || '';
   return `${basePath}/${cleanPath}`;
 }
 

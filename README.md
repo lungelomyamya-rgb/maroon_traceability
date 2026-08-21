@@ -5,7 +5,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.6+-blue.svg)](https://www.typescriptlang.org/)
 [![Next.js](https://img.shields.io/badge/Next.js-16+-black.svg)](https://nextjs.org/)
-[![Production Ready](https://img.shields.io/badge/Status-Production%20Ready-green.svg)](https://lungelomyamya-rgb.github.io/maroon_traceability)
+[![Demo](https://img.shields.io/badge/Status-Demo%20Prototype-blue.svg)](https://www.maroonagri.co.za)
 
 ## Overview
 
@@ -35,7 +35,7 @@ Maroon Traceability is a comprehensive supply chain transparency platform that e
 | **Database** | Supabase (PostgreSQL) | Latest |
 | **Authentication** | Supabase Auth | Latest |
 | **Blockchain** | Ethereum Simulation | - |
-| **Deployment** | GitHub Pages | - |
+| **Deployment** | Vercel | - |
 | **Testing** | Jest + RTL | Latest |
 
 ### System Architecture
@@ -219,7 +219,6 @@ npm run audit        # Dependency audit
 npm run optimize     # Performance optimization
 
 # Deployment
-npm run export       # Static export for GitHub Pages
 npm run deploy       # Deploy to production
 ```
 
@@ -290,7 +289,7 @@ The platform supports dynamic feature toggling:
    npm run export
    ```
 
-3. **Deploy to GitHub Pages**
+3. **Deploy to Vercel**
    ```bash
    npm run deploy
    ```
@@ -305,7 +304,7 @@ The platform supports dynamic feature toggling:
 
 See **[CONTRIBUTING.md](CONTRIBUTING.md)** for branch naming, local quality gates, and PR requirements. Security reporting is covered in **[SECURITY.md](SECURITY.md)**.
 
-Deployment targets (GitHub Pages vs Vercel) are documented in **[docs/setup/deployment.md](docs/setup/deployment.md)**.
+Deployment targets (Vercel) are documented in **[docs/setup/deployment.md](docs/setup/deployment.md)**.
 
 ## License
 
@@ -338,6 +337,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 **Empowering South African Agriculture with Blockchain Technology**
 
-[Live Demo](https://lungelomyamya-rgb.github.io/maroon_traceability) • [Documentation](./DEVELOPMENT_LOG.md) • [API Docs](./docs/api/)
+[Live Demo](https://www.maroonagri.co.za) • [Documentation](./DEVELOPMENT_LOG.md) • [API Docs](./docs/api/)
 
 </div>

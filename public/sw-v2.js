@@ -1,5 +1,5 @@
-// public/sw-v2.js - Versioned Service Worker for GitHub Pages
-// Updated version for cache busting and proper GitHub Pages deployment
+// public/sw-v2.js - Versioned Service Worker for Vercel
+// Updated version for cache busting and proper Vercel deployment
 
 /* global self, fetch, Response */
 
@@ -79,7 +79,7 @@ self.addEventListener('fetch', (event) => {
 function isStaticAsset(url) {
   return url.includes('/_next/static/') ||
          url.includes('/images/') ||
-         url.includes('/maroon_traceability/images/') ||
+         url.includes('/images/') ||
          url.includes('.js') ||
          url.includes('.css') ||
          url.includes('.png') ||

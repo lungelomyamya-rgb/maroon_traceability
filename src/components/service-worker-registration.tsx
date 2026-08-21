@@ -8,11 +8,9 @@ export function ServiceWorkerRegistration() {
     // Only register service worker in production
     if (typeof window !== 'undefined' && 'serviceWorker' in navigator && process.env.NODE_ENV === 'production') {
       // Determine the correct service worker path based on environment
-      const basePath = window.location.hostname.includes('github.io')
-        ? '/maroon_traceability'
-        : '';
+      const basePath = process.env.NEXT_PUBLIC_BASE_PATH || '';
 
-      // Use versioned service worker file for GitHub Pages cache busting
+      // Use versioned service worker file for Vercel cache busting
       const swPath = `${basePath}/sw-v2.js`;
 
       // Unregister any existing service workers first

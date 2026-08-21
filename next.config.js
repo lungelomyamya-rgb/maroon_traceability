@@ -37,7 +37,7 @@ const nextConfig = {
     }),
   },
   
-  // GitHub Pages configuration (only in production)
+  // Vercel configuration (only in production)
   ...(isDev ? {} : {
     basePath: process.env.NEXT_PUBLIC_BASE_PATH || '',
     assetPrefix: process.env.NEXT_PUBLIC_BASE_PATH || '',
