@@ -28,7 +28,14 @@ const isValidUrl = (url: string): boolean => {
 
 // Initialize Supabase client (only if properly configured)
 export const supabase = supabaseUrl && supabaseAnonKey && isValidUrl(supabaseUrl)
-  ? createClient(supabaseUrl, supabaseAnonKey)
+  ? createClient(supabaseUrl, supabaseAnonKey, {
+    auth: {
+      persistSession: true,
+      storage: typeof window !== 'undefined' ? window.sessionStorage : undefined,
+      autoRefreshToken: true,
+      detectSessionInUrl: true,
+    },
+  })
   : null;
 
 // Helper to check if Supabase is available

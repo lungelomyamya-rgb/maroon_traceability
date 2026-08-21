@@ -4,8 +4,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { UniversalUser } from '@/types/user';
 import { 
-  getCurrentUserFromRequest, 
-  canAccessProfile, 
   createAuthErrorResponse, 
   createSuccessResponse,
   requireProfileAccess 
