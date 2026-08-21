@@ -21,6 +21,7 @@ This directory contains comprehensive documentation for the Maroon Traceability 
 
 ### ⚙️ Setup & Deployment
 - **[Setup Guides](./setup/)** - Installation and setup instructions
+- **[Environment contract](./setup/environment.md)** — required vs optional vars
 
 ### 🧩 Component Documentation
 - **[Components](./components/)** - UI component documentation
