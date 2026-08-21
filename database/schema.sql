@@ -1,102 +1,96 @@
--- Maroon Traceability - Simplified Database Schema
--- For simplified registration flow (name, email, role, password only)
+-- =============================================================================
+-- Maroon Traceability — canonical schema baseline
+-- Captured from live Supabase: 2026-08-21
+-- App requires: public.users, public._test_connection
+-- Other live tables (profiles, user_profiles, registration_attempts) are
+-- documented in docs/setup/schema-inventory.md and are NOT required to run the app.
+-- Apply on an EMPTY project via Supabase SQL Editor.
+-- See docs/setup/database-migrations.md
+-- =============================================================================
 
--- Enable UUID extension
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
--- Test connection table for health checks
+-- Health-check table
 CREATE TABLE IF NOT EXISTS _test_connection (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+  created_at TIMESTAMPTZ DEFAULT NOW()
 );
 
--- Insert a test row to verify connection
-INSERT INTO _test_connection (id) VALUES (uuid_generate_v4()) ON CONFLICT DO NOTHING;
+INSERT INTO _test_connection (id)
+VALUES (uuid_generate_v4())
+ON CONFLICT DO NOTHING;
 
--- Simplified Users table for streamlined registration
+-- Primary app user table (aligned with live columns; nullable contact fields)
 CREATE TABLE IF NOT EXISTS users (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
   email VARCHAR(255) UNIQUE NOT NULL,
   name VARCHAR(255) NOT NULL,
-  role VARCHAR(50) NOT NULL CHECK (role IN ('farmer', 'inspector', 'logistics', 'packaging', 'retailer', 'public', 'government', 'admin', 'saps', 'viewer')),
-  
-  -- Contact information (mandatory fields)
-  phone VARCHAR(20) NOT NULL,
-  address TEXT NOT NULL,
-  city VARCHAR(100) NOT NULL,
-  province VARCHAR(50) NOT NULL,
-  postal_code VARCHAR(20) NOT NULL,
-  
-  -- Account status
+  role VARCHAR(50) NOT NULL
+    CHECK (role IN (
+      'farmer', 'inspector', 'logistics', 'packaging', 'retailer',
+      'public', 'government', 'admin', 'saps', 'viewer'
+    )),
   is_active BOOLEAN DEFAULT TRUE,
   email_verified BOOLEAN DEFAULT FALSE,
-  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
-  updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
-  last_login_at TIMESTAMP WITH TIME ZONE,
-  
-  -- Additional metadata for extended information
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  updated_at TIMESTAMPTZ DEFAULT NOW(),
+  last_login_at TIMESTAMPTZ,
   additional_data JSONB DEFAULT '{}'::jsonb,
-  
-  -- Constraints
-  CONSTRAINT users_email_check CHECK (email ~* '^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$'),
-  CONSTRAINT users_phone_check CHECK (phone ~* '^[+]?[0-9\s\-\(\)]+$'),
-  CONSTRAINT users_postal_code_check CHECK (postal_code ~* '^[0-9A-Za-z\s-]+$'),
-  CONSTRAINT users_province_check CHECK (province IN ('eastern-cape', 'free-state', 'gauteng', 'kwazulu-natal', 'limpopo', 'mpumalanga', 'northern-cape', 'north-west', 'western-cape'))
+  address TEXT,
+  postal_code VARCHAR(20),
+  user_type VARCHAR(50),
+  registration_type VARCHAR(50),
+  phone VARCHAR(50),
+  city VARCHAR(100),
+  province VARCHAR(50)
 );
 
--- Create indexes for better performance
 CREATE INDEX IF NOT EXISTS idx_users_email ON users(email);
 CREATE INDEX IF NOT EXISTS idx_users_role ON users(role);
 CREATE INDEX IF NOT EXISTS idx_users_is_active ON users(is_active);
 CREATE INDEX IF NOT EXISTS idx_users_created_at ON users(created_at);
+CREATE INDEX IF NOT EXISTS idx_users_phone ON users(phone);
+CREATE INDEX IF NOT EXISTS idx_users_city ON users(city);
+CREATE INDEX IF NOT EXISTS idx_users_province ON users(province);
 
--- Create updated_at trigger
 CREATE OR REPLACE FUNCTION update_updated_at_column()
 RETURNS TRIGGER AS $$
 BEGIN
   NEW.updated_at = NOW();
   RETURN NEW;
 END;
-$$ language 'plpgsql';
+$$ LANGUAGE plpgsql;
 
--- Drop trigger if exists and recreate
 DROP TRIGGER IF EXISTS update_users_updated_at ON users;
-CREATE TRIGGER update_users_updated_at 
-BEFORE UPDATE ON users 
-FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
+CREATE TRIGGER update_users_updated_at
+  BEFORE UPDATE ON users
+  FOR EACH ROW
+  EXECUTE FUNCTION update_updated_at_column();
 
--- Row Level Security (RLS) Policies
 ALTER TABLE users ENABLE ROW LEVEL SECURITY;
 
--- Users can only see their own data
+-- Target policies for NEW projects (stricter than current live legacy set)
+DROP POLICY IF EXISTS "Service role full access" ON users;
+CREATE POLICY "Service role full access" ON users
+  FOR ALL
+  USING (auth.role() = 'service_role')
+  WITH CHECK (auth.role() = 'service_role');
+
+DROP POLICY IF EXISTS "Users can view own data" ON users;
 CREATE POLICY "Users can view own data" ON users
-  FOR SELECT USING (auth.uid() = id);
+  FOR SELECT
+  USING (auth.uid() = id);
 
--- Users can only insert their own data
+DROP POLICY IF EXISTS "Users can insert own data" ON users;
 CREATE POLICY "Users can insert own data" ON users
-  FOR INSERT WITH CHECK (auth.uid() = id);
+  FOR INSERT
+  WITH CHECK (auth.uid() = id);
 
--- Users can only update their own data
+DROP POLICY IF EXISTS "Users can update own data" ON users;
 CREATE POLICY "Users can update own data" ON users
-  FOR UPDATE USING (auth.uid() = id);
+  FOR UPDATE
+  USING (auth.uid() = id)
+  WITH CHECK (auth.uid() = id);
 
--- Admins can do everything
-CREATE POLICY "Admins have full access" ON users
-  FOR ALL USING (
-    EXISTS (
-      SELECT 1 FROM users 
-      WHERE id = auth.uid() AND role = 'admin'
-    )
-  );
-
--- Comments for documentation
-COMMENT ON TABLE users IS 'Simplified user table for streamlined registration flow';
-COMMENT ON COLUMN users.id IS 'Unique identifier for the user';
-COMMENT ON COLUMN users.email IS 'User email address (unique)';
-COMMENT ON COLUMN users.name IS 'User full name';
-COMMENT ON COLUMN users.role IS 'User role in the system';
-COMMENT ON COLUMN users.address IS 'Physical address of the user';
-COMMENT ON COLUMN users.postal_code IS 'Postal code for physical address';
-COMMENT ON COLUMN users.is_active IS 'Whether the user account is active';
-COMMENT ON COLUMN users.email_verified IS 'Whether the user email has been verified';
-COMMENT ON COLUMN users.additional_data IS 'Additional metadata in JSON format';
+COMMENT ON TABLE users IS 'Primary user profiles for Maroon Traceability (app reads/writes this table)';
+COMMENT ON TABLE _test_connection IS 'Connectivity / health check table';

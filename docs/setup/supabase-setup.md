@@ -52,6 +52,10 @@ Replace the values with your actual Supabase credentials.
 4. Paste it into the SQL editor
 5. Click "Run" to execute the schema
 
+Apply `database/schema.sql` on empty projects.
+Full order and live inventory: `database-migrations.md` and `schema-inventory.md`.
+Do not run scripts in `database/archive/` unless you know why.
+
 ### Option B: Use the Command Line
 
 If you have the Supabase CLI installed:
