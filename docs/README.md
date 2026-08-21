@@ -21,7 +21,6 @@ This directory contains comprehensive documentation for the Maroon Traceability 
 
 ### ⚙️ Setup & Deployment
 - **[Setup Guides](./setup/)** - Installation and setup instructions
-- **[Deployment Strategy](./setup/deployment.md)** - GitHub Pages vs Vercel targets
 
 ### 🧩 Component Documentation
 - **[Components](./components/)** - UI component documentation
@@ -62,7 +61,7 @@ This directory contains comprehensive documentation for the Maroon Traceability 
 - [x] Route Organization - Next.js route groups implementation
 - [x] Hooks Organization - Categorized hooks by functionality
 - [x] CONTRIBUTING, SECURITY, LICENSE - Contributor and security surfaces
-- [x] Deployment runbook - GitHub Pages vs Vercel strategy documented
+- [x] Deployment runbook - Vercel strategy documented
 - [x] CI guardrails - lint, type-check, test, build pipeline
 
 ### Archived
