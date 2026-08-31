@@ -24,6 +24,7 @@ This directory contains comprehensive documentation for the Maroon Traceability 
 - **[Environment contract](./setup/environment.md)** — required vs optional vars
 - **[Database migrations](./setup/database-migrations.md)** — how to apply Supabase schema
 - **[Schema inventory](./setup/schema-inventory.md)** — live tables vs app usage
+- **[Scripts index](./setup/scripts-index.md)** — diagnostic and maintenance scripts
 
 ### 🧩 Component Documentation
 - **[Components](./components/)** - UI component documentation
@@ -54,7 +55,7 @@ This directory contains comprehensive documentation for the Maroon Traceability 
 - [x] Main README - Professional project overview
 
 ### In Progress
-- [ ] Component Reference - Unified component documentation
+- [x] Component Reference - Unified component documentation
 
 ### Recently Completed
 - [x] Repository Cleanup & Reorganization - Complete audit and cleanup
