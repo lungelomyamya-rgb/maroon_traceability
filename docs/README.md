@@ -18,6 +18,7 @@ This directory contains comprehensive documentation for the Maroon Traceability 
 - **[Design System](./design-system.md)** - UI/UX design system
 - **[Enhanced User Type System](./EnhancedUserTypeSystem.md)** - User type architecture
 - **[Registration System](./registration-system.md)** - Registration flow documentation
+- **[Architecture Decision Records (ADRs)](./architecture/adr/README.md)** — key technical decisions
 
 ### ⚙️ Setup & Deployment
 - **[Setup Guides](./setup/)** - Installation and setup instructions
