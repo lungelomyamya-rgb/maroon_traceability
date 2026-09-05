@@ -68,6 +68,7 @@ export function UserProvider({ children }: { children: ReactNode }) {
       try {
         setLoading(true);
         await adapter.initialize();
+        
         const result = await adapter.getCurrentUser();
         if (result.success && result.data) {
           setUser(result.data);
@@ -87,14 +88,20 @@ export function UserProvider({ children }: { children: ReactNode }) {
     setLoading(true);
     try {
       const realAdapter = new RealAuthAdapter();
+
+      // Password login always prefers Supabase when configured.
+      // DO NOT fall back to DualAuthService - that accepts demo passwords
+      // even when Supabase Auth rejected the request (security hole).
       if (realAdapter.isAvailable) {
         const result = await realAdapter.login(email, password);
         if (result.success && result.data) {
           setUser(result.data);
           return true;
         }
+        return false;
       }
 
+      // Supabase not confirmed (local demo without env): allow DualAuth only then
       const dualResult = await DualAuthService.getInstance().login(email, password);
       if (dualResult.success && dualResult.data) {
         setUser(dualResult.data);
@@ -114,10 +121,25 @@ export function UserProvider({ children }: { children: ReactNode }) {
     setLoading(true);
     try {
       await adapter.logout();
-      setUser(null);
     } catch (error) {
       console.error('Logout failed:', error);
     } finally {
+      setUser(null);
+      if (typeof window !== 'undefined') {
+        try {
+          // Legacy tokens
+          localStorage.removeItem('access_token');
+          localStorage.removeItem('refresh_token');
+          // Any leftover Supabase keys in localStorage from before sessionStorage migration
+          Object.keys(localStorage).forEach((key) => {
+            if (key.startsWith('sb-') || key.includes('supabase')) {
+              localStorage.removeItem(key);
+            }
+          });
+        } catch {
+          // ignore storage errors
+        }
+      }
       setLoading(false);
     }
   }, [adapter]);

@@ -251,19 +251,32 @@ npm run test path/to/test.test.ts
 ### Environment Variables
 
 ```env
-# Supabase Configuration
-NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
-NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
-SUPABASE_SERVICE_ROLE_KEY=your_service_role_key
+# Environment variables
+NEXT_PUBLIC_APP_NAME="Maroon Blockchain"
+NEXT_PUBLIC_APP_DESCRIPTION="Blockchain-based supply chain traceability"
+NEXT_PUBLIC_BASE_URL="http://localhost:3000"
+NEXT_PUBLIC_API_BASE_URL="http://localhost:3000/api"
 
-# Application Configuration
-NEXT_PUBLIC_APP_URL=http://localhost:3000
-NEXT_PUBLIC_API_URL=http://localhost:3000/api
+# Database Configuration (required for real client registration)
+# Set all three on Vercel — SUPABASE_SERVICE_ROLE_KEY must NOT be prefixed with NEXT_PUBLIC_
+NEXT_PUBLIC_SUPABASE_URL="https://YOUR_PROJECT.supabase.co"
+NEXT_PUBLIC_SUPABASE_ANON_KEY="your-anon-key"
+SUPABASE_SERVICE_ROLE_KEY="your-service-role-key"
+
+# Blockchain Configuration
+NEXT_PUBLIC_BLOCKCHAIN_NETWORK="localhost"
+NEXT_PUBLIC_BLOCKCHAIN_PORT="8545"
 
 # Feature Flags
-NEXT_PUBLIC_ENABLE_BLOCKCHAIN=true
-NEXT_PUBLIC_ENABLE_MARKETPLACE=true
-NEXT_PUBLIC_ENABLE_ANALYTICS=true
+NEXT_PUBLIC_ENABLE_ANALYTICS="false"
+NEXT_PUBLIC_ENABLE_ERROR_TRACKING="true"
+NEXT_PUBLIC_ENABLE_PERFORMANCE_MONITORING="true"
+
+# Development
+NEXT_PUBLIC_DEV_MODE="true"
+
+# Varydian financial reporting (separate app; no trailing slash)
+NEXT_PUBLIC_FINANCE_APP_URL="https://varydian-financial-reporting.onrender.com"
 ```
 
 ### Feature Flags
@@ -296,6 +309,7 @@ The platform supports dynamic feature toggling:
 
 ### Environment Setup
 
+- **[Environment contract](docs/setup/environment.md)**
 - **Development**: Local development with hot reload
 - **Staging**: Preview deployments for testing
 - **Production**: Optimized build with performance monitoring

@@ -42,9 +42,11 @@ Example: `src/__tests__/utils/profileDataMapper.test.ts` tests `src/utils/profil
 The following suites are temporarily excluded in `jest.config.js` pending rewrite:
 
 - `tests/registration/RegistrationRepository.test.ts` — legacy mock adapter assumptions
-- `tests/auth/AuthApplication.test.ts` — outdated dynamic require paths
+- `tests/auth/AuthApplication.test.ts` — outdated dynamic require paths / Hybrid stack
 
-Re-enable only after aligning with the current Supabase auth stack. Track removal in a GitHub issue.
+Re-enable only after aligning with the current Supabase auth stack (`userContext` + `RealAuthAdapter`).
+
+**Tracked:** [Issue #10](https://github.com/lungelomyamya-rgb/maroon_traceability/issues/10) item **D8** (optional: re-enable or rewrite ignored Jest auth/registration suites). Do not remove `testPathIgnorePatterns` until those suites pass locally.
 
 ## CI requirements
 

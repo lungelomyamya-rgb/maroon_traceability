@@ -1,3 +1,5 @@
+> **Note:** For current auth, see `userContext` and `/auth/login`. Hybrid/Dual paths are legacy. ADR 0003 (auth) is planned.
+
 # Authentication Adapter Pattern Implementation
 
 ## Overview

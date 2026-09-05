@@ -29,6 +29,7 @@ jobs:
         node-version: '24'
         cache: 'npm'
 
+    # Required: same flag as local install docs
     - name: Install dependencies
       run: npm ci --legacy-peer-deps
 
@@ -44,6 +45,7 @@ jobs:
     - name: Build application
       run: npm run build
 
+    # Soft gate — see CONTRIBUTING.md Dependency audit
     - name: Audit dependencies
       run: npm audit --audit-level=high
       continue-on-error: true

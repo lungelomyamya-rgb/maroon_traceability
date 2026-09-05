@@ -18,9 +18,15 @@ This directory contains comprehensive documentation for the Maroon Traceability 
 - **[Design System](./design-system.md)** - UI/UX design system
 - **[Enhanced User Type System](./EnhancedUserTypeSystem.md)** - User type architecture
 - **[Registration System](./registration-system.md)** - Registration flow documentation
+- **[Architecture Decision Records (ADRs)](./architecture/adr/README.md)** — key technical decisions
+- **[Bounded contexts](./architecture/bounded-contexts.md)** — feature map and canonical entrypoints
 
 ### ⚙️ Setup & Deployment
 - **[Setup Guides](./setup/)** - Installation and setup instructions
+- **[Environment contract](./setup/environment.md)** — required vs optional vars
+- **[Database migrations](./setup/database-migrations.md)** — how to apply Supabase schema
+- **[Schema inventory](./setup/schema-inventory.md)** — live tables vs app usage
+- **[Scripts index](./setup/scripts-index.md)** — diagnostic and maintenance scripts
 
 ### 🧩 Component Documentation
 - **[Components](./components/)** - UI component documentation
@@ -51,7 +57,7 @@ This directory contains comprehensive documentation for the Maroon Traceability 
 - [x] Main README - Professional project overview
 
 ### In Progress
-- [ ] Component Reference - Unified component documentation
+- [x] Component Reference - Unified component documentation
 
 ### Recently Completed
 - [x] Repository Cleanup & Reorganization - Complete audit and cleanup

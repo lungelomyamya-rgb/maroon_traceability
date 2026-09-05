@@ -19,6 +19,8 @@ export default function AuthLoginPage() {
   const { login, user } = useUser();
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const [loginSucceeded, setLoginSucceeded] = useState(false);
+  const [touched, setTouched] = useState({ email: false, password: false });
   const [error, setError] = useState<string | null>(null);
   const [fieldErrors, setFieldErrors] = useState({
     email: '',
@@ -29,13 +31,14 @@ export default function AuthLoginPage() {
     password: '',
   });
 
-  // Handle redirect after successful login
+  // Redirect only after a successful login submit this visit
+  // (do not bounce existing sessions into a role home during a failed attempt)
   useEffect(() => {
-    if (user) {
+    if (loginSucceeded && user ) {
       const redirectTo = searchParams?.get('redirect') || `/${user.role}`;
       router.push(redirectTo);
     }
-  }, [user, router, searchParams]);
+  }, [loginSucceeded, user, router, searchParams]);
 
   // Handle success message from verification
   useEffect(() => {
@@ -78,16 +81,22 @@ export default function AuthLoginPage() {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [name]: value,
+      [name]: value
     }));
+    
+  };
 
-    // Real-time validation
-    const error = validateField(name, value);
-    setFieldErrors(prev => ({
+  const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setTouched((prev) => ({
       ...prev,
-      [name]: error,
+      [name]: true,
+    }));
+    setFieldErrors((prev) => ({
+      ...prev,
+      [name]: validateField(name, value),
     }));
   };
 
@@ -101,6 +110,7 @@ export default function AuthLoginPage() {
     };
 
     setFieldErrors(errors);
+    setTouched({ email: true, password: true });
 
     // Check if there are any errors
     const hasErrors = Object.values(errors).some(error => error !== '');
@@ -115,7 +125,7 @@ export default function AuthLoginPage() {
       const success = await login(formData.email, formData.password);
       
       if (success) {
-        // Redirect will be handled by useEffect
+        setLoginSucceeded(true);
       } else {
         setError('Invalid email or password');
       }
@@ -177,13 +187,14 @@ export default function AuthLoginPage() {
                 name="email"
                 value={formData.email}
                 onChange={handleChange}
+                onBlur={handleBlur}
                 placeholder="Enter your email"
                 className={`w-full px-3 py-2 border rounded-md focus:ring-blue-500 focus:border-blue-500 ${
-                  fieldErrors.email ? 'border-red-500' : 'border-gray-300'
+                  touched.email && fieldErrors.email ? 'border-red-500' : 'border-gray-300'
                 }`}
                 required
               />
-              {fieldErrors.email && (
+              {touched.email && fieldErrors.email && (
                 <p className="mt-1 text-sm text-red-500">{fieldErrors.email}</p>
               )}
             </div>
@@ -200,9 +211,10 @@ export default function AuthLoginPage() {
                   name="password"
                   value={formData.password}
                   onChange={handleChange}
+                  onBlur={handleBlur}
                   placeholder="Enter your password"
                   className={`w-full px-3 py-2 pr-10 border rounded-md focus:ring-blue-500 focus:border-blue-500 ${
-                    fieldErrors.password ? 'border-red-500' : 'border-gray-300'
+                    touched.password && fieldErrors.password ? 'border-red-500' : 'border-gray-300'
                   }`}
                   required
                 />
@@ -214,7 +226,7 @@ export default function AuthLoginPage() {
                   {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                 </button>
               </div>
-              {fieldErrors.password && (
+              {touched.password && fieldErrors.password && (
                 <p className="mt-1 text-sm text-red-500">{fieldErrors.password}</p>
               )}
             </div>
