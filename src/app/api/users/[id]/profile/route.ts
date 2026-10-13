@@ -1,13 +1,13 @@
 // src/app/api/users/[id]/profile/route.ts
 // API route for user profile management
 
-import { NextRequest, NextResponse } from 'next/server';
-import { UniversalUser } from '@/types/user';
-import { 
-  createAuthErrorResponse, 
+import { NextRequest } from 'next/server';
+import {
+  createAuthErrorResponse,
   createSuccessResponse,
-  requireProfileAccess 
-} from '@/lib/auth';
+  requireProfileAccess,
+} from '@/lib/auth/auth';
+import { UniversalUser } from '@/types/user';
 
 // API routes will work on Vercel serverless functions
 /**
@@ -16,21 +16,21 @@ import {
  */
 export async function GET(
   request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
+  { params }: { params: Promise<{ id: string }> },
 ) {
   try {
     const { id: targetUserId } = await params;
 
     // Authenticate and authorize the request
     const authResult = await requireProfileAccess(request, targetUserId);
-    
+
     if (authResult.error) {
       return authResult.error;
     }
 
     // Get user from authenticated user (from Supabase)
     const user = authResult.user;
-    
+
     if (!user) {
       return createAuthErrorResponse('User not found', 404);
     }
@@ -48,14 +48,14 @@ export async function GET(
  */
 export async function PATCH(
   request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
+  { params }: { params: Promise<{ id: string }> },
 ) {
   try {
     const { id: targetUserId } = await params;
 
     // Authenticate and authorize the request
     const authResult = await requireProfileAccess(request, targetUserId);
-    
+
     if (authResult.error) {
       return authResult.error;
     }
@@ -64,7 +64,7 @@ export async function PATCH(
 
     // Validate input data
     const { name, email, phone, address, postal_code } = body;
-    
+
     if (name && (typeof name !== 'string' || name.trim().length < 2)) {
       return createAuthErrorResponse('Name must be at least 2 characters long', 400);
     }
@@ -83,7 +83,7 @@ export async function PATCH(
 
     // Get existing user from authenticated user (from Supabase)
     const existingUser = authResult.user;
-    
+
     if (!existingUser) {
       return createAuthErrorResponse('User not found', 404);
     }
@@ -95,19 +95,21 @@ export async function PATCH(
       email: email?.trim() || existingUser.email,
       phone: phone !== undefined ? phone : existingUser.phone,
       address: address !== undefined ? address : existingUser.address,
-      ...(postal_code !== undefined && { postal_code } as any),
+      ...(postal_code !== undefined
+          ? ({ postal_code } as Partial<UniversalUser>)
+          : {}),
       updatedAt: new Date().toISOString(),
     };
 
     // Update the Supabase database
     try {
       const { getSupabaseAdmin } = await import('@/features/registration/services/supabaseClient');
-      
+
       console.log('Using admin client for profile update');
-      
+
       // Use admin client to bypass RLS policies
       const supabaseAdmin = getSupabaseAdmin();
-      
+
       console.log('Updating user profile in database:', {
         targetUserId,
         updateData: {
@@ -115,8 +117,8 @@ export async function PATCH(
           email: updatedUser.email,
           phone: updatedUser.phone,
           address: updatedUser.address,
-          postal_code: (updatedUser as any).postal_code,
-        }
+          postal_code: (updatedUser as { postal_code?: string}).postal_code,
+        },
       });
 
       // Update user profile in Supabase using admin client
@@ -126,7 +128,7 @@ export async function PATCH(
           name: updatedUser.name,
           email: updatedUser.email,
           address: updatedUser.address,
-          postal_code: (updatedUser as any).postal_code,
+          postal_code: (updatedUser as { postal_code?: string}).postal_code,
           updated_at: new Date().toISOString(),
         })
         .eq('id', targetUserId)
@@ -139,7 +141,7 @@ export async function PATCH(
           message: error.message,
           details: error.details,
           hint: error.hint,
-          code: error.code
+          code: error.code,
         });
         return createAuthErrorResponse(`Database update failed: ${error.message}`, 500);
       }
@@ -149,7 +151,7 @@ export async function PATCH(
       }
 
       console.log('Profile successfully updated in Supabase for user:', targetUserId);
-      
+
       // Convert Supabase result back to UniversalUser format
       const resultUser: UniversalUser = {
         id: data.id,
@@ -162,7 +164,9 @@ export async function PATCH(
         updatedAt: data.updated_at,
         phone: undefined, // Phone not stored in database
         address: data.address,
-        ...(data.postal_code && { postal_code: data.postal_code } as any),
+        ...(data.postal_code
+          ?({ postal_code: data.postal_code } as Partial<UniversalUser>)
+          : {}),
         _source: {
           type: 'api',
           timestamp: new Date().toISOString(),
@@ -191,14 +195,14 @@ export async function PATCH(
  */
 export async function PUT(
   request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
+  { params }: { params: Promise<{ id: string }> },
 ) {
   try {
     const { id: targetUserId } = await params;
 
     // Authenticate and authorize the request
     const authResult = await requireProfileAccess(request, targetUserId);
-    
+
     if (authResult.error) {
       return authResult.error;
     }
@@ -219,17 +223,10 @@ export async function PUT(
       return createAuthErrorResponse('Please enter a valid email address', 400);
     }
 
-    // Update user data
-    const updatedUser: Partial<UniversalUser> = {
-      ...body,
-      id: targetUserId,
-      updatedAt: new Date().toISOString(),
-    };
-
     // Update the Supabase database
     try {
       const { getSupabaseAdmin } = await import('@/features/registration/services/supabaseClient');
-      
+
       // Use admin client to bypass RLS policies
       const supabaseAdmin = getSupabaseAdmin();
 
@@ -253,7 +250,7 @@ export async function PUT(
           message: error.message,
           details: error.details,
           hint: error.hint,
-          code: error.code
+          code: error.code,
         });
         return createAuthErrorResponse(`Database update failed: ${error.message}`, 500);
       }
@@ -263,7 +260,7 @@ export async function PUT(
       }
 
       console.log('Profile successfully replaced in Supabase for user:', targetUserId);
-      
+
       // Convert Supabase result back to UniversalUser format
       const resultUser: UniversalUser = {
         id: data.id,
@@ -276,7 +273,9 @@ export async function PUT(
         updatedAt: data.updated_at,
         phone: undefined, // Phone not stored in database
         address: data.address,
-        ...(data.postal_code && { postal_code: data.postal_code } as any),
+        ...(data.postal_code
+          ? ({ postal_code: data.postal_code } as Partial<UniversalUser>)
+          : {}),
         _source: {
           type: 'api',
           timestamp: new Date().toISOString(),

@@ -119,28 +119,6 @@ class ErrorBoundary extends Component<Props, State> {
     }
   };
 
-  private copyErrorDetails = () => {
-    if (this.state.error && this.state.errorInfo) {
-      const errorDetails = `
-Error ID: ${this.state.errorId}
-Timestamp: ${new Date().toISOString()}
-Error: ${this.state.error.name}
-Message: ${this.state.error.message}
-Stack: ${this.state.error.stack}
-Component Stack: ${this.state.errorInfo.componentStack}
-URL: ${typeof window !== 'undefined' ? window.location.href : 'N/A'}
-      `.trim();
-
-      navigator.clipboard.writeText(errorDetails).then(() => {
-
-        console.log('Error details copied to clipboard');
-      }).catch((error) => {
-
-        console.error('Failed to copy error details:', error);
-      });
-    }
-  };
-
   public render() {
     if (this.state.hasError) {
       if (this.props.fallback) {
@@ -214,24 +192,7 @@ URL: ${typeof window !== 'undefined' ? window.location.href : 'N/A'}
                 >
                   Reload Page
                 </button>
-
-                <button
-                  onClick={this.copyErrorDetails}
-                  className="flex-1 px-4 py-2 border border-gray-300 text-gray-700 rounded-md hover:bg-gray-50 transition-colors"
-                >
-                  Copy Error
-                </button>
               </div>
-            </div>
-
-            {/* Support information */}
-            <div className="mt-6 pt-6 border-t border-gray-200">
-              <p className="text-sm text-gray-500">
-                If this problem persists, please contact support with Error ID:{' '}
-                <span className="font-mono bg-gray-100 px-2 py-1 rounded">
-                  {this.state.errorId}
-                </span>
-              </p>
             </div>
           </div>
         </div>

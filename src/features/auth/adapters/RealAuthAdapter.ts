@@ -1,35 +1,36 @@
 // src/features/auth/adapters/RealAuthAdapter.ts
 // Real Supabase authentication adapter - FIXED VERSION
 
-import { toUniversalUser } from '@/types/types';
+import { isSelfServiceRole } from '@/lib/auth/selfServiceRoles';
+import type { User, UserRole } from '@/types/types';
+import { toUniversalUser , USER_ROLES } from '@/types/types';
 import type {
   AuthAdapter,
   AdapterConfig,
   AdapterResult,
-  AuthUser,
   UniversalUser,
   RegistrationData,
 } from '../../../core/types/adapter';
-import type { User, UserRole } from '@/types/types';
-import { USER_ROLES } from '@/types/types';
 import { supabase, isSupabaseAvailable } from '../../registration/services/supabaseClient';
 
 /**
  * Handle Postgrest errors, especially PGRST116 (no rows found)
  */
-function handlePostgrestError(error: any): string | null {
-  if (!error) return null;
-  
+function handlePostgrestError(error: { code?: string; message?: string } | null): string | null {
+  if (!error) {
+return null;
+}
+
   // Handle PGRST116 - No rows found
   if (error.code === 'PGRST116') {
     return null; // No error, just no data found
   }
-  
+
   // Handle other Postgrest errors
   if (error.code && error.code.startsWith('PGRST')) {
     return `Database error: ${error.message || 'Unknown database error'}`;
   }
-  
+
   // Handle other errors
   return error.message || 'Unknown error';
 }
@@ -171,7 +172,9 @@ export class RealAuthAdapter implements AuthAdapter {
           id: data.user.id,
           email: data.user.email || '',
           name: data.user.user_metadata?.name || data.user.email?.split('@')[0] || 'User',
-          role: data.user.user_metadata?.role || 'public',
+          role: isSelfServiceRole(data.user.user_metadata?.role ?? '')
+            ? data.user.user_metadata.role
+            : 'public',
           isActive: true,
           createdAt: data.user.created_at,
           updatedAt: data.user.updated_at,
@@ -362,7 +365,7 @@ export class RealAuthAdapter implements AuthAdapter {
           city: profile.city || '',
           state: profile.province || '',
           postalCode: profile.postal_code || '',
-          formatted: `${profile.address || ''}, ${profile.city || ''}, ${profile.province || ''} ${profile.postal_code || ''}`
+          formatted: `${profile.address || ''}, ${profile.city || ''}, ${profile.province || ''} ${profile.postal_code || ''}`,
         } : undefined,
         // Use database phone field directly
         phone: profile.phone || '',
@@ -380,7 +383,7 @@ export class RealAuthAdapter implements AuthAdapter {
           province: profile.province || '',
           postalCode: profile.postal_code || '',
           // Additional fields from database additional_data
-          ...(profile as any)?.additional_data || {},
+          ...((profile as { additional_data?: Record<string, unknown> }).additional_data ?? {}),
         },
       };
 
@@ -525,7 +528,7 @@ export class RealAuthAdapter implements AuthAdapter {
           id: session.user.id,
           email: session.user.email || '',
           name: session.user.user_metadata?.name || session.user.email?.split('@')[0] || 'User',
-          role: session.user.user_metadata?.role || 'public',
+          role: session.user || 'public',
           // Mandatory fields - will need to be filled in by user during profile completion
           phone: session.user.user_metadata?.phone || '',
           address: session.user.user_metadata?.address || '',
@@ -578,14 +581,14 @@ export class RealAuthAdapter implements AuthAdapter {
         id: session.user.id,
         email: session.user.email || '',
         name: userProfile?.name || session.user.user_metadata?.name || session.user.email?.split('@')[0] || 'User',
-        role: userProfile?.role || session.user.user_metadata?.role || 'public',
+        role: userProfile?.role || 'public',
         // Map database fields to Address object
         address: userProfile?.address ? {
           street: userProfile.address || '',
           city: userProfile.city || '',
           state: userProfile.province || '',
           postalCode: userProfile.postal_code || '',
-          formatted: `${userProfile.address || ''}, ${userProfile.city || ''}, ${userProfile.province || ''} ${userProfile.postal_code || ''}`
+          formatted: `${userProfile.address || ''}, ${userProfile.city || ''}, ${userProfile.province || ''} ${userProfile.postal_code || ''}`,
         } : undefined,
         // Use database phone field directly
         phone: userProfile?.phone || '',
@@ -603,7 +606,7 @@ export class RealAuthAdapter implements AuthAdapter {
           province: userProfile?.province || '',
           postalCode: userProfile?.postal_code || '',
           // Additional fields from database additional_data
-          ...(userProfile as any)?.additional_data || {},
+          ...((userProfile as { additional_data?: Record<string, unknown> })?.additional_data ?? {}),
         },
       };
 

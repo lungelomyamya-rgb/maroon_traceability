@@ -2,7 +2,6 @@
 // Profile service for managing user profile data
 
 import { UniversalUser } from '@/types/user';
-import { getAuthHeader } from '@/lib/authClient';
 
 export interface ProfileUpdateData {
   name?: string;
@@ -32,13 +31,13 @@ export interface ProfileUpdateData {
   farmSize?: string;
   livestockType?: string;
   // Domain-specific information
-  farmInfo?: any;
-  inspectionInfo?: any;
-  logisticsInfo?: any;
-  packagingInfo?: any;
-  retailInfo?: any;
-  marketplaceInfo?: any;
-  blockchainInfo?: any;
+  farmInfo?: Record<string, unknown>;
+  inspectionInfo?: Record<string, unknown>;
+  logisticsInfo?: Record<string, unknown>;
+  packagingInfo?: Record<string, unknown>;
+  retailInfo?: Record<string, unknown>;
+  marketplaceInfo?: Record<string, unknown>;
+  blockchainInfo?: Record<string, unknown>;
   // Legacy additional_data support
   additional_data?: Record<string, unknown>;
 }
@@ -56,10 +55,10 @@ export class ProfileService {
    * For real accounts: makes actual API call
    */
   static async updateProfile(
-    userId: string, 
+    userId: string,
     updateData: ProfileUpdateData,
     isDemoAccount: boolean = false,
-    authToken?: string
+    authToken?: string,
   ): Promise<UniversalUser> {
     const payload = {
       ...updateData,
@@ -95,10 +94,10 @@ export class ProfileService {
     if (isDemoAccount) {
       // Simulate API call for demo accounts
       console.log('Demo: Simulating profile update for user', userId, payload);
-      
+
       // Simulate network delay
       await new Promise(resolve => setTimeout(resolve, 1000));
-      
+
       // Return mock updated user with rich data structure
       return {
         id: userId,
@@ -111,7 +110,7 @@ export class ProfileService {
           city: updateData.city,
           state: updateData.province,
           postalCode: updateData.postal_code,
-          formatted: `${updateData.address}, ${updateData.city}, ${updateData.province} ${updateData.postal_code}`
+          formatted: `${updateData.address}, ${updateData.city}, ${updateData.province} ${updateData.postal_code}`,
         } : undefined,
         profile: {
           bio: updateData.profile?.bio || '',
@@ -154,7 +153,7 @@ export class ProfileService {
         console.log('No auth token provided for real account, skipping API call');
         throw new Error('Authentication required for profile updates');
       }
-      
+
       // Real API call for production accounts
       try {
         const headers: Record<string, string> = {
@@ -174,13 +173,13 @@ export class ProfileService {
         }
 
         const apiResponse = await response.json();
-        
+
         // Return just the data field from the API response
         const updatedUser = apiResponse.data || apiResponse;
         return updatedUser;
       } catch (error) {
         console.error('Profile update API error:', error);
-        
+
         // Re-throw with more user-friendly message
         if (error instanceof Error) {
           throw new Error(`Failed to update profile: ${error.message}`);
@@ -197,7 +196,7 @@ export class ProfileService {
     if (isDemoAccount) {
       // Return demo user data
       await new Promise(resolve => setTimeout(resolve, 500));
-      
+
       return {
         id: userId,
         name: 'Demo User',
@@ -222,7 +221,7 @@ export class ProfileService {
         console.log('No auth token provided for real account, skipping API call');
         throw new Error('Authentication required for profile access');
       }
-      
+
       // Real API call
       const headers: Record<string, string> = {
         'Authorization': `Bearer ${authToken}`,
