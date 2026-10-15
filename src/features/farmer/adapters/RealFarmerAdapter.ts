@@ -6,10 +6,10 @@ import type {
   AdapterConfig,
   AdapterResult,
 } from '@/core/types/adapter';
+import { supabase, isSupabaseAvailable } from '@/features/registration/services/supabaseClient';
 import type { UniversalUser } from '@/types/types';
 import { toUniversalUser } from '@/types/types';
 import type { FarmerProfileData, FarmerProduct } from '../application/FarmerApplication';
-import { supabase, isSupabaseAvailable } from '../services/supabaseClient';
 
 /**
  * Real Farmer Adapter
