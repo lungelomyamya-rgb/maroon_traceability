@@ -5,6 +5,7 @@
 
 import type { AuthUser, RegistrationData } from '@/core/types/adapter';
 import { getSupabaseAdmin } from '@/features/registration/services/supabaseClient';
+import { isSelfServiceRole } from '@/lib/auth/selfServiceRoles';
 
 function validateRegistrationData(userData: RegistrationData): {
   valid: boolean;
@@ -21,8 +22,8 @@ function validateRegistrationData(userData: RegistrationData): {
   if (!userData.name || userData.name.length < 2) {
     errors.push('Name is required');
   }
-  if (!userData.role) {
-    errors.push('Role is required');
+  if (!userData.role || !isSelfServiceRole(userData.role)) {
+    errors.push('Role must be farmer, inspector, logistics, packaging, retailer, or public');
   }
 
   return { valid: errors.length === 0, errors };
@@ -59,6 +60,9 @@ export async function registerUserWithSupabase(
     };
   }
 
+  const { role: ignoredAdditionalRole, ...safeAdditionalData } = additionalData ?? {};
+  void ignoredAdditionalRole;
+
   const { data: authData, error: authError } = await admin.auth.admin.createUser({
     email,
     password,
@@ -66,7 +70,7 @@ export async function registerUserWithSupabase(
     user_metadata: {
       name,
       role,
-      ...(additionalData ?? {}),
+      ...safeAdditionalData,
     },
   });
 

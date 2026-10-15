@@ -1,9 +1,10 @@
 // src/lib/auth.ts
 // Authentication utilities for API routes
 
+import { createClient } from '@supabase/supabase-js';
 import { NextRequest } from 'next/server';
-import { TokenProvider } from '@/features/auth/services/TokenProvider';
 import { StorageService } from '@/features/auth/services/StorageService';
+import { TokenProvider } from '@/features/auth/services/TokenProvider';
 import type { UniversalUser } from '@/types/user';
 
 /**
@@ -13,41 +14,56 @@ import type { UniversalUser } from '@/types/user';
 export async function getCurrentUserFromRequest(request: NextRequest): Promise<UniversalUser | null> {
   try {
     const authHeader = request.headers.get('authorization');
-    
+
     console.log('Auth header:', authHeader ? 'Present' : 'Missing');
-    
+
     if (!authHeader || !authHeader.startsWith('Bearer ')) {
       console.log('Invalid or missing Bearer token');
       return null;
     }
 
     const token = authHeader.substring(7); // Remove 'Bearer ' prefix
-    
+
     console.log('Token extracted, length:', token.length);
     console.log('Validating token from request header');
-    
+
     // Try to validate with Supabase first
     try {
       const { supabase } = await import('@/features/registration/services/supabaseClient');
       if (supabase) {
         console.log('Attempting Supabase token validation');
         const { data: { user }, error } = await supabase.auth.getUser(token);
-        
-        if (!error && user) {
-          console.log('Supabase token validation successful for user:', user.id);
-          
+
+        if (!error && user){
+        const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL?.trim();
+        const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY?.trim();
+        const userScopedClient = supabaseUrl && supabaseAnonKey
+          ? createClient(supabaseUrl, supabaseAnonKey, {
+              global: { headers: { Authorization: `Bearer ${token}`} },
+              auth: { persistSession: false, autoRefreshToken: false, detectSessionInUrl: false },
+            })
+          : null;
+
+        const { data: profile } = userScopedClient
+            ? await userScopedClient
+              .from('users')
+              .select('role, name, phone, address')
+              .eq('id', user.id)
+              .maybeSingle()
+            : { data: null};
+
           // Convert Supabase user to UniversalUser format
           const universalUser: UniversalUser = {
             id: user.id,
             email: user.email || '',
-            name: user.user_metadata?.name || user.email?.split('@')[0] || 'Unknown',
-            role: user.user_metadata?.role || 'public',
+            name: profile?.name || user.user_metadata?.name || user.email?.split('@')[0] || 'Unknown',
+            role: profile?.role || 'public',
             isActive: true,
-            emailVerified: user.email_confirmed_at ? true : false,
+            emailVerified: Boolean(user.email_confirmed_at),
             createdAt: user.created_at,
             updatedAt: user.updated_at || user.created_at,
-            phone: user.phone,
-            address: user.user_metadata?.address,
+            phone: profile?.phone ?? user.phone,
+            address: profile?.address ?? user.user_metadata?.address,
             _source: {
               type: 'api',
               timestamp: new Date().toISOString(),
@@ -58,13 +74,13 @@ export async function getCurrentUserFromRequest(request: NextRequest): Promise<U
             },
             _normalized: true,
           };
-          
+
           console.log('UniversalUser created:', {
             id: universalUser.id,
             email: universalUser.email,
-            role: universalUser.role
+            role: universalUser.role || 'public',
           });
-          
+
           return universalUser;
         } else {
           console.log('Supabase token validation failed:', error?.message);
@@ -77,14 +93,14 @@ export async function getCurrentUserFromRequest(request: NextRequest): Promise<U
       console.log('Supabase validation error:', supabaseError);
       console.log('Falling back to custom token validation');
     }
-    
+
     // Fallback to custom token provider for demo accounts
     const storageService = new StorageService();
     const tokenProvider = new TokenProvider(storageService);
-    
+
     // Get user from token
     const user = await tokenProvider.getCurrentUserFromToken();
-    
+
     return user;
   } catch (error) {
     console.error('Error getting user from request:', error);
@@ -97,8 +113,8 @@ export async function getCurrentUserFromRequest(request: NextRequest): Promise<U
  * Users can only access their own profile (except admins)
  */
 export function canAccessProfile(
-  currentUser: UniversalUser | null, 
-  targetUserId: string
+  currentUser: UniversalUser | null,
+  targetUserId: string,
 ): boolean {
   if (!currentUser) {
     return false;
@@ -118,12 +134,12 @@ export function canAccessProfile(
  */
 export function createAuthErrorResponse(message: string, status: number = 401) {
   return Response.json(
-    { 
+    {
       error: message,
       code: 'AUTH_ERROR',
       timestamp: new Date().toISOString(),
     },
-    { status }
+    { status },
   );
 }
 
@@ -150,7 +166,7 @@ export async function requireAuth(request: NextRequest): Promise<{
   error: Response;
 }> {
   const user = await getCurrentUserFromRequest(request);
-  
+
   if (!user) {
     return {
       user: null,
@@ -166,7 +182,7 @@ export async function requireAuth(request: NextRequest): Promise<{
  */
 export async function requireProfileAccess(
   request: NextRequest,
-  targetUserId: string
+  targetUserId: string,
 ): Promise<{
   user: UniversalUser;
   error?: never;
@@ -175,19 +191,19 @@ export async function requireProfileAccess(
   error: Response;
 }> {
   const authResult = await requireAuth(request);
-  
+
   if (authResult.error) {
     console.log('Auth failed in requireProfileAccess');
     return authResult;
   }
 
   const { user } = authResult;
-  
+
   console.log('Profile access check:', {
     authenticatedUserId: user.id,
     targetUserId,
     userRole: user.role,
-    canAccess: canAccessProfile(user, targetUserId)
+    canAccess: canAccessProfile(user, targetUserId),
   });
 
   if (!canAccessProfile(user, targetUserId)) {
