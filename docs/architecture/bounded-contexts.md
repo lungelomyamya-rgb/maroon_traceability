@@ -15,7 +15,6 @@ These are not feature folders but glue used by many contexts.
 | **Session / auth state** | `src/contexts/userContext.tsx` | **Canonical** login, logout, register, demo `switchUser` |
 | Route guards | `src/components/auth/withAuth.tsx` | Role-based page protection via `useUser()` |
 | Supabase browser client | `src/features/registration/services/supabaseClient.ts` | Primary anon client (auth, registration, most reads) |
-| Supabase farmer client | `src/features/farmer/services/supabaseClient.ts` | **Duplicate** — causes Multiple GoTrueClient warning; consolidate (Issue #10 D1) |
 | Supabase admin | `getSupabaseAdmin()` in registration supabaseClient | Server-only; registration API |
 | User types | `src/types/` | `UniversalUser`, roles, normalization |
 | Registration enrich | `src/lib/enrichUserFromRegistration.ts` | Post-register profile merge |
@@ -87,7 +86,7 @@ Most role dashboards are UI + mock/hooks for demo. Only farmer has a real Supaba
 
 | Context | Folder | App route | Data | Notes |
 |---------|--------|-----------|------|-------|
-| Farmer | `src/features/farmer/` | `/farmer/*` | `farmers` (code only; not in baseline `schema.sql`) | `RealFarmerAdapter`; duplicate supabase client |
+| Farmer | `src/features/farmer/` | `/farmer/*` | `farmers` (code only; not in baseline `schema.sql`) |
 | Logistics | `src/features/logistics/` | `/logistics/*` | Mock / local | Hooks + components |
 | Packaging | `src/features/packaging/` | `/packaging/*` | Mock / local | Hooks + components |
 | Inspector | `src/features/inspector/` | `/inspector/*` | Mock / local | Hooks + components |
