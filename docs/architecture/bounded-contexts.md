@@ -68,7 +68,7 @@ flowchart TB
 | Routes | `/auth/login` (real login), `/login` (demo role picker) |
 | Canonical | `userContext` → `RealAuthAdapter`; `/auth/login` page |
 | Demo | `/login` → `switchUser()` (React state only) |
-| Legacy — do not extend | `HybridAuthAdapter`, `DualAuthService` (demo-only when no Supabase env), LoginService, AuthApplication, `components/services/auth/auth.ts` |
+| Legacy — do not extend | `HybridAuthAdapter`, `DualAuthService` (demo-only when no Supabase env), LoginService, AuthApplication |
 | DB | `users` (via `RealAuthAdapter`) |
 
 ### Registration
@@ -127,11 +127,11 @@ See [schema-inventory.md](../setup/schema-inventory.md).
 
 | Concern | Use this | Not this |
 |---------|----------|----------|
-| Login (prod) | `/auth/login` + `userContext.login()` | `HybridAuthPage`, legacy `AuthService` |
+| Login (prod) | `/auth/login` + `userContext.login()` | `HybridAuthPage` |
 | Demo access | `/login` + `switchUser()` | DualAuth when Supabase env is set |
-| Logout | `useUser().logout()` | `AuthService.clearToken()` |
-| Register | `/api/auth/register` + registration adapters | Mock RegisterForm paths |
-| Supabase client | One shared module (target) | Two browser clients today |
+| Logout | `useUser().logout()` | — |
+| Register | `/api/auth/register` + registration adapters | — |
+| Supabase client | `src/features/registration/services/supabaseClient.ts` | — |
 
 Backlog: [Issue #10](https://github.com/lungelomyamya-rgb/maroon_traceability/issues/10).
 
