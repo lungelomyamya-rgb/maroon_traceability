@@ -68,7 +68,7 @@ flowchart TB
 | Routes | `/auth/login` (real login), `/login` (demo role picker) |
 | Canonical | `userContext` → `RealAuthAdapter`; `/auth/login` page |
 | Demo | `/login` → `switchUser()` (React state only) |
-| Legacy — do not extend | `HybridAuthAdapter`, `DualAuthService` (demo-only when no Supabase env), LoginService, AuthApplication |
+| Legacy — do not extend | `HybridAuthAdapter`, `DualAuthService` (demo-only when no Supabase env), AuthApplication |
 | DB | `users` (via `RealAuthAdapter`) |
 
 ### Registration
