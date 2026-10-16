@@ -32,11 +32,17 @@ registration_type, phone, city, province)
 `user_role` enum: farmer | logistics | inspector | packaging | retailer | viewer  
 **Gap:** app also uses saps, admin, government, public — baseline uses CHECK on `users.role` instead.
 
-## Live RLS on `users` (legacy — needs cleanup PR)
+## Live RLS on `users`
 
-Document that live has permissive public SELECT/INSERT policies.  
-New projects use the stricter set in `schema.sql`.  
-Production tighten: separate change with testing.
+Applied in the Supabase project with the registration-role work. Not fully copied into `database/schema.sql` yet.
+
+- Service role full access
+- Users can view own data
+- Users can update own data
+- Users can insert own profile, only for farmer, inspector, logistics, packaging, retailer, and public
+- Trigger `prevent_users_role_change` blocks role changes from a normal user session
+
+`database/schema.sql` has the owner-only read, insert, and update policies. It does not yet include the self-serve role check on insert or the role-change trigger.
 
 ## Related
 
