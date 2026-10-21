@@ -9,6 +9,25 @@ import {
 } from '@/lib/auth/auth';
 import { UniversalUser } from '@/types/user';
 
+function readAdditionalData(value: unknown): Record<string, unknown> {
+  if (value && typeof value === 'object' && !Array.isArray(value)) {
+    return value as Record<string, unknown>;
+  }
+
+  if (typeof value === 'string') {
+    try {
+      const parsed: unknown = JSON.parse(value);
+      if (parsed && typeof parsed === 'object' && !Array.isArray(parsed)) {
+        return parsed as Record<string, unknown>;
+      }
+    } catch {
+      return {};
+    }
+  }
+
+  return {};
+}
+
 // API routes will work on Vercel serverless functions
 /**
  * GET /api/users/[id]/profile
@@ -63,7 +82,7 @@ export async function PATCH(
     const body = await request.json();
 
     // Validate input data
-    const { name, email, phone, address, postal_code } = body;
+    const { name, email, phone, address, postal_code, city, province, additional_data } = body;
 
     if (name && (typeof name !== 'string' || name.trim().length < 2)) {
       return createAuthErrorResponse('Name must be at least 2 characters long', 400);
@@ -122,13 +141,34 @@ export async function PATCH(
       });
 
       // Update user profile in Supabase using admin client
+      const { data: existingProfile } = await supabaseAdmin
+        .from('users')
+        .select('additional_data')
+        .eq('id', targetUserId)
+        .maybeSingle();
+
+      const mergedAdditionalData = {
+        ...readAdditionalData(existingProfile?.additional_data),
+        ...readAdditionalData(additional_data),
+      };
+
+      delete mergedAdditionalData.phone;
+      delete mergedAdditionalData.address;
+      delete mergedAdditionalData.city;
+      delete mergedAdditionalData.province;
+      delete mergedAdditionalData.postalCode;
+
       const { data, error } = await supabaseAdmin
         .from('users')
         .update({
           name: updatedUser.name,
           email: updatedUser.email,
+          phone: typeof phone === 'string' ? phone : updatedUser.phone,
           address: updatedUser.address,
+          city: typeof city === 'string' ? city : undefined,
+          province: typeof province === 'string' ? province : undefined,
           postal_code: (updatedUser as { postal_code?: string}).postal_code,
+          additional_data: mergedAdditionalData,
           updated_at: new Date().toISOString(),
         })
         .eq('id', targetUserId)
@@ -162,7 +202,10 @@ export async function PATCH(
         emailVerified: data.email_verified,
         createdAt: data.created_at,
         updatedAt: data.updated_at,
-        phone: undefined, // Phone not stored in database
+        phone: data.phone,
+        ...(data.city ? ({ city: data.city } as Partial<UniversalUser>) : {}),
+        ...(data.province ? ({ province: data.province } as Partial<UniversalUser>) : {}),
+        ...(data.additional_data ? ({ additional_data: data.additional_data } as Partial<UniversalUser>) : {}),
         address: data.address,
         ...(data.postal_code
           ?({ postal_code: data.postal_code } as Partial<UniversalUser>)
@@ -236,7 +279,10 @@ export async function PUT(
         .update({
           name: body.name,
           email: body.email,
+          phone: typeof body.phone === 'string' ? body.phone : undefined,
           address: body.address,
+          city: typeof body.city === 'string' ? body.city : undefined,
+          province: typeof body.province === 'string' ? body.province : undefined,
           postal_code: body.postal_code,
           updated_at: new Date().toISOString(),
         })
@@ -271,7 +317,9 @@ export async function PUT(
         emailVerified: data.email_verified,
         createdAt: data.created_at,
         updatedAt: data.updated_at,
-        phone: undefined, // Phone not stored in database
+        phone: data.phone,
+        ...(data.city ? ({ city: data.city } as Partial<UniversalUser>) : {}),
+        ...(data.province ? ({ province: data.province } as Partial<UniversalUser>) : {}),
         address: data.address,
         ...(data.postal_code
           ? ({ postal_code: data.postal_code } as Partial<UniversalUser>)
