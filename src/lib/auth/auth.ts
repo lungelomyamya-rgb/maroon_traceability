@@ -47,7 +47,7 @@ export async function getCurrentUserFromRequest(request: NextRequest): Promise<U
         const { data: profile } = userScopedClient
             ? await userScopedClient
               .from('users')
-              .select('role, name, phone, address')
+              .select('role, name, phone, address, city, province, postal_code, additional_data')
               .eq('id', user.id)
               .maybeSingle()
             : { data: null};
@@ -64,6 +64,10 @@ export async function getCurrentUserFromRequest(request: NextRequest): Promise<U
             updatedAt: user.updated_at || user.created_at,
             phone: profile?.phone ?? user.phone,
             address: profile?.address ?? user.user_metadata?.address,
+            ...(profile?.city ? ({city: profile.city } as Partial<UniversalUser>) : {}),
+            ...(profile?.province ? ({ province: profile.province } as Partial<UniversalUser>) : {}),
+            ...(profile?.postal_code ? ({ postal_code: profile.postal_code } as Partial<UniversalUser>) : {}),
+            ...(profile?.additional_data ? ({ additional_data: profile.additional_data } as Partial<UniversalUser>) : {}),
             _source: {
               type: 'api',
               timestamp: new Date().toISOString(),

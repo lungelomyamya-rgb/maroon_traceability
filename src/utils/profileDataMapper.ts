@@ -8,79 +8,149 @@ import type { UniversalUser, User } from '@/types/user';
  */
 type UserUnion = User | UniversalUser | null;
 
+type LooseRecord = Record<string, unknown>;
+
+type LooseProfileSource = {
+  profile?: LooseRecord;
+  additional_data?: LooseRecord;
+  metadata?: LooseRecord;
+  farmInfo?: LooseRecord;
+  retailInfo?: LooseRecord;
+  address?: string | LooseRecord;
+  city?: string;
+  province?: string;
+  postal_code?: string;
+  avatar?: string;
+  bio?: string;
+}
+
+type ProfileFormData = {
+  name?: string;
+  email?: string;
+  phone?: string;
+  address?: string;
+  city?: string;
+  province?: string;
+  postal_code?: string;
+  companyName?: string;
+  registrationNumber?: string;
+  taxNumber?: string;
+  vatNumber?: string;
+  businessType?: string;
+  numberOfEmployees?: string;
+  annualRevenue?: string;
+  farmSize?: string;
+  farmName?: string;
+  livestockType?:string;
+  avatarUrl?: string;
+};
+
+function asProfileSource(user: UserUnion): LooseProfileSource {
+  return (user ?? {}) as LooseProfileSource;
+}
+
+function readText(source: LooseRecord | undefined, key: string): string {
+  const value = source?.[key];
+  return typeof value === 'string' ? value : '';
+}
+
+function asStringRecord(value: unknown): Record<string, unknown> {
+  if (value && typeof value === 'object' && !Array.isArray(value)) {
+    return value as Record<string, unknown>;
+  }
+  return{};
+}
+
 /**
  * Extract profile information from User with multiple data sources
  */
 export function extractProfileData(user: UserUnion) {
-  if (!user) return null;
+  if (!user) {
+    return null;
+  }
 
-  // Extract data from multiple possible sources
-  const profile = (user as any).profile || {};
-  const additionalData = (user as any).additional_data || {};
-  const metadata = (user as any).metadata || {};
-  const farmInfo = (user as any).farmInfo || {};
-  const retailInfo = (user as any).retailInfo || {};
-  
+  const source = asProfileSource(user);
+  const profile = source.profile ?? {};
+  const additionalData = source.additional_data ?? {};
+  const metadata = source.metadata ?? {};
+  const farmInfo = source.farmInfo ?? {};
+  const retailInfo = source.retailInfo ?? {};
+
   // Handle address object vs string
-  const addressObj = (user as any).address;
+  const addressObj = source.address;
   let addressString = '';
   let cityString = '';
   let provinceString = '';
   let postalCodeString = '';
-  
+
   if (addressObj && typeof addressObj === 'object') {
-    addressString = addressObj.street || '';
-    cityString = addressObj.city || '';
-    provinceString = addressObj.state || '';
-    postalCodeString = addressObj.postalCode || '';
+    addressString = readText(addressObj, 'street');
+    cityString = readText(addressObj, 'city');
+    provinceString = readText(addressObj, 'state');
+    postalCodeString = readText(addressObj, 'postalCode');
   } else {
-    addressString = addressObj || additionalData.address || profile.address || metadata.address || '';
-    cityString = (user as any).city || additionalData.city || metadata.city || '';
-    provinceString = (user as any).province || additionalData.province || metadata.province || '';
-    postalCodeString = (user as any).postal_code || additionalData.postalCode || metadata.postalCode || '';
+    addressString = (typeof addressObj === 'string' ? addressObj : '')
+      || readText(additionalData, 'address')
+      || readText(profile, 'address')
+      || readText(metadata, 'address');
+    cityString = source.city || readText(additionalData, 'city') || readText(metadata, 'city');
+    provinceString = source.province || readText(additionalData, 'province') || readText(metadata, 'province');
+    postalCodeString = source.postal_code || readText(additionalData, 'postalCode') || readText(metadata, 'postalCode');
   }
+
+  const farmSizeValue = farmInfo.size;
+  const farmSizeText = typeof farmSizeValue === 'number' || typeof farmSizeValue === 'string'
+    ? String(farmSizeValue)
+    : readText(additionalData, 'farmSize') ||readText(metadata, 'farmSize');
 
   return {
     // Basic info
     name: user.name || '',
     email: user.email || '',
-    phone: user.phone || profile.phone || additionalData.phone || metadata.phone || '',
-    
+    phone: user.phone || readText(profile, 'phone') || readText(additionalData, 'phone') || readText(metadata, 'phone'),
+
     // Address
     address: addressString,
     city: cityString,
     province: provinceString,
     postal_code: postalCodeString,
-    
+
     // Business info - check all possible sources including metadata
-    companyName: retailInfo.storeName || additionalData.companyName || metadata.companyName || '',
-    registrationNumber: additionalData.registrationNumber || metadata.registrationNumber || '',
-    taxNumber: additionalData.taxNumber || metadata.taxNumber || '',
-    vatNumber: additionalData.vatNumber || metadata.vatNumber || '',
-    businessType: additionalData.businessType || metadata.businessType || '',
-    numberOfEmployees: additionalData.numberOfEmployees || metadata.numberOfEmployees || '',
-    annualRevenue: additionalData.annualRevenue || metadata.annualRevenue || '',
-    
+    companyName: readText(retailInfo, 'storeName') || readText(additionalData, 'companyName') || readText(metadata, 'companyName'),
+    registrationNumber: readText(additionalData, 'registrationNumber') || readText(metadata, 'registrationNumber'),
+    taxNumber: readText(additionalData, 'taxNumber') || readText(metadata, 'taxNumber'),
+    vatNumber: readText(additionalData, 'vatNumber') || readText(metadata, 'vatNumber'),
+    businessType: readText(additionalData, 'businessType') || readText(metadata, 'businessType'),
+    numberOfEmployees: readText(additionalData, 'numberOfEmployees') || readText(metadata, 'numberOfEmployees'),
+    annualRevenue: readText(additionalData, 'annualRevenue') || readText(metadata, 'annualRevenue'),
+
     // Farm info - check all possible sources including metadata
-    farmSize: farmInfo.size ? farmInfo.size.toString() : additionalData.farmSize || metadata.farmSize || '',
-    farmName: farmInfo.name || additionalData.farmName || metadata.farmName || '',
-    livestockType: additionalData.livestockType || metadata.livestockType || '',
-    
+    farmSize: farmSizeText,
+    farmName: readText(farmInfo, 'name') || readText(additionalData, 'farmName') || readText(metadata, 'farmName'),
+    livestockType: readText(additionalData, 'livestockType') || readText(metadata, 'livestockType'),
+
     // Profile metadata - check additional_data first for real users
-    preferences: profile.preferences || metadata.preferences || additionalData.preferences || {},
-    
+    preferences: (profile.preferences && typeof profile.preferences === 'object' ? profile.preferences : undefined)
+    || (metadata.preferences && typeof metadata.preferences ==='object' ? metadata.preferences: undefined)
+    || (additionalData.preferences && typeof additionalData.preferences === 'object' ? additionalData.preferences : undefined)
+    || {},
+
     // Avatar URL - check all possible sources
-    avatarUrl: (user as any).avatar || profile.avatarUrl || additionalData.avatarUrl || metadata.avatarUrl || '',
-    
+    avatarUrl: source.avatar || readText(profile, 'avatarUrl') || readText(additionalData, 'avatarUrl') || readText(metadata, 'avatarUrl'),
+
     // Bio/description - check all possible sources
-    bio: profile.bio || additionalData.bio || metadata.bio || (user as any).bio || '',
+    bio: readText(profile, 'bio') || readText(additionalData, 'bio') || readText(metadata, 'bio') || source.bio || '',
   };
 }
 
 /**
  * Create rich user data structure from form data for updates
  */
-export function createUpdateData(formData: any, currentUser: UserUnion) {
+export function createUpdateData(formData: ProfileFormData, currentUser: UserUnion) {
+  const source = asProfileSource(currentUser);
+  const currentFarmInfo = source.farmInfo ?? {};
+  const currentRetailInfo = source.retailInfo ?? {};
+
   return {
     name: formData.name,
     email: formData.email,
@@ -89,16 +159,16 @@ export function createUpdateData(formData: any, currentUser: UserUnion) {
     city: formData.city || undefined,
     province: formData.province || undefined,
     postal_code: formData.postal_code || undefined,
-    
+
     // Profile structure
     profile: {
-      bio: (currentUser as any)?.profile?.bio || '',
+      bio: readText(source.profile, 'bio'),
       phone: formData.phone || '',
       address: formData.address || '',
-      avatarUrl: (currentUser as any)?.profile?.avatarUrl || '',
-      preferences: (currentUser as any)?.profile?.preferences || {},
+      avatarUrl: readText(source.profile, 'avatarUrl'),
+      preferences: asStringRecord(source.profile?.preferences),
     },
-    
+
     // Business information
     companyName: formData.companyName || undefined,
     registrationNumber: formData.registrationNumber || undefined,
@@ -107,31 +177,31 @@ export function createUpdateData(formData: any, currentUser: UserUnion) {
     businessType: formData.businessType || undefined,
     numberOfEmployees: formData.numberOfEmployees || undefined,
     annualRevenue: formData.annualRevenue || undefined,
-    
+
     // Farm information
     farmSize: formData.farmSize || undefined,
     livestockType: formData.livestockType || undefined,
-    
+
     // Domain-specific information
     farmInfo: formData.farmSize || formData.farmName ? {
       name: formData.farmName || '',
       size: parseFloat(formData.farmSize || '0'),
-      location: (currentUser as any)?.farmInfo?.location || { latitude: 0, longitude: 0, address: '', city: '', country: '' },
-      certifications: (currentUser as any)?.farmInfo?.certifications || [],
-      products: (currentUser as any)?.farmInfo?.products || [],
+      location: currentFarmInfo.location || { latitude: 0, longitude: 0, address: '', city: '', country: '' },
+      certifications: Array.isArray(currentFarmInfo.certifications) ? currentFarmInfo.certifications : [],
+      products: Array.isArray(currentFarmInfo.products) ? currentFarmInfo.products : [],
     } : undefined,
-    
+
     retailInfo: formData.companyName ? {
-      storeId: (currentUser as any)?.retailInfo?.storeId || '',
+      storeId: readText(currentRetailInfo, 'storeId'),
       storeName: formData.companyName,
-      location: (currentUser as any)?.retailInfo?.location || { address: '', city: '', country: '', coordinates: { latitude: 0, longitude: 0 } },
-      contact: (currentUser as any)?.retailInfo?.contact || { phone: '', email: '', manager: '' },
-      salesHistory: (currentUser as any)?.retailInfo?.salesHistory || [],
+      location: currentRetailInfo.location || { address: '', city: '', country: '', coordinates: { latitude: 0, longitude: 0 } },
+      contact: currentRetailInfo.contact || { phone: '', email: '', manager: '' },
+      salesHistory: Array.isArray(currentRetailInfo.salesHistory) ? currentRetailInfo.salesHistory : [],
     } : undefined,
-    
+
     // Legacy additional_data for compatibility
     additional_data: {
-      ...(currentUser as any)?.additional_data,
+      ...source.additional_data,
       companyName: formData.companyName,
       farmName: formData.farmName,
       farmSize: formData.farmSize,
@@ -139,11 +209,6 @@ export function createUpdateData(formData: any, currentUser: UserUnion) {
       businessType: formData.businessType,
       numberOfEmployees: formData.numberOfEmployees,
       annualRevenue: formData.annualRevenue,
-      phone: formData.phone,
-      address: formData.address,
-      city: formData.city,
-      province: formData.province,
-      postalCode: formData.postal_code,
       avatarUrl: formData.avatarUrl,
     },
   };
@@ -153,12 +218,15 @@ export function createUpdateData(formData: any, currentUser: UserUnion) {
  * Check if user has business information
  */
 export function hasBusinessInfo(user: UserUnion): boolean {
-  if (!user) return false;
-  
+  if (!user) {
+    return false;
+  }
+
+  const source = asProfileSource(user);
   return !!(
-    user.role === 'retailer' ||
-    (user as any).retailInfo?.companyName ||
-    (user as any).additional_data?.companyName
+    user.role === 'retailer'
+    || readText(source.retailInfo, 'companyName')
+    || readText(source.additional_data, 'companyName')
   );
 }
 
@@ -166,12 +234,16 @@ export function hasBusinessInfo(user: UserUnion): boolean {
  * Check if user has farm information
  */
 export function hasFarmInfo(user: UserUnion): boolean {
-  if (!user) return false;
-  
+  if (!user) {
+    return false;
+  }
+
+  const source = asProfileSource(user);
   return !!(
-    user.role === 'farmer' ||
-    (user as any).farmInfo?.farmSize ||
-    (user as any).additional_data?.farmSize
+    user.role === 'farmer'
+    || readText(source.farmInfo, 'farmSize')
+    || source.farmInfo?.size
+    ||readText(source.additional_data, 'farmSize')
   );
 }
 
@@ -179,7 +251,10 @@ export function hasFarmInfo(user: UserUnion): boolean {
  * Format farm size for display
  */
 export function formatFarmSize(farmSize: number | string | undefined): string {
-  if (!farmSize) return 'Not provided';
+  if (!farmSize) {
+    return 'Not provided';
+  }
+
   const size = typeof farmSize === 'string' ? parseFloat(farmSize) : farmSize;
   return isNaN(size) ? 'Not provided' : `${size} hectares`;
 }
@@ -188,19 +263,30 @@ export function formatFarmSize(farmSize: number | string | undefined): string {
  * Get display value with fallback from multiple sources
  */
 export function getDisplayValue(user: UserUnion, ...sources: string[]): string {
-  if (!user) return 'Not provided';
-  
+  if (!user) {
+    return 'Not provided';
+  }
+
   for (const source of sources) {
     const value = getNestedProperty(user, source);
-    if (value && value !== '') return value;
+    if (value && value !== '') {
+      return value;
+    }
   }
-  
+
   return 'Not provided';
 }
 
 /**
  * Get nested property from object using dot notation
  */
-function getNestedProperty(obj: any, path: string): any {
-  return path.split('.').reduce((current, key) => current?.[key], obj);
+function getNestedProperty(obj: unknown, path: string): string {
+  const value = path.split('.').reduce<unknown>((current, key) => {
+    if (current && typeof current === 'object' && key in current) {
+      return (current as LooseRecord)[key];
+    }
+    return undefined;
+  }, obj);
+
+  return typeof value === 'string' ? value : '';
 }
