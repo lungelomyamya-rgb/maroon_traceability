@@ -54,6 +54,13 @@ function readText(source: LooseRecord | undefined, key: string): string {
   return typeof value === 'string' ? value : '';
 }
 
+function asStringRecord(value: unknown): Record<string, unknown> {
+  if (value && typeof value === 'object' && !Array.isArray(value)) {
+    return value as Record<string, unknown>;
+  }
+  return{};
+}
+
 /**
  * Extract profile information from User with multiple data sources
  */
@@ -119,7 +126,7 @@ export function extractProfileData(user: UserUnion) {
 
     // Farm info - check all possible sources including metadata
     farmSize: farmSizeText,
-    farmName: farmInfo.name || readText(additionalData, 'farmName') || readText(metadata, 'farmName'),
+    farmName: readText(farmInfo, 'name') || readText(additionalData, 'farmName') || readText(metadata, 'farmName'),
     livestockType: readText(additionalData, 'livestockType') || readText(metadata, 'livestockType'),
 
     // Profile metadata - check additional_data first for real users
@@ -159,9 +166,7 @@ export function createUpdateData(formData: ProfileFormData, currentUser: UserUni
       phone: formData.phone || '',
       address: formData.address || '',
       avatarUrl: readText(source.profile, 'avatarUrl'),
-      preferences: source.profile?.preferences && typeof source.profile.preferences === 'object'
-        ? source.profile.preferences
-        :{},
+      preferences: asStringRecord(source.profile?.preferences),
     },
 
     // Business information
