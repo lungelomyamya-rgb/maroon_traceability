@@ -66,10 +66,30 @@ CREATE TRIGGER update_users_updated_at
   BEFORE UPDATE ON users
   FOR EACH ROW
   EXECUTE FUNCTION update_updated_at_column();
+  
+CREATE OR REPLACE FUNCTION public.prevent_users_role_change()
+RETURNS TRIGGER
+LANGUAGE plpgsql
+AS $$
+BEGIN
+  IF auth.role() IS DISTINCT FROM 'service_role'
+    AND NEW.role IS DISTINCT FROM OLD.role THEN
+   RAISE EXCEPTION 'Changing role is not allowed';
+  END IF;
+  RETURN NEW;
+  END;
+$$;
+
+DROP TRIGGER IF EXISTS prevent_users_role_change ON users;
+CREATE TRIGGER prevent_users_role_change
+  BEFORE UPDATE ON users
+  FOR EACH ROW
+  EXECUTE FUNCTION public.prevent_users_role_change();
 
 ALTER TABLE users ENABLE ROW LEVEL SECURITY;
 
--- Target policies for NEW projects (stricter than current live legacy set)
+-- Policies match the live users table: owner-only read and update,
+-- self-serve insert, and service-role access.
 DROP POLICY IF EXISTS "Service role full access" ON users;
 CREATE POLICY "Service role full access" ON users
   FOR ALL
@@ -82,9 +102,13 @@ CREATE POLICY "Users can view own data" ON users
   USING (auth.uid() = id);
 
 DROP POLICY IF EXISTS "Users can insert own data" ON users;
-CREATE POLICY "Users can insert own data" ON users
+DROP POLICY IF EXISTS "Users can insert own profile" ON users;
+CREATE POLICY "Users can insert own profile" ON users
   FOR INSERT
-  WITH CHECK (auth.uid() = id);
+  WITH CHECK (
+    auth.uid() = id
+    AND role IN ('farmer', 'inspector', 'logistics', 'packaging', 'retailer', 'public')
+  );
 
 DROP POLICY IF EXISTS "Users can update own data" ON users;
 CREATE POLICY "Users can update own data" ON users
