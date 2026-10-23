@@ -33,7 +33,7 @@ Registration and admin operations use:
 **Negative / trade-offs**
 
 - Schema changes require manual SQL and backup discipline on shared prod
-- Live RLS on `users` is still overly permissive — tighten in a separate PR (Issue #10 D6)
+- Live RLS on `users` matches `database/schema.sql`: owner read and update, self-serve insert for farmer, inspector, logistics, packaging, retailer, and public, service-role access, and the `prevent_users_role_change` trigger.
 - Unused legacy tables remain until inventory/trigger check completes (D7)
 
 **Related**
