@@ -34,15 +34,13 @@ registration_type, phone, city, province)
 
 ## Live RLS on `users`
 
-Applied in the Supabase project with the registration-role work. Not fully copied into `database/schema.sql` yet.
+Applied in the Supabase project with the registration-role work. `database/schema.sql` now has the same insert role check and `prevent_users_role_change` trigger.
 
 - Service role full access
 - Users can view own data
 - Users can update own data
 - Users can insert own profile, only for farmer, inspector, logistics, packaging, retailer, and public
 - Trigger `prevent_users_role_change` blocks role changes from a normal user session
-
-`database/schema.sql` has the owner-only read, insert, and update policies. It does not yet include the self-serve role check on insert or the role-change trigger.
 
 ## Related
 
