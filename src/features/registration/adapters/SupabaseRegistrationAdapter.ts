@@ -8,7 +8,7 @@ import type {
   AuthUser,
   RegistrationData,
 } from '../../../core/types/adapter';
-import { supabase, isSupabaseAvailable, getSupabaseAdmin } from '../services/supabaseClient';
+import { supabase, isSupabaseAvailable } from '../services/supabaseClient';
 
 /**
  * Supabase Registration Adapter
@@ -145,7 +145,7 @@ export class SupabaseRegistrationAdapter implements RegistrationAdapter {
           city: undefined,
           province: undefined,
           postalCode: undefined,
-        } : {}
+        } : {},
       };
 
       let profileData: AuthUser | null = null;

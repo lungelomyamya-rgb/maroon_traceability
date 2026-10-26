@@ -7,6 +7,7 @@ import {
   createSuccessResponse,
   requireProfileAccess,
 } from '@/lib/auth/auth';
+import { getSupabaseAdmin } from '@/lib/server/supabaseAdmin';
 import { UniversalUser } from '@/types/user';
 
 function readAdditionalData(value: unknown): Record<string, unknown> {
@@ -122,7 +123,6 @@ export async function PATCH(
 
     // Update the Supabase database
     try {
-      const { getSupabaseAdmin } = await import('@/features/registration/services/supabaseClient');
 
       console.log('Using admin client for profile update');
 
@@ -268,7 +268,6 @@ export async function PUT(
 
     // Update the Supabase database
     try {
-      const { getSupabaseAdmin } = await import('@/features/registration/services/supabaseClient');
 
       // Use admin client to bypass RLS policies
       const supabaseAdmin = getSupabaseAdmin();

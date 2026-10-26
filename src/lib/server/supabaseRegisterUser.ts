@@ -4,8 +4,8 @@
  */
 
 import type { AuthUser, RegistrationData } from '@/core/types/adapter';
-import { getSupabaseAdmin } from '@/features/registration/services/supabaseClient';
 import { isSelfServiceRole } from '@/lib/auth/selfServiceRoles';
+import { getSupabaseAdmin } from '@/lib/server/supabaseAdmin';
 
 function validateRegistrationData(userData: RegistrationData): {
   valid: boolean;
