@@ -104,7 +104,6 @@ export const stagingConfig: HybridConfig = {
         endpoint: process.env.NEXT_PUBLIC_SUPABASE_URL,
         credentials: {
           anonKey: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '',
-          serviceRoleKey: process.env.SUPABASE_SERVICE_ROLE_KEY || '',
         },
         timeout: 10000,
         retry: {
@@ -131,7 +130,6 @@ export const stagingConfig: HybridConfig = {
         endpoint: process.env.NEXT_PUBLIC_SUPABASE_URL,
         credentials: {
           anonKey: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '',
-          serviceRoleKey: process.env.SUPABASE_SERVICE_ROLE_KEY || '',
         },
         timeout: 10000,
         retry: {

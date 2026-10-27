@@ -107,7 +107,6 @@ export const DEFAULT_HYBRID_CONFIG: HybridConfig = {
         endpoint: process.env.NEXT_PUBLIC_SUPABASE_URL,
         credentials: {
           anonKey: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '',
-          serviceRoleKey: process.env.SUPABASE_SERVICE_ROLE_KEY || '',
         },
         timeout: 10000,
         retry: {
@@ -156,7 +155,6 @@ export const DEFAULT_HYBRID_CONFIG: HybridConfig = {
         endpoint: process.env.NEXT_PUBLIC_SUPABASE_URL,
         credentials: {
           anonKey: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '',
-          serviceRoleKey: process.env.SUPABASE_SERVICE_ROLE_KEY || '',
         },
         timeout: 10000,
         retry: {
@@ -367,7 +365,6 @@ export const HYBRID_ENV_VARS = {
   // Data source settings
   SUPABASE_URL: 'NEXT_PUBLIC_SUPABASE_URL',
   SUPABASE_ANON_KEY: 'NEXT_PUBLIC_SUPABASE_ANON_KEY',
-  SUPABASE_SERVICE_ROLE_KEY: 'SUPABASE_SERVICE_ROLE_KEY',
 } as const;
 
 /**
