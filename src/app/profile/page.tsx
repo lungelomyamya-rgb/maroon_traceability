@@ -1,15 +1,15 @@
 'use client';
 
+import { User, Mail, Phone, MapPin, Calendar, Shield, Edit2, Save, X, Briefcase, Building, Package, CheckCircle, FileText } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 import React, { useState, useEffect } from 'react';
-import { User, Mail, Phone, MapPin, Calendar, Shield, Edit2, Save, X, Briefcase, Building, Package, Truck, Eye, CheckCircle, FileText } from 'lucide-react';
-import { useUser } from '@/contexts/userContext';
 import { Button } from '@/components/ui/button';
 import { DEMO_USERS } from '@/constants/users';
-import { UserRole, UniversalUser } from '@/types/user';
+import { useUser } from '@/contexts/userContext';
 import { ProfileService } from '@/services/profileService';
-import { useRouter } from 'next/navigation';
-import { extractProfileData, createUpdateData, hasBusinessInfo, hasFarmInfo, formatFarmSize, getDisplayValue } from '@/utils/profileDataMapper';
+import { UserRole, UniversalUser } from '@/types/user';
 import { uploadImage } from '@/utils/imageUpload';
+import { extractProfileData, createUpdateData, hasBusinessInfo, hasFarmInfo, formatFarmSize, getDisplayValue } from '@/utils/profileDataMapper';
 
 interface ProfileFormData {
   name: string;
@@ -30,6 +30,25 @@ interface ProfileFormData {
   farmSize?: string;
   farmName?: string;
   livestockType?: string;
+}
+
+const provinceLabels: Record<string, string> = {
+  'eastern-cape': 'Eastern Cape',
+  'free-state': 'Free State',
+  gauteng: 'Gauteng',
+  'kwazulu-natal': 'KwaZulu-Natal',
+  limpopo: 'Limpopo',
+  mpumalanga: 'Mpumalanga',
+  'northern-cape': 'Northern Cape',
+  'north-west':'North West',
+  'western-cape': 'Western Cape',
+};
+
+function provinceLabel(value: string | undefined): string {
+  if (!value) {
+    return 'Not provided';
+  }
+  return provinceLabels[value] || value;
 }
 
 export default function ProfilePage() {
@@ -70,15 +89,11 @@ export default function ProfilePage() {
     }
   }, [currentUser]);
 
-  const handleInputChange = (field: string, value: string) => {
+  const handleInputChange = (field: keyof ProfileFormData, value: string) => {
     if (field.includes('.')) {
-      const [parent, child] = field.split('.');
       setFormData(prev => ({
         ...prev,
-        [parent]: {
-          ...(prev[parent as keyof ProfileFormData] as any),
-          [child]: value,
-        },
+        [field]: value,
       }));
     } else {
       setFormData(prev => ({
@@ -120,8 +135,8 @@ export default function ProfilePage() {
 
     try {
       // Check if user is demo account
-      const isDemoUser = currentUser && '_source' in currentUser && 
-                       (currentUser as any)._source?.type === 'mock' || 
+      const isDemoUser = currentUser && '_source' in currentUser &&
+                       sourceType(currentUser) === 'mock' ||
                        DEMO_USERS.some(u => u.id === currentUser?.id);
 
       if (!currentUser?.id) {
@@ -146,7 +161,7 @@ export default function ProfilePage() {
         businessType: formData.businessType,
         numberOfEmployees: formData.numberOfEmployees,
         annualRevenue: formData.annualRevenue,
-      } as any);
+      });
 
       if (!validation.isValid) {
         throw new Error(validation.errors.join(', '));
@@ -156,7 +171,7 @@ export default function ProfilePage() {
       let authToken: string | undefined;
       console.log('User is demo account:', isDemoUser);
       console.log('Current user data:', currentUser);
-      
+
       if (!isDemoUser) {
         const token = await getAuthToken();
         console.log('Auth token retrieved:', token ? 'Token exists' : 'No token found');
@@ -177,7 +192,7 @@ export default function ProfilePage() {
         currentUser.id,
         updateData,
         isDemoUser,
-        authToken
+        authToken,
       );
 
       // Update local user context with the updated user data
@@ -188,20 +203,20 @@ export default function ProfilePage() {
           ...updatedUser,
           // Preserve source tracking and validation metadata if they exist
           ...(currentUser && '_source' in currentUser && { _source: currentUser._source }),
-          ...(currentUser && '_validation' in currentUser && { 
+          ...(currentUser && '_validation' in currentUser && {
             _validation: {
               ...currentUser._validation,
               validatedAt: new Date().toISOString(),
-            }
+            },
           }),
           ...(currentUser && !('_normalized' in currentUser) && { _normalized: true }),
         };
-        
+
         setUser(mergedUser);
-        
+
         // Extract updated profile data using the data mapper
         const updatedProfileData = extractProfileData(mergedUser);
-        
+
         // Update formData to reflect the saved changes
         if (updatedProfileData) {
           setFormData(prev => ({
@@ -256,46 +271,47 @@ export default function ProfilePage() {
     setSaveStatus('idle');
   };
 
-  const getRoleIcon = (role: UserRole) => {
-    const iconMap = {
-      farmer: <Package className="h-5 w-5" />,
-      inspector: <CheckCircle className="h-5 w-5" />,
-      logistics: <Truck className="h-5 w-5" />,
-      packaging: <Building className="h-5 w-5" />,
-      retailer: <Briefcase className="h-5 w-5" />,
-      public: <Eye className="h-5 w-5" />,
-      government: <Shield className="h-5 w-5" />,
-      admin: <Shield className="h-5 w-5" />,
-      saps: <Shield className="h-5 w-5" />,
-      viewer: <Eye className="h-5 w-5" />,
-    };
-    return iconMap[role] || <User className="h-5 w-5" />;
-  };
+  function sourceType(user: object | null | undefined): string | undefined {
+    if (!user || !('_source' in user)) {
+      return undefined;
+    }
+    const source = user._source;
+    if (source && typeof source === 'object' && 'type' in source && typeof source.type === 'string') {
+      return source.type;
+    }
+    return undefined;
+  }
 
   const getRoleDisplayName = (role: UserRole) => {
     const displayMap = {
-      farmer: "Farmers'",
-      inspector: "Inspectors'",
-      logistics: "Logistics Providers'",
-      packaging: "Packaging Providers'",
-      retailer: "Retailers'",
-      public: "Public Users'",
-      government: "Government Officials'",
-      admin: "Administrators'",
-      saps: "SAPS Officials'",
-      viewer: "Viewers'",
+      farmer: 'Farmers\'',
+      inspector: 'Inspectors\'',
+      logistics: 'Logistics Providers\'',
+      packaging: 'Packaging Providers\'',
+      retailer: 'Retailers\'',
+      public: 'Public Users\'',
+      government: 'Government Officials\'',
+      admin: 'Administrators\'',
+      saps: 'SAPS Officials\'',
+      viewer: 'Viewers\'',
     };
     return displayMap[role] || role;
   };
 
-  const hasCompleteProfile = (user: any) => {
-  if (!user) return false;
-  
+  const hasCompleteProfile = (user: UniversalUser| null) => {
+  if (!user) {
+    return false;
+  }
+
+  const extra = (user as UniversalUser & {
+    addotional_data?: { phone?: string; address?: string };
+  }).addotional_data;
+
   // Check if user has basic profile information (excluding bio since it's not in database)
-  const hasPhone = user.phone || (user as any).profile?.phone || (user as any).additional_data?.phone;
-  const hasAddress = user.address || (user as any).profile?.address || (user as any).additional_data?.address;
-  
-  return !!(hasPhone || hasAddress);
+  const hasPhone = user.phone || user.profile?.phone || extra?.phone;
+  const hasAddress = user.address || user.profile?.address || extra?.address;
+
+  return Boolean(hasPhone || hasAddress);
 };
 
 const getDashboardPath = (role: UserRole) => {
@@ -314,12 +330,12 @@ const getDashboardPath = (role: UserRole) => {
     return dashboardMap[role] || '/marketplace';
   };
 
-  const isDemoUser = currentUser && '_source' in currentUser && 
-                   (currentUser as any)._source?.type === 'mock' || 
+  const isDemoUser = currentUser && '_source' in currentUser &&
+                   sourceType(currentUser) === 'mock' ||
                    DEMO_USERS.some(u => u.id === currentUser?.id);
 
-const isRealUser = currentUser && '_source' in currentUser && 
-                   (currentUser as any)._source?.type === 'api';
+const isRealUser = currentUser && '_source' in currentUser &&
+                   sourceType(currentUser) === 'api';
 
   if (!currentUser) {
     return (
@@ -350,12 +366,20 @@ const isRealUser = currentUser && '_source' in currentUser &&
                 <span>Back to {getRoleDisplayName(currentUser.role)} Dashboard</span>
               </Button>
             </div>
-            
+
             {/* Profile Title */}
             <div className="flex items-center justify-center space-x-3 sm:space-x-4 sm:justify-start w-full sm:w-auto">
-              <div 
+              <div
               className="flex items-center justify-center h-12 w-12 sm:h-16 sm:w-16 rounded-full flex-shrink-0 relative group cursor-pointer"
-              onClick={() => document.getElementById('avatar-upload')?.click()}
+              role="button"
+              tabIndex={0}
+              onKeyDown={(event) => {
+                if (event.key === 'Enter' || event.key === ' ') {
+                  event.preventDefault();
+                  document.getElementById('avatar-upload')?.click();
+                }
+              }}
+
             >
               {formData.avatarUrl ? (
                 <img
@@ -431,7 +455,7 @@ const isRealUser = currentUser && '_source' in currentUser &&
                   {profileCompletionClicked ? 'Profile Editing Started' : 'Complete Your Profile'}
                 </h3>
                 <p className={`text-sm mt-1 ${profileCompletionClicked ? 'text-green-700' : 'text-blue-700'}`}>
-                  {profileCompletionClicked 
+                  {profileCompletionClicked
                     ? 'Great! You can now edit your profile below. Fill in your contact details, address, and business/farm information to get the most out of the platform.'
                     : 'Your profile is currently incomplete. Add your contact details and address to get the most out of the platform.'
                   }
@@ -465,7 +489,7 @@ const isRealUser = currentUser && '_source' in currentUser &&
           {/* Account Information */}
           <div className="p-4 sm:p-6 border-b-2 border-gray-200 bg-white text-center sm:text-left">
             <h2 className="text-lg font-semibold text-gray-900 mb-4 text-center sm:text-left">Account Information</h2>
-            
+
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
               {/* Name */}
               <div>
@@ -557,11 +581,11 @@ const isRealUser = currentUser && '_source' in currentUser &&
             </div>
           </div>
 
-          
+
           {/* Address Information */}
           <div className="p-4 sm:p-6 border-b-2 border-gray-200 bg-gray-50/30 text-center sm:text-left">
             <h2 className="text-lg font-semibold text-gray-900 mb-4 text-center sm:text-left">Address Information</h2>
-            
+
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
               {/* Street */}
               <div>
@@ -638,12 +662,12 @@ const isRealUser = currentUser && '_source' in currentUser &&
                   <div className="flex items-center justify-center space-x-2 sm:justify-start">
                     <MapPin className="h-4 w-4 text-gray-400" />
                     <span className="text-gray-900 text-center sm:text-left">
-                      {formData.province || 'Not provided'}
+                      {provinceLabel(formData.province)}
                     </span>
                   </div>
                 )}
               </div>
-              
+
               {/* Postal Code */}
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1 text-center sm:text-left">
@@ -674,7 +698,7 @@ const isRealUser = currentUser && '_source' in currentUser &&
                 <Building className="h-5 w-5 mr-2 text-blue-600" />
                 Business Information
               </h2>
-              
+
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
                 {/* Company Name */}
                 <div>
@@ -792,7 +816,7 @@ const isRealUser = currentUser && '_source' in currentUser &&
                 <Package className="h-5 w-5 mr-2 text-green-600" />
                 Farm Information
               </h2>
-              
+
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
                 {/* Farm Size */}
                 <div>
@@ -854,7 +878,7 @@ const isRealUser = currentUser && '_source' in currentUser &&
           {/* Account Status */}
           <div className="p-4 sm:p-6 bg-gray-50/30 text-center sm:text-left">
             <h2 className="text-lg font-semibold text-gray-900 mb-4 text-center sm:text-left">Account Status</h2>
-            
+
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
               {/* Status */}
               <div>
@@ -961,10 +985,10 @@ const isRealUser = currentUser && '_source' in currentUser &&
               onClick={() => {
                 logout().then(() => {
                   // Check if user was using demo mode
-                  const isDemoUser = currentUser && '_source' in currentUser && 
-                                   (currentUser as any)._source?.type === 'mock' || 
+                  const isDemoUser = currentUser && '_source' in currentUser &&
+                                   sourceType(currentUser) === 'mock' ||
                                    DEMO_USERS.some(u => u.id === currentUser?.id);
-                  
+
                   if (isDemoUser) {
                     // For demo users, redirect to demo login page
                     router.push('/login');
