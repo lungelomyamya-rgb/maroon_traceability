@@ -199,7 +199,6 @@ export const REAL_DATA_SOURCES: Record<string, DataSourceConfig> = {
       endpoint: process.env.NEXT_PUBLIC_SUPABASE_URL,
       credentials: {
         anonKey: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '',
-        serviceRoleKey: process.env.SUPABASE_SERVICE_ROLE_KEY || '',
       },
       timeout: 10000,
       retry: {
@@ -226,7 +225,6 @@ export const REAL_DATA_SOURCES: Record<string, DataSourceConfig> = {
       endpoint: process.env.NEXT_PUBLIC_SUPABASE_URL,
       credentials: {
         anonKey: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '',
-        serviceRoleKey: process.env.SUPABASE_SERVICE_ROLE_KEY || '',
       },
       timeout: 10000,
       retry: {
