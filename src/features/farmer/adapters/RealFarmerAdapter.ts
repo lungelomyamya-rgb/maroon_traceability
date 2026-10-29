@@ -355,19 +355,43 @@ export class RealFarmerAdapter implements DataAdapter<UniversalUser> {
         };
       }
 
-      const { data, error } = await supabaseClient
-        .from('farmers')
-        .select('*')
-        .or(`name.ilike.%${query}%`)
-        .or(`email.ilike.%${query}%`)
-        .order('created_at', { ascending: false });
-
-      if (error) {
+      const safeQuery = query.replace(/[%_\\]/g, '').trim();
+      if (!safeQuery) {
         return {
-          success: false,
-          error: `Search failed: ${error.message}`,
+          success: true,
+          data: [],
+          metadata: {
+            retrievedAt: new Date().toISOString(),
+            count: 0,
+            source: 'supabase',
+          },
         };
       }
+
+      const pattern = `%${safeQuery}%`;
+      const nameResult = await supabaseClient
+        .from('farmers')
+        .select('*')
+        .ilike('name', pattern)
+        .order('created_at', { ascending: false });
+      const emailResult = await supabaseClient
+        .from('farmers')
+        .select('*')
+        .ilike('email', pattern)
+        .order('created_at', { ascending: false });
+
+      if (nameResult.error || emailResult.error) {
+        return {
+          success: false,
+          error: `Search failed: ${(nameResult.error ?? emailResult.error)?.message}`,
+        };
+      }
+
+      const farmersById = new Map<string, NonNullable<typeof nameResult.data>[number]>();
+      for (const farmer of [...(nameResult.data ?? []), ...(emailResult.data ?? [])]) {
+        farmersById.set(String(farmer.id), farmer);
+      }
+      const data = [...farmersById.values()];
 
       // Convert all to UniversalUser
       const universalUsers = data?.map(farmer => toUniversalUser(farmer, 'api')).filter((user): user is UniversalUser => user !== null) || [];
