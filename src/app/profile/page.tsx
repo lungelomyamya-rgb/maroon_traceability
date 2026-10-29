@@ -2,7 +2,7 @@
 
 import { User, Mail, Phone, MapPin, Calendar, Shield, Edit2, Save, X, Briefcase, Building, Package, CheckCircle, FileText } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Button } from '@/components/ui/button';
 import { DEMO_USERS } from '@/constants/users';
 import { useUser } from '@/contexts/userContext';
@@ -32,6 +32,16 @@ interface ProfileFormData {
   livestockType?: string;
 }
 
+type AddressSuggestion = {
+  label: string;
+  street: string;
+  city: string;
+  postalCode: string;
+  province: string;
+  latitude: string;
+  longitude: string;
+}
+
 const provinceLabels: Record<string, string> = {
   'eastern-cape': 'Eastern Cape',
   'free-state': 'Free State',
@@ -55,6 +65,8 @@ export default function ProfilePage() {
   const { currentUser, setUser, logout, getAuthToken } = useUser();
   const router = useRouter();
   const [isEditing, setIsEditing] = useState(false);
+  const [addressSuggestions, setAddressSuggestions] = useState<AddressSuggestion[]>([]);
+  const ignoreAddressSearch = useRef(false);
   const [formData, setFormData] = useState<ProfileFormData>({
     name: '',
     email: '',
@@ -80,14 +92,106 @@ export default function ProfilePage() {
   const [profileCompletionClicked, setProfileCompletionClicked] = useState(false);
 
   useEffect(() => {
-    if (currentUser) {
-      // Use the profile data mapper to extract all user data
+    if (ignoreAddressSearch.current) {
+      ignoreAddressSearch.current = false;
+      return undefined;
+    }
+    if (!isEditing) {
+      setAddressSuggestions([]);
+      return undefined;
+      }
+
+      const query = formData.address?.trim() ?? '';
+      if (query.length < 3) {
+        setAddressSuggestions([]);
+        return undefined;
+      }
+
+      let cancelled = false;
+      const timer = setTimeout(async () => {
+        if (cancelled || ignoreAddressSearch.current) {
+          return;
+        }
+
+        const token = await getAuthToken();
+        if (!token) {
+          setAddressSuggestions([]);
+          return;
+        }
+
+        const response = await fetch(`/api/address-suggestions?q=${encodeURIComponent(query)}`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        if (cancelled || ignoreAddressSearch.current || !response.ok) {
+          if (!cancelled && !ignoreAddressSearch.current) {
+            setAddressSuggestions([]);
+          }
+          return;
+        }
+
+        const body = await response.json() as { suggestions?: AddressSuggestion[] };
+        if (!cancelled && !ignoreAddressSearch.current) {
+          setAddressSuggestions(body.suggestions ?? []);
+        }
+      }, 500);
+
+      return () => {
+        cancelled = true;
+        clearTimeout(timer);
+      };
+    }, [formData.address, getAuthToken, isEditing]);
+
+    useEffect(() => {
+      if (!currentUser || isEditing) {
+        return;
+      }
       const profileData = extractProfileData(currentUser);
       if (profileData) {
         setFormData(profileData);
       }
+    }, [currentUser, isEditing]);
+
+  const chooseAddressSuggestion = (suggestion: AddressSuggestion) => {
+    ignoreAddressSearch.current = true;
+    setFormData((prev) => ({
+      ...prev,
+      address: suggestion.street,
+      city: suggestion.city,
+      postal_code: suggestion.postalCode,
+      province: suggestion.province,
+    }));
+    setAddressSuggestions([]);
+
+    if (suggestion.postalCode || !suggestion.latitude || !suggestion.longitude) {
+      return;
     }
-  }, [currentUser]);
+
+    void lookupPostalCode(suggestion);
+  };
+
+  const lookupPostalCode = async (suggestion: AddressSuggestion) => {
+    const token = await getAuthToken();
+    if (!token) {
+      return;
+    }
+    const response = await fetch(
+      `/api/address-suggestions?lat=${encodeURIComponent(suggestion.latitude)}&lon=${encodeURIComponent(suggestion.longitude)}`,
+      { headers: { Authorization: `Bearer ${token}` } },
+    );
+    if (!response.ok) {
+      return;
+    }
+    const body = await response.json() as { postalCode?: string};
+    if (!body.postalCode) {
+      return;
+    }
+    setFormData((prev) => {
+      if (prev.address !== suggestion.street) {
+        return prev;
+      }
+      return { ...prev, postal_code: body.postalCode };
+    });
+  };
 
   const handleInputChange = (field: keyof ProfileFormData, value: string) => {
     if (field.includes('.')) {
@@ -608,6 +712,22 @@ const isRealUser = currentUser && '_source' in currentUser &&
                       {formData.address || 'Not provided'}
                     </span>
                   </div>
+                )}
+
+                {addressSuggestions.length > 0 && (
+                  <ul className="mt-2 border border-gray-200 rounded-md bg-white text-left">
+                    {addressSuggestions.map((suggestion) => (
+                      <li key={suggestion.label}>
+                        <button
+                          type="button"
+                          className="w-full px-3 py-2 text-left text-sm hover:bg-gray-50"
+                          onClick={() => chooseAddressSuggestion(suggestion)}
+                          >
+                            {suggestion.label}
+                          </button>
+                      </li>
+                    ))}
+                  </ul>
                 )}
               </div>
 
