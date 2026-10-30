@@ -112,7 +112,6 @@ export async function PATCH(
     const updatedUser: Partial<UniversalUser> = {
       ...existingUser,
       name: name?.trim() || existingUser.name,
-      email: email?.trim() || existingUser.email,
       phone: phone !== undefined ? phone : existingUser.phone,
       address: address !== undefined ? address : existingUser.address,
       ...(postal_code !== undefined
@@ -133,7 +132,6 @@ export async function PATCH(
         targetUserId,
         updateData: {
           name: updatedUser.name,
-          email: updatedUser.email,
           phone: updatedUser.phone,
           address: updatedUser.address,
           postal_code: (updatedUser as { postal_code?: string}).postal_code,
@@ -162,7 +160,6 @@ export async function PATCH(
         .from('users')
         .update({
           name: updatedUser.name,
-          email: updatedUser.email,
           phone: typeof phone === 'string' ? phone : updatedUser.phone,
           address: updatedUser.address,
           city: typeof city === 'string' ? city : undefined,
@@ -277,7 +274,6 @@ export async function PUT(
         .from('users')
         .update({
           name: body.name,
-          email: body.email,
           phone: typeof body.phone === 'string' ? body.phone : undefined,
           address: body.address,
           city: typeof body.city === 'string' ? body.city : undefined,
