@@ -623,14 +623,10 @@ const isRealUser = currentUser && '_source' in currentUser &&
                   Email Address
                 </label>
                 {isEditing ? (
-                  <input
-                    type="email"
-                    value={formData.email}
-                    onChange={(e) => handleInputChange('email', e.target.value)}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm sm:text-base"
-                    disabled={isLoading}
-                    placeholder="Enter your email address"
-                  />
+                  <div className="flex items-center justify-center space-x-2 sm:justify-start">
+                    <Mail className="h-4 w-4 text-gray-400" />
+                    <span className="text-gray-900 text-center sm:text-left">{formData.email}</span>
+                  </div>
                 ) : (
                   <div className="flex items-center justify-center space-x-2 sm:justify-start">
                     <Mail className="h-4 w-4 text-gray-400" />
