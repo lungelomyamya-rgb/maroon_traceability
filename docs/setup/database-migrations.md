@@ -59,7 +59,7 @@ See `database/archive/README.md`. Especially avoid `drop_and_add_columns.sql` on
 
 ## Known debt (do not ignore forever)
 
-1. Live `users` RLS includes overly permissive public policies — tighten in a security PR  
+1. Live `users` RLS matches `database/schema.sql`: owner read and update, self-serve insert for farmer, inspector, logistics, packaging, retailer, and public, service-role access, and the `prevent_users_role_change` trigger.
 2. Live tables `profiles` / `user_profiles` / `registration_attempts` unused by app — confirm no Auth hooks, then deprecate  
 3. Enum `user_role` narrower than app roles — baseline uses CHECK on `users.role`  
 
