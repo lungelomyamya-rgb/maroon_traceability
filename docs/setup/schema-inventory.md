@@ -27,10 +27,11 @@ Do **not** drop these in production. `profiles` is required by the live signup A
 last_login_at, additional_data, address, postal_code, user_type,
 registration_type, phone, city, province)
 
-## Custom type
+## Role column
 
-`user_role` enum: farmer | logistics | inspector | packaging | retailer | viewer  
-**Gap:** app also uses saps, admin, government, public — baseline uses CHECK on `users.role` instead.
+`public.users.role` is `varchar` with `users_role_check`. The allowed values match `database/schema.sql`: farmer, inspector, logistics, packaging, retailer, public, government, admin, saps, and viewer.
+
+The old `user_role` enum still exists with only farmer, logistics, inspector, packaging, retailer, and viewer. It is not the type of `users.role`. Do not drop it until nothing else references it.
 
 ## Live RLS on `users`
 
