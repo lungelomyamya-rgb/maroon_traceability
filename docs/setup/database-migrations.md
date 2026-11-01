@@ -59,7 +59,7 @@ See `database/archive/README.md`. Especially avoid `drop_and_add_columns.sql` on
 
 ## Known debt (do not ignore forever)
 
-1. Live `users` RLS matches `databases/schema.sql`: owner read and update, self-serve insert for farmer, inspector, logistics, packaging, retailer, and public, service-role access, and the `prevent_users_role_change` trigger.
+1. Live `users` RLS matches `database/schema.sql`: owner read and update, self-serve insert for farmer, inspector, logistics, packaging, retailer, and public, service-role access, and the `prevent_users_role_change` trigger.
 2. Live `public.profiles` is written by `handle_new_user` on Auth signup (`on_auth_user_created`). The app reads `public.users` and does not query `profiles`. Do not drop `profiles`, `user_profiles`, or `registration_attempts`. 
 3. Live `users.role` is `varchar` with `users_role_check` for the ten app roles. The old `user_role` enum remains and is not the column type. Do not drop the enum until its remaining references are checked.
 
