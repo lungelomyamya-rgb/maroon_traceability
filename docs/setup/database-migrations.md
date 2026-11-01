@@ -60,7 +60,7 @@ See `database/archive/README.md`. Especially avoid `drop_and_add_columns.sql` on
 ## Known debt (do not ignore forever)
 
 1. Live `users` RLS includes overly permissive public policies — tighten in a security PR  
-2. Live tables `profiles` / `user_profiles` / `registration_attempts` unused by app — confirm no Auth hooks, then deprecate  
+2. Live `public.profiles` is written by `handle_new_user` on Auth signup (`on_auth_user_created`). The app reads `public.users` and does not query `profiles`. Do not drop `profiles`, `user_profiles`, or `registration_attempts`. 
 3. Enum `user_role` narrower than app roles — baseline uses CHECK on `users.role`  
 
 ## Related
