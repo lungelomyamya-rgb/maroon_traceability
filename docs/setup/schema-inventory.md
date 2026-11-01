@@ -11,15 +11,15 @@
 | `users` | Auth profile rows; registration + login adapters |
 | `_test_connection` | Optional health check |
 
-## Tables present in live DB but unused by current app code
+## Tables present in live database but not queried by current app code
 
 | Table | Notes |
 |-------|-------|
-| `profiles` | Broad profile/subscription fields; no `.from('profiles')` in `src/` |
+| `profiles` | Written by live `handle_new_user` on Auth signup. No `.from('profiles')` in `src/`. Do not drop. |
 | `user_profiles` | Extended business fields; from older migration SQL |
 | `registration_attempts` | Attempt logging; unused by current routes |
 
-Do **not** drop these in production until Auth triggers / dashboard usage are verified.
+Do **not** drop these in production. `profiles` is required by the live signup Auth trigger.
 
 ## `users` columns (live)
 
