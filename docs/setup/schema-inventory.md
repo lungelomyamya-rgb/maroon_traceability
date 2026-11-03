@@ -43,6 +43,16 @@ Applied in the Supabase project with the registration-role work. `database/schem
 - Users can insert own profile, only for farmer, inspector, logistics, packaging, retailer, and public
 - Trigger `prevent_users_role_change` blocks role changes from a normal user session
 
+## Live functions outside schema.sql
+
+`public.create_user_with_profile` and `public.test_registration_flow` exist in the live database and are absent from `database/schema.sql`. The app does not call either function.
+
+`create_user_with_profile` is `SECURITY DEFINER`. It inserts a `users` row and takes `role` from its `varchar` argument. `EXECUTE` is granted to `postgres` and `service_role`.
+
+`test_registration_flow` returns test messages and is not `SECURITY DEFINER`. `EXECUTE` is granted to `postgres` and `service_role`.
+
+Leave both functions until a later slice drops them.
+
 ## Personal information
 
 The Protection of Personal Information Act 4 of 2013 applies to this demo. `public.users` stores name, email, phone, street address, city, province, and postal code. Signup copies id, email, name, and role into `public.profiles`.
