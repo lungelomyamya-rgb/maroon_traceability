@@ -31,7 +31,7 @@ registration_type, phone, city, province)
 
 `public.users.role` is `varchar` with `users_role_check`. The allowed values match `database/schema.sql`: farmer, inspector, logistics, packaging, retailer, public, government, admin, saps, and viewer.
 
-The old `user_role` enum still exists with only farmer, logistics, inspector, packaging, retailer, and viewer. It is not the type of `users.role`. Do not drop it until nothing else references it.
+The old `user_role` enum still exists with only farmer, logistics, inspector, packaging, retailer, and viewer. It is not the type of `users.role`. No column uses it, and nothing depends on it. `create_user_with_profile` has a `varchar` parameter named `user_role`. `test_registration_flow` mentions the name only in a message.
 
 ## Live RLS on `users`
 
@@ -42,6 +42,12 @@ Applied in the Supabase project with the registration-role work. `database/schem
 - Users can update own data
 - Users can insert own profile, only for farmer, inspector, logistics, packaging, retailer, and public
 - Trigger `prevent_users_role_change` blocks role changes from a normal user session
+
+## Personal information
+
+The Protection of Personal Information Act 4 of 2013 applies to this demo. `public.users` stores name, email, phone, street address, city, province, and postal code. Signup copies id, email, name, and role into `public.profiles`.
+
+This note is not a compliance claim. A signed-in person can read and correct their own profile. Address search sends the typed street, and sometimes coordinates, to the public OpenStreetMap Nominatim service. `src/app/get-started/page.tsx` currently calls the product POPIA ready and says all data stays inside South Africa. `src/lib/gdpr.ts` stores a browser-local policy and does not run a POPIA request process.
 
 ## Related
 
