@@ -31,7 +31,7 @@ registration_type, phone, city, province)
 
 `public.users.role` is `varchar` with `users_role_check`. The allowed values match `database/schema.sql`: farmer, inspector, logistics, packaging, retailer, public, government, admin, saps, and viewer.
 
-The old `user_role` enum still exists with only farmer, logistics, inspector, packaging, retailer, and viewer. It is not the type of `users.role`. No column uses it, and nothing depends on it. `create_user_with_profile` has a `varchar` parameter named `user_role`. `test_registration_flow` mentions the name only in a message.
+The old `user_role` enum still exists with only farmer, logistics, inspector, packaging, retailer, and viewer. It is not the type of `users.role`. No column uses it, and nothing depends on it. Leave the enum until a later slice drops it.
 
 ## Live RLS on `users`
 
@@ -43,15 +43,9 @@ Applied in the Supabase project with the registration-role work. `database/schem
 - Users can insert own profile, only for farmer, inspector, logistics, packaging, retailer, and public
 - Trigger `prevent_users_role_change` blocks role changes from a normal user session
 
-## Live functions outside schema.sql
+## Dropped live functions
 
-`public.create_user_with_profile` and `public.test_registration_flow` exist in the live database and are absent from `database/schema.sql`. The app does not call either function.
-
-`create_user_with_profile` is `SECURITY DEFINER`. It inserts a `users` row and takes `role` from its `varchar` argument. `EXECUTE` is granted to `postgres` and `service_role`.
-
-`test_registration_flow` returns test messages and is not `SECURITY DEFINER`. `EXECUTE` is granted to `postgres` and `service_role`.
-
-Leave both functions until a later slice drops them.
+`public.create_user_with_profile` and `public.test_registration_flow` have been dropped from the live database. They were absent from `database/schema.sql`, and the app did not call them.
 
 ## Personal information
 
