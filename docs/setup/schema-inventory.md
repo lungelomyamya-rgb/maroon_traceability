@@ -43,13 +43,13 @@ Applied in the Supabase project with the registration-role work. `database/schem
 - Users can insert own profile, only for farmer, inspector, logistics, packaging, retailer, and public
 - Trigger `prevent_users_role_change` blocks role changes from a normal user session
 
-## Related
-
-- [database-migrations.md](./database-migrations.md)
-- [supabase-setup.md](./supabase-setup.md)
-
 ## Personal information
 
 The Protection of Personal Information Act 4 of 2013 applies to this demo. `public.users` stores name, email, phone, street address, city, province, and postal code. Signup copies id, email, name, and role into `public.profiles`.
 
-This note is not a compliance claim. A signed-in person can read and correct their own profile. Address search sends the typed street, and sometimes coordinates, to the pulblic OpenStreetMap Nominatim service. `src/app/get-started/page.tsx` currently calls the product POPIA ready and says all data stays inside South Africa. `src/lib/gdpr.ts` stores a browser-local policy and does not run a POPIA request process.
+This note is not a compliance claim. A signed-in person can read and correct their own profile. Address search sends the typed street, and sometimes coordinates, to the public OpenStreetMap Nominatim service. `src/app/get-started/page.tsx` currently calls the product POPIA ready and says all data stays inside South Africa. `src/lib/gdpr.ts` stores a browser-local policy and does not run a POPIA request process.
+
+## Related
+
+- [database-migrations.md](./database-migrations.md)
+- [supabase-setup.md](./supabase-setup.md)
