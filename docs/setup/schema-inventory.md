@@ -31,7 +31,7 @@ registration_type, phone, city, province)
 
 `public.users.role` is `varchar` with `users_role_check`. The allowed values match `database/schema.sql`: farmer, inspector, logistics, packaging, retailer, public, government, admin, saps, and viewer.
 
-The old `user_role` enum still exists with only farmer, logistics, inspector, packaging, retailer, and viewer. It is not the type of `users.role`. No column uses it, and nothing depends on it. Leave the enum until a later slice drops it.
+The old `user_role` enum has been dropped from the live database. It was not the type of `users.role`.
 
 ## Live RLS on `users`
 
