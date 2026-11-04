@@ -47,6 +47,12 @@ Applied in the Supabase project with the registration-role work. `database/schem
 
 `public.calculate_profile_completion` and `public.migrate_user_registration_data` have been dropped. They were not `SECURITY DEFINER`. The views `public.user_complete_info` and `public.registration_analytics` have been dropped. They had `security_invoker=on`. None of these four are in `database/schema.sql`, and the app did not call them.
 
+## Live email functions
+
+`public.get_user_by_email(character varying)`, `public.get_user_by_email(text)`, `public.is_email_available(character varying)`, and `public.is_email_available(text)` are `SECURITY DEFINER`. Each one reads `public.users` and skips row-level security. `EXECUTE` is granted to `postgres` and `service_role`. The app does not call them. Leave them until a later slice drops them.
+
+`public.check_email_availability(text)` is `SECURITY DEFINER` and returns a boolean. `checkEmailAvailability` in `src/features/registration/adapters/SupabaseRegistrationAdapter.ts` calls it before signup, so `PUBLIC`, `anon`, and `authenticated` keep `EXECUTE`.
+
 ## Personal information
 
 The Protection of Personal Information Act 4 of 2013 applies to this demo. `public.users` stores name, email, phone, street address, city, province, and postal code. Signup copies id, email, name, and role into `public.profiles`.
