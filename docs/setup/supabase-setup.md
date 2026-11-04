@@ -232,15 +232,9 @@ For production, you might want to use your own SMTP server:
 
 ### Database Functions
 
-The schema includes useful functions:
+Signup calls `public.check_email_availability(text)`. It is `SECURITY DEFINER` and returns a boolean. `anon` can execute it.
 
-```sql
--- Check if email is available
-SELECT is_email_available('test@example.com');
-
--- Get user by email
-SELECT * FROM get_user_by_email('test@example.com');
-```
+`get_user_by_email` and `is_email_available` are live `SECURITY DEFINER` functions. `EXECUTE` is limited to `postgres` and `service_role`. The app does not call them.
 
 ### Row Level Security (RLS)
 
