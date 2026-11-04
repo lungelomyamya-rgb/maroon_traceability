@@ -60,9 +60,10 @@ See `database/archive/README.md`. Especially avoid `drop_and_add_columns.sql` on
 ## Known debt (do not ignore forever)
 
 1. Live `users` RLS matches `database/schema.sql`: owner read and update, self-serve insert for farmer, inspector, logistics, packaging, retailer, and public, service-role access, and the `prevent_users_role_change` trigger.
-2. Live `public.profiles` is written by `handle_new_user` on Auth signup (`on_auth_user_created`). The app reads `public.users` and does not query `profiles`. Do not drop `profiles`, `user_profiles`, or `registration_attempts`. 
+2. Live `public.profiles` is written by `handle_new_user` on Auth signup (`on_auth_user_created`). The app reads `public.users` and does not query `profiles`. Do not drop `profiles`. Live `user_profiles` and `registration_attempts` are empty, and the views and functions that used them have been dropped. Leave those two tables until a later slice drops them.
 3. The old `user_role` enum has been dropped. Live `users.role` stays `varchar` with `users_role_check` for the ten app roles.
 4. Live `create_user_with_profile` and `test_registration_flow` have been dropped. They were absent from `database/schema.sql`, and the app did not call them.
+5. Live `calculate_profile_completion`, `migrate_user_registration_data`, `user_complete_info`, and `registration_analytics` have been dropped. They were absent from `database/schema.sql`, and the app did not call them.
 
 ## Related
 
