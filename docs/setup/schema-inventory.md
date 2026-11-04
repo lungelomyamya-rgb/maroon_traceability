@@ -11,15 +11,13 @@
 | `users` | Auth profile rows; registration + login adapters |
 | `_test_connection` | Optional health check |
 
-## Tables present in live database but not queried by current app code
+## Tables present in the live database but not queried by current app code
 
 | Table | Notes |
 |-------|-------|
 | `profiles` | Written by live `handle_new_user` on Auth signup. No `.from('profiles')` in `src/`. Do not drop. |
-| `user_profiles` | Empty. Leave this table until a later slice drops it. |
-| `registration_attempts` | Empty. Leave this table until a later slice drops it. |
 
-`profiles` is required by the live signup Auth trigger. Do not drop it.
+`profiles` is required by the live signup Auth trigger. Do not drop it. `user_profiles` and `registration_attempts` have been dropped from the live database. They were empty, and the app did not query them.
 
 ## `users` columns (live)
 
