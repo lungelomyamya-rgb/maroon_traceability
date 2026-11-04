@@ -16,10 +16,10 @@
 | Table | Notes |
 |-------|-------|
 | `profiles` | Written by live `handle_new_user` on Auth signup. No `.from('profiles')` in `src/`. Do not drop. |
-| `user_profiles` | Extended business fields; from older migration SQL |
-| `registration_attempts` | Attempt logging; unused by current routes |
+| `user_profiles` | Empty. Leave this table until a later slice drops it. |
+| `registration_attempts` | Empty. Leave this table until a later slice drops it. |
 
-Do **not** drop these in production. `profiles` is required by the live signup Auth trigger.
+`profiles` is required by the live signup Auth trigger. Do not drop it.
 
 ## `users` columns (live)
 
@@ -46,6 +46,8 @@ Applied in the Supabase project with the registration-role work. `database/schem
 ## Dropped live functions
 
 `public.create_user_with_profile` and `public.test_registration_flow` have been dropped from the live database. They were absent from `database/schema.sql`, and the app did not call them.
+
+`public.calculate_profile_completion` and `public.migrate_user_registration_data` have been dropped. They were not `SECURITY DEFINER`. The views `public.user_complete_info` and `public.registration_analytics` have been dropped. They had `security_invoker=on`. None of these four are in `database/schema.sql`, and the app did not call them.
 
 ## Personal information
 
