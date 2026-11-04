@@ -2,8 +2,8 @@
 -- Maroon Traceability — canonical schema baseline
 -- Captured from live Supabase: 2026-08-21
 -- App requires: public.users, public._test_connection
--- Other live tables (profiles, user_profiles, registration_attempts) are
--- documented in docs/setup/schema-inventory.md and are NOT required to run the app.
+-- The other live table, profiles, is documented in docs/setup/schema-inventory.md
+-- and is NOT required to run the app.
 -- Apply on an EMPTY project via Supabase SQL Editor.
 -- See docs/setup/database-migrations.md
 -- =============================================================================
