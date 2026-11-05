@@ -48,7 +48,7 @@ Content-Type: application/json
 {
   "success": true,
   "data": {
-    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+    "token": "<jwt-token>",
     "user": {
       "id": "user-123",
       "email": "user@example.com",
@@ -72,7 +72,7 @@ Authorization: Bearer <your-jwt-token>
 {
   "success": true,
   "data": {
-    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+    "token": "<jwt-token>",
     "expiresIn": 86400
   }
 }
