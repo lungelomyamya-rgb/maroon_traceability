@@ -64,7 +64,7 @@ See `database/archive/README.md`. Especially avoid `drop_and_add_columns.sql` on
 3. The old `user_role` enum has been dropped. Live `users.role` stays `varchar` with `users_role_check` for the ten app roles.
 4. Live `create_user_with_profile` and `test_registration_flow` have been dropped. They were absent from `database/schema.sql`, and the app did not call them.
 5. Live `calculate_profile_completion`, `migrate_user_registration_data`, `user_complete_info`, and `registration_analytics` have been dropped. They were absent from `database/schema.sql`, and the app did not call them.
-6. Live `get_user_by_email` and `is_email_available` are `SECURITY DEFINER` and read `public.users`. `EXECUTE` is limited to `postgres` and `service_role`. The app does not call them. Leave them until a later slice drops them. Live `check_email_availability(text)` stays callable by `anon` because signup uses it.
+6. Live `get_user_by_email` and `is_email_available` have been dropped. They were `SECURITY DEFINER`, absent from `database/schema.sql`, and the app does not call them. Live `check_email_availability(text)` stays callable by `anon` because signup uses it.
 
 ## Related
 
