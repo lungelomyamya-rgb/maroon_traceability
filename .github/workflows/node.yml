@@ -49,3 +49,15 @@ jobs:
     - name: Audit dependencies
       run: npm audit --audit-level=high
       continue-on-error: true
+
+  secrets:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    # Scans the current files only, not git history (history holds the disabled legacy keys)
+    - name: Scan for secrets
+      run: docker run --rm -v "$PWD:/repo" ghcr.io/gitleaks/gitleaks:v8.21.2 dir /repo --redact --no-banner
+  
