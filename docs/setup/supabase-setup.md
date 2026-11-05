@@ -234,7 +234,7 @@ For production, you might want to use your own SMTP server:
 
 Signup calls `public.check_email_availability(text)`. It is `SECURITY DEFINER` and returns a boolean. `anon` can execute it.
 
-`get_user_by_email` and `is_email_available` are live `SECURITY DEFINER` functions. `EXECUTE` is limited to `postgres` and `service_role`. The app does not call them.
+`get_user_by_email` and `is_email_available` have been dropped from the live database. They were `SECURITY DEFINER`, absent from `database/schema.sql`, and the app does not call them.
 
 ### Row Level Security (RLS)
 
