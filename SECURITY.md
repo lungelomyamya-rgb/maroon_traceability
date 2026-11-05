@@ -41,9 +41,9 @@ We aim to acknowledge reports within 5 business days. Critical issues will be pr
 - Variables prefixed with `NEXT_PUBLIC_` are exposed to the browser—never use that prefix for secrets
 - `SUPABASE_SERVICE_ROLE_KEY` must only be read in server contexts (API routes, server components)
 
-### Pre-commit checks
+### Secret scanning
 
-Git hooks and CI scan for common secret patterns. If you accidentally commit a secret:
+CI runs gitleaks on every push and pull request to `main` (the `secrets` job in `.github/workflows/node.yml`). It scans the current files, not git history. The pre-commit hook does not scan for secrets. If you accidentally commit a secret:
 
 1. Rotate the credential immediately in Supabase/Vercel
 2. Remove the file from the repository
