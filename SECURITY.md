@@ -77,3 +77,5 @@ When rotating Supabase credentials:
 ## Known Remediation (2026)
 
 `.env.vercel` containing real Supabase credentials was removed from the repository. **Rotate the Supabase service role key and review anon key exposure** if that file was ever pushed to a remote.
+
+The legacy Supabase anon and service-role JWT keys were hardcoded in `scripts/setup/` from 2026-04-22. They have been removed from the tree but remain in git history. The app now uses `sb_publishable_` and `sb_secret_` keys. The legacy JWT keys must be disabled in Supabase (Project Settings -> API Keys -> Legacy API Keys). Disabling them is the fix; history is not rewritten.

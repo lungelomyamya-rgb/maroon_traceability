@@ -30,7 +30,6 @@ If `npm run diagnose:supabase` fails with "cannot find module", use the direct p
 |----------|------------|------|---------|
 | Setup | — | `scripts/setup/fixEnvironment.ts` | Bootstrap or fix `.env.local` from `.env.example` |
 | Setup | — | `scripts/setup/fixEnvLocal.ps1` | Windows PowerShell env helper |
-| Setup | — | `scripts/setup/fixEnv.bat`, `scripts/setup/createCleanEnv.bat` | Windows batch env helpers |
 | Setup | — | `scripts/setup/vercel-secrets.ps1` / `.sh` | Push env vars to Vercel (requires CLI) |
 | Diagnose | `diagnose:supabase` | `scripts/deploy/diagnoseSupabase.ts` | Supabase connectivity, `_test_connection`, auth smoke |
 | Diagnose | `diagnose:simple` | `scripts/utils/simpleDiagnose.cjs` | Lightweight env and connectivity check |

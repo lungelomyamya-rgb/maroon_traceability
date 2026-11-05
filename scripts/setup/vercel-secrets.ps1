@@ -79,14 +79,8 @@ Write-Host ""
 # Display values to copy
 Write-Host "📋 Values to use when prompted:" -ForegroundColor Cyan
 Write-Host ""
-Write-Host "NEXT_PUBLIC_SUPABASE_URL:" -ForegroundColor White
-Write-Host "https://lzgglzgdgkgrxzbjevzy.supabase.co" -ForegroundColor Gray
-Write-Host ""
-Write-Host "NEXT_PUBLIC_SUPABASE_ANON_KEY:" -ForegroundColor White
-Write-Host "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imx6Z2dsemdkZ2tncnh6Ympldnp5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzAyMDk5NTksImV4cCI6MjA4NTc4NTk1OX0.xHvSfID9wtq0FVC4clLH8TmheJE-jPtfKIq2qXfmDFk" -ForegroundColor Gray
-Write-Host ""
-Write-Host "SUPABASE_SERVICE_ROLE_KEY:" -ForegroundColor White
-Write-Host "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imx6Z2dsemdkZ2tncnh6Ympldnp5Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3MDIwOTk1OSwiZXhwIjoyMDg1Nzg1OTU5fQ.9RacyqhlZf1yQAz6CZlhuatsuwF_Ug8aULZBRlLLP98" -ForegroundColor Gray
+Write-Host "NEXT_PUBLIC_SUPABASE_URL, NEXT_PUBLIC_SUPABASE_ANON_KEY, SUPABASE_SERVICE_ROLE_KEY:" -ForegroundColor White
+Write-Host "Copy from Supabase Dashboard -> Project Settings -> API Keys (use the sb_publishable_ and sb_secret_ keys)" -ForegroundColor Gray
 Write-Host ""
 Write-Host "NEXT_PUBLIC_APP_NAME:" -ForegroundColor White
 Write-Host "Maroon Blockchain" -ForegroundColor Gray
