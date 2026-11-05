@@ -24,7 +24,7 @@ console.log('✅ Found .env.example');
 // Check if .env.local exists
 if (!existsSync(ENV_LOCAL_PATH)) {
   console.log('📝 Creating .env.local from .env.example...');
-  
+
   // Create .env.local with proper formatting
   const envLocal = envExample
     .split('\n')
@@ -43,46 +43,46 @@ if (!existsSync(ENV_LOCAL_PATH)) {
   console.log('✅ Created .env.local');
 } else {
   console.log('✅ .env.local already exists');
-  
+
   // Read current .env.local
   const currentEnvLocal = readFileSync(ENV_LOCAL_PATH, 'utf-8');
-  
+
   // Check for common issues
   const issues = [];
-  
+
   if (!currentEnvLocal.includes('NEXT_PUBLIC_SUPABASE_URL')) {
     issues.push('Missing NEXT_PUBLIC_SUPABASE_URL');
   }
-  
+
   if (!currentEnvLocal.includes('NEXT_PUBLIC_SUPABASE_ANON_KEY')) {
     issues.push('Missing NEXT_PUBLIC_SUPABASE_ANON_KEY');
   }
-  
+
   if (currentEnvLocal.includes('NEXT_PUBLIC_SUPABASE_URL=\\"\\\\"')) {
     issues.push('Invalid NEXT_PUBLIC_SUPABASE_URL format (contains backslashes)');
   }
-  
+
   if (issues.length > 0) {
     console.log('⚠️  Issues found in .env.local:');
     issues.forEach(issue => console.log(`   - ${issue}`));
-    
+
     console.log('\n🔧 Attempting to fix issues...');
-    
+
     // Fix common issues
     let fixedEnv = currentEnvLocal;
-    
+
     // Fix invalid URL format
-    fixedEnv = fixedEnv.replace(/NEXT_PUBLIC_SUPABASE_URL=\\"\\\\\\"/g, 'NEXT_PUBLIC_SUPABASE_URL="https://lzgglzgdgkgrxzbjevzy.supabase.co"');
-    
+    fixedEnv = fixedEnv.replace(/NEXT_PUBLIC_SUPABASE_URL=\\"\\\\\\"/g, 'NEXT_PUBLIC_SUPABASE_URL="https://YOUR_PROJECT.supabase.co"');
+
     // Ensure proper Supabase configuration
     if (!fixedEnv.includes('NEXT_PUBLIC_SUPABASE_URL=')) {
       fixedEnv += '\nNEXT_PUBLIC_SUPABASE_URL="https://YOUR_PROJECT.supabase.co"';
     }
-    
+
     if (!fixedEnv.includes('NEXT_PUBLIC_SUPABASE_ANON_KEY=')) {
       fixedEnv += '\nNEXT_PUBLIC_SUPABASE_ANON_KEY="[YOUR-SECRET-KEY]"';
     }
-    
+
     writeFileSync(ENV_LOCAL_PATH, fixedEnv);
     console.log('✅ Fixed .env.local issues');
   } else {
@@ -107,14 +107,14 @@ try {
     console.error('❌ Error loading .env.local:', testEnv.error);
   } else {
     console.log('✅ Environment variables loaded successfully');
-    
+
     // Check specific variables
     const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
     const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-    
+
     if (supabaseUrl && supabaseKey) {
       console.log('✅ Supabase configuration found');
-      
+
       // Test URL validity
       try {
         new URL(supabaseUrl);
@@ -126,6 +126,6 @@ try {
       console.log('❌ Supabase configuration missing');
     }
   }
-} catch (error) {
+} catch {
   console.log('⚠️  Could not test environment variables (dotenv not available)');
 }
