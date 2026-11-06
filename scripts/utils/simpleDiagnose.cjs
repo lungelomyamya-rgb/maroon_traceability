@@ -96,7 +96,7 @@ console.log('- Ensure email confirmation settings match your needs');
 
 console.log('\n5. Next Steps:');
 console.log('1. Fix any environment variable issues above');
-console.log('2. Run: npm run test:simple-registration');
+console.log('2. Run: npm run test:registration-fix');
 console.log('3. If still failing, check Supabase dashboard for errors');
 
 console.log('\n=== Diagnostic Complete ===');
