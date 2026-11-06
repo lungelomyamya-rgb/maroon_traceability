@@ -3,7 +3,6 @@
 import { Users, Shield, Database, Headphones, Zap, Clock, Award, ArrowRight, ArrowLeft, Check, ExternalLink } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import { FinanceAppLink } from '@/components/layout/FinanceAppLink';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { getFinanceAppUrl, isFinanceAppConfigured } from '@/lib/financeAppUrl';
@@ -45,7 +44,7 @@ export default function GetStartedPage() {
       period: '/month',
       features: [
         { icon: Users, text: 'Up to 5 Users', included: true },
-        { icon: Shield, text: 'POPIA Ready', included: true },
+        { icon: Shield, text: 'Privacy-Focused Design', included: true },
         { icon: Database, text: '100 Records / Mo', included: true },
         { icon: Headphones, text: 'Email Support', included: true },
         { icon: Zap, text: 'Basic Export API', included: true },
@@ -64,7 +63,7 @@ export default function GetStartedPage() {
       period: '/month',
       features: [
         { icon: Users, text: 'Up to 200 Users', included: true },
-        { icon: Shield, text: 'POPIA + Audit Trail', included: true },
+        { icon: Shield, text: 'Privacy Controls', included: true },
         { icon: Database, text: '200 Records / Mo', included: true },
         { icon: Headphones, text: '8-to-5 Priority', included: true },
         { icon: Zap, text: 'API Access', included: true },
@@ -83,7 +82,6 @@ export default function GetStartedPage() {
       period: '',
       features: [
         { icon: Users, text: 'Unlimited Users', included: true },
-        { icon: Shield, text: 'GRAP & SITA Aligned', included: true },
         { icon: Check, text: 'Varydian GRAP financial reporting — 6 roles, period lock, audit pack, asset register', included: true },
         { icon: Database, text: 'Unlimited Records', included: true },
         { icon: Headphones, text: '24/7 Dedicated Manager', included: true },
@@ -121,13 +119,13 @@ export default function GetStartedPage() {
   const trustFactors = [
     {
       icon: Shield,
-      title: 'Sovereign Data Security',
-      description: 'All data is hosted locally within South African borders, ensuring 100% POPIA and State Security compliance.',
+      title: 'Privacy by Design',
+      description: 'Each account can only see and correct its own personal information. We are working towards full POPIA compliance.',
     },
     {
       icon: Award,
-      title: 'Audit-Ready Architecture',
-      description: 'Our systems are designed specifically to meet GRAP financial standards, significantly reducing the cost and time of annual public sector audits.',
+      title: 'Farm-to-Shelf Traceability',
+      description: 'Each product gets a QR code that opens its journey from farm to shelf. GRAP financial reporting is available through our separate Varydian app.',
     },
     {
       icon: Zap,
@@ -139,7 +137,7 @@ export default function GetStartedPage() {
   const faqs = [
     {
       question: 'Do you support government procurement cycles?',
-      answer: 'Yes. For our Sovereign tier, we provide all necessary documentation for PFMA compliance, SITA-ready technical specifications, and B-BBEE certification to streamline the tender process.',
+      answer: 'Our Government & SOEs plan is built for public-sector teams. Contact our sales team to discuss your tender requirements and documentation you need.',
     },
     {
       question: 'Can we blend digital and physical solutions?',
@@ -174,7 +172,7 @@ export default function GetStartedPage() {
             From rural traceability to national compliance. Select the digital framework that powers your operational integrity.
           </p>
           <p className="text-base text-gray-600 mb-8 sm:mb-12 max-w-3xl mx-auto">
-            Your digital kraal starts free on the Individual tier. Paid plans below add users, audit trails, and integrations when you scale.
+            Your digital kraal starts free on the Individual tier. Paid plans below add more users and records as you scale.
           </p>
         </div>
       </div>

@@ -57,7 +57,7 @@ Applied in the Supabase project with the registration-role work. `database/schem
 
 The Protection of Personal Information Act 4 of 2013 applies to this demo. `public.users` stores name, email, phone, street address, city, province, and postal code. Signup copies id, email, name, and role into `public.profiles`.
 
-This note is not a compliance claim. A signed-in person can read and correct their own profile. Address search sends the typed street, and sometimes coordinates, to the public OpenStreetMap Nominatim service. `src/app/get-started/page.tsx` currently calls the product POPIA ready and says all data stays inside South Africa. `src/lib/gdpr.ts` stores a browser-local policy and does not run a POPIA request process.
+This note is not a compliance claim. A signed-in person can read and correct their own profile. Address search sends the typed street, and sometimes coordinates, to the public OpenStreetMap Nominatim service. `src/app/get-started/page.tsx` describes privacy controls only and makes no POPIA compliance or data-location claim. `src/lib/gdpr.ts` stores a browser-local policy and does not run a POPIA request process.
 
 ## Related
 
