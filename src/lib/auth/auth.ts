@@ -3,8 +3,6 @@
 
 import { createClient } from '@supabase/supabase-js';
 import { NextRequest } from 'next/server';
-import { StorageService } from '@/features/auth/services/StorageService';
-import { TokenProvider } from '@/features/auth/services/TokenProvider';
 import type { UniversalUser } from '@/types/user';
 
 /**
@@ -95,17 +93,10 @@ export async function getCurrentUserFromRequest(request: NextRequest): Promise<U
       }
     } catch (supabaseError) {
       console.log('Supabase validation error:', supabaseError);
-      console.log('Falling back to custom token validation');
     }
 
-    // Fallback to custom token provider for demo accounts
-    const storageService = new StorageService();
-    const tokenProvider = new TokenProvider(storageService);
-
-    // Get user from token
-    const user = await tokenProvider.getCurrentUserFromToken();
-
-    return user;
+    // Only Supabase-verified token are accepted
+    return null;
   } catch (error) {
     console.error('Error getting user from request:', error);
     return null;
