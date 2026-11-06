@@ -95,7 +95,7 @@ export async function getCurrentUserFromRequest(request: NextRequest): Promise<U
       console.log('Supabase validation error:', supabaseError);
     }
 
-    // Only Supabase-verified token are accepted
+    // Only Supabase-verified tokens are accepted
     return null;
   } catch (error) {
     console.error('Error getting user from request:', error);
