@@ -73,6 +73,7 @@ When rotating Supabase credentials:
 - Debug endpoints under `src/app/api/debug/` must remain disabled or auth-gated in non-local environments
 - Registration uses server-side `/api/auth/register` to avoid exposing the service role to the client
 - Static export builds must be audited to ensure no server secrets appear in client bundles
+- Role pages (`/farmer`, `/retailer`, etc.) are guarded in the browser only (`withAuth`). Data is protected server-side by row-level security on `users` and by token checks in `src/lib/auth/auth.ts`. A server-side page guard needs sessions in cookies (e.g. `@supabase/ssr`) first; sessions currently live in `sessionStorage`.
 
 ## Known Remediation (2026)
 
