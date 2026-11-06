@@ -3,7 +3,6 @@
 import { Users, Shield, Database, Headphones, Zap, Clock, Award, ArrowRight, ArrowLeft, Check, ExternalLink } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import { FinanceAppLink } from '@/components/layout/FinanceAppLink';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { getFinanceAppUrl, isFinanceAppConfigured } from '@/lib/financeAppUrl';
@@ -45,7 +44,7 @@ export default function GetStartedPage() {
       period: '/month',
       features: [
         { icon: Users, text: 'Up to 5 Users', included: true },
-        { icon: Shield, text: 'POPIA Ready', included: true },
+        { icon: Shield, text: 'Privacy-Focused Design', included: true },
         { icon: Database, text: '100 Records / Mo', included: true },
         { icon: Headphones, text: 'Email Support', included: true },
         { icon: Zap, text: 'Basic Export API', included: true },
@@ -64,7 +63,7 @@ export default function GetStartedPage() {
       period: '/month',
       features: [
         { icon: Users, text: 'Up to 200 Users', included: true },
-        { icon: Shield, text: 'POPIA + Audit Trail', included: true },
+        { icon: Shield, text: 'Privacy Controls + Audit Trail', included: true },
         { icon: Database, text: '200 Records / Mo', included: true },
         { icon: Headphones, text: '8-to-5 Priority', included: true },
         { icon: Zap, text: 'API Access', included: true },
@@ -121,8 +120,8 @@ export default function GetStartedPage() {
   const trustFactors = [
     {
       icon: Shield,
-      title: 'Sovereign Data Security',
-      description: 'All data is hosted locally within South African borders, ensuring 100% POPIA and State Security compliance.',
+      title: 'Privacy by Design',
+      description: 'Each account can only see and correct its own personal information. We are working towards full POPIA compliance.',
     },
     {
       icon: Award,
