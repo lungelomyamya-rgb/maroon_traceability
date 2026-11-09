@@ -13,23 +13,16 @@ export async function getCurrentUserFromRequest(request: NextRequest): Promise<U
   try {
     const authHeader = request.headers.get('authorization');
 
-    console.log('Auth header:', authHeader ? 'Present' : 'Missing');
-
     if (!authHeader || !authHeader.startsWith('Bearer ')) {
-      console.log('Invalid or missing Bearer token');
       return null;
     }
 
     const token = authHeader.substring(7); // Remove 'Bearer ' prefix
 
-    console.log('Token extracted, length:', token.length);
-    console.log('Validating token from request header');
-
     // Try to validate with Supabase first
     try {
       const { supabase } = await import('@/features/registration/services/supabaseClient');
       if (supabase) {
-        console.log('Attempting Supabase token validation');
         const { data: { user }, error } = await supabase.auth.getUser(token);
 
         if (!error && user){
@@ -77,16 +70,9 @@ export async function getCurrentUserFromRequest(request: NextRequest): Promise<U
             _normalized: true,
           };
 
-          console.log('UniversalUser created:', {
-            id: universalUser.id,
-            email: universalUser.email,
-            role: universalUser.role || 'public',
-          });
-
           return universalUser;
         } else {
-          console.log('Supabase token validation failed:', error?.message);
-          console.log('Supabase error details:', error);
+          console.warn('Supabase token validation failed:', error?.message);
         }
       } else {
         console.log('Supabase client not available');
@@ -183,18 +169,10 @@ export async function requireProfileAccess(
   const authResult = await requireAuth(request);
 
   if (authResult.error) {
-    console.log('Auth failed in requireProfileAccess');
     return authResult;
   }
 
   const { user } = authResult;
-
-  console.log('Profile access check:', {
-    authenticatedUserId: user.id,
-    targetUserId,
-    userRole: user.role,
-    canAccess: canAccessProfile(user, targetUserId),
-  });
 
   if (!canAccessProfile(user, targetUserId)) {
     return {

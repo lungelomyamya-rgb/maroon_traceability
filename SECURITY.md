@@ -74,6 +74,7 @@ When rotating Supabase credentials:
 - Registration uses server-side `/api/auth/register` to avoid exposing the service role to the client
 - Static export builds must be audited to ensure no server secrets appear in client bundles
 - Role pages (`/farmer`, `/retailer`, etc.) are guarded in the browser only (`withAuth`). Data is protected server-side by row-level security on `users` and by token checks in `src/lib/auth/auth.ts`. A server-side page guard needs sessions in cookies (e.g. `@supabase/ssr`) first; sessions currently live in `sessionStorage`.
+- Server logs must not contain personal information: no names, emails, phone numbers, addresses or user ids, and no raw database error `details` (Postgres can include the rejected row). Log error codes and messages instead.
 
 ## Known Remediation (2026)
 
