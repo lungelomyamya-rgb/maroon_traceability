@@ -105,7 +105,7 @@ export async function getCurrentUserFromRequest(request: NextRequest): Promise<U
 
 /**
  * Verify that the user can access the requested profile
- * Users can only access their own profile (except admins)
+ * Users can only access their own profile
  */
 export function canAccessProfile(
   currentUser: UniversalUser | null,
@@ -113,11 +113,6 @@ export function canAccessProfile(
 ): boolean {
   if (!currentUser) {
     return false;
-  }
-
-  // Admins can access any profile
-  if (currentUser.role === 'admin' || currentUser.role === 'government') {
-    return true;
   }
 
   // Users can only access their own profile
