@@ -123,20 +123,8 @@ export async function PATCH(
     // Update the Supabase database
     try {
 
-      console.log('Using admin client for profile update');
-
       // Use admin client to bypass RLS policies
       const supabaseAdmin = getSupabaseAdmin();
-
-      console.log('Updating user profile in database:', {
-        targetUserId,
-        updateData: {
-          name: updatedUser.name,
-          phone: updatedUser.phone,
-          address: updatedUser.address,
-          postal_code: (updatedUser as { postal_code?: string}).postal_code,
-        },
-      });
 
       // Update user profile in Supabase using admin client
       const { data: existingProfile } = await supabaseAdmin
@@ -173,21 +161,13 @@ export async function PATCH(
         .single();
 
       if (error) {
-        console.error('Supabase update error:', error);
-        console.error('Error details:', {
-          message: error.message,
-          details: error.details,
-          hint: error.hint,
-          code: error.code,
-        });
+        console.error('Supabase update error:', error.code, error.message);
         return createAuthErrorResponse(`Database update failed: ${error.message}`, 500);
       }
 
       if (!data) {
         return createAuthErrorResponse('Profile update failed: No data returned', 500);
       }
-
-      console.log('Profile successfully updated in Supabase for user:', targetUserId);
 
       // Convert Supabase result back to UniversalUser format
       const resultUser: UniversalUser = {
@@ -286,21 +266,13 @@ export async function PUT(
         .single();
 
       if (error) {
-        console.error('Supabase update error:', error);
-        console.error('Error details:', {
-          message: error.message,
-          details: error.details,
-          hint: error.hint,
-          code: error.code,
-        });
+        console.error('Supabase update error:', error.code, error.message);
         return createAuthErrorResponse(`Database update failed: ${error.message}`, 500);
       }
 
       if (!data) {
         return createAuthErrorResponse('Profile update failed: No data returned', 500);
       }
-
-      console.log('Profile successfully replaced in Supabase for user:', targetUserId);
 
       // Convert Supabase result back to UniversalUser format
       const resultUser: UniversalUser = {
