@@ -42,15 +42,26 @@ function cityName(address: NominatimAddress): string {
         .trim();
 }
 
-export async function GET(request:NextRequest) {
-    const authResult = await requireAuth(request);
-    if (authResult.error) {
-        return authResult.error;
-    }
+    type AddressLookupBody = {
+        q?: unknown;
+        lat?: unknown;
+        lon?: unknown;
+    };
 
-    const latitude = request.nextUrl.searchParams.get('lat');
-    const longitude = request.nextUrl.searchParams.get('lon');
-        if (latitude && longitude && /^-?\d+(\.\d+)?$/.test(latitude) && /^-?\d+(\.\d+)?/.test(longitude)) {
+    const coordinatePattern = /^-?\d+(\.\d+)?$/;
+
+    // POST keeps the typed address and coordinates out of URLs and request logs
+    export async function POST(request: NextRequest) {
+        const authResult = await requireAuth(request);
+        if (authResult.error) {
+            return authResult.error;
+        }
+
+        const body = (await request.json().catch(() => ({}))) as AddressLookupBody;
+        const latitude = typeof body.lat === 'string' ? body.lat : '';
+        const longitude = typeof body.lon === 'string' ? body.lon : '';
+
+        if (coordinatePattern.test(latitude) && coordinatePattern.test(longitude)) {
             const reverseUrl = new URL('https://nominatim.openstreetmap.org/reverse');
             reverseUrl.searchParams.set('format', 'json');
             reverseUrl.searchParams.set('addressdetails', '1');
@@ -66,11 +77,13 @@ export async function GET(request:NextRequest) {
             if (!reverseResponse.ok) {
                 return NextResponse.json({ postalCode: '' });
             }
+
             const reverseResult = (await reverseResponse.json()) as NominatimResult;
             return NextResponse.json({ postalCode: reverseResult.address?.postcode ?? '' });
-        }
+    }
 
-    const query = request.nextUrl.searchParams.get('q')?.trim() ?? '';
+    const query = typeof body.q === 'string' ? body.q.trim() : '';
+
     if (query.length < 3) {
         return NextResponse.json({ suggestions: [] });
     }

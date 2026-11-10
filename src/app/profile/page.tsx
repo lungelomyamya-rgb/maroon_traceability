@@ -119,8 +119,10 @@ export default function ProfilePage() {
           return;
         }
 
-        const response = await fetch(`/api/address-suggestions?q=${encodeURIComponent(query)}`, {
-          headers: { Authorization: `Bearer ${token}` },
+        const response = await fetch('/api/address-suggestions/', {
+          method: 'POST',
+          headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
+          body: JSON.stringify({ q: query }),
         });
         if (cancelled || ignoreAddressSearch.current || !response.ok) {
           if (!cancelled && !ignoreAddressSearch.current) {
@@ -174,10 +176,11 @@ export default function ProfilePage() {
     if (!token) {
       return;
     }
-    const response = await fetch(
-      `/api/address-suggestions?lat=${encodeURIComponent(suggestion.latitude)}&lon=${encodeURIComponent(suggestion.longitude)}`,
-      { headers: { Authorization: `Bearer ${token}` } },
-    );
+    const response = await fetch('/api/address-suggestions/', {
+      method: 'POST',
+      headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ lat: suggestion.latitude, lon: suggestion.longitude }),
+    });
     if (!response.ok) {
       return;
     }
