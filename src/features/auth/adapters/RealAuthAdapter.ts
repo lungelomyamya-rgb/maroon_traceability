@@ -104,15 +104,13 @@ export class RealAuthAdapter implements AuthAdapter {
     if (!this.isAvailable) {
       throw new Error('Supabase is not available. Check environment configuration.');
     }
-
-    console.log('RealAuthAdapter initialized');
   }
 
   /**
    * Cleanup adapter resources
    */
   async cleanup(): Promise<void> {
-    console.log('RealAuthAdapter cleaned up');
+    // Nothing to release: the Supabase client is shared
   }
 
   /**
@@ -159,15 +157,12 @@ export class RealAuthAdapter implements AuthAdapter {
         const errorMessage = handlePostgrestError(profileError);
         if (errorMessage) {
           console.warn('Failed to fetch user profile:', errorMessage);
-        } else {
-          console.log('No existing user profile found during login (PGRST116 handled gracefully)');
         }
       }
 
       // If no profile exists, create one from auth user metadata
       let userProfile = profile;
       if (!profile && data.user) {
-        console.log('No user profile found during login, creating from auth metadata');
         userProfile = {
           id: data.user.id,
           email: data.user.email || '',
@@ -207,9 +202,8 @@ export class RealAuthAdapter implements AuthAdapter {
             .single();
 
           if (insertError) {
-            console.warn('Failed to create missing user profile during login:', insertError);
+            console.warn('Failed to create missing user profile during login:', insertError.message);
           } else {
-            console.log('Successfully created missing user profile during login');
             userProfile = newProfile;
           }
         } catch (error) {
@@ -515,15 +509,12 @@ export class RealAuthAdapter implements AuthAdapter {
         const errorMessage = handlePostgrestError(profileError);
         if (errorMessage) {
           console.warn('Failed to fetch user profile:', errorMessage);
-        } else {
-          console.log('No existing user profile found (PGRST116 handled gracefully)');
         }
       }
 
       // If no profile exists, create one from auth user metadata
       let userProfile = profile;
       if (!profile && session.user) {
-        console.log('No user profile found, creating from auth metadata');
         userProfile = {
           id: session.user.id,
           email: session.user.email || '',
@@ -567,9 +558,8 @@ export class RealAuthAdapter implements AuthAdapter {
             .single();
 
           if (insertError) {
-            console.warn('Failed to create missing user profile:', insertError);
+            console.warn('Failed to create missing user profile:', insertError.message);
           } else {
-            console.log('Successfully created missing user profile');
             userProfile = newProfile;
           }
         } catch (error) {

@@ -53,13 +53,7 @@ export function UserProvider({ children }: { children: ReactNode }) {
   const [adapter] = useState(() => {
     // Use RealAuthAdapter for real authentication, MockAuthAdapter for demo
     const realAdapter = new RealAuthAdapter();
-    if (realAdapter.isAvailable) {
-      console.log('Using RealAuthAdapter (Supabase)');
-      return realAdapter;
-    } else {
-      console.log('RealAuthAdapter not available, using MockAuthAdapter for demo');
-      return new MockAuthAdapter();
-    }
+    return realAdapter.isAvailable ? realAdapter : new MockAuthAdapter();
   });
 
   // Initialize adapter and restore session
@@ -68,7 +62,7 @@ export function UserProvider({ children }: { children: ReactNode }) {
       try {
         setLoading(true);
         await adapter.initialize();
-        
+
         const result = await adapter.getCurrentUser();
         if (result.success && result.data) {
           setUser(result.data);
@@ -147,7 +141,6 @@ export function UserProvider({ children }: { children: ReactNode }) {
   const register = useCallback(async (data: RegistrationData): Promise<boolean> => {
     setLoading(true);
     try {
-      console.log('Starting registration process for:', data.email);
 
       const response = await fetch('/api/auth/register', {
         method: 'POST',
@@ -211,39 +204,26 @@ export function UserProvider({ children }: { children: ReactNode }) {
 
   const getAuthToken = useCallback(async (): Promise<string | null> => {
     try {
-      console.log('Getting auth token, adapter type:', adapter.type);
-      
-      // Try to get token from storage service
-      if ('getAuthToken' in adapter) {
-        console.log('Using adapter getAuthToken method');
-        return await (adapter as any).getAuthToken();
-      }
-      
       // For RealAuthAdapter (Supabase), get token from Supabase session
       if (adapter.type === 'real') {
-        console.log('Using Supabase session for token');
         const { supabase } = await import('@/features/registration/services/supabaseClient');
         if (supabase) {
           const { data: { session } } = await supabase.auth.getSession();
-          console.log('Supabase session found:', session ? 'Yes' : 'No');
           return session?.access_token || null;
         }
       }
-      
-      // Fallback to localStorage for adapters that don't implement getAuthToken
+
+      // Demo adapter: legacy token in localStorage
       if (typeof window !== 'undefined') {
-        const localToken = localStorage.getItem('access_token');
-        console.log('localStorage token found:', localToken ? 'Yes' : 'No');
-        return localToken;
+        return localStorage.getItem('access_token');
       }
-      
-      console.log('No token found anywhere');
+
       return null;
     } catch (error) {
       console.error('Failed to get auth token:', error);
       return null;
-    }
-  }, [adapter]);
+      }
+    }, [adapter]);
 
   // User management methods
   const switchUser = useCallback((userId: string) => {
