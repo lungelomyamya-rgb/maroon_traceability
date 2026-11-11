@@ -276,12 +276,9 @@ export default function ProfilePage() {
 
       // Get auth token for real accounts
       let authToken: string | undefined;
-      console.log('User is demo account:', isDemoUser);
-      console.log('Current user data:', currentUser);
 
       if (!isDemoUser) {
         const token = await getAuthToken();
-        console.log('Auth token retrieved:', token ? 'Token exists' : 'No token found');
         if (!token) {
           throw new Error('Authentication required. Please log in again.');
         }
@@ -290,9 +287,6 @@ export default function ProfilePage() {
 
       // Prepare update data using the data mapper
       const updateData = createUpdateData(formData, currentUser);
-
-      console.log('Update data being sent:', updateData);
-      console.log('Current user data:', currentUser);
 
       // Call the ProfileService to update profile
       const updatedUser = await ProfileService.updateProfile(
@@ -347,8 +341,6 @@ export default function ProfilePage() {
             farmName: updatedProfileData.farmName || prev.farmName,
             livestockType: updatedProfileData.livestockType || prev.livestockType,
           }));
-        } else {
-          console.log('updatedProfileData is null');
         }
       }
 
@@ -477,7 +469,7 @@ const isRealUser = currentUser && '_source' in currentUser &&
             {/* Profile Title */}
             <div className="flex items-center justify-center space-x-3 sm:space-x-4 sm:justify-start w-full sm:w-auto">
               <div
-              className="flex items-center justify-center h-12 w-12 sm:h-16 sm:w-16 rounded-full flex-shrink-0 relative group cursor-pointer"
+              className="flex items-center justify-center h-12 w-12 sm:h-16 sm:w-16 rounded-full shrink-0 relative group cursor-pointer"
               role="button"
               tabIndex={0}
               onKeyDown={(event) => {
@@ -495,7 +487,7 @@ const isRealUser = currentUser && '_source' in currentUser &&
                   className="h-12 w-12 sm:h-16 sm:w-16 rounded-full object-cover border-4 border-white shadow-lg group-hover:shadow-xl transition-shadow"
                 />
               ) : (
-                <div className="h-12 w-12 sm:h-16 sm:w-16 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 border-4 border-white shadow-lg flex items-center justify-center group-hover:shadow-xl transition-shadow">
+                <div className="h-12 w-12 sm:h-16 sm:w-16 rounded-full bg-linear-to-br from-blue-500 to-purple-600 border-4 border-white shadow-lg flex items-center justify-center group-hover:shadow-xl transition-shadow">
                   <span className="text-white text-lg sm:text-xl font-bold">
                     {formData.name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2)}
                   </span>
@@ -546,7 +538,7 @@ const isRealUser = currentUser && '_source' in currentUser &&
         {isRealUser && !hasCompleteProfile(currentUser) && (
           <div className={`${profileCompletionClicked ? 'bg-green-50 border-green-200' : 'bg-blue-50 border-blue-200'} rounded-lg p-4 mb-6 transition-all duration-300`}>
             <div className="flex items-start space-x-3">
-              <div className="flex-shrink-0">
+              <div className="shrink-0">
                 {profileCompletionClicked ? (
                   <svg className="h-6 w-6 text-green-600 mt-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />

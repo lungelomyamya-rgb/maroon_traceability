@@ -7,13 +7,6 @@ import { createClient } from '@supabase/supabase-js';
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL?.trim();
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY?.trim();
 
-// Debug environment variables
-console.log('Supabase Client Debug:', {
-  supabaseUrl,
-  supabaseAnonKey: supabaseAnonKey ? 'SET' : 'NOT_SET',
-  nodeEnv: process.env.NODE_ENV,
-});
-
 // Validate Supabase URL format
 const isValidUrl = (url: string): boolean => {
   try {
