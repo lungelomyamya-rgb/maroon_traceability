@@ -18,7 +18,7 @@ export function VarydianGrapPromoCard() {
           <div>
             <CardTitle>Month-end GRAP reporting</CardTitle>
             <CardDescription>
-              Generate GRAP-compliant statements, period locks, audit packs, and asset registers in
+              Generate GRAP statements, period locks, audit packs, and asset registers in
               Varydian — separate from Maroon traceability.
             </CardDescription>
           </div>
