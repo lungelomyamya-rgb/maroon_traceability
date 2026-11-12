@@ -47,7 +47,7 @@ export default function GetStartedPage() {
         { icon: Shield, text: 'Privacy-Focused Design', included: true },
         { icon: Database, text: '100 Records / Mo', included: true },
         { icon: Headphones, text: 'Email Support', included: true },
-        { icon: Zap, text: 'Basic Export API', included: true },
+        { icon: Zap, text: 'Data Export API (coming soon)', included: true },
         { icon: Clock, text: '8-to-5 Priority', included: true },
       ],
       cta: 'Start 14-Day Trial',
@@ -66,7 +66,7 @@ export default function GetStartedPage() {
         { icon: Shield, text: 'Privacy Controls', included: true },
         { icon: Database, text: '200 Records / Mo', included: true },
         { icon: Headphones, text: '8-to-5 Priority', included: true },
-        { icon: Zap, text: 'API Access', included: true },
+        { icon: Zap, text: 'API Access (coming soon)', included: true },
         { icon: Clock, text: 'Priority Support', included: true },
       ],
       cta: 'Go Pro Now',
@@ -85,7 +85,7 @@ export default function GetStartedPage() {
         { icon: Check, text: 'Varydian GRAP financial reporting — 6 roles, period lock, audit pack, asset register', included: true },
         { icon: Database, text: 'Unlimited Records', included: true },
         { icon: Headphones, text: '24/7 Dedicated Manager', included: true },
-        { icon: Zap, text: 'Custom ERP Integration', included: true },
+        { icon: Zap, text: 'ERP Integration (on request)', included: true },
         { icon: Clock, text: '24/7 Support', included: true },
       ],
       cta: 'Contact Sales',
@@ -129,8 +129,8 @@ export default function GetStartedPage() {
     },
     {
       icon: Zap,
-      title: 'Interoperable Ecosystem',
-      description: 'Built on an "API-First" philosophy, allowing our platforms to talk to your existing ERP or government databases.',
+      title: 'Built to Connect',
+      description: 'An API for connecting Maroon to your existing ERP or government systems is on our roadmap.',
     },
   ];
 

@@ -51,7 +51,7 @@ export default function ContactSalesPage() {
             <h1 className="text-3xl font-bold text-gray-900 mb-2">Contact Sales</h1>
             <p className="text-gray-600">
               Enterprise solutions for Government &amp; SOEs. Government plans include Maroon
-              traceability plus <strong>Varydian</strong> for GRAP-compliant financial statements.
+              traceability plus <strong>Varydian</strong> for GRAP financial statements.
             </p>
             <div className="mt-2 inline-flex items-center px-3 py-1 bg-purple-100 text-purple-700 rounded-full text-sm">
               Custom Quote · Tailored Solutions
@@ -220,7 +220,7 @@ export default function ContactSalesPage() {
                 </li>
                 <li className="flex items-start">
                   <FileText className="h-5 w-5 text-blue-600 mr-2 mt-0.5 flex-shrink-0" />
-                  <span className="text-sm text-gray-700">GRAP & SITA Aligned</span>
+                  <span className="text-sm text-gray-700">GRAP Reporting via Varydian</span>
                 </li>
                 <li className="flex items-start">
                   <Phone className="h-5 w-5 text-purple-600 mr-2 mt-0.5 flex-shrink-0" />
@@ -228,7 +228,7 @@ export default function ContactSalesPage() {
                 </li>
                 <li className="flex items-start">
                   <MapPin className="h-5 w-5 text-orange-600 mr-2 mt-0.5 flex-shrink-0" />
-                  <span className="text-sm text-gray-700">Custom ERP Integration</span>
+                  <span className="text-sm text-gray-700">ERP Integration (on request)</span>
                 </li>
                 <li className="flex items-start">
                   <Building2 className="h-5 w-5 text-red-600 mr-2 mt-0.5 flex-shrink-0" />
