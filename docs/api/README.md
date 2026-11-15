@@ -31,7 +31,7 @@ The server checks the token with `supabase.auth.getUser` in [`src/lib/auth/auth.
 |--------|------|---------|---------|
 | `POST` | `/api/auth/register/` | No | Create an account |
 | `POST` | `/api/address-suggestions/` | Yes | Address search and postal-code lookup |
-| `GET`, `PATCH`, `PUT` | `/api/users/{id}/profile/` | Yes, own profile only | Read or update a profile |
+| `GET`, `PATCH` | `/api/users/{id}/profile/` | Yes, own profile only | Read or update a profile |
 | `GET` | `/api/debug/auth/` | Development only | Check a token |
 
 ---
@@ -120,9 +120,8 @@ Both values are decimal strings. The response is `{ "postalCode": "<code>" }`, o
 |--------|------|--------|
 | `GET` | None | Returns the profile |
 | `PATCH` | Any of `name`, `phone`, `address`, `city`, `province`, `postal_code`, `additional_data` | Updates only the fields sent |
-| `PUT` | `name` and `email` required. Optional: `phone`, `address`, `city`, `province`, `postal_code` | Replaces those fields |
 
-`email` is validated but not saved by these routes.
+`email` cannot be changed here. It is the Supabase Auth login, and the route ignores it. Other methods return `405`.
 
 **Success, `200`**
 
@@ -143,7 +142,7 @@ The `data` object is shortened in this example.
 - `401` when there is no valid token
 - `403` for another user's profile
 - `404` when the user is not found
-- `500` for a database or server error
+- `500` for a database or server error. The message is generic; details are in the server log.
 
 ---
 
