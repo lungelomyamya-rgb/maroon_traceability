@@ -82,15 +82,11 @@ export async function PATCH(
 
     const body = await request.json();
 
-    // Validate input data
-    const { name, email, phone, address, postal_code, city, province, additional_data } = body;
+    // Email is the login identity in Supabase Auth, so this route does not change it
+    const { name, phone, address, postal_code, city, province, additional_data } = body;
 
     if (name && (typeof name !== 'string' || name.trim().length < 2)) {
       return createAuthErrorResponse('Name must be at least 2 characters long', 400);
-    }
-
-    if (email && (typeof email !== 'string' || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))) {
-      return createAuthErrorResponse('Please enter a valid email address', 400);
     }
 
     if (phone && (typeof phone !== 'string' || !/^[+]?[\d\s\-()]+$/.test(phone))) {
@@ -162,7 +158,7 @@ export async function PATCH(
 
       if (error) {
         console.error('Supabase update error:', error.code, error.message);
-        return createAuthErrorResponse(`Database update failed: ${error.message}`, 500);
+        return createAuthErrorResponse('Profile update failed', 500);
       }
 
       if (!data) {
@@ -205,110 +201,6 @@ export async function PATCH(
     }
   } catch (error) {
     console.error('Profile PATCH error:', error);
-    return createAuthErrorResponse('Internal server error', 500);
-  }
-}
-
-/**
- * PUT /api/users/[id]/profile
- * Replace entire user profile
- */
-export async function PUT(
-  request: NextRequest,
-  { params }: { params: Promise<{ id: string }> },
-) {
-  try {
-    const { id: targetUserId } = await params;
-
-    // Authenticate and authorize the request
-    const authResult = await requireProfileAccess(request, targetUserId);
-
-    if (authResult.error) {
-      return authResult.error;
-    }
-
-    const body = await request.json();
-
-    // Validate that required fields are present
-    if (!body.name || typeof body.name !== 'string') {
-      return createAuthErrorResponse('Name is required', 400);
-    }
-
-    if (!body.email || typeof body.email !== 'string') {
-      return createAuthErrorResponse('Email is required', 400);
-    }
-
-    // Validate email format
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(body.email)) {
-      return createAuthErrorResponse('Please enter a valid email address', 400);
-    }
-
-    // Update the Supabase database
-    try {
-
-      // Use admin client to bypass RLS policies
-      const supabaseAdmin = getSupabaseAdmin();
-
-      // Update user profile in Supabase using admin client
-      const { data, error } = await supabaseAdmin
-        .from('users')
-        .update({
-          name: body.name,
-          phone: typeof body.phone === 'string' ? body.phone : undefined,
-          address: body.address,
-          city: typeof body.city === 'string' ? body.city : undefined,
-          province: typeof body.province === 'string' ? body.province : undefined,
-          postal_code: body.postal_code,
-          updated_at: new Date().toISOString(),
-        })
-        .eq('id', targetUserId)
-        .select()
-        .single();
-
-      if (error) {
-        console.error('Supabase update error:', error.code, error.message);
-        return createAuthErrorResponse(`Database update failed: ${error.message}`, 500);
-      }
-
-      if (!data) {
-        return createAuthErrorResponse('Profile update failed: No data returned', 500);
-      }
-
-      // Convert Supabase result back to UniversalUser format
-      const resultUser: UniversalUser = {
-        id: data.id,
-        email: data.email,
-        name: data.name,
-        role: data.role,
-        isActive: data.is_active,
-        emailVerified: data.email_verified,
-        createdAt: data.created_at,
-        updatedAt: data.updated_at,
-        phone: data.phone,
-        ...(data.city ? ({ city: data.city } as Partial<UniversalUser>) : {}),
-        ...(data.province ? ({ province: data.province } as Partial<UniversalUser>) : {}),
-        address: data.address,
-        ...(data.postal_code
-          ? ({ postal_code: data.postal_code } as Partial<UniversalUser>)
-          : {}),
-        _source: {
-          type: 'api',
-          timestamp: new Date().toISOString(),
-        },
-        _validation: {
-          isValid: true,
-          validatedAt: new Date().toISOString(),
-        },
-        _normalized: true,
-      };
-
-      return createSuccessResponse(resultUser, 'Profile replaced successfully');
-    } catch (dbError) {
-      console.error('Database connection error:', dbError);
-      return createAuthErrorResponse('Database connection failed', 500);
-    }
-  } catch (error) {
-    console.error('Profile PUT error:', error);
     return createAuthErrorResponse('Internal server error', 500);
   }
 }
