@@ -1,14 +1,15 @@
 'use client';
 
-import { ArrowLeft, User, MapPin, Lock, Check, AlertCircle } from 'lucide-react';
+import { ArrowLeft, User, MapPin, Lock, AlertCircle } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+import { RegistrationSuccessPanel } from '@/components/registration/RegistrationSuccessPanel';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
-import { RegistrationSuccessPanel } from '@/components/registration/RegistrationSuccessPanel';
-import { getRoleDashboardPath, saveRegistrationLead } from '@/lib/registrationLeads';
+import { getRoleDashboardPath, clearLegacyRegistrationLeads } from '@/lib/registrationLeads';
 import { RegistrationValidation, getFieldClassName, getCheckboxClassName } from '@/lib/validation/registrationValidation';
 import { useUser } from '@/src/contexts/userContext';
+import type { UserRole } from '@/types/types';
 
 export default function IndividualRegistrationPage() {
   const router = useRouter();
@@ -36,7 +37,7 @@ export default function IndividualRegistrationPage() {
       ...prev,
       [name]: type === 'checkbox' ? (e.target as HTMLInputElement).checked : value,
     }));
-    
+
     // Clear error for this field when user starts typing
     if (fieldErrors[name]) {
       setFieldErrors(prev => {
@@ -47,33 +48,37 @@ export default function IndividualRegistrationPage() {
     }
   };
 
-  const { register, loading, user } = useUser();
+  const { register, loading } = useUser();
   const [error, setError] = useState<string | null>(null);
   const [isRegistered, setIsRegistered] = useState(false);
   const [dashboardPath, setDashboardPath] = useState('/farmer');
   const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
 
-  const validateForm = (): boolean => {
-    const errors = RegistrationValidation.validateIndividualForm(formData);
-    setFieldErrors(errors);
-    return Object.keys(errors).length === 0;
-  };
-
   // Step validation functions
   const validateStep1 = (): boolean => {
     const errors: Record<string, string> = {};
-    
+
     // Validate personal information fields
-    if (!formData.firstName?.trim()) errors.firstName = 'First name is required';
-    if (!formData.lastName?.trim()) errors.lastName = 'Last name is required';
-    
+    if (!formData.firstName?.trim()) {
+errors.firstName = 'First name is required';
+}
+    if (!formData.lastName?.trim()) {
+errors.lastName = 'Last name is required';
+}
+
     const emailError = RegistrationValidation.validateEmail(formData.email);
-    if (emailError) errors.email = emailError;
-    
+    if (emailError) {
+errors.email = emailError;
+}
+
     const phoneError = RegistrationValidation.validatePhone(formData.phone);
-    if (phoneError) errors.phone = phoneError;
-    
-    if (!formData.role) errors.role = 'Please select a role';
+    if (phoneError) {
+errors.phone = phoneError;
+}
+
+    if (!formData.role) {
+errors.role = 'Please select a role';
+}
 
     setFieldErrors(errors);
     return Object.keys(errors).length === 0;
@@ -81,14 +86,22 @@ export default function IndividualRegistrationPage() {
 
   const validateStep2 = (): boolean => {
     const errors: Record<string, string> = {};
-    
+
     // Validate farm information fields
-    if (!formData.address?.trim()) errors.address = 'Address is required';
-    if (!formData.city?.trim()) errors.city = 'City is required';
-    if (!formData.province || formData.province === '') errors.province = 'Please select a province';
-    
+    if (!formData.address?.trim()) {
+errors.address = 'Address is required';
+}
+    if (!formData.city?.trim()) {
+errors.city = 'City is required';
+}
+    if (!formData.province || formData.province === '') {
+errors.province = 'Please select a province';
+}
+
     const postalError = RegistrationValidation.validatePostalCode(formData.postalCode);
-    if (postalError) errors.postalCode = postalError;
+    if (postalError) {
+errors.postalCode = postalError;
+}
 
     setFieldErrors(errors);
     return Object.keys(errors).length === 0;
@@ -96,15 +109,22 @@ export default function IndividualRegistrationPage() {
 
   const validateStep3 = (): boolean => {
     const errors: Record<string, string> = {};
-    
+
     // Validate security fields
     const passwordError = RegistrationValidation.validatePassword(formData.password);
-    if (passwordError) errors.password = passwordError;
-    
-    if (!formData.confirmPassword) errors.confirmPassword = 'Please confirm your password';
-    else if (formData.password !== formData.confirmPassword) errors.confirmPassword = 'Passwords do not match';
-    
-    if (!formData.agreeToTerms) errors.agreeToTerms = 'You must agree to the terms and conditions';
+    if (passwordError) {
+errors.password = passwordError;
+}
+
+    if (!formData.confirmPassword) {
+errors.confirmPassword = 'Please confirm your password';
+} else if (formData.password !== formData.confirmPassword) {
+errors.confirmPassword = 'Passwords do not match';
+}
+
+    if (!formData.agreeToTerms) {
+errors.agreeToTerms = 'You must agree to the terms and conditions';
+}
 
     setFieldErrors(errors);
     return Object.keys(errors).length === 0;
@@ -128,7 +148,7 @@ export default function IndividualRegistrationPage() {
       email: formData.email,
       password: formData.password,
       name: `${formData.firstName} ${formData.lastName}`,
-      role: formData.role as any,
+      role: formData.role as UserRole,
       additionalData: {
         userType: 'individual',
         phone: formData.phone,
@@ -146,14 +166,7 @@ export default function IndividualRegistrationPage() {
     const success = await register(registrationData);
     if (success) {
       const path = getRoleDashboardPath(formData.role);
-      saveRegistrationLead({
-        email: formData.email,
-        name: `${formData.firstName} ${formData.lastName}`,
-        role: formData.role,
-        tier: 'Individual Farmer (Free)',
-        registrationType: 'individual',
-        phone: formData.phone,
-      });
+      clearLegacyRegistrationLeads();
       setDashboardPath(path);
       setIsRegistered(true);
     } else {
@@ -296,8 +309,8 @@ export default function IndividualRegistrationPage() {
                 </div>
 
                 <div className="flex justify-end">
-                  <Button 
-                    type="button" 
+                  <Button
+                    type="button"
                    onClick={() => {
                       if (validateStep1()) {
                         setStep(2);
@@ -430,8 +443,8 @@ export default function IndividualRegistrationPage() {
                   <Button type="button" variant="outline" onClick={() => setStep(1)}>
                     Back
                   </Button>
-                  <Button 
-                    type="button" 
+                  <Button
+                    type="button"
                     onClick={() => {
                       if (validateStep2()) {
                         setStep(3);
@@ -527,8 +540,8 @@ export default function IndividualRegistrationPage() {
                   <Button type="button" variant="outline" onClick={() => setStep(2)}>
                     Back
                   </Button>
-                  <Button 
-                    type="submit" 
+                  <Button
+                    type="submit"
                     disabled={loading}
                   >
                     {loading ? (

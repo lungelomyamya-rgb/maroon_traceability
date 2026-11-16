@@ -1,16 +1,17 @@
 // src/app/register/retailer/page.tsx
 'use client';
 
-import { Check, AlertCircle, Lock } from 'lucide-react';
+import { AlertCircle, Lock } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+import { RegistrationSuccessPanel } from '@/components/registration/RegistrationSuccessPanel';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { DocumentUpload, type DocumentType } from '@/components/ui/document-upload';
-import { RegistrationSuccessPanel } from '@/components/registration/RegistrationSuccessPanel';
-import { getRoleDashboardPath, saveRegistrationLead } from '@/lib/registrationLeads';
-import { useUser } from '@/src/contexts/userContext';
+import { getRoleDashboardPath, clearLegacyRegistrationLeads } from '@/lib/registrationLeads';
 import { RegistrationValidation, getFieldClassName, getCheckboxClassName } from '@/lib/validation/registrationValidation';
+import { useUser } from '@/src/contexts/userContext';
+import type { UserRole } from '@/types/types';
 
 export default function RetailerRegistrationPage() {
   const router = useRouter();
@@ -43,7 +44,7 @@ export default function RetailerRegistrationPage() {
       ...prev,
       [name]: type === 'checkbox' ? (e.target as HTMLInputElement).checked : value,
     }));
-    
+
     // Clear error for this field when user starts typing
     if (fieldErrors[name]) {
       setFieldErrors(prev => {
@@ -54,7 +55,7 @@ export default function RetailerRegistrationPage() {
     }
   };
 
-  const { register, loading, user } = useUser();
+  const { register, loading } = useUser();
   const [error, setError] = useState<string | null>(null);
   const [isRegistered, setIsRegistered] = useState(false);
   const [dashboardPath, setDashboardPath] = useState('/retailer');
@@ -63,28 +64,46 @@ export default function RetailerRegistrationPage() {
   // Step validation functions
   const validateStep1 = (): boolean => {
     const errors: Record<string, string> = {};
-    
+
     // Validate business information fields
-    if (!formData.companyName?.trim()) errors.companyName = 'Company name is required';
-    
+    if (!formData.companyName?.trim()) {
+errors.companyName = 'Company name is required';
+}
+
     const regError = RegistrationValidation.validateRegistrationNumber(formData.registrationNumber);
-    if (regError) errors.registrationNumber = regError;
-    
+    if (regError) {
+errors.registrationNumber = regError;
+}
+
     const emailError = RegistrationValidation.validateEmail(formData.email);
-    if (emailError) errors.email = emailError;
-    
+    if (emailError) {
+errors.email = emailError;
+}
+
     const phoneError = RegistrationValidation.validatePhone(formData.phone);
-    if (phoneError) errors.phone = phoneError;
-    
-    if (!formData.role) errors.role = 'Please select a role';
+    if (phoneError) {
+errors.phone = phoneError;
+}
+
+    if (!formData.role) {
+errors.role = 'Please select a role';
+}
 
     // Validate location fields that are in Step 1
-    if (!formData.address?.trim()) errors.address = 'Address is required';
-    if (!formData.city?.trim()) errors.city = 'City is required';
-    if (!formData.country || formData.country === '') errors.country = 'Country is required';
-    
+    if (!formData.address?.trim()) {
+errors.address = 'Address is required';
+}
+    if (!formData.city?.trim()) {
+errors.city = 'City is required';
+}
+    if (!formData.country || formData.country === '') {
+errors.country = 'Country is required';
+}
+
     const postalError = RegistrationValidation.validatePostalCode(formData.postalCode);
-    if (postalError) errors.postalCode = postalError;
+    if (postalError) {
+errors.postalCode = postalError;
+}
 
     setFieldErrors(errors);
     return Object.keys(errors).length === 0;
@@ -92,10 +111,10 @@ export default function RetailerRegistrationPage() {
 
   const validateStep2 = (): boolean => {
     const errors: Record<string, string> = {};
-    
+
     // Step 2 only contains document upload which is optional for now
     // Users can proceed without uploading documents in this demo
-    
+
     setFieldErrors(errors);
     return Object.keys(errors).length === 0;
   };
@@ -109,14 +128,21 @@ export default function RetailerRegistrationPage() {
 
     // Validate final step (password and terms)
     const errors: Record<string, string> = {};
-    
+
     const passwordError = RegistrationValidation.validatePassword(formData.password);
-    if (passwordError) errors.password = passwordError;
-    
-    if (!formData.confirmPassword) errors.confirmPassword = 'Please confirm your password';
-    else if (formData.password !== formData.confirmPassword) errors.confirmPassword = 'Passwords do not match';
-    
-    if (!formData.agreeToTerms) errors.agreeToTerms = 'You must agree to the terms and conditions';
+    if (passwordError) {
+errors.password = passwordError;
+}
+
+    if (!formData.confirmPassword) {
+errors.confirmPassword = 'Please confirm your password';
+} else if (formData.password !== formData.confirmPassword) {
+errors.confirmPassword = 'Passwords do not match';
+}
+
+    if (!formData.agreeToTerms) {
+errors.agreeToTerms = 'You must agree to the terms and conditions';
+}
 
     if (Object.keys(errors).length > 0) {
       setFieldErrors(errors);
@@ -129,7 +155,7 @@ export default function RetailerRegistrationPage() {
       email: formData.email,
       password: formData.password,
       name: formData.companyName,
-      role: formData.role as any,
+      role: formData.role as UserRole,
       additionalData: {
         userType: 'retailer',
         companyName: formData.companyName,
@@ -148,15 +174,7 @@ export default function RetailerRegistrationPage() {
     const success = await register(registrationData);
     if (success) {
       const path = getRoleDashboardPath(formData.role);
-      saveRegistrationLead({
-        email: formData.email,
-        name: formData.companyName,
-        role: formData.role,
-        tier: 'Retailer (Professional)',
-        registrationType: 'retailer',
-        phone: formData.phone,
-        companyName: formData.companyName,
-      });
+      clearLegacyRegistrationLeads();
       setDashboardPath(path);
       setIsRegistered(true);
     } else {
@@ -342,8 +360,8 @@ export default function RetailerRegistrationPage() {
                 </div>
 
                 <div className="flex justify-between pt-4">
-                  <Button 
-                    type="button" 
+                  <Button
+                    type="button"
                     onClick={() => {
                       if (validateStep1()) {
                         setStep(2);
@@ -371,15 +389,15 @@ export default function RetailerRegistrationPage() {
                 />
 
                 <div className="flex justify-between pt-4">
-                  <Button 
-                    type="button" 
+                  <Button
+                    type="button"
                     variant="outline"
                     onClick={() => setStep(1)}
                   >
                     Back
                   </Button>
-                  <Button 
-                    type="button" 
+                  <Button
+                    type="button"
                     onClick={() => {
                       if (validateStep2()) {
                         setStep(3);
@@ -480,8 +498,8 @@ export default function RetailerRegistrationPage() {
                   >
                     Back
                   </Button>
-                  <Button 
-                    type="submit" 
+                  <Button
+                    type="submit"
                     disabled={loading}
                   >
                     {loading ? (
