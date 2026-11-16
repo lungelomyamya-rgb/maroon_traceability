@@ -1,14 +1,15 @@
 'use client';
 
-import { ArrowLeft, Building2, MapPin, Lock, Check, AlertCircle } from 'lucide-react';
+import { ArrowLeft, Building2, MapPin, Lock, AlertCircle } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+import { RegistrationSuccessPanel } from '@/components/registration/RegistrationSuccessPanel';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
-import { RegistrationSuccessPanel } from '@/components/registration/RegistrationSuccessPanel';
-import { getRoleDashboardPath, saveRegistrationLead } from '@/lib/registrationLeads';
-import { useUser } from '@/src/contexts/userContext';
+import { getRoleDashboardPath, clearLegacyRegistrationLeads } from '@/lib/registrationLeads';
 import { RegistrationValidation, getFieldClassName, getCheckboxClassName } from '@/lib/validation/registrationValidation';
+import { useUser } from '@/src/contexts/userContext';
+import type { UserRole } from '@/types/types';
 
 export default function SMMERegistrationPage() {
   const router = useRouter();
@@ -35,12 +36,12 @@ export default function SMMERegistrationPage() {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value, type } = e.target;
     const newValue = type === 'checkbox' ? (e.target as HTMLInputElement).checked : value;
-    
+
     setFormData(prev => ({
       ...prev,
       [name]: newValue,
     }));
-    
+
     // Real-time validation for the current step
     setTimeout(() => {
       if (step === 1 && ['companyName', 'registrationNumber', 'taxNumber', 'contactPerson', 'email', 'phone', 'role'].includes(name)) {
@@ -53,7 +54,7 @@ export default function SMMERegistrationPage() {
     }, 100);
   };
 
-  const { register, loading, user } = useUser();
+  const { register, loading } = useUser();
   const [error, setError] = useState<string | null>(null);
   const [isRegistered, setIsRegistered] = useState(false);
   const [dashboardPath, setDashboardPath] = useState('/farmer');
@@ -62,30 +63,44 @@ export default function SMMERegistrationPage() {
   // Step validation functions
   const validateStep1 = (): boolean => {
     const errors: Record<string, string> = {};
-    
+
     // Validate business information fields
-    if (!formData.companyName?.trim()) errors.companyName = 'Company name is required';
-    
+    if (!formData.companyName?.trim()) {
+errors.companyName = 'Company name is required';
+}
+
     const regError = RegistrationValidation.validateRegistrationNumber(formData.registrationNumber);
-    if (regError) errors.registrationNumber = regError;
-    
+    if (regError) {
+errors.registrationNumber = regError;
+}
+
     // Tax number is required for SMME registration
     if (!formData.taxNumber?.trim()) {
       errors.taxNumber = 'Tax number is required';
     } else {
       const taxError = RegistrationValidation.validateTaxNumber(formData.taxNumber);
-      if (taxError) errors.taxNumber = taxError;
+      if (taxError) {
+errors.taxNumber = taxError;
+}
     }
-    
-    if (!formData.contactPerson?.trim()) errors.contactPerson = 'Contact person is required';
-    
+
+    if (!formData.contactPerson?.trim()) {
+errors.contactPerson = 'Contact person is required';
+}
+
     const emailError = RegistrationValidation.validateEmail(formData.email);
-    if (emailError) errors.email = emailError;
-    
+    if (emailError) {
+errors.email = emailError;
+}
+
     const phoneError = RegistrationValidation.validatePhone(formData.phone);
-    if (phoneError) errors.phone = phoneError;
-    
-    if (!formData.role) errors.role = 'Please select a role';
+    if (phoneError) {
+errors.phone = phoneError;
+}
+
+    if (!formData.role) {
+errors.role = 'Please select a role';
+}
 
     setFieldErrors(errors);
     return Object.keys(errors).length === 0;
@@ -93,7 +108,7 @@ export default function SMMERegistrationPage() {
 
   const validateStep2 = (): boolean => {
     const errors: Record<string, string> = {};
-    
+
     // Validate cooperative details fields
     if (!formData.numberOfMembers || formData.numberOfMembers === '' || formData.numberOfMembers === undefined) {
       errors.numberOfMembers = 'Please select number of members';
@@ -108,14 +123,22 @@ export default function SMMERegistrationPage() {
 
   const validateStep3 = (): boolean => {
     const errors: Record<string, string> = {};
-    
+
     // Validate location fields
-    if (!formData.address?.trim()) errors.address = 'Address is required';
-    if (!formData.city?.trim()) errors.city = 'City is required';
-    if (!formData.province) errors.province = 'Please select a province';
-    
+    if (!formData.address?.trim()) {
+errors.address = 'Address is required';
+}
+    if (!formData.city?.trim()) {
+errors.city = 'City is required';
+}
+    if (!formData.province) {
+errors.province = 'Please select a province';
+}
+
     const postalError = RegistrationValidation.validatePostalCode(formData.postalCode);
-    if (postalError) errors.postalCode = postalError;
+    if (postalError) {
+errors.postalCode = postalError;
+}
 
     setFieldErrors(errors);
     return Object.keys(errors).length === 0;
@@ -130,14 +153,21 @@ export default function SMMERegistrationPage() {
 
     // Validate final step (password and terms)
     const errors: Record<string, string> = {};
-    
+
     const passwordError = RegistrationValidation.validatePassword(formData.password);
-    if (passwordError) errors.password = passwordError;
-    
-    if (!formData.confirmPassword) errors.confirmPassword = 'Please confirm your password';
-    else if (formData.password !== formData.confirmPassword) errors.confirmPassword = 'Passwords do not match';
-    
-    if (!formData.agreeToTerms) errors.agreeToTerms = 'You must agree to the terms and conditions';
+    if (passwordError) {
+errors.password = passwordError;
+}
+
+    if (!formData.confirmPassword) {
+errors.confirmPassword = 'Please confirm your password';
+} else if (formData.password !== formData.confirmPassword) {
+errors.confirmPassword = 'Passwords do not match';
+}
+
+    if (!formData.agreeToTerms) {
+errors.agreeToTerms = 'You must agree to the terms and conditions';
+}
 
     if (Object.keys(errors).length > 0) {
       setFieldErrors(errors);
@@ -150,7 +180,7 @@ export default function SMMERegistrationPage() {
       email: formData.email,
       password: formData.password,
       name: formData.contactPerson,
-      role: formData.role as any,
+      role: formData.role as UserRole,
       additionalData: {
         userType: 'smme',
         companyName: formData.companyName,
@@ -172,15 +202,7 @@ export default function SMMERegistrationPage() {
     const success = await register(registrationData);
     if (success) {
       const path = getRoleDashboardPath(formData.role);
-      saveRegistrationLead({
-        email: formData.email,
-        name: formData.contactPerson,
-        role: formData.role,
-        tier: 'SMME / Co-op (Professional)',
-        registrationType: 'smme',
-        phone: formData.phone,
-        companyName: formData.companyName,
-      });
+      clearLegacyRegistrationLeads();
       setDashboardPath(path);
       setIsRegistered(true);
     } else {
@@ -357,8 +379,8 @@ export default function SMMERegistrationPage() {
                 </div>
 
                 <div className="flex justify-end">
-                  <Button 
-                    type="button" 
+                  <Button
+                    type="button"
                     onClick={() => {
                       if (validateStep1()) {
                         setStep(2);
@@ -502,8 +524,8 @@ export default function SMMERegistrationPage() {
                   <Button type="button" variant="outline" onClick={() => setStep(1)}>
                     Back
                   </Button>
-                  <Button 
-                    type="button" 
+                  <Button
+                    type="button"
                     onClick={() => {
                       if (validateStep2()) {
                         setStep(3);
@@ -599,8 +621,8 @@ export default function SMMERegistrationPage() {
                   <Button type="button" variant="outline" onClick={() => setStep(2)}>
                     Back
                   </Button>
-                  <Button 
-                    type="submit" 
+                  <Button
+                    type="submit"
                     disabled={loading}
                   >
                     {loading ? (

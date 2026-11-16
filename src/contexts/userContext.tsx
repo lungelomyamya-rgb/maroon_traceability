@@ -10,6 +10,7 @@ import { MockAuthAdapter } from '@/features/auth/adapters/MockAuthAdapter';
 import { RealAuthAdapter } from '@/features/auth/adapters/RealAuthAdapter';
 import { DualAuthService } from '@/features/auth/application/DualAuthService';
 import { enrichUserFromRegistration } from '@/lib/enrichUserFromRegistration';
+import { clearLegacyRegistrationLeads } from '@/lib/registrationLeads';
 import type { User, UniversalUser, UserRole } from '@/types';
 import { toUniversalUser } from '@/types';
 
@@ -119,6 +120,7 @@ export function UserProvider({ children }: { children: ReactNode }) {
       console.error('Logout failed:', error);
     } finally {
       setUser(null);
+      clearLegacyRegistrationLeads();
       if (typeof window !== 'undefined') {
         try {
           // Legacy tokens

@@ -1,46 +1,15 @@
-const LEADS_STORAGE_KEY = 'maroon_registration_leads';
+// Older versions saved every signup's name, email, phone and company name under this
+// browser key. Nothing ever read it, so the app now only deletes it.
+const LEGACY_LEADS_STORAGE_KEY = 'maroon_registration_leads';
 
-export interface RegistrationLead {
-  email: string;
-  name: string;
-  role: string;
-  tier: string;
-  registrationType: string;
-  capturedAt: string;
-  phone?: string;
-  companyName?: string;
-}
-
-export function saveRegistrationLead(lead: Omit<RegistrationLead, 'capturedAt'>): void {
+export function clearLegacyRegistrationLeads(): void {
   if (typeof window === 'undefined') {
     return;
   }
   try {
-    const existing = getRegistrationLeads();
-    const entry: RegistrationLead = {
-      ...lead,
-      capturedAt: new Date().toISOString(),
-    };
-    existing.push(entry);
-    window.localStorage.setItem(LEADS_STORAGE_KEY, JSON.stringify(existing));
+    window.localStorage.removeItem(LEGACY_LEADS_STORAGE_KEY);
   } catch {
-    /* demo: ignore quota errors */
-  }
-}
-
-export function getRegistrationLeads(): RegistrationLead[] {
-  if (typeof window === 'undefined') {
-    return [];
-  }
-  try {
-    const raw = window.localStorage.getItem(LEADS_STORAGE_KEY);
-    if (!raw) {
-      return [];
-    }
-    const parsed = JSON.parse(raw) as RegistrationLead[];
-    return Array.isArray(parsed) ? parsed : [];
-  } catch {
-    return [];
+    // Storage can be blocked (private mode, browser settings); nothing to clean up then
   }
 }
 
