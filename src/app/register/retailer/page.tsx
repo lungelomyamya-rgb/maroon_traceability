@@ -9,7 +9,11 @@ import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { DocumentUpload, type DocumentType } from '@/components/ui/document-upload';
 import { getRoleDashboardPath, clearLegacyRegistrationLeads } from '@/lib/registrationLeads';
-import { RegistrationValidation, getFieldClassName, getCheckboxClassName } from '@/lib/validation/registrationValidation';
+import {
+  RegistrationValidation,
+  getFieldClassName,
+  getCheckboxClassName,
+} from '@/lib/validation/registrationValidation';
 import { useUser } from '@/src/contexts/userContext';
 import type { UserRole } from '@/types/types';
 
@@ -38,16 +42,18 @@ export default function RetailerRegistrationPage() {
     { value: 'id', label: 'Director\'s ID' },
   ];
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>,
+  ) => {
     const { name, value, type } = e.target;
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
       [name]: type === 'checkbox' ? (e.target as HTMLInputElement).checked : value,
     }));
 
     // Clear error for this field when user starts typing
     if (fieldErrors[name]) {
-      setFieldErrors(prev => {
+      setFieldErrors((prev) => {
         const newErrors = { ...prev };
         delete newErrors[name];
         return newErrors;
@@ -67,43 +73,43 @@ export default function RetailerRegistrationPage() {
 
     // Validate business information fields
     if (!formData.companyName?.trim()) {
-errors.companyName = 'Company name is required';
-}
+      errors.companyName = 'Company name is required';
+    }
 
     const regError = RegistrationValidation.validateRegistrationNumber(formData.registrationNumber);
     if (regError) {
-errors.registrationNumber = regError;
-}
+      errors.registrationNumber = regError;
+    }
 
     const emailError = RegistrationValidation.validateEmail(formData.email);
     if (emailError) {
-errors.email = emailError;
-}
+      errors.email = emailError;
+    }
 
     const phoneError = RegistrationValidation.validatePhone(formData.phone);
     if (phoneError) {
-errors.phone = phoneError;
-}
+      errors.phone = phoneError;
+    }
 
     if (!formData.role) {
-errors.role = 'Please select a role';
-}
+      errors.role = 'Please select a role';
+    }
 
     // Validate location fields that are in Step 1
     if (!formData.address?.trim()) {
-errors.address = 'Address is required';
-}
+      errors.address = 'Address is required';
+    }
     if (!formData.city?.trim()) {
-errors.city = 'City is required';
-}
+      errors.city = 'City is required';
+    }
     if (!formData.country || formData.country === '') {
-errors.country = 'Country is required';
-}
+      errors.country = 'Country is required';
+    }
 
     const postalError = RegistrationValidation.validatePostalCode(formData.postalCode);
     if (postalError) {
-errors.postalCode = postalError;
-}
+      errors.postalCode = postalError;
+    }
 
     setFieldErrors(errors);
     return Object.keys(errors).length === 0;
@@ -131,18 +137,18 @@ errors.postalCode = postalError;
 
     const passwordError = RegistrationValidation.validatePassword(formData.password);
     if (passwordError) {
-errors.password = passwordError;
-}
+      errors.password = passwordError;
+    }
 
     if (!formData.confirmPassword) {
-errors.confirmPassword = 'Please confirm your password';
-} else if (formData.password !== formData.confirmPassword) {
-errors.confirmPassword = 'Passwords do not match';
-}
+      errors.confirmPassword = 'Please confirm your password';
+    } else if (formData.password !== formData.confirmPassword) {
+      errors.confirmPassword = 'Passwords do not match';
+    }
 
     if (!formData.agreeToTerms) {
-errors.agreeToTerms = 'You must agree to the terms and conditions';
-}
+      errors.agreeToTerms = 'You must agree to the terms and conditions';
+    }
 
     if (Object.keys(errors).length > 0) {
       setFieldErrors(errors);
@@ -209,312 +215,325 @@ errors.agreeToTerms = 'You must agree to the terms and conditions';
               onContinue={() => router.push(dashboardPath)}
             />
           ) : (
-          <form onSubmit={handleSubmit} className="space-y-6">
-            {step === 1 && (
-              <div className="space-y-6">
-                <h2 className="text-lg font-semibold">Business Information</h2>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div className="space-y-2">
-                    <label className="block text-sm font-medium" htmlFor="companyName">
-                      Company Name *
-                    </label>
-                    <input
-                      id="companyName"
-                      name="companyName"
-                      type="text"
-                      required
-                      value={formData.companyName}
-                      onChange={handleChange}
-                      className={getFieldClassName(!!fieldErrors.companyName)}
-                    />
-                    {fieldErrors.companyName && (
-                      <p className="mt-1 text-sm text-red-600">{fieldErrors.companyName}</p>
-                    )}
+            <form onSubmit={handleSubmit} className="space-y-6">
+              {step === 1 && (
+                <div className="space-y-6">
+                  <h2 className="text-lg font-semibold">Business Information</h2>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="space-y-2">
+                      <label className="block text-sm font-medium" htmlFor="companyName">
+                        Company Name *
+                      </label>
+                      <input
+                        id="companyName"
+                        name="companyName"
+                        type="text"
+                        required
+                        value={formData.companyName}
+                        onChange={handleChange}
+                        className={getFieldClassName(!!fieldErrors.companyName)}
+                      />
+                      {fieldErrors.companyName && (
+                        <p className="mt-1 text-sm text-red-600">{fieldErrors.companyName}</p>
+                      )}
+                    </div>
+                    <div className="space-y-2">
+                      <label className="block text-sm font-medium" htmlFor="registrationNumber">
+                        Registration Number *
+                      </label>
+                      <input
+                        id="registrationNumber"
+                        name="registrationNumber"
+                        type="text"
+                        required
+                        value={formData.registrationNumber}
+                        onChange={handleChange}
+                        className={getFieldClassName(!!fieldErrors.registrationNumber)}
+                      />
+                      {fieldErrors.registrationNumber && (
+                        <p className="mt-1 text-sm text-red-600">
+                          {fieldErrors.registrationNumber}
+                        </p>
+                      )}
+                    </div>
+                    <div className="space-y-2">
+                      <label className="block text-sm font-medium" htmlFor="email">
+                        Business Email *
+                      </label>
+                      <input
+                        id="email"
+                        name="email"
+                        type="email"
+                        required
+                        value={formData.email}
+                        onChange={handleChange}
+                        className={getFieldClassName(!!fieldErrors.email)}
+                      />
+                      {fieldErrors.email && (
+                        <p className="mt-1 text-sm text-red-600">{fieldErrors.email}</p>
+                      )}
+                    </div>
+                    <div className="space-y-2">
+                      <label className="block text-sm font-medium" htmlFor="phone">
+                        Phone Number *
+                      </label>
+                      <input
+                        id="phone"
+                        name="phone"
+                        type="tel"
+                        required
+                        value={formData.phone}
+                        onChange={handleChange}
+                        className={getFieldClassName(!!fieldErrors.phone)}
+                      />
+                      {fieldErrors.phone && (
+                        <p className="mt-1 text-sm text-red-600">{fieldErrors.phone}</p>
+                      )}
+                    </div>
+                    <div className="space-y-2">
+                      <label className="block text-sm font-medium" htmlFor="role">
+                        Select Role *
+                      </label>
+                      <select
+                        id="role"
+                        name="role"
+                        required
+                        value={formData.role}
+                        onChange={handleChange}
+                        className={getFieldClassName(!!fieldErrors.role)}
+                      >
+                        <option value="">Select your role</option>
+                        <option value="farmer">Farmer</option>
+                        <option value="inspector">Inspector</option>
+                        <option value="logistics">Logistics Provider</option>
+                        <option value="packaging">Packaging Provider</option>
+                        <option value="retailer">Retailer</option>
+                        <option value="public">Public User</option>
+                      </select>
+                      {fieldErrors.role && (
+                        <p className="mt-1 text-sm text-red-600">{fieldErrors.role}</p>
+                      )}
+                    </div>
+                    <div className="space-y-2 md:col-span-2">
+                      <label className="block text-sm font-medium" htmlFor="address">
+                        Business Address *
+                      </label>
+                      <textarea
+                        id="address"
+                        name="address"
+                        rows={2}
+                        required
+                        value={formData.address}
+                        onChange={handleChange}
+                        className={getFieldClassName(!!fieldErrors.address)}
+                      />
+                      {fieldErrors.address && (
+                        <p className="mt-1 text-sm text-red-600">{fieldErrors.address}</p>
+                      )}
+                    </div>
+                    <div className="space-y-2">
+                      <label className="block text-sm font-medium" htmlFor="city">
+                        City *
+                      </label>
+                      <input
+                        id="city"
+                        name="city"
+                        type="text"
+                        required
+                        value={formData.city}
+                        onChange={handleChange}
+                        className={getFieldClassName(!!fieldErrors.city)}
+                      />
+                      {fieldErrors.city && (
+                        <p className="mt-1 text-sm text-red-600">{fieldErrors.city}</p>
+                      )}
+                    </div>
+                    <div className="space-y-2">
+                      <label className="block text-sm font-medium" htmlFor="postalCode">
+                        Postal Code *
+                      </label>
+                      <input
+                        id="postalCode"
+                        name="postalCode"
+                        type="text"
+                        required
+                        value={formData.postalCode}
+                        onChange={handleChange}
+                        className={getFieldClassName(!!fieldErrors.postalCode)}
+                      />
+                      {fieldErrors.postalCode && (
+                        <p className="mt-1 text-sm text-red-600">{fieldErrors.postalCode}</p>
+                      )}
+                    </div>
                   </div>
-                  <div className="space-y-2">
-                    <label className="block text-sm font-medium" htmlFor="registrationNumber">
-                      Registration Number *
-                    </label>
-                    <input
-                      id="registrationNumber"
-                      name="registrationNumber"
-                      type="text"
-                      required
-                      value={formData.registrationNumber}
-                      onChange={handleChange}
-                      className={getFieldClassName(!!fieldErrors.registrationNumber)}
-                    />
-                    {fieldErrors.registrationNumber && (
-                      <p className="mt-1 text-sm text-red-600">{fieldErrors.registrationNumber}</p>
-                    )}
-                  </div>
-                  <div className="space-y-2">
-                    <label className="block text-sm font-medium" htmlFor="email">
-                      Business Email *
-                    </label>
-                    <input
-                      id="email"
-                      name="email"
-                      type="email"
-                      required
-                      value={formData.email}
-                      onChange={handleChange}
-                      className={getFieldClassName(!!fieldErrors.email)}
-                    />
-                    {fieldErrors.email && (
-                      <p className="mt-1 text-sm text-red-600">{fieldErrors.email}</p>
-                    )}
-                  </div>
-                  <div className="space-y-2">
-                    <label className="block text-sm font-medium" htmlFor="phone">
-                      Phone Number *
-                    </label>
-                    <input
-                      id="phone"
-                      name="phone"
-                      type="tel"
-                      required
-                      value={formData.phone}
-                      onChange={handleChange}
-                      className={getFieldClassName(!!fieldErrors.phone)}
-                    />
-                    {fieldErrors.phone && (
-                      <p className="mt-1 text-sm text-red-600">{fieldErrors.phone}</p>
-                    )}
-                  </div>
-                  <div className="space-y-2">
-                    <label className="block text-sm font-medium" htmlFor="role">
-                      Select Role *
-                    </label>
-                    <select
-                      id="role"
-                      name="role"
-                      required
-                      value={formData.role}
-                      onChange={handleChange}
-                      className={getFieldClassName(!!fieldErrors.role)}
+
+                  <div className="flex justify-between pt-4">
+                    <Button
+                      type="button"
+                      onClick={() => {
+                        if (validateStep1()) {
+                          setStep(2);
+                        }
+                      }}
                     >
-                      <option value="">Select your role</option>
-                      <option value="farmer">Farmer</option>
-                      <option value="inspector">Inspector</option>
-                      <option value="logistics">Logistics Provider</option>
-                      <option value="packaging">Packaging Provider</option>
-                      <option value="retailer">Retailer</option>
-                      <option value="public">Public User</option>
-                    </select>
-                    {fieldErrors.role && (
-                      <p className="mt-1 text-sm text-red-600">{fieldErrors.role}</p>
-                    )}
-                  </div>
-                  <div className="space-y-2 md:col-span-2">
-                    <label className="block text-sm font-medium" htmlFor="address">
-                      Business Address *
-                    </label>
-                    <textarea
-                      id="address"
-                      name="address"
-                      rows={2}
-                      required
-                      value={formData.address}
-                      onChange={handleChange}
-                      className={getFieldClassName(!!fieldErrors.address)}
-                    />
-                    {fieldErrors.address && (
-                      <p className="mt-1 text-sm text-red-600">{fieldErrors.address}</p>
-                    )}
-                  </div>
-                  <div className="space-y-2">
-                    <label className="block text-sm font-medium" htmlFor="city">
-                      City *
-                    </label>
-                    <input
-                      id="city"
-                      name="city"
-                      type="text"
-                      required
-                      value={formData.city}
-                      onChange={handleChange}
-                      className={getFieldClassName(!!fieldErrors.city)}
-                    />
-                    {fieldErrors.city && (
-                      <p className="mt-1 text-sm text-red-600">{fieldErrors.city}</p>
-                    )}
-                  </div>
-                  <div className="space-y-2">
-                    <label className="block text-sm font-medium" htmlFor="postalCode">
-                      Postal Code *
-                    </label>
-                    <input
-                      id="postalCode"
-                      name="postalCode"
-                      type="text"
-                      required
-                      value={formData.postalCode}
-                      onChange={handleChange}
-                      className={getFieldClassName(!!fieldErrors.postalCode)}
-                    />
-                    {fieldErrors.postalCode && (
-                      <p className="mt-1 text-sm text-red-600">{fieldErrors.postalCode}</p>
-                    )}
+                      Next: Account Security
+                    </Button>
                   </div>
                 </div>
+              )}
 
-                <div className="flex justify-between pt-4">
-                  <Button
-                    type="button"
-                    onClick={() => {
-                      if (validateStep1()) {
-                        setStep(2);
-                      }
-                    }}
-                  >
-                    Next: Account Security
-                  </Button>
+              {step === 2 && (
+                <div className="space-y-6">
+                  <div>
+                    <h2 className="text-lg font-semibold mb-2">Required Documents</h2>
+                    <p className="text-sm text-muted-foreground">
+                      Please upload the following documents to complete your registration.
+                    </p>
+                  </div>
+
+                  <DocumentUpload
+                    acceptedTypes={requiredDocuments.map((doc) => doc.value)}
+                    onUpload={(docs) => console.log('Uploaded docs:', docs)}
+                  />
+
+                  <div className="flex justify-between pt-4">
+                    <Button type="button" variant="outline" onClick={() => setStep(1)}>
+                      Back
+                    </Button>
+                    <Button
+                      type="button"
+                      onClick={() => {
+                        if (validateStep2()) {
+                          setStep(3);
+                        }
+                      }}
+                    >
+                      Next: Account Security
+                    </Button>
+                  </div>
                 </div>
-              </div>
-            )}
+              )}
 
-            {step === 2 && (
-              <div className="space-y-6">
-                <div>
-                  <h2 className="text-lg font-semibold mb-2">Required Documents</h2>
-                  <p className="text-sm text-muted-foreground">
-                    Please upload the following documents to complete your registration.
-                  </p>
-                </div>
-
-                <DocumentUpload
-                  acceptedTypes={requiredDocuments.map(doc => doc.value)}
-                  onUpload={(docs) => console.log('Uploaded docs:', docs)}
-                />
-
-                <div className="flex justify-between pt-4">
-                  <Button
-                    type="button"
-                    variant="outline"
-                    onClick={() => setStep(1)}
-                  >
-                    Back
-                  </Button>
-                  <Button
-                    type="button"
-                    onClick={() => {
-                      if (validateStep2()) {
-                        setStep(3);
-                      }
-                    }}
-                  >
-                    Next: Account Security
-                  </Button>
-                </div>
-              </div>
-            )}
-
-            {step === 3 && (
-              <div className="space-y-6">
-                <h2 className="text-xl font-semibold mb-4 flex items-center">
+              {step === 3 && (
+                <div className="space-y-6">
+                  <h2 className="text-xl font-semibold mb-4 flex items-center">
                     <Lock className="mr-2 h-5 w-5 text-blue-600" />
                     Account Security
                   </h2>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div className="space-y-2">
-                    <label className="block text-sm font-medium" htmlFor="password">
-                      Password *
-                    </label>
-                    <input
-                      id="password"
-                      name="password"
-                      type="password"
-                      required
-                      value={formData.password}
-                      onChange={handleChange}
-                      className={getFieldClassName(!!fieldErrors.password)}
-                    />
-                    {fieldErrors.password && (
-                      <p className="mt-1 text-sm text-red-600">{fieldErrors.password}</p>
-                    )}
-                    <div className="mt-2 text-xs text-gray-500">
-                      <p>Password must contain:</p>
-                      <ul className="mt-1 space-y-1">
-                        <li className={formData.password.length >= 8 ? 'text-green-600' : 'text-gray-400'}>
-                          ✓ At least 8 characters
-                        </li>
-                        <li className={/(?=.*[a-z])/.test(formData.password) ? 'text-green-600' : 'text-gray-400'}>
-                          ✓ One lowercase letter
-                        </li>
-                        <li className={/(?=.*[A-Z])/.test(formData.password) ? 'text-green-600' : 'text-gray-400'}>
-                          ✓ One uppercase letter
-                        </li>
-                        <li className={/(?=.*\d)/.test(formData.password) ? 'text-green-600' : 'text-gray-400'}>
-                          ✓ One number
-                        </li>
-                      </ul>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="space-y-2">
+                      <label className="block text-sm font-medium" htmlFor="password">
+                        Password *
+                      </label>
+                      <input
+                        id="password"
+                        name="password"
+                        type="password"
+                        required
+                        value={formData.password}
+                        onChange={handleChange}
+                        className={getFieldClassName(!!fieldErrors.password)}
+                      />
+                      {fieldErrors.password && (
+                        <p className="mt-1 text-sm text-red-600">{fieldErrors.password}</p>
+                      )}
+                      <div className="mt-2 text-xs text-gray-500">
+                        <p>Password must contain:</p>
+                        <ul className="mt-1 space-y-1">
+                          <li
+                            className={
+                              formData.password.length >= 8 ? 'text-green-600' : 'text-gray-400'
+                            }
+                          >
+                            ✓ At least 8 characters
+                          </li>
+                          <li
+                            className={
+                              /(?=.*[a-z])/.test(formData.password)
+                                ? 'text-green-600'
+                                : 'text-gray-400'
+                            }
+                          >
+                            ✓ One lowercase letter
+                          </li>
+                          <li
+                            className={
+                              /(?=.*[A-Z])/.test(formData.password)
+                                ? 'text-green-600'
+                                : 'text-gray-400'
+                            }
+                          >
+                            ✓ One uppercase letter
+                          </li>
+                          <li
+                            className={
+                              /(?=.*\d)/.test(formData.password)
+                                ? 'text-green-600'
+                                : 'text-gray-400'
+                            }
+                          >
+                            ✓ One number
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                    <div className="space-y-2">
+                      <label className="block text-sm font-medium" htmlFor="confirmPassword">
+                        Confirm Password *
+                      </label>
+                      <input
+                        id="confirmPassword"
+                        name="confirmPassword"
+                        type="password"
+                        required
+                        value={formData.confirmPassword}
+                        onChange={handleChange}
+                        className={getFieldClassName(!!fieldErrors.confirmPassword)}
+                      />
+                      {fieldErrors.confirmPassword && (
+                        <p className="mt-1 text-sm text-red-600">{fieldErrors.confirmPassword}</p>
+                      )}
                     </div>
                   </div>
-                  <div className="space-y-2">
-                    <label className="block text-sm font-medium" htmlFor="confirmPassword">
-                      Confirm Password *
+
+                  <div className="mt-6">
+                    <label className="flex items-center">
+                      <input
+                        type="checkbox"
+                        name="agreeToTerms"
+                        required
+                        checked={formData.agreeToTerms}
+                        onChange={handleChange}
+                        className={getCheckboxClassName(!!fieldErrors.agreeToTerms)}
+                      />
+                      <span className="text-sm text-gray-700">
+                        I agree to the Terms of Service and Privacy Policy *
+                      </span>
                     </label>
-                    <input
-                      id="confirmPassword"
-                      name="confirmPassword"
-                      type="password"
-                      required
-                      value={formData.confirmPassword}
-                      onChange={handleChange}
-                      className={getFieldClassName(!!fieldErrors.confirmPassword)}
-                    />
-                    {fieldErrors.confirmPassword && (
-                      <p className="mt-1 text-sm text-red-600">{fieldErrors.confirmPassword}</p>
+                    {fieldErrors.agreeToTerms && (
+                      <p className="mt-1 text-sm text-red-600">{fieldErrors.agreeToTerms}</p>
                     )}
                   </div>
-                </div>
 
-                <div className="mt-6">
-                  <label className="flex items-center">
-                    <input
-                      type="checkbox"
-                      name="agreeToTerms"
-                      required
-                      checked={formData.agreeToTerms}
-                      onChange={handleChange}
-                      className={getCheckboxClassName(!!fieldErrors.agreeToTerms)}
-                    />
-                    <span className="text-sm text-gray-700">
-                      I agree to the Terms of Service and Privacy Policy *
-                    </span>
-                  </label>
-                  {fieldErrors.agreeToTerms && (
-                    <p className="mt-1 text-sm text-red-600">{fieldErrors.agreeToTerms}</p>
-                  )}
+                  <div className="flex justify-between pt-4">
+                    <Button type="button" variant="outline" onClick={() => setStep(2)}>
+                      Back
+                    </Button>
+                    <Button type="submit" disabled={loading}>
+                      {loading ? (
+                        <>
+                          <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+                          Creating Account...
+                        </>
+                      ) : (
+                        'Create Account'
+                      )}
+                    </Button>
+                  </div>
                 </div>
-
-                <div className="flex justify-between pt-4">
-                  <Button
-                    type="button"
-                    variant="outline"
-                    onClick={() => setStep(2)}
-                  >
-                    Back
-                  </Button>
-                  <Button
-                    type="submit"
-                    disabled={loading}
-                  >
-                    {loading ? (
-                      <>
-                        <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
-                        Creating Account...
-                      </>
-                    ) : (
-                      'Create Account'
-                    )}
-                  </Button>
-                </div>
-              </div>
-            )}
-          </form>
+              )}
+            </form>
           )}
         </Card>
       </div>
