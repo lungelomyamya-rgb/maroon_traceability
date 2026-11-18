@@ -45,44 +45,20 @@ export default function CommercialRegistrationPage() {
     const { name, value, type } = e.target;
     const newValue = type === 'checkbox' ? (e.target as HTMLInputElement).checked : value;
 
-    console.log(`Field changed: ${name} = ${newValue}, step: ${step}`);
-
     setFormData((prev) => ({
       ...prev,
       [name]: newValue,
     }));
 
-    // Real-time validation for the current step
-    setTimeout(() => {
-      console.log(`Checking validation for field: ${name}, step: ${step}`);
-      if (
-        step === 1 &&
-        [
-          'companyName',
-          'registrationNumber',
-          'taxNumber',
-          'vatNumber',
-          'contactPerson',
-          'email',
-          'phone',
-          'role',
-        ].includes(name)
-      ) {
-        console.log('Triggering validateStep1 for:', name);
-        validateStep1();
-      } else if (
-        step === 2 &&
-        ['numberOfEmployees', 'annualRevenue', 'businessType'].includes(name)
-      ) {
-        console.log('Triggering validateStep2 for:', name);
-        validateStep2();
-      } else if (step === 3 && ['address', 'city', 'province', 'postalCode'].includes(name)) {
-        console.log('Triggering validateStep3 for:', name);
-        validateStep3();
-      } else {
-        console.log('No validation triggered for:', name, 'step:', step);
+    // Clear this field's error while the user fixes it. The whole step is checked on Next.
+    setFieldErrors((prev) => {
+      if (!prev[name]){
+        return prev;
       }
-    }, 100);
+      const remainingErrors = { ...prev };
+      delete remainingErrors[name];
+      return remainingErrors;
+    });
   };
 
   const { register, loading } = useUser();
@@ -154,40 +130,24 @@ export default function CommercialRegistrationPage() {
   const validateStep2 = (): boolean => {
     const errors: Record<string, string> = {};
 
-    // Validate business details fields
-    if (
-      !formData.annualRevenue ||
-      formData.annualRevenue === '' ||
-      formData.annualRevenue === undefined
-    ) {
+    // Business details
+    if (!formData.annualRevenue) {
       errors.annualRevenue = 'Please select annual revenue';
     }
-    if (
-      !formData.businessType ||
-      formData.businessType === '' ||
-      formData.businessType === undefined
-    ) {
+    if (!formData.businessType ) {
       errors.businessType = 'Please select business type';
     }
 
-    setFieldErrors(errors);
-    return Object.keys(errors).length === 0;
-  };
-
-  const validateStep3 = (): boolean => {
-    const errors: Record<string, string> = {};
-
-    // Validate location fields
-    if (!formData.address?.trim()) {
+    // Location: these fields are on step 2 too
+    if (!formData.address.trim()) {
       errors.address = 'Address is required';
     }
-    if (!formData.city?.trim()) {
+    if (!formData.city.trim()) {
       errors.city = 'City is required';
     }
     if (!formData.province) {
       errors.province = 'Please select a province';
     }
-
     const postalError = RegistrationValidation.validatePostalCode(formData.postalCode);
     if (postalError) {
       errors.postalCode = postalError;
