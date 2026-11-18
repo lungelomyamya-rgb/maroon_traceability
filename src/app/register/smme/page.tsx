@@ -48,27 +48,15 @@ export default function SMMERegistrationPage() {
       [name]: newValue,
     }));
 
-    // Real-time validation for the current step
-    setTimeout(() => {
-      if (
-        step === 1 &&
-        [
-          'companyName',
-          'registrationNumber',
-          'taxNumber',
-          'contactPerson',
-          'email',
-          'phone',
-          'role',
-        ].includes(name)
-      ) {
-        validateStep1();
-      } else if (step === 2 && ['numberOfMembers', 'businessType'].includes(name)) {
-        validateStep2();
-      } else if (step === 3 && ['address', 'city', 'province', 'postalCode'].includes(name)) {
-        validateStep3();
+    // Clear this field's error while the user fixes it. The whole step is checked on Next.
+    setFieldErrors((prev) => {
+      if (!prev[name]) {
+        return prev;
       }
-    }, 100);
+      const remainingErrors = { ...prev };
+      delete remainingErrors[name];
+      return remainingErrors;
+    });
   };
 
   const { register, loading } = useUser();
@@ -126,34 +114,11 @@ export default function SMMERegistrationPage() {
   const validateStep2 = (): boolean => {
     const errors: Record<string, string> = {};
 
-    // Validate cooperative details fields
-    if (
-      !formData.numberOfMembers ||
-      formData.numberOfMembers === '' ||
-      formData.numberOfMembers === undefined
-    ) {
-      errors.numberOfMembers = 'Please select number of members';
-    }
-    if (
-      !formData.businessType ||
-      formData.businessType === '' ||
-      formData.businessType === undefined
-    ) {
-      errors.businessType = 'Please select business type';
-    }
-
-    setFieldErrors(errors);
-    return Object.keys(errors).length === 0;
-  };
-
-  const validateStep3 = (): boolean => {
-    const errors: Record<string, string> = {};
-
-    // Validate location fields
-    if (!formData.address?.trim()) {
+    // Location: these fields are on step 2
+    if (!formData.address.trim()) {
       errors.address = 'Address is required';
     }
-    if (!formData.city?.trim()) {
+    if (!formData.city.trim()) {
       errors.city = 'City is required';
     }
     if (!formData.province) {
@@ -163,6 +128,14 @@ export default function SMMERegistrationPage() {
     const postalError = RegistrationValidation.validatePostalCode(formData.postalCode);
     if (postalError) {
       errors.postalCode = postalError;
+    }
+
+    // Cooperative details
+    if (!formData.numberOfMembers) {
+      errors.numberOfMembers = 'Please select number of members';
+    }
+    if (!formData.businessType) {
+      errors.businessType = 'Please select business type';
     }
 
     setFieldErrors(errors);
