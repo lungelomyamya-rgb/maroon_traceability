@@ -20,6 +20,28 @@ describe('RegistrationValidation', () => {
     );
   });
 
+  describe('ValidatePersonName', () => {
+    it.each(['Thandi Nkosi', "O'Brien", 'Jean-Luc', 'Zoë Dlamini', 'J. Smith', 'Thandi'])(
+      'accepts "%s"',
+      (name) => {
+        expect(RegistrationValidation.validatePersonName(name, 'Contact person')).toBeNull();
+      }
+    );
+
+    it.each(['', ' ', '071 234 567844', 'Thandi2', '-Thandi', '@@@'])(
+      'rejects "%s"',
+      (name) => {
+        expect(RegistrationValidation.validatePersonName(name, 'Contact person')).not.toBeNull();
+      }
+    );
+
+    it('names the field in the required message', () => {
+      expect(RegistrationValidation.validatePersonName('', 'Contact person')).toBe(
+        'Contact person is required'
+      );
+    });
+  });
+
   describe('validateRegistrationNumber', () => {
     it.each(['2017/123456/07', ' 2017/123456/07 '])('accepts "%s"', (registrationNumber) => {
       expect(RegistrationValidation.validateRegistrationNumber(registrationNumber)).toBeNull();
