@@ -387,9 +387,10 @@ export default function RetailerRegistrationPage() {
               {step === 2 && (
                 <div className="space-y-6">
                   <div>
-                    <h2 className="text-lg font-semibold mb-2">Required Documents</h2>
+                    <h2 className="text-lg font-semibold mb-2">Required Documents (optional)</h2>
                     <p className="text-sm text-muted-foreground">
-                      Please upload the following documents to complete your registration.
+                      Uploading documents is not required during the demo. Files you add here are
+                      sent or saved, so you can continue without them.
                     </p>
                   </div>
 
