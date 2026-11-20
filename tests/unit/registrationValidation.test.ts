@@ -2,6 +2,7 @@
 // Format rules for the South African fields on the register forms
 
 import { RegistrationValidation } from '@/lib/validation/registrationValidation';
+import { it, expect, describe } from '@jest/globals';
 
 describe('RegistrationValidation', () => {
   describe('validatePhone', () => {
@@ -20,7 +21,7 @@ describe('RegistrationValidation', () => {
     );
   });
 
-  describe('ValidatePersonName', () => {
+  describe('validatePersonName', () => {
     it.each(['Thandi Nkosi', "O'Brien", 'Jean-Luc', 'Zoë Dlamini', 'J. Smith', 'Thandi'])(
       'accepts "%s"',
       (name) => {
@@ -42,8 +43,25 @@ describe('RegistrationValidation', () => {
     });
   });
 
+  describe('validatePostalCode', () => {
+    it.each(['0001', '4001', '5410', '8001', ' 2000 '])(
+      'accepts "%s"', 
+      (postalCode) => {
+        expect(RegistrationValidation.validatePostalCode(postalCode)).toBeNull();
+      }
+    );
+
+    it.each(['', '  ', '001', '40011', '40 01', 'ABC', 'SW1A 1AA', '4001-'])(
+      'rejects "%s"',
+      (postalCode) => {
+        expect(RegistrationValidation.validatePostalCode(postalCode)).not.toBeNull();
+      }
+    );
+  });
+
   describe('validateRegistrationNumber', () => {
-    it.each(['2017/123456/07', ' 2017/123456/07 '])('accepts "%s"', (registrationNumber) => {
+    it.each(['2017/123456/07', ' 2017/123456/07 '])(
+      'accepts "%s"', (registrationNumber) => {
       expect(RegistrationValidation.validateRegistrationNumber(registrationNumber)).toBeNull();
     });
 
@@ -56,21 +74,29 @@ describe('RegistrationValidation', () => {
   });
 
   describe('validateTaxNumber', () => {
-    it.each(['0987898777', '0987 898 777', ''])('accepts "%s"', (taxNumber) => {
+    it.each(['0987898777', '0987 898 777', ''])(
+      'accepts "%s"', 
+      (taxNumber) => {
       expect(RegistrationValidation.validateTaxNumber(taxNumber)).toBeNull();
     });
 
-    it.each(['098789877779', '098789877', '09878987AB'])('rejects "%s"', (taxNumber) => {
+    it.each(['098789877779', '098789877', '09878987AB'])(
+      'rejects "%s"', 
+      (taxNumber) => {
       expect(RegistrationValidation.validateTaxNumber(taxNumber)).not.toBeNull();
     });
   });
 
   describe('validateVATNumber', () => {
-    it.each(['4123456789', '4123 456 789', ''])('accepts "%s"', (vatNumber) => {
+    it.each(['4123456789', '4123 456 789', ''])(
+      'accepts "%s"', 
+      (vatNumber) => {
       expect(RegistrationValidation.validateVATNumber(vatNumber)).toBeNull();
     });
 
-    it.each(['1234', '5123456789', '412345678', '41234567890'])('rejects "%s"', (vatNumber) => {
+    it.each(['1234', '5123456789', '412345678', '41234567890'])(
+      'rejects "%s"', 
+      (vatNumber) => {
       expect(RegistrationValidation.validateVATNumber(vatNumber)).not.toBeNull();
     });
   });
