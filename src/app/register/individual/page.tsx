@@ -400,6 +400,8 @@ export default function IndividualRegistrationPage() {
                         <input
                           type="text"
                           name="postalCode"
+                          inputMode="numeric"
+                          maxLength={4}
                           required
                           value={formData.postalCode}
                           onChange={handleChange}

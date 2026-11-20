@@ -356,6 +356,8 @@ export default function RetailerRegistrationPage() {
                         id="postalCode"
                         name="postalCode"
                         type="text"
+                        inputMode="numeric"
+                        maxLength={4}
                         required
                         value={formData.postalCode}
                         onChange={handleChange}
@@ -393,7 +395,8 @@ export default function RetailerRegistrationPage() {
 
                   <DocumentUpload
                     acceptedTypes={requiredDocuments.map((doc) => doc.value)}
-                    onUpload={(docs) => console.log('Uploaded docs:', docs)}
+                    // Documents are not sent anywhere yet; registration ignores them
+                    onUpload={() => undefined}
                   />
 
                   <div className="flex justify-between pt-4">

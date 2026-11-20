@@ -59,15 +59,15 @@ export class RegistrationValidation {
   }
 
   /**
-   * Validate postal code format
+   * Validate a South African postal code (4 digits)
    */
   static validatePostalCode(postalCode: string): string | null {
     if (!postalCode || !postalCode.trim()) {
       return 'Postal code is required';
     }
-    const postalRegex = /^[0-9A-Za-z\s-]+$/;
-    if (!postalRegex.test(postalCode.trim())) {
-      return 'Please enter a valid postal code';
+    // South African postal codes are exactly 4 digits, e.g. 0001 or 5410
+    if (!/^\d{4}$/.test(postalCode.trim())) {
+      return 'Please enter a 4-digit postal code';
     }
     return null;
   }
