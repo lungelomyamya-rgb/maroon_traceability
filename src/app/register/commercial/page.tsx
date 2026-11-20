@@ -52,7 +52,7 @@ export default function CommercialRegistrationPage() {
 
     // Clear this field's error while the user fixes it. The whole step is checked on Next.
     setFieldErrors((prev) => {
-      if (!prev[name]){
+      if (!prev[name]) {
         return prev;
       }
       const remainingErrors = { ...prev };
@@ -67,12 +67,11 @@ export default function CommercialRegistrationPage() {
   const [dashboardPath, setDashboardPath] = useState('/farmer');
   const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
 
-  // Step validation functions
-  const validateStep1 = (): boolean => {
+  // Step 1 rules: Returns the errors without showing them, so Next and blur can share it.
+  const getStep1Errors = (): Record<string, string> => {
     const errors: Record<string, string> = {};
 
-    // Validate business information fields
-    if (!formData.companyName?.trim()) {
+    if (!formData.companyName.trim()) {
       errors.companyName = 'Company name is required';
     }
 
@@ -82,7 +81,7 @@ export default function CommercialRegistrationPage() {
     }
 
     // Tax number is required for commercial registration
-    if (!formData.taxNumber?.trim()) {
+    if (!formData.taxNumber.trim()) {
       errors.taxNumber = 'Tax number is required';
     } else {
       const taxError = RegistrationValidation.validateTaxNumber(formData.taxNumber);
@@ -96,8 +95,12 @@ export default function CommercialRegistrationPage() {
       errors.vatNumber = vatError;
     }
 
-    if (!formData.contactPerson?.trim()) {
-      errors.contactPerson = 'Contact person is required';
+    const contactError = RegistrationValidation.validatePersonName(
+      formData.contactPerson,
+      'Contact person',
+    );
+    if (contactError) {
+      errors.contactPerson = contactError;
     }
 
     const emailError = RegistrationValidation.validateEmail(formData.email);
@@ -115,30 +118,25 @@ export default function CommercialRegistrationPage() {
     }
 
     // Validate numberOfEmployees field that's in Step 1
-    if (
-      !formData.numberOfEmployees ||
-      formData.numberOfEmployees === '' ||
-      formData.numberOfEmployees === undefined
-    ) {
+    if (!formData.numberOfEmployees) {
       errors.numberOfEmployees = 'Please select number of employees';
     }
 
-    setFieldErrors(errors);
-    return Object.keys(errors).length === 0;
+    return errors;
   };
 
-  const validateStep2 = (): boolean => {
+  // Step 2 rules: businessdetails and location
+  const getStep2Errors = (): Record<string, string> => {
     const errors: Record<string, string> = {};
 
     // Business details
     if (!formData.annualRevenue) {
       errors.annualRevenue = 'Please select annual revenue';
     }
-    if (!formData.businessType ) {
+    if (!formData.businessType) {
       errors.businessType = 'Please select business type';
     }
 
-    // Location: these fields are on step 2 too
     if (!formData.address.trim()) {
       errors.address = 'Address is required';
     }
@@ -153,8 +151,33 @@ export default function CommercialRegistrationPage() {
       errors.postalCode = postalError;
     }
 
-    setFieldErrors(errors);
-    return Object.keys(errors).length === 0;
+    return errors;
+  };
+
+  // Used by the Next button: show every errro on the step and say whether it may continue
+  const showStepErrors = (stepErrors: Record<string, string>): boolean => {
+    setFieldErrors(stepErrors);
+    return Object.keys(stepErrors).length === 0;
+  };
+
+  // Runs when the user leaves a field: show or clear only that field's error
+  const handleBlur = (
+    e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>,
+  ) => {
+    if (step !== 1 && step !== 2) {
+      return; // Step 3 (password and terms) is checked on submit
+    }
+    const { name } = e.target;
+    const stepErrors = step === 1 ? getStep1Errors() : getStep2Errors();
+    setFieldErrors((prev) => {
+      const newErrors = { ...prev };
+      if (stepErrors[name]) {
+        newErrors[name] = stepErrors[name];
+      } else {
+        delete newErrors[name];
+      }
+      return newErrors;
+    });
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -282,6 +305,7 @@ export default function CommercialRegistrationPage() {
                           required
                           value={formData.companyName}
                           onChange={handleChange}
+                          onBlur={handleBlur}
                           className={getFieldClassName(!!fieldErrors.companyName)}
                         />
                         {fieldErrors.companyName && (
@@ -295,9 +319,11 @@ export default function CommercialRegistrationPage() {
                         <input
                           type="text"
                           name="registrationNumber"
+                          maxLength={14}
                           required
                           value={formData.registrationNumber}
                           onChange={handleChange}
+                          onBlur={handleBlur}
                           className={getFieldClassName(!!fieldErrors.registrationNumber)}
                         />
                         {fieldErrors.registrationNumber && (
@@ -313,9 +339,12 @@ export default function CommercialRegistrationPage() {
                         <input
                           type="text"
                           name="taxNumber"
+                          inputMode="numeric"
+                          maxLength={12}
                           required
                           value={formData.taxNumber}
                           onChange={handleChange}
+                          onBlur={handleBlur}
                           className={getFieldClassName(!!fieldErrors.taxNumber)}
                         />
                         {fieldErrors.taxNumber && (
@@ -329,8 +358,11 @@ export default function CommercialRegistrationPage() {
                         <input
                           type="text"
                           name="vatNumber"
+                          inputMode="numeric"
+                          maxLength={12}
                           value={formData.vatNumber}
                           onChange={handleChange}
+                          onBlur={handleBlur}
                           className={getFieldClassName(!!fieldErrors.vatNumber)}
                         />
                         {fieldErrors.vatNumber && (
@@ -347,6 +379,7 @@ export default function CommercialRegistrationPage() {
                           required
                           value={formData.contactPerson}
                           onChange={handleChange}
+                          onBlur={handleBlur}
                           className={getFieldClassName(!!fieldErrors.contactPerson)}
                         />
                         {fieldErrors.contactPerson && (
@@ -363,6 +396,7 @@ export default function CommercialRegistrationPage() {
                           required
                           value={formData.email}
                           onChange={handleChange}
+                          onBlur={handleBlur}
                           className={getFieldClassName(!!fieldErrors.email)}
                         />
                         {fieldErrors.email && (
@@ -376,9 +410,11 @@ export default function CommercialRegistrationPage() {
                         <input
                           type="tel"
                           name="phone"
+                          maxLength={16}
                           required
                           value={formData.phone}
                           onChange={handleChange}
+                          onBlur={handleBlur}
                           className={getFieldClassName(!!fieldErrors.phone)}
                         />
                         {fieldErrors.phone && (
@@ -394,6 +430,7 @@ export default function CommercialRegistrationPage() {
                           required
                           value={formData.role}
                           onChange={handleChange}
+                          onBlur={handleBlur}
                           className={getFieldClassName(!!fieldErrors.role)}
                         >
                           <option value="">Select your role</option>
@@ -417,6 +454,7 @@ export default function CommercialRegistrationPage() {
                           required
                           value={formData.numberOfEmployees}
                           onChange={handleChange}
+                          onBlur={handleBlur}
                           className={getFieldClassName(!!fieldErrors.numberOfEmployees)}
                         >
                           <option value="">Select Size</option>
@@ -438,7 +476,7 @@ export default function CommercialRegistrationPage() {
                     <Button
                       type="button"
                       onClick={() => {
-                        if (validateStep1()) {
+                        if (showStepErrors(getStep1Errors())) {
                           setStep(2);
                         }
                       }}
@@ -466,6 +504,7 @@ export default function CommercialRegistrationPage() {
                           required
                           value={formData.annualRevenue}
                           onChange={handleChange}
+                          onBlur={handleBlur}
                           className={getFieldClassName(!!fieldErrors.annualRevenue)}
                         >
                           <option value="">Select Range</option>
@@ -488,6 +527,7 @@ export default function CommercialRegistrationPage() {
                           required
                           value={formData.businessType}
                           onChange={handleChange}
+                          onBlur={handleBlur}
                           className={getFieldClassName(!!fieldErrors.businessType)}
                         >
                           <option value="">Select Type</option>
@@ -511,6 +551,7 @@ export default function CommercialRegistrationPage() {
                           required
                           value={formData.address}
                           onChange={handleChange}
+                          onBlur={handleBlur}
                           className={getFieldClassName(!!fieldErrors.address)}
                         />
                         {fieldErrors.address && (
@@ -527,6 +568,7 @@ export default function CommercialRegistrationPage() {
                           required
                           value={formData.city}
                           onChange={handleChange}
+                          onBlur={handleBlur}
                           className={getFieldClassName(!!fieldErrors.city)}
                         />
                         {fieldErrors.city && (
@@ -542,6 +584,7 @@ export default function CommercialRegistrationPage() {
                           required
                           value={formData.province}
                           onChange={handleChange}
+                          onBlur={handleBlur}
                           className={getFieldClassName(!!fieldErrors.province)}
                         >
                           <option value="">Select Province</option>
@@ -569,6 +612,7 @@ export default function CommercialRegistrationPage() {
                           required
                           value={formData.postalCode}
                           onChange={handleChange}
+                          onBlur={handleBlur}
                           className={getFieldClassName(!!fieldErrors.postalCode)}
                         />
                         {fieldErrors.postalCode && (
@@ -585,7 +629,7 @@ export default function CommercialRegistrationPage() {
                     <Button
                       type="button"
                       onClick={() => {
-                        if (validateStep2()) {
+                        if (showStepErrors(getStep2Errors())) {
                           setStep(3);
                         }
                       }}
@@ -614,6 +658,7 @@ export default function CommercialRegistrationPage() {
                           required
                           value={formData.password}
                           onChange={handleChange}
+                          onBlur={handleBlur}
                           className={getFieldClassName(!!fieldErrors.password)}
                         />
                         {fieldErrors.password && (
@@ -669,6 +714,7 @@ export default function CommercialRegistrationPage() {
                           required
                           value={formData.confirmPassword}
                           onChange={handleChange}
+                          onBlur={handleBlur}
                           className={getFieldClassName(!!fieldErrors.confirmPassword)}
                         />
                         {fieldErrors.confirmPassword && (
@@ -685,6 +731,7 @@ export default function CommercialRegistrationPage() {
                           required
                           checked={formData.agreeToTerms}
                           onChange={handleChange}
+                          onBlur={handleBlur}
                           className={getCheckboxClassName(!!fieldErrors.agreeToTerms)}
                         />
                         <span className="text-sm text-gray-700">

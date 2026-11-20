@@ -83,6 +83,20 @@ export class RegistrationValidation {
   }
 
   /**
+   * Validate a person's name: letters (including accented ones), spaces, apostrophes,
+   * hyphens and full stops, starting with a letter. Rejects numbers such as phone numbers.
+   * */
+  static validatePersonName(name: string, fieldName: string): string | null {
+    if (!name || !name.trim()) {
+      return `${fieldName} is required`;
+    }
+    if (!/^[A-Za-zÀ-ÖØ-öø-ÿ][A-Za-zÀ-ÖØ-öø-ÿ\s'.-]*$/.test(name.trim())) {
+      return `${fieldName} can only contain letters, spaces, apostrophes and hyphens`;
+    }
+    return null;
+  }
+
+  /**
    * Validate a CIPC company registration number: YYYY/NNNNNN/NN, e.g. 2022/123456/01
    */
   static validateRegistrationNumber(regNumber: string): string | null {
