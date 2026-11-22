@@ -2,7 +2,7 @@
 
 import { ArrowLeft, User, MapPin, Lock, AlertCircle } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { RegistrationSuccessPanel } from '@/components/registration/RegistrationSuccessPanel';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
@@ -60,16 +60,21 @@ export default function IndividualRegistrationPage() {
   const [dashboardPath, setDashboardPath] = useState('/farmer');
   const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
 
-  // Step validation functions
-  const validateStep1 = (): boolean => {
+  // Step 1 rules: Return the errors without showing them, so Next and blur share it
+  const getStep1Errors = (): Record<string, string> => {
     const errors: Record<string, string> = {};
 
-    // Validate personal information fields
-    if (!formData.firstName?.trim()) {
-      errors.firstName = 'First name is required';
+    const firstNameError = RegistrationValidation.validatePersonName(
+      formData.firstName,
+      'First name',
+    );
+    if (firstNameError) {
+      errors.firstName = firstNameError;
     }
-    if (!formData.lastName?.trim()) {
-      errors.lastName = 'Last name is required';
+
+    const lastNameError = RegistrationValidation.validatePersonName(formData.lastName, 'Last Name');
+    if (lastNameError) {
+      errors.lastName = lastNameError;
     }
 
     const emailError = RegistrationValidation.validateEmail(formData.email);
@@ -86,21 +91,21 @@ export default function IndividualRegistrationPage() {
       errors.role = 'Please select a role';
     }
 
-    setFieldErrors(errors);
-    return Object.keys(errors).length === 0;
+    return errors;
   };
 
-  const validateStep2 = (): boolean => {
+  // Step 2 rules: Farm location
+  const getStep2Errors = (): Record<string, string> => {
     const errors: Record<string, string> = {};
 
     // Validate farm information fields
-    if (!formData.address?.trim()) {
+    if (!formData.address.trim()) {
       errors.address = 'Address is required';
     }
-    if (!formData.city?.trim()) {
+    if (!formData.city.trim()) {
       errors.city = 'City is required';
     }
-    if (!formData.province || formData.province === '') {
+    if (!formData.province) {
       errors.province = 'Please select a province';
     }
 
@@ -109,8 +114,33 @@ export default function IndividualRegistrationPage() {
       errors.postalCode = postalError;
     }
 
-    setFieldErrors(errors);
-    return Object.keys(errors).length === 0;
+    return errors;
+  };
+
+  // Used by the Next buttons: show every error on the step and say whether it may continue
+  const showStepErrors = (stepErrors: Record<string, string>): boolean => {
+    setFieldErrors(stepErrors);
+    return Object.keys(stepErrors).length === 0;
+  };
+
+  // Runs when the user leaves a field: Show or clear only that field's error
+  const handleBlur = (
+    e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>,
+  ) => {
+    if (step !== 1 && step !== 2) {
+      return; // Step 3 (password and terms) is checked on submit
+    }
+    const { name } = e.target;
+    const stepErrors = step === 1 ? getStep1Errors() : getStep2Errors();
+    setFieldErrors((prev) => {
+      const nextErrors = { ...prev };
+      if (stepErrors[name]) {
+        nextErrors[name] = stepErrors[name];
+      } else {
+        delete nextErrors[name];
+      }
+      return nextErrors;
+    });
   };
 
   const validateStep3 = (): boolean => {
@@ -232,6 +262,7 @@ export default function IndividualRegistrationPage() {
                           required
                           value={formData.firstName}
                           onChange={handleChange}
+                          onBlur={handleBlur}
                           className={getFieldClassName(!!fieldErrors.firstName)}
                         />
                         {fieldErrors.firstName && (
@@ -248,6 +279,7 @@ export default function IndividualRegistrationPage() {
                           required
                           value={formData.lastName}
                           onChange={handleChange}
+                          onBlur={handleBlur}
                           className={getFieldClassName(!!fieldErrors.lastName)}
                         />
                         {fieldErrors.lastName && (
@@ -264,6 +296,7 @@ export default function IndividualRegistrationPage() {
                           required
                           value={formData.email}
                           onChange={handleChange}
+                          onBlur={handleBlur}
                           className={getFieldClassName(!!fieldErrors.email)}
                         />
                         {fieldErrors.email && (
@@ -277,9 +310,11 @@ export default function IndividualRegistrationPage() {
                         <input
                           type="tel"
                           name="phone"
+                          maxLength={16}
                           required
                           value={formData.phone}
                           onChange={handleChange}
+                          onBlur={handleBlur}
                           className={getFieldClassName(!!fieldErrors.phone)}
                         />
                         {fieldErrors.phone && (
@@ -295,6 +330,7 @@ export default function IndividualRegistrationPage() {
                           required
                           value={formData.role}
                           onChange={handleChange}
+                          onBlur={handleBlur}
                           className={getFieldClassName(!!fieldErrors.role)}
                         >
                           <option value="">Select your role</option>
@@ -316,7 +352,7 @@ export default function IndividualRegistrationPage() {
                     <Button
                       type="button"
                       onClick={() => {
-                        if (validateStep1()) {
+                        if (showStepErrors(getStep1Errors())) {
                           setStep(2);
                         }
                       }}
@@ -345,6 +381,7 @@ export default function IndividualRegistrationPage() {
                           required
                           value={formData.address}
                           onChange={handleChange}
+                          onBlur={handleBlur}
                           className={getFieldClassName(!!fieldErrors.address)}
                         />
                         {fieldErrors.address && (
@@ -361,6 +398,7 @@ export default function IndividualRegistrationPage() {
                           required
                           value={formData.city}
                           onChange={handleChange}
+                          onBlur={handleBlur}
                           className={getFieldClassName(!!fieldErrors.city)}
                         />
                         {fieldErrors.city && (
@@ -376,6 +414,7 @@ export default function IndividualRegistrationPage() {
                           required
                           value={formData.province}
                           onChange={handleChange}
+                          onBlur={handleBlur}
                           className={getFieldClassName(!!fieldErrors.province)}
                         >
                           <option value="">Select Province</option>
@@ -405,6 +444,7 @@ export default function IndividualRegistrationPage() {
                           required
                           value={formData.postalCode}
                           onChange={handleChange}
+                          onBlur={handleBlur}
                           className={getFieldClassName(!!fieldErrors.postalCode)}
                         />
                         {fieldErrors.postalCode && (
@@ -420,6 +460,7 @@ export default function IndividualRegistrationPage() {
                           name="farmSize"
                           value={formData.farmSize}
                           onChange={handleChange}
+                          onBlur={handleBlur}
                           className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
                         />
                       </div>
@@ -431,6 +472,7 @@ export default function IndividualRegistrationPage() {
                           name="livestockType"
                           value={formData.livestockType}
                           onChange={handleChange}
+                          onBlur={handleBlur}
                           className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
                         >
                           <option value="">Select Type</option>
@@ -452,7 +494,7 @@ export default function IndividualRegistrationPage() {
                     <Button
                       type="button"
                       onClick={() => {
-                        if (validateStep2()) {
+                        if (showStepErrors(getStep2Errors())) {
                           setStep(3);
                         }
                       }}
@@ -481,6 +523,7 @@ export default function IndividualRegistrationPage() {
                           required
                           value={formData.password}
                           onChange={handleChange}
+                          onBlur={handleBlur}
                           className={getFieldClassName(!!fieldErrors.password)}
                         />
                         {fieldErrors.password && (
@@ -536,6 +579,7 @@ export default function IndividualRegistrationPage() {
                           required
                           value={formData.confirmPassword}
                           onChange={handleChange}
+                          onBlur={handleBlur}
                           className={getFieldClassName(!!fieldErrors.confirmPassword)}
                         />
                         {fieldErrors.confirmPassword && (
@@ -552,6 +596,7 @@ export default function IndividualRegistrationPage() {
                           required
                           checked={formData.agreeToTerms}
                           onChange={handleChange}
+                          onBlur={handleBlur}
                           className={getCheckboxClassName(!!fieldErrors.agreeToTerms)}
                         />
                         <span className="text-sm text-gray-700">
