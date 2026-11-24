@@ -7,6 +7,7 @@ import { RegistrationSuccessPanel } from '@/components/registration/Registration
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { getRoleDashboardPath, clearLegacyRegistrationLeads } from '@/lib/registrationLeads';
+import { formatRegisterInput } from '@/lib/validation/inputFormatters';
 import {
   RegistrationValidation,
   getFieldClassName,
@@ -41,7 +42,10 @@ export default function IndividualRegistrationPage() {
     const { name, value, type } = e.target;
     setFormData((prev) => ({
       ...prev,
-      [name]: type === 'checkbox' ? (e.target as HTMLInputElement).checked : value,
+      [name]:
+        type === 'checkbox'
+          ? (e.target as HTMLInputElement).checked
+          : formatRegisterInput(name, value),
     }));
 
     // Clear error for this field when user starts typing
@@ -310,7 +314,8 @@ export default function IndividualRegistrationPage() {
                         <input
                           type="tel"
                           name="phone"
-                          maxLength={16}
+                          maxLength={10}
+                          inputMode="numeric"
                           required
                           value={formData.phone}
                           onChange={handleChange}

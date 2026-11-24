@@ -9,6 +9,7 @@ import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { DocumentUpload, type DocumentType } from '@/components/ui/document-upload';
 import { getRoleDashboardPath, clearLegacyRegistrationLeads } from '@/lib/registrationLeads';
+import { formatRegisterInput } from '@/lib/validation/inputFormatters';
 import {
   RegistrationValidation,
   getFieldClassName,
@@ -48,7 +49,10 @@ export default function RetailerRegistrationPage() {
     const { name, value, type } = e.target;
     setFormData((prev) => ({
       ...prev,
-      [name]: type === 'checkbox' ? (e.target as HTMLInputElement).checked : value,
+      [name]:
+        type === 'checkbox'
+          ? (e.target as HTMLInputElement).checked
+          : formatRegisterInput(name, value),
     }));
 
     // Clear error for this field when user starts typing
@@ -260,6 +264,7 @@ export default function RetailerRegistrationPage() {
                         id="registrationNumber"
                         name="registrationNumber"
                         maxLength={14}
+                        inputMode="numeric"
                         type="text"
                         required
                         value={formData.registrationNumber}
@@ -298,7 +303,8 @@ export default function RetailerRegistrationPage() {
                       <input
                         id="phone"
                         name="phone"
-                        maxLength={16}
+                        maxLength={10}
+                        inputMode="numeric"
                         type="tel"
                         required
                         value={formData.phone}

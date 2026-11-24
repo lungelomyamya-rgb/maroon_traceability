@@ -7,6 +7,7 @@ import { RegistrationSuccessPanel } from '@/components/registration/Registration
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { getRoleDashboardPath, clearLegacyRegistrationLeads } from '@/lib/registrationLeads';
+import { formatRegisterInput } from '@/lib/validation/inputFormatters';
 import {
   RegistrationValidation,
   getFieldClassName,
@@ -43,7 +44,10 @@ export default function CommercialRegistrationPage() {
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>,
   ) => {
     const { name, value, type } = e.target;
-    const newValue = type === 'checkbox' ? (e.target as HTMLInputElement).checked : value;
+    const newValue =
+      type === 'checkbox'
+        ? (e.target as HTMLInputElement).checked
+        : formatRegisterInput(name, value);
 
     setFormData((prev) => ({
       ...prev,
@@ -320,6 +324,7 @@ export default function CommercialRegistrationPage() {
                           type="text"
                           name="registrationNumber"
                           maxLength={14}
+                          inputMode="numeric"
                           required
                           value={formData.registrationNumber}
                           onChange={handleChange}
@@ -340,7 +345,7 @@ export default function CommercialRegistrationPage() {
                           type="text"
                           name="taxNumber"
                           inputMode="numeric"
-                          maxLength={12}
+                          maxLength={10}
                           required
                           value={formData.taxNumber}
                           onChange={handleChange}
@@ -359,7 +364,7 @@ export default function CommercialRegistrationPage() {
                           type="text"
                           name="vatNumber"
                           inputMode="numeric"
-                          maxLength={12}
+                          maxLength={10}
                           value={formData.vatNumber}
                           onChange={handleChange}
                           onBlur={handleBlur}
@@ -410,7 +415,8 @@ export default function CommercialRegistrationPage() {
                         <input
                           type="tel"
                           name="phone"
-                          maxLength={16}
+                          maxLength={10}
+                          inputMode="numeric"
                           required
                           value={formData.phone}
                           onChange={handleChange}
