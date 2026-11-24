@@ -48,12 +48,8 @@ export class RegistrationValidation {
     if (!phone || !phone.trim()) {
       return 'Phone number is required';
     }
-    if (!/^[\d\s-+()]+$/.test(phone.trim())) {
-      return 'Please enter a valid phone number';
-    }
-    const digits = phone.replace(/\D/g, '');
-    if (!/^0\d{9}$/.test(digits) && !/^27\d{9}$/.test(digits)) {
-      return 'Please enter a valid South African phone number, e.g. 071 234 5678 or +27 71 234 5678';
+    if (!/^0\d{9}$/.test(phone.replace(/\s/g, ''))) {
+      return 'Please enter a 10-digit phone number starting with 0, e.g. 0712345678';
     }
     return null;
   }

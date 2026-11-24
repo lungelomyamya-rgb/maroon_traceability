@@ -6,16 +6,25 @@ import { it, expect, describe } from '@jest/globals';
 
 describe('RegistrationValidation', () => {
   describe('validatePhone', () => {
-    it.each(['0712345678', '071 234 5678', '(071) 234-5678', '+27 71 234 5678', '+27712345678'])(
+    it.each(['0712345678', '071 234 5678', '0821234567', '0111234567'])(
       'accepts %s',
       (phone) => {
         expect(RegistrationValidation.validatePhone(phone)).toBeNull();
       }
     );
 
-    it.each(['', '071234567', '97060064656', '0743335344354545454', '+44 20 7946 0958', '071-ABC-5678'])(
-      'rejects "%s"',
-      (phone) => {
+    it.each([
+      '', 
+      '071234567',
+      '07123456789',
+      '7123456789',
+      '+27 71 234 5678',
+      '+27712345678',
+      '(071) 234-5678',
+      '97060064656',
+      '0743335344354545454',
+      '071-ABC-5678'
+    ])('rejects "%s"', (phone) => {
         expect(RegistrationValidation.validatePhone(phone)).not.toBeNull();
       }
     );
