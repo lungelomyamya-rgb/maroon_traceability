@@ -8,6 +8,7 @@ import {
   requireProfileAccess,
 } from '@/lib/auth/auth';
 import { getSupabaseAdmin } from '@/lib/server/supabaseAdmin';
+import { RegistrationValidation } from '@/lib/validation/registrationValidation';
 import { UniversalUser } from '@/types/user';
 
 function readAdditionalData(value: unknown): Record<string, unknown> {
@@ -89,12 +90,25 @@ export async function PATCH(
       return createAuthErrorResponse('Name must be at least 2 characters long', 400);
     }
 
-    if (phone && (typeof phone !== 'string' || !/^[+]?[\d\s\-()]+$/.test(phone))) {
-      return createAuthErrorResponse('Please enter a valid phone number', 400);
+    // Same rules as the register forms. Empty values are allowed: both fields are optional here.
+    if (phone) {
+      const phoneError =
+        typeof phone === 'string'
+          ? RegistrationValidation.validatePhone(phone)
+          : 'Please enter a valid phone number';
+      if (phoneError) {
+      return createAuthErrorResponse(phoneError, 400);
+      }
     }
 
-    if (postal_code && (typeof postal_code !== 'string' || !/^[a-zA-Z0-9\s-]{3,10}$/.test(postal_code))) {
-      return createAuthErrorResponse('Please enter a valid postal code', 400);
+    if (postal_code) {
+      const postalError =
+        typeof postal_code === 'string'
+          ? RegistrationValidation.validatePostalCode(postal_code)
+          : 'Please enter a valid postal code';
+      if (postalError) {
+      return createAuthErrorResponse(postalError, 400);
+      }
     }
 
     // Get existing user from authenticated user (from Supabase)

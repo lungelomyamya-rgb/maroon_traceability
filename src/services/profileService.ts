@@ -1,6 +1,7 @@
 // src/services/profileService.ts
 // Profile service for managing user profile data
 
+import { RegistrationValidation } from '@/lib/validation/registrationValidation';
 import { UniversalUser } from '@/types/user';
 
 export interface ProfileUpdateData {
@@ -96,7 +97,7 @@ export class ProfileService {
       console.log('Demo: Simulating profile update for user', userId, payload);
 
       // Simulate network delay
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      await new Promise((resolve) => setTimeout(resolve, 1000));
 
       // Return mock updated user with rich data structure
       return {
@@ -105,13 +106,15 @@ export class ProfileService {
         email: updateData.email || '',
         role: 'farmer', // This would come from the current user context
         phone: updateData.phone,
-        address: updateData.address ? {
-          street: updateData.address,
-          city: updateData.city,
-          state: updateData.province,
-          postalCode: updateData.postal_code,
-          formatted: `${updateData.address}, ${updateData.city}, ${updateData.province} ${updateData.postal_code}`,
-        } : undefined,
+        address: updateData.address
+          ? {
+              street: updateData.address,
+              city: updateData.city,
+              state: updateData.province,
+              postalCode: updateData.postal_code,
+              formatted: `${updateData.address}, ${updateData.city}, ${updateData.province} ${updateData.postal_code}`,
+            }
+          : undefined,
         profile: {
           bio: updateData.profile?.bio || '',
           phone: updateData.profile?.phone || updateData.phone || '',
@@ -119,21 +122,26 @@ export class ProfileService {
           avatarUrl: updateData.profile?.avatarUrl || '',
           preferences: updateData.profile?.preferences || {},
         },
-        farmInfo: updateData.farmSize || updateData.livestockType ? {
-          farmSize: parseFloat(updateData.farmSize || '0'),
-          livestockType: updateData.livestockType,
-          location: { latitude: 0, longitude: 0 },
-          certifications: [],
-        } : undefined,
-        retailInfo: updateData.companyName ? {
-          companyName: updateData.companyName,
-          registrationNumber: updateData.registrationNumber,
-          taxNumber: updateData.taxNumber,
-          vatNumber: updateData.vatNumber,
-          businessType: updateData.businessType,
-          numberOfEmployees: parseInt(updateData.numberOfEmployees || '0'),
-          annualRevenue: parseFloat(updateData.annualRevenue || '0'),
-        } : undefined,
+        farmInfo:
+          updateData.farmSize || updateData.livestockType
+            ? {
+                farmSize: parseFloat(updateData.farmSize || '0'),
+                livestockType: updateData.livestockType,
+                location: { latitude: 0, longitude: 0 },
+                certifications: [],
+              }
+            : undefined,
+        retailInfo: updateData.companyName
+          ? {
+              companyName: updateData.companyName,
+              registrationNumber: updateData.registrationNumber,
+              taxNumber: updateData.taxNumber,
+              vatNumber: updateData.vatNumber,
+              businessType: updateData.businessType,
+              numberOfEmployees: parseInt(updateData.numberOfEmployees || '0'),
+              annualRevenue: parseFloat(updateData.annualRevenue || '0'),
+            }
+          : undefined,
         isActive: true,
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString(),
@@ -158,7 +166,7 @@ export class ProfileService {
       try {
         const headers: Record<string, string> = {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${authToken}`,
+          Authorization: `Bearer ${authToken}`,
         };
 
         const response = await fetch(`${this.API_BASE_URL}/users/${userId}/profile`, {
@@ -169,7 +177,10 @@ export class ProfileService {
 
         if (!response.ok) {
           const errorData = await response.json().catch(() => ({}));
-          throw new Error(errorData.message || `HTTP ${response.status}: ${response.statusText}`);
+          // The API returns { error: '...' }; fall back to message or the status for other shapes
+          throw new Error(
+            errorData.error || errorData.message || `HTTP ${response.status}: ${response.statusText}`,
+          );
         }
 
         const apiResponse = await response.json();
@@ -192,10 +203,14 @@ export class ProfileService {
   /**
    * Get user profile
    */
-  static async getProfile(userId: string, isDemoAccount: boolean = false, authToken?: string): Promise<UniversalUser> {
+  static async getProfile(
+    userId: string,
+    isDemoAccount: boolean = false,
+    authToken?: string,
+  ): Promise<UniversalUser> {
     if (isDemoAccount) {
       // Return demo user data
-      await new Promise(resolve => setTimeout(resolve, 500));
+      await new Promise((resolve) => setTimeout(resolve, 500));
 
       return {
         id: userId,
@@ -224,7 +239,7 @@ export class ProfileService {
 
       // Real API call
       const headers: Record<string, string> = {
-        'Authorization': `Bearer ${authToken}`,
+        Authorization: `Bearer ${authToken}`,
       };
 
       const response = await fetch(`${this.API_BASE_URL}/users/${userId}/profile`, {
@@ -256,14 +271,20 @@ export class ProfileService {
       errors.push('Please enter a valid email address');
     }
 
-    // Phone validation (optional but if provided, must be valid)
-    if (data.phone && !/^[+]?[\d\s\-()]+$/.test(data.phone)) {
-      errors.push('Please enter a valid phone number');
+    // Phone and postal code are optional here, but when filled in they must match the
+    // register form rules: 10-digit local phone, 4-digit postal code
+    if (data.phone) {
+      const phoneError = RegistrationValidation.validatePhone(data.phone);
+      if (phoneError) {
+        errors.push(phoneError);
+      }
     }
 
-    // Postal code validation (optional but if provided, must be reasonable)
-    if (data.postal_code && !/^[a-zA-Z0-9\s-]{3,10}$/.test(data.postal_code)) {
-      errors.push('Please enter a valid postal code');
+    if (data.postal_code) {
+      const postalError = RegistrationValidation.validatePostalCode(data.postal_code);
+      if (postalError) {
+        errors.push(postalError);
+      }
     }
 
     // Business validation

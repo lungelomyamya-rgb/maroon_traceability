@@ -6,6 +6,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Button } from '@/components/ui/button';
 import { DEMO_USERS } from '@/constants/users';
 import { useUser } from '@/contexts/userContext';
+import { keepDigits } from '@/lib/validation/inputFormatters';
 import { ProfileService } from '@/services/profileService';
 import { UserRole, UniversalUser } from '@/types/user';
 import { uploadImage } from '@/utils/imageUpload';
@@ -89,6 +90,7 @@ export default function ProfilePage() {
   });
   const [isLoading, setIsLoading] = useState(false);
   const [saveStatus, setSaveStatus] = useState<'idle' | 'saving' | 'saved' | 'error'>('idle');
+  const [saveErrorMessage, setSaveErrorMessage] = useState('');
   const [profileCompletionClicked, setProfileCompletionClicked] = useState(false);
 
   useEffect(() => {
@@ -197,17 +199,17 @@ export default function ProfilePage() {
   };
 
   const handleInputChange = (field: keyof ProfileFormData, value: string) => {
-    if (field.includes('.')) {
-      setFormData(prev => ({
-        ...prev,
-        [field]: value,
-      }));
-    } else {
-      setFormData(prev => ({
-        ...prev,
-        [field]: value,
-      }));
+    // Same typing limits as the register forms: phone and postal code hold digits only
+    let cleanedValue = value;
+    if (field === 'phone') {
+      cleanedValue = keepDigits(value, 10);
+    } else if (field === 'postal_code') {
+      cleanedValue = keepDigits(value, 4);
     }
+      setFormData(prev => ({
+        ...prev,
+        [field]: cleanedValue,
+      }));
   };
 
   const handleAvatarUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -351,8 +353,10 @@ export default function ProfilePage() {
       }, 1500);
     } catch (error) {
       console.error('Failed to save profile:', error);
+      setSaveErrorMessage(
+        error instanceof Error ? error.message : 'Failed to update profile. Please try again.',
+      );
       setSaveStatus('error');
-      setTimeout(() => setSaveStatus('idle'), 2000);
     } finally {
       setIsLoading(false);
     }
@@ -638,11 +642,13 @@ const isRealUser = currentUser && '_source' in currentUser &&
                 {isEditing ? (
                   <input
                     type="tel"
+                    inputMode="numeric"
+                    maxLength={10}
                     value={formData.phone}
                     onChange={(e) => handleInputChange('phone', e.target.value)}
                     className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm sm:text-base"
                     disabled={isLoading}
-                    placeholder="Enter your phone number"
+                    placeholder="e.g. 0712345678"
                   />
                 ) : (
                   <div className="flex items-center justify-center space-x-2 sm:justify-start">
@@ -787,11 +793,13 @@ const isRealUser = currentUser && '_source' in currentUser &&
                 {isEditing ? (
                   <input
                     type="text"
+                    inputMode="numeric"
+                    maxLength={4}
                     value={formData.postal_code || ''}
                     onChange={(e) => handleInputChange('postal_code', e.target.value)}
                     className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm sm:text-base"
                     disabled={isLoading}
-                    placeholder="Enter postal code"
+                    placeholder="e.g. 4001"
                   />
                 ) : (
                   <span className="text-gray-900 text-center sm:text-left">
@@ -1046,7 +1054,7 @@ const isRealUser = currentUser && '_source' in currentUser &&
                     <p className="text-sm text-green-600">Profile updated successfully!</p>
                   )}
                   {saveStatus === 'error' && (
-                    <p className="text-sm text-red-600">Failed to update profile. Please try again.</p>
+                    <p className="text-sm text-red-600">{saveErrorMessage}</p>
                   )}
                 </div>
                 <div className="flex flex-col sm:flex-row items-center gap-3 sm:space-x-3">
