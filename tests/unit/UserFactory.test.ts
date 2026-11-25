@@ -1,9 +1,8 @@
 // src/core/factories/__tests__/UserFactory.test.ts
 // Comprehensive tests for UserFactory and user normalization
 
-import { describe, it, expect, beforeEach, afterEach } from '@jest/globals';
+import { describe, it, expect } from '@jest/globals';
 import { UserFactory } from '@/src/core/factories/UserFactory';
-import { UserNormalizationError } from '@/src/core/errors/UserNormalizationError';
 import type { AuthUser, MockUser, CompleteUser, UniversalUser } from '@/types/types';
 import type { RegistrationData } from '@/src/core';
 
