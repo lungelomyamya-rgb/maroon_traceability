@@ -94,7 +94,6 @@ export class ProfileService {
 
     if (isDemoAccount) {
       // Simulate API call for demo accounts
-      console.log('Demo: Simulating profile update for user', userId, payload);
 
       // Simulate network delay
       await new Promise((resolve) => setTimeout(resolve, 1000));

@@ -1,6 +1,7 @@
 // __tests__/runtimeTypeGuards.test.ts
 // Unit tests for runtime type guards
 
+import { describe, expect, test } from '@jest/globals';
 import {
   isBaseUser,
   isAuthUser,
